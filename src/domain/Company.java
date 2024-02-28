@@ -9,9 +9,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToOne;
 
 @Entity
-// QUERIES TOEVOEGEN
+@NamedQueries({
+    @NamedQuery(name = "Company.findAll",
+                         query = "select c from Company c")            
+})
 public class Company implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
@@ -19,7 +25,9 @@ public class Company implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long VatNumber;
 	private String logo; // Pad naar logo bestand
+	@OneToOne(mappedBy = "addressId")
 	private int addressId;
+	@OneToOne(mappedBy = "contactId")
 	private int contactId;
 	private String name;
 	private String sector;

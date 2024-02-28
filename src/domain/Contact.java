@@ -13,6 +13,7 @@ public class Contact implements Serializable {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@OneToOne
     private int contactId;
 	private String phoneNumber; // Waarschijnlijk makkelijker met validatie bibliotheek
 	private String email;
