@@ -12,6 +12,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToOne;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 @Entity
 @NamedQueries({
@@ -29,12 +33,14 @@ public class Company implements Serializable{
 	private int addressId;
 	@OneToOne(mappedBy = "contactId")
 	private int contactId;
-	private String name;
-	private String sector;
-	private Long bankAccountNr;
 	private List<String> paymentOptions; // Niet duidelijk welk type
 	private Date customerStart;
-	private boolean isActive;
+	
+	// TableView Attributes
+	private SimpleStringProperty name = new SimpleStringProperty();
+	private SimpleStringProperty sector = new SimpleStringProperty();
+	private SimpleLongProperty bankAccountNr = new SimpleLongProperty();
+	private SimpleBooleanProperty isActive = new SimpleBooleanProperty(true);
 	
 	// Default constructor JPA
 	protected Company() {
@@ -52,13 +58,31 @@ public class Company implements Serializable{
 		setBankAccountNr(bankAccountNr);
 		setPaymentOptions(paymentOptions);
 		setCustomerStart(customerStart);
-		isActive = true;
+		// isActive = true; overbodig doordat Initiele toestand bij attributen reeds goed gezet wordt
 	}
 	
 	
 	public void setActive() {
-		isActive = !isActive;
+		isActive.set(!isActive.get());
 	}
+	
+	// Property Getters
+	// Geen idee of waarschuwing relevant is
+    public StringProperty nameProperty() {
+        return name;
+    }
+    
+    public StringProperty sectorProperty() {
+        return sector;
+    }
+    
+    public SimpleLongProperty bankAccountNrProperty() {
+        return bankAccountNr;
+    }
+    
+    public SimpleBooleanProperty isActiveProperty() {
+        return isActive;
+    }
 	
 	// Getters en setters toevoegen
 	// SETTER VALIDATIE TOEVOEGEN
@@ -95,27 +119,27 @@ public class Company implements Serializable{
 	}
 
 	public String getName() {
-		return name;
+		return name.get();
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.name.set(name);
 	}
 
 	public String getSector() {
-		return sector;
+		return sector.get();
 	}
 
 	public void setSector(String sector) {
-		this.sector = sector;
+		this.sector.set(sector);
 	}
 
 	public Long getBankAccountNr() {
-		return bankAccountNr;
+		return bankAccountNr.get();
 	}
 
 	public void setBankAccountNr(Long bankAccountNr) {
-		this.bankAccountNr = bankAccountNr;
+		this.bankAccountNr.set(bankAccountNr);
 	}
 
 	public List<String> getPaymentOptions() {

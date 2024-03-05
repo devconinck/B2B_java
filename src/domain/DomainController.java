@@ -1,6 +1,9 @@
 package domain;
 
 import java.util.List;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import repository.GenericDao;
 import repository.GenericDaoJpa;
 
@@ -38,11 +41,11 @@ public class DomainController {
 	}
 	*/
 	
-	public List<Company> getCompanyList() {
+	public ObservableList<Company> getCompanyList() {
 		if (companyList == null) {
 			companyList = companyRepo.findAll();
 		}
-		return companyList;
+		return FXCollections.observableArrayList(companyList);
 	}
 
 	public void close() {
