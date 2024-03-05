@@ -34,6 +34,7 @@ public class Company implements Serializable{
 	private Long bankAccountNr;
 	private List<String> paymentOptions; // Niet duidelijk welk type
 	private Date customerStart;
+	private boolean isActive;
 	
 	// Default constructor JPA
 	protected Company() {
@@ -51,8 +52,14 @@ public class Company implements Serializable{
 		setBankAccountNr(bankAccountNr);
 		setPaymentOptions(paymentOptions);
 		setCustomerStart(customerStart);
+		isActive = true;
 	}
-
+	
+	
+	public void setActive() {
+		isActive = !isActive;
+	}
+	
 	// Getters en setters toevoegen
 	// SETTER VALIDATIE TOEVOEGEN
 	public long getVatNumber() {
