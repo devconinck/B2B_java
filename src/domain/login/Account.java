@@ -19,13 +19,14 @@ public class Account implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
 	private String email;
 	private String password;
 	private int companyVAT;
 	private Role role;
 
 	
-	protected Account() {};
+	public Account() {};
 	
 	public Account(String email, String password, int companyVAT, Role role) {
 		// TODO setter voor voorwaarden (bv. lengte wachtwoord, geldig email, ...)

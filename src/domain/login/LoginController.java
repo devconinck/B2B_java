@@ -1,12 +1,13 @@
 package domain.login;
 
-import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
+import domain.AdminController;
 import domain.Controller;
-import domain.DomainController;
+import domain.SupplierController;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -17,16 +18,19 @@ public class LoginController {
 	public final String PERSISTENCE_UNIT_NAME = "b2bportal";
     private EntityManager em;
     private EntityManagerFactory emf;
-	private Set<Account> accounts;
 	private static final byte[] salt = new String("J#7pQzL9").getBytes();
+	
+	public LoginController() {
+		addUsers();
+	}
 
 	public Controller login(String email, String password) {
 		Account accountBoundToEmail = getAccountByEmail(email);
 		if (accountBoundToEmail.getPassword() != encryptPassword(password))
 			throw new IllegalArgumentException("Email and password combination does not match");
 		if (accountBoundToEmail.getRole() == Role.Admin)
-			return  new AdminController(); // TODO AdminController
-		return new SupplierController(); // TODO SupplierController
+			return  new AdminController();
+		return new SupplierController();
 	}
 
 	public String encryptPassword(String password) {
@@ -72,5 +76,19 @@ public class LoginController {
         em.close();
         emf.close();
     }
+	
+	private void addUsers() {
+		List<Account> accountList = new ArrayList<>();
+		Account acc1 = new Account("Charles.leclerc@gmail.com", encryptPassword("test123"), 123456, Role.Supplier);
+		Account acc2 = new Account("Danny.ricciardo@gmail.com", encryptPassword("root123"), 123456, Role.Admin);
+		accountList.add(acc1);
+		accountList.add(acc2);
+		
+		openPersistentie();
+		em.getTransaction().begin();
+		em.persist(acc1);
+		em.getTransaction().commit();
+		closePersistentie();
+	}
 	
 }

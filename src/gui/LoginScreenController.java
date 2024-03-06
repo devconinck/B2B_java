@@ -3,6 +3,9 @@ package gui;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import domain.AdminController;
+import domain.Controller;
+import domain.SupplierController;
 import domain.login.LoginController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -77,6 +80,7 @@ public class LoginScreenController {
 			
 			Button btn_signup = new Button("Sign Up");
 			Button btn_login = new Button("Login");
+			btn_login.setOnAction(event -> login(txf_email.getText(), txf_password.getText()));
 			
 			HBox hbox_buttons = new HBox();
 			hbox_buttons.setSpacing(vbox.getMaxWidth()/2);
@@ -88,6 +92,17 @@ public class LoginScreenController {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void login(String email, String password) {
+		Controller controller = loginController.login(email, password);
+		if (controller instanceof AdminController)
+			System.out.println("Admin logged in");
+		else if (controller instanceof SupplierController)
+			System.out.println("Supplier logged in");
+		else
+			System.out.println("Login failed");
+			
 	}
 
 }

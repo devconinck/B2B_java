@@ -18,4 +18,5 @@ module JvaFXAndPersistenceAndUnitTests {
 	exports domain;
 	exports gui;
 	exports main;
+	exports domain.login;
 }
