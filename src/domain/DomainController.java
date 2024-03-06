@@ -20,6 +20,8 @@ public class DomainController {
 		setAddressRepo(new GenericDaoJpa<>(Address.class));
 		setContactRepo(new GenericDaoJpa<>(Contact.class));
 		setCompanyRepo(new GenericDaoJpa<>(Company.class));
+		
+		
 	}
 
 	public void setAddressRepo(GenericDao<Address> mock) {

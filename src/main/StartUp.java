@@ -23,7 +23,6 @@ public class StartUp extends Application {
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
 		stage.setTitle("SDP2_G16");
-		stage.initStyle(StageStyle.UTILITY);
 		stage.show();
 	}
 }

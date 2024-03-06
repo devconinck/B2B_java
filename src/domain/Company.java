@@ -28,7 +28,7 @@ public class Company implements Serializable{
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long VatNumber;
-	private String logo; // Pad naar logo bestand
+	private String logo; // URL Nr Afbeelding https://stackoverflow.com/questions/76284097/how-do-i-set-an-imageview-in-javafx-to-have-a-url-of-an-image-on-the-internet
 	@OneToOne(mappedBy = "address")
 	private Address address;
 	@OneToOne(mappedBy = "contact")

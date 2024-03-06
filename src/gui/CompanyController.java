@@ -14,36 +14,25 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.util.Callback;
 
 public class CompanyController extends BorderPane {
+	    
 	
-	// FILTER TOEVOEGEN!!!
+    
+    @FXML
+    private GridPane companyOverviewGrid;
 	
-    @FXML
-    private TableView<Company> companyTableView;
-    @FXML
-    private TableColumn<Company, String> nameCol;
-    @FXML
-    private TableColumn<Company, String> sectorCol;
-    @FXML
-    private TableColumn<Company, String> addressCol;
-    @FXML
-    private TableColumn<Company, String> amountOfCustomersCol;
-    
-    // WELKE TYPES MEEGEVEN
-    @FXML
-    private TableColumn<?, Button> editCol;
-    @FXML
-    private TableColumn<Company, String> isActiveCol;
-
-    
     private DomainController domainController;
     
     public CompanyController(DomainController domainController) {    	
@@ -57,25 +46,12 @@ public class CompanyController extends BorderPane {
             throw new RuntimeException(ex);
         }
         
-        nameCol.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-        sectorCol.setCellValueFactory(cellData -> cellData.getValue().sectorProperty());
-
-        addressCol.setCellValueFactory(cellData -> cellData.getValue().getAddressString());
-
-
-        // NOG EENS OVER NADENKEN HOE DIT OPHALEN
-        // amountOfCustomersCol.setCellValueFactory(cellData -> cellData.getValue().emailProperty());
         
-        // Button nr nieuw scherm
-        // editCol.setCellValueFactory(cellData -> cellData.getValue());
+        companyOverviewGrid.add(new CompanyScreenController(domainController), 0, 0);
+        //companyOverviewGrid.add(new CompanyDetailsController(), 1, 0);
         
-        isActiveCol.setCellValueFactory(cellData -> {
-        	boolean isActive = cellData.getValue().isActiveProperty().get();
-        	SimpleStringProperty text = new SimpleStringProperty(isActive ? "Active" : "Inactive");
-        	return text;
-        });
+       
         
-        companyTableView.setItems(domainController.getCompanyList());
-
+       
     }
 }
