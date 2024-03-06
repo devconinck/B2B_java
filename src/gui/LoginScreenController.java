@@ -1,16 +1,23 @@
 package gui;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 import domain.login.LoginController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Border;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 public class LoginScreenController {
@@ -31,27 +38,56 @@ public class LoginScreenController {
 	}
 	
 	private void setup() {
-		scene.setFill(DEFAULTBACKGROUNDCOLOR);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("SDP2_G16");
-		addTextFields();
+		addElements();
 	}
 	
-	private void addTextFields() {
+	private void addElements() {
 		VBox vbox = new VBox();
-		vbox.setPadding(new Insets(40));
-		vbox.setAlignment(Pos.CENTER);
+		vbox.setPadding(new Insets(40,40,0,40));
+		vbox.setBackground(new Background(new BackgroundFill(DEFAULTBACKGROUNDCOLOR, null, null)));
+		vbox.setMaxWidth(500);
+		vbox.setMaxHeight(500);
 		
-		Label lbl_email = new Label("Email");
-		lbl_email.setAlignment(Pos.BASELINE_LEFT);
-		Label lbl_password = new Label("Password");
-		
-		TextField txf_email = new TextField();
-		txf_email.setPromptText("example.first@icloud.com");
-		TextField txf_password = new TextField();
-		
-		vbox.getChildren().addAll(lbl_email, txf_email, lbl_password, txf_password);
-		root.getChildren().add(vbox);		
+		try {
+			Image img_delawarelogo = new Image(new FileInputStream("../images/delaware-logo.jpg"), 0.2, 0.2, false ,false);
+			ImageView imgvw_delawarelogo = new ImageView(img_delawarelogo);
+			imgvw_delawarelogo.setFitHeight(100);
+			imgvw_delawarelogo.setPreserveRatio(true);
+			imgvw_delawarelogo.setSmooth(true);
+			imgvw_delawarelogo.setCache(true);
+			StackPane imgvw_stackpane = new StackPane();
+			imgvw_stackpane.getChildren().add(imgvw_delawarelogo);
+			
+			Label lbl_email = new Label("Email");
+			Label lbl_password = new Label("Password");
+			
+			TextField txf_email = new TextField();
+			txf_email.setPromptText("example.first@icloud.com");
+			TextField txf_password = new TextField();
+			
+			VBox vbox_email = new VBox();
+			vbox_email.getChildren().addAll(lbl_email, txf_email);
+			vbox_email.setPadding(new Insets(40,0,10,0)); // Top 40 + Bottom 10
+			
+			VBox vbox_password = new VBox();
+			vbox_password.getChildren().addAll(lbl_password, txf_password);
+			vbox_password.setPadding(new Insets(0,0,30,0)); // Bottom 30
+			
+			Button btn_signup = new Button("Sign Up");
+			Button btn_login = new Button("Login");
+			
+			HBox hbox_buttons = new HBox();
+			hbox_buttons.setSpacing(vbox.getMaxWidth()/2);
+			hbox_buttons.setAlignment(Pos.CENTER);
+			hbox_buttons.getChildren().addAll(btn_signup, btn_login);
+			
+			vbox.getChildren().addAll(imgvw_stackpane, vbox_email, vbox_password, hbox_buttons);
+			root.getChildren().add(vbox);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
