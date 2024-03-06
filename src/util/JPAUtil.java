@@ -5,7 +5,7 @@ import jakarta.persistence.Persistence;
 
 public class JPAUtil {
     private final static EntityManagerFactory entityManagerFactory =
-                            Persistence.createEntityManagerFactory("b2bportal");
+                            Persistence.createEntityManagerFactory("delawaredb");
     
     public static EntityManagerFactory getEntityManagerFactory() {
         return entityManagerFactory;

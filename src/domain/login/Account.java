@@ -3,6 +3,7 @@ package domain.login;
 import java.io.Serializable;
 import java.util.Objects;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,18 +13,19 @@ import jakarta.persistence.NamedQuery;
 
 @Entity
 @NamedQueries({
-	@NamedQuery(name = "Account.getByEmail", query = "SELECT a FROM Account a WHERE a.email = :email"),
+	@NamedQuery(name = "Account.getByEmail", query = "SELECT a FROM Account a WHERE :email = a.email"),
 })
 public class Account implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-	private String email;
-	private String password;
-	private int companyVAT;
-	private Role role;
+	public long id;
+	public String email;
+	// @Column(length = 512)
+	public String password;
+	public int companyVAT;
+	public Role role;
 
 	
 	public Account() {};
@@ -38,7 +40,7 @@ public class Account implements Serializable{
 	
 	public String getPassword() { return password; };
 
-	public Role getRole() {	return role; }
+	public Role getRole() {	return role; };
 
 	@Override
 	public int hashCode() {
