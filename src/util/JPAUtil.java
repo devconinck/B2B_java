@@ -5,7 +5,7 @@ import jakarta.persistence.Persistence;
 
 public class JPAUtil {
     private final static EntityManagerFactory entityManagerFactory =
-                            Persistence.createEntityManagerFactory("school");
+                            Persistence.createEntityManagerFactory("project");
     
     public static EntityManagerFactory getEntityManagerFactory() {
         return entityManagerFactory;

@@ -1,8 +1,24 @@
 package domain;
 
-public class Product {
+import java.io.Serializable;
+
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+
+public class Product implements Serializable {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String productId;
+	
+	@OneToOne
+	private ProductPrice productPrice;
+	@OneToOne
+	private ProductDescription productDescription;
+	@OneToOne
+	private ProductUnitOfMeasureConversion productUnitOfMeasureConversion;
 	private int syncId;
 	private String unitOfMeasure;
 	private String productAvailability;
@@ -13,7 +29,23 @@ public class Product {
 		setUnitOfMeasure(unitOfMeasure);
 		setProductAvailability(productAvailability);
 	}
-
+	
+	protected Product() {
+		
+	}
+	
+	public ProductPrice getProductPrice() {
+		return productPrice;
+	}
+	
+	public ProductDescription getProductDescription() {
+		return productDescription;
+	}
+	
+	public ProductUnitOfMeasureConversion getProductUnitOfMeasureConversion() {
+		return productUnitOfMeasureConversion;
+	}
+	
 	public String getProductId() {
 		return productId;
 	}

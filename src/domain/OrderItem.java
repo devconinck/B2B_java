@@ -1,12 +1,22 @@
 package domain;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class OrderItem {
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
+@Entity 
+public class OrderItem implements Serializable {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int orderItemId;
+	
 	private Product product;
 	private int orderId;
-	private int orderItemId;
 	private int syncId;
 	private String productId;
 	private int quantity;
@@ -14,10 +24,8 @@ public class OrderItem {
 	private BigDecimal netPrice;
 	private BigDecimal netAmount;
 	
-	public OrderItem(Product product, int orderId, int orderItemId, int syncId, String productId, int quantity, String unitOfMeasures, BigDecimal netPrices, BigDecimal netAmount) {
-		setProduct(product);
+	public OrderItem(Product product, int orderId, int syncId, String productId, int quantity, String unitOfMeasures, BigDecimal netPrices, BigDecimal netAmount) {
 		setOrderId(orderId);
-		setOrderItemId(orderItemId);
 		setSyncId(syncId);
 		setProductId(productId);
 		setQuantity(quantity);
@@ -26,11 +34,12 @@ public class OrderItem {
 		setNetAmount(netAmount);
 	}
 	
+	protected OrderItem() {
+		
+	}
+	
 	public Product getProduct() {
 		return product;
-	}
-	public void setProduct(Product product) {
-		this.product = product;
 	}
 	public int getOrderId() {
 		return orderId;
@@ -40,9 +49,6 @@ public class OrderItem {
 	}
 	public int getOrderItemId() {
 		return orderItemId;
-	}
-	public void setOrderItemId(int orderItemId) {
-		this.orderItemId = orderItemId;
 	}
 	public int getSyncId() {
 		return syncId;

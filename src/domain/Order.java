@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.LocalDateTime;
@@ -7,11 +8,20 @@ import java.util.List;
 
 import domain.Company;
 import domain.Product;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
-public class Order {
+@Entity 
+public class Order implements Serializable {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int orderId;
+
 	private List<OrderItem> orderItems;
-	private int orderId, syncId;
+	private int syncId;
 	private Company customer;
 	private String orderReference;
 	private LocalDateTime orderDateTime;
@@ -20,17 +30,34 @@ public class Order {
 	private BigDecimal taxAmount;
 	private BigDecimal totalAmount;
 	private String currency;
+	
+	public Order(List<OrderItem> orderItems, int syncId, Company customer, String orderReference, LocalDateTime orderDateTime, LocalDateTime lastPaymentReminder, 
+			BigDecimal netAmount, BigDecimal taxAmount, BigDecimal totalAmount, String currency) {
+		setOrderItems(orderItems);
+		setSyncId(syncId);
+		setCustomer(customer);
+		setOrderReference(orderReference);
+		setOrderDateTime(orderDateTime);
+		setLastPaymentReminder(lastPaymentReminder);
+		setNetAmount(netAmount);
+		setTaxAmount(taxAmount);
+		setTotalAmount(totalAmount);
+		setCurrency(currency);
+	}
+	
+	protected Order() {
+		
+	}
+	
+	public void showOrders() {
+		
+	}
+	
 	public List<OrderItem> getOrderItems() {
 		return orderItems;
 	}
 	public void setOrderItems(List<OrderItem> orderItems) {
 		this.orderItems = orderItems;
-	}
-	public int getOrderId() {
-		return orderId;
-	}
-	public void setOrderId(int orderId) {
-		this.orderId = orderId;
 	}
 	public int getSyncId() {
 		return syncId;
