@@ -19,8 +19,8 @@ import javafx.beans.property.StringProperty;
 
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "Company.findAll",
-                         query = "select c from Company c")            
+    @NamedQuery(name = "Company.findAllDisplayData",
+                         query = "select c from Company c join fetch c.address")            
 })
 public class Company implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -29,10 +29,10 @@ public class Company implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long VatNumber;
 	private String logo; // Pad naar logo bestand
-	@OneToOne(mappedBy = "addressId")
-	private int addressId;
-	@OneToOne(mappedBy = "contactId")
-	private int contactId;
+	@OneToOne(mappedBy = "address")
+	private Address address;
+	@OneToOne(mappedBy = "contact")
+	private Contact contact;
 	private List<String> paymentOptions; // Niet duidelijk welk type
 	private Date customerStart;
 	
@@ -48,11 +48,11 @@ public class Company implements Serializable{
 	}
 	
 	// Constructor
-	public Company(long vatNumber, String logo, int addressId, int contactId, String name, String sector, Long bankAccountNr, List<String> paymentOptions, Date customerStart) {
+	public Company(long vatNumber, String logo, Address address, Contact contact, String name, String sector, Long bankAccountNr, List<String> paymentOptions, Date customerStart) {
 		setVatNumber(vatNumber);
 		setLogo(logo);
-		setAddressId(addressId);
-		setContactId(contactId);
+		setAddressId(address);
+		setContactId(contact);
 		setName(name);
 		setSector(sector);
 		setBankAccountNr(bankAccountNr);
@@ -102,20 +102,28 @@ public class Company implements Serializable{
 		this.logo = logo;
 	}
 
-	public int getAddressId() {
-		return addressId;
+	public Address getAddress() {
+		return address;
+	}
+	
+	public SimpleStringProperty getAddressString() {
+		return address != null ? new SimpleStringProperty(address.getStreet() + ", " +
+												          address.getZipCode() + " " +
+												          address.getCity() + ", " +
+												          address.getCountry()) 
+							   : new SimpleStringProperty("No address found.");
 	}
 
-	public void setAddressId(int addressId) {
-		this.addressId = addressId;
+	public void setAddressId(Address address) {
+		this.address = address;
 	}
 
-	public int getContactId() {
-		return contactId;
+	public Contact getContact() {
+		return contact;
 	}
 
-	public void setContactId(int contactId) {
-		this.contactId = contactId;
+	public void setContactId(Contact contact) {
+		this.contact = contact;
 	}
 
 	public String getName() {

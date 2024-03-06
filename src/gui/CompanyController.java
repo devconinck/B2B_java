@@ -9,6 +9,7 @@ import java.util.List;
 import domain.Address;
 import domain.Company;
 import domain.DomainController;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -32,7 +33,7 @@ public class CompanyController extends BorderPane {
     @FXML
     private TableColumn<Company, String> sectorCol;
     @FXML
-    private TableColumn<Address, String> addressCol;
+    private TableColumn<Company, String> addressCol;
     @FXML
     private TableColumn<Company, String> amountOfCustomersCol;
     
@@ -57,12 +58,10 @@ public class CompanyController extends BorderPane {
         }
         
         nameCol.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-        //nameCol.setCellFactory(TextFieldTableCell.forTableColumn());
-
         sectorCol.setCellValueFactory(cellData -> cellData.getValue().sectorProperty());
 
-        // NOG EENS OVER NADENKEN HOE DIT OPHALEN
-        // addressCol.setCellValueFactory(cellData -> cellData.getValue().adressProperty());
+        addressCol.setCellValueFactory(cellData -> cellData.getValue().getAddressString());
+
 
         // NOG EENS OVER NADENKEN HOE DIT OPHALEN
         // amountOfCustomersCol.setCellValueFactory(cellData -> cellData.getValue().emailProperty());
@@ -70,7 +69,11 @@ public class CompanyController extends BorderPane {
         // Button nr nieuw scherm
         // editCol.setCellValueFactory(cellData -> cellData.getValue());
         
-        // isActiveCol.setCellValueFactory(cellData -> cellData.getValue().isActiveProperty());
+        isActiveCol.setCellValueFactory(cellData -> {
+        	boolean isActive = cellData.getValue().isActiveProperty().get();
+        	SimpleStringProperty text = new SimpleStringProperty(isActive ? "Active" : "Inactive");
+        	return text;
+        });
         
         companyTableView.setItems(domainController.getCompanyList());
 

@@ -13,7 +13,7 @@ public class Address implements Serializable {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@OneToOne
-    private int adresId;
+    private int addressId;
 	private String country;
 	private String city;
 	private String zipCode;
