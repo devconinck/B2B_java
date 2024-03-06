@@ -60,7 +60,7 @@
 		               <content>
 		                  <BorderPane prefHeight="200.0" prefWidth="200.0">
 		                     <center>
-		                        <TableView fx:id="companyTableView" editable="true" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+		                        <TableView fx:id="companyTableView" editable="false" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
 		                          <columns>
 		                            <TableColumn fx:id="nameCol" prefWidth="837.5998901128769" text="Name" />
 		                            <TableColumn fx:id="sectorCol" prefWidth="831.2001953125" text="Sector" />

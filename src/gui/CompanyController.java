@@ -1,10 +1,18 @@
 package gui;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 import domain.Address;
 import domain.Company;
 import domain.DomainController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -18,7 +26,7 @@ public class CompanyController extends BorderPane {
 	// FILTER TOEVOEGEN!!!
 	
     @FXML
-    private TableView<Company> companyTable;
+    private TableView<Company> companyTableView;
     @FXML
     private TableColumn<Company, String> nameCol;
     @FXML
@@ -49,7 +57,7 @@ public class CompanyController extends BorderPane {
         }
         
         nameCol.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-        nameCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        //nameCol.setCellFactory(TextFieldTableCell.forTableColumn());
 
         sectorCol.setCellValueFactory(cellData -> cellData.getValue().sectorProperty());
 
@@ -64,9 +72,7 @@ public class CompanyController extends BorderPane {
         
         // isActiveCol.setCellValueFactory(cellData -> cellData.getValue().isActiveProperty());
         
-        companyTable.setItems(domainController.getCompanyList());
-        
-    }
-    
+        companyTableView.setItems(domainController.getCompanyList());
 
+    }
 }

@@ -14,6 +14,8 @@ module JvaFXAndPersistenceAndUnitTests {
 	requires org.mockito.junit.jupiter;
 	requires org.mockito;
 	
+	opens gui to javafx.fxml;
+	
 	exports util;
 	exports domain;
 	exports gui;
