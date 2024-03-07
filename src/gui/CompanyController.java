@@ -37,7 +37,7 @@ public class CompanyController extends BorderPane {
     
     public CompanyController(DomainController domainController) {    	
         this.domainController = domainController;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("adminCompanies.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("adminScreen.fxml"));
         loader.setRoot(this);
         loader.setController(this);
         try {

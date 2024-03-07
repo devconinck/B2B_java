@@ -14,17 +14,17 @@
 			<left>
 		      <VBox prefHeight="720" prefWidth="250.0" spacing="25.0" style="-fx-background-color: #E0433E;" BorderPane.alignment="CENTER">
 		         <children>
-		            <Button mnemonicParsing="false" prefHeight="64.0" prefWidth="250.0" stylesheets="@../css/styling.css" text="Companies" textFill="WHITE">
+		            <Button fx:id="companiesButton" mnemonicParsing="false" prefHeight="64.0" prefWidth="250.0" stylesheets="@../css/styling.css" text="Companies" textFill="WHITE">
 		               <font>
 		                  <Font name="System Bold Italic" size="16.0" />
 		               </font>
 		            </Button>
-		            <Button mnemonicParsing="false" prefHeight="62.0" prefWidth="250.0" stylesheets="@../css/styling.css" text="Update requests" textFill="WHITE">
+		            <Button fx:id="updateButton" mnemonicParsing="false" prefHeight="62.0" prefWidth="250.0" stylesheets="@../css/styling.css" text="Update requests" textFill="WHITE">
 		               <font>
 		                  <Font name="System Bold Italic" size="16.0" />
 		               </font>
 		            </Button>
-		            <Button mnemonicParsing="false" prefHeight="67.0" prefWidth="250.0" style="-fx-background-color: #EC4842;" text="Log out " textFill="WHITE">
+		            <Button fx:id="logOutButton" mnemonicParsing="false" prefHeight="67.0" prefWidth="250.0" style="-fx-background-color: #EC4842;" text="Log out " textFill="WHITE">
 		               <VBox.margin>
 		                  <Insets top="600.0" />
 		               </VBox.margin>
@@ -49,6 +49,6 @@
 		   <center>
 		   </center>
    <center>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <AnchorPane fx:id="mainScreen" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </center>
 </fx:root>
