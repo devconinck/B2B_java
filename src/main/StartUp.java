@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import domain.DomainController;
 import gui.AdminScreenController;
-import gui.CompanyController;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
