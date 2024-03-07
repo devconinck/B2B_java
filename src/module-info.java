@@ -1,4 +1,4 @@
-module JvaFXAndPersistenceAndUnitTests {
+open module JvaFXAndPersistenceAndUnitTests {
 	//FX
 	requires javafx.base;
 	requires javafx.controls;
