@@ -188,7 +188,7 @@ public class CompanyDetailsScreenController extends AnchorPane implements Observ
 
 	@Override
 	public void update(Company c) {
-		// TODO Auto-generated method stub
+		loadCompany(c.getName());
 		
 	}
 
