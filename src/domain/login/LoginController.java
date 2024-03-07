@@ -9,6 +9,7 @@ import domain.Controller;
 import domain.SupplierController;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.Persistence;
 
 
@@ -25,14 +26,20 @@ public class LoginController {
 	}
 
 	public Controller login(String email, String password) {
-		Account accountBoundToEmail = getAccountByEmail(email);
-		if (accountBoundToEmail == null)
-			System.err.println("null"); // TODO must throw error
-		if (!accountBoundToEmail.getPassword().equals(encryptPassword(password)))
-			System.err.println("password does not match"); // TODO must throw error
-		if (accountBoundToEmail.getRole() == Role.Admin)
-			return  new AdminController();
-		return new SupplierController();
+		try {	
+			Account accountBoundToEmail = getAccountByEmail(email);
+			if (accountBoundToEmail.getPassword().equals(encryptPassword(password))) {
+				if (accountBoundToEmail.getRole() == Role.Admin)
+					return  new AdminController();
+				if (accountBoundToEmail.getRole() == Role.Supplier)
+					return new SupplierController();
+			}
+			System.err.println("Wrong password");
+			return null;
+		} catch (NoResultException e) {
+			System.err.println("No matching email found");
+			return null;
+		}
 	}
 
 	public String encryptPassword(String password) {

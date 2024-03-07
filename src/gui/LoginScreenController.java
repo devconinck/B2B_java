@@ -31,6 +31,7 @@ public class LoginScreenController {
 	private Scene scene;
 	private LoginController loginController;
 	private static final Color DEFAULTBACKGROUNDCOLOR = Color.WHITE; 
+	private Label errormessage = new Label();
 
 	public LoginScreenController() {
 		loginController = new LoginController();
@@ -80,16 +81,15 @@ public class LoginScreenController {
 			vbox_password.getChildren().addAll(lbl_password, pwf_password);
 			vbox_password.setPadding(new Insets(0,0,30,0)); // Bottom 30
 			
-			// Button btn_signup = new Button("Sign Up");
 			Button btn_login = new Button("Login");
 			btn_login.setOnAction(event -> login(txf_email.getText(), pwf_password.getText()));
 			
 			HBox hbox_buttons = new HBox();
-			// hbox_buttons.setSpacing(vbox.getMaxWidth()/2);
 			hbox_buttons.setAlignment(Pos.CENTER);
-			hbox_buttons.getChildren().addAll(btn_login);
+			hbox_buttons.getChildren().add(btn_login);
+			hbox_buttons.setPadding(new Insets(0,0,30,0)); // Bottom 30
 			
-			vbox.getChildren().addAll(imgvw_stackpane, vbox_email, vbox_password, hbox_buttons);
+			vbox.getChildren().addAll(imgvw_stackpane, vbox_email, vbox_password, errormessage, hbox_buttons);
 			root.getChildren().add(vbox);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -103,7 +103,11 @@ public class LoginScreenController {
 		else if (controller instanceof SupplierController)
 			System.out.println("Supplier logged in");
 		else
-			System.out.println("Login failed");
+		{
+			errormessage.setText("Login Failed");
+			errormessage.setStyle("-fx-font-color: red;");
+		}
+		
 			
 	}
 
