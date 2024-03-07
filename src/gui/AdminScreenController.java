@@ -10,9 +10,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-public class AdminScreenController {
+public class AdminScreenController extends BorderPane {
 	
 	private DomainController dc;
 
@@ -46,7 +47,7 @@ public class AdminScreenController {
 		//this.logOutButton.setOnMouseClicked(e -> logOut());
 		
 		companiesButton.setOnMouseClicked(e -> {
-			CompaniesOverviewController companiesScreen = new CompaniesOverviewController( dc);
+			CompaniesOverviewController companiesScreen = new CompaniesOverviewController(dc);
 			this.mainScreen.getChildren().clear();
 			this.mainScreen.getChildren().add(companiesScreen);
 		});

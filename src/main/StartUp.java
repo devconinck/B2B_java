@@ -3,6 +3,7 @@ package main;
 import java.io.IOException;
 
 import domain.DomainController;
+import gui.AdminScreenController;
 import gui.CompanyController;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -19,7 +20,7 @@ public class StartUp extends Application {
 	public void start(Stage stage) throws IOException {
 		DomainController dc = new DomainController();
 		
-		CompanyController root = new CompanyController(dc);
+		AdminScreenController root = new AdminScreenController(dc);
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
 		stage.setTitle("SDP2_G16");

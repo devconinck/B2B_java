@@ -3,6 +3,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 
+<fx:root prefHeight="580.0" prefWidth="752.0" stylesheets="@styles.css" type="TableView" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
 <TableView xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/16">
   <columns>
     <TableColumn fx:id="nameCol" editable="false" prefWidth="75.0" text="Name" />
@@ -12,3 +13,4 @@
       <TableColumn fx:id="isActiveCol"  editable="false" prefWidth="75.0" text="Active" />
   </columns>
 </TableView>
+</fx:root>
