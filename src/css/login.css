@@ -1,0 +1,31 @@
+.text-field {
+  -fx-background-color: -fx-text-box-border, -fx-background;
+  -fx-background-insets: 0, 0 0 1 0;
+  -fx-background-radius: 0;
+}
+.text-field:focused {
+  -fx-background-color: -fx-focus-color, -fx-background;
+}
+
+.label {
+	-fx-font-weight: bold;
+}
+
+.button {
+   -fx-background-color: #E0433E;
+   -fx-padding: 10px;
+   -fx-background-radius: 1em;
+   -fx-font-weight: bold;
+}
+
+.button:hover{
+   -fx-background-color: #E0433E;
+}
+.button:pressed{
+   -fx-background-color: #7256DD;
+}
+.button:focussed{
+   -fx-background-color: #2A1C42;
+   -fx-border-color: #CDD1D6;
+   -fx-border-width: 0px 0px 0px 3px;
+}

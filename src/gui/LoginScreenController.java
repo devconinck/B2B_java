@@ -12,6 +12,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -44,6 +45,7 @@ public class LoginScreenController {
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("SDP2_G16");
 		addElements();
+		scene.getStylesheets().add(getClass().getResource("/css/login.css").toExternalForm());
 	}
 	
 	private void addElements() {
@@ -68,24 +70,24 @@ public class LoginScreenController {
 			
 			TextField txf_email = new TextField();
 			txf_email.setPromptText("example.first@icloud.com");
-			TextField txf_password = new TextField();
+			PasswordField pwf_password = new PasswordField();
 			
 			VBox vbox_email = new VBox();
 			vbox_email.getChildren().addAll(lbl_email, txf_email);
 			vbox_email.setPadding(new Insets(40,0,10,0)); // Top 40 + Bottom 10
 			
 			VBox vbox_password = new VBox();
-			vbox_password.getChildren().addAll(lbl_password, txf_password);
+			vbox_password.getChildren().addAll(lbl_password, pwf_password);
 			vbox_password.setPadding(new Insets(0,0,30,0)); // Bottom 30
 			
-			Button btn_signup = new Button("Sign Up");
+			// Button btn_signup = new Button("Sign Up");
 			Button btn_login = new Button("Login");
-			btn_login.setOnAction(event -> login(txf_email.getText(), txf_password.getText()));
+			btn_login.setOnAction(event -> login(txf_email.getText(), pwf_password.getText()));
 			
 			HBox hbox_buttons = new HBox();
-			hbox_buttons.setSpacing(vbox.getMaxWidth()/2);
+			// hbox_buttons.setSpacing(vbox.getMaxWidth()/2);
 			hbox_buttons.setAlignment(Pos.CENTER);
-			hbox_buttons.getChildren().addAll(btn_signup, btn_login);
+			hbox_buttons.getChildren().addAll(btn_login);
 			
 			vbox.getChildren().addAll(imgvw_stackpane, vbox_email, vbox_password, hbox_buttons);
 			root.getChildren().add(vbox);
