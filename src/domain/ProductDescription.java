@@ -1,5 +1,6 @@
 package domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,16 +11,22 @@ public class ProductDescription {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long productDescriptionId;
+	private long id;
+	
+	private String productId;
 
 	private String languageId;
 	private int syncId;
 	private String productName;
+	@Column(length = 400)
 	private String productListerDescription;
+	@Column(length = 400)
 	private String productShortDescription;
+	@Column(length = 2000)
 	private String productLongDescription;
 	
-	public ProductDescription(String languageId, int syncId, String productName, String productListerDescription, String productShortDescription, String productLongDescription) {
+	public ProductDescription(String productId, String languageId, int syncId, String productName, String productListerDescription, String productShortDescription, String productLongDescription) {
+		setProductId(productId);
 		setLanguageId(languageId);
 		setSyncId(syncId);
 		setProductName(productName);
@@ -30,6 +37,14 @@ public class ProductDescription {
 	
 	protected ProductDescription() {
 		
+	}
+
+	public String getProductId() {
+		return productId;
+	}
+
+	public void setProductId(String productId) {
+		this.productId = productId;
 	}
 
 	public String getLanguageId() {

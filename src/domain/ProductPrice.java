@@ -13,16 +13,19 @@ public class ProductPrice {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long productPriceId;
+	private long id;
+	
+	private String productId;
 
 	private String currencyId;
 	private int syncId;
-	private BigDecimal price;
+	private String price;
 	private String unitOfMeasureId;
 	private LocalDateTime syncDateTime;
 	private int quantity;
 	
-	public ProductPrice(String currencyId, int syncId, BigDecimal price, String unitOfMeasureId, LocalDateTime syncDateTime, int quantity) {
+	public ProductPrice(String productId, String currencyId, int syncId, String price, String unitOfMeasureId, LocalDateTime syncDateTime, int quantity) {
+		setProductId(productId);
 		setCurrencyId(currencyId);
 		setSyncId(syncId);
 		setPrice(price);
@@ -33,6 +36,14 @@ public class ProductPrice {
 	
 	protected ProductPrice() {
 		
+	}
+	
+	public String getProductId() {
+		return productId;
+	}
+	
+	public void setProductId(String productId) {
+		this.productId = productId;
 	}
 
 	public String getCurrencyId() {
@@ -51,11 +62,11 @@ public class ProductPrice {
 		this.syncId = syncId;
 	}
 
-	public BigDecimal getPrice() {
+	public String getPrice() {
 		return price;
 	}
 
-	public void setPrice(BigDecimal price) {
+	public void setPrice(String price) {
 		this.price = price;
 	}
 

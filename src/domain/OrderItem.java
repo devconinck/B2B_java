@@ -1,6 +1,7 @@
 package domain;
 
 import java.io.Serializable;
+
 import java.math.BigDecimal;
 
 import jakarta.persistence.Entity;
@@ -8,28 +9,30 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-@Entity 
+@Entity
 public class OrderItem implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int orderItemId;
+	private long id;
 	
-	private Product product;
 	private int orderId;
+	private Product product;
+	private int orderItemId;
 	private int syncId;
 	private String productId;
-	private int quantity;
-	private String unitOfMeasures;
-	private BigDecimal netPrice;
-	private BigDecimal netAmount;
+	private String quantity;
+	private String unitOfMeasureId;
+	private String netPrice;
+	private String netAmount;
 	
-	public OrderItem(Product product, int orderId, int syncId, String productId, int quantity, String unitOfMeasures, BigDecimal netPrices, BigDecimal netAmount) {
+	public OrderItem(int orderId, int orderItemId, int syncId, String productId, String quantity, String unitOfMeasureId, String netPrice, String netAmount) {
 		setOrderId(orderId);
+		setOrderItemId(orderItemId);
 		setSyncId(syncId);
 		setProductId(productId);
 		setQuantity(quantity);
-		setUnitOfMeasures(unitOfMeasures);
+		setUnitOfMeasureId(unitOfMeasureId);
 		setNetPrice(netPrice);
 		setNetAmount(netAmount);
 	}
@@ -50,6 +53,9 @@ public class OrderItem implements Serializable {
 	public int getOrderItemId() {
 		return orderItemId;
 	}
+	public void setOrderItemId(int orderItemId) {
+		this.orderItemId = orderItemId;
+	}
 	public int getSyncId() {
 		return syncId;
 	}
@@ -62,28 +68,28 @@ public class OrderItem implements Serializable {
 	public void setProductId(String productId) {
 		this.productId = productId;
 	}
-	public int getQuantity() {
+	public String getQuantity() {
 		return quantity;
 	}
-	public void setQuantity(int quantity) {
+	public void setQuantity(String quantity) {
 		this.quantity = quantity;
 	}
-	public String getUnitOfMeasures() {
-		return unitOfMeasures;
+	public String getUnitOfMeasureId() {
+		return unitOfMeasureId;
 	}
-	public void setUnitOfMeasures(String unitOfMeasures) {
-		this.unitOfMeasures = unitOfMeasures;
+	public void setUnitOfMeasureId(String unitOfMeasureId) {
+		this.unitOfMeasureId = unitOfMeasureId;
 	}
-	public BigDecimal getNetPrice() {
+	public String getNetPrice() {
 		return netPrice;
 	}
-	public void setNetPrice(BigDecimal netPrice) {
+	public void setNetPrice(String netPrice) {
 		this.netPrice = netPrice;
 	}
-	public BigDecimal getNetAmount() {
+	public String getNetAmount() {
 		return netAmount;
 	}
-	public void setNetAmount(BigDecimal netAmount) {
+	public void setNetAmount(String netAmount) {
 		this.netAmount = netAmount;
 	}
 }

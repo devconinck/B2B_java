@@ -6,7 +6,7 @@ import jakarta.persistence.Persistence;
 
 public class OrderManager {
 
-    public final String PERSISTENCE_UNIT_NAME = "project";
+    public final String PERSISTENCE_UNIT_NAME = "delaware";
     private EntityManager em;
     private EntityManagerFactory emf;
     
@@ -16,6 +16,9 @@ public class OrderManager {
     
     private void initializePersistence() {
     	openPersistence();
+    	OrderData od = new OrderData(this);
+    	od.addData();
+    	System.out.println("Add data done!");
     }
     
     private void openPersistence() {
@@ -26,5 +29,41 @@ public class OrderManager {
     public void closePersistence() {
     	em.close();
     	emf.close();
+    }
+    
+    public void addOrder(Order o) {
+    	em.getTransaction().begin();
+    	em.persist(o);
+    	em.getTransaction().commit();
+    }
+    
+    public void addOrderItem(OrderItem oi) {
+    	em.getTransaction().begin();
+    	em.persist(oi);
+    	em.getTransaction().commit();
+    }
+    
+    public void addProduct(Product p) {
+    	em.getTransaction().begin();
+    	em.persist(p);
+    	em.getTransaction().commit();
+    }
+    
+    public void addProductPrice(ProductPrice pp) {
+    	em.getTransaction().begin();
+    	em.persist(pp);
+    	em.getTransaction().commit();
+    }
+    
+    public void addProductDescription(ProductDescription pd) {
+    	em.getTransaction().begin();
+    	em.persist(pd);
+    	em.getTransaction().commit();
+    }
+    
+    public void addProductUnitOfMeasureConversion(ProductUnitOfMeasureConversion pu) {
+    	em.getTransaction().begin();
+    	em.persist(pu);
+    	em.getTransaction().commit();
     }
 }

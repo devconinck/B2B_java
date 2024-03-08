@@ -8,34 +8,41 @@ import java.util.List;
 
 import domain.Company;
 import domain.Product;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity 
+@Table(name="order_table")
 public class Order implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
+	
 	private int orderId;
 
+	//@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
 	private List<OrderItem> orderItems;
 	private int syncId;
-	private Company customer;
+	private String customerId; //moet misschien nog aangepast worden, later bekijken wanneer company gekoppeld wordt
 	private String orderReference;
 	private LocalDateTime orderDateTime;
 	private LocalDateTime lastPaymentReminder;
-	private BigDecimal netAmount;
-	private BigDecimal taxAmount;
-	private BigDecimal totalAmount;
+	private String netAmount;
+	private String taxAmount;
+	private String totalAmount;
 	private String currency;
 	
-	public Order(List<OrderItem> orderItems, int syncId, Company customer, String orderReference, LocalDateTime orderDateTime, LocalDateTime lastPaymentReminder, 
-			BigDecimal netAmount, BigDecimal taxAmount, BigDecimal totalAmount, String currency) {
-		setOrderItems(orderItems);
+	public Order(int orderId, int syncId, String customerId, String orderReference, LocalDateTime orderDateTime, LocalDateTime lastPaymentReminder, 
+			String netAmount, String taxAmount, String totalAmount, String currency) {
+		setOrderId(orderId);
 		setSyncId(syncId);
-		setCustomer(customer);
+		setCustomer(customerId);
 		setOrderReference(orderReference);
 		setOrderDateTime(orderDateTime);
 		setLastPaymentReminder(lastPaymentReminder);
@@ -53,6 +60,14 @@ public class Order implements Serializable {
 		
 	}
 	
+	public int getOrderId() {
+		return orderId;
+	}
+	
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
+	}
+	
 	public List<OrderItem> getOrderItems() {
 		return orderItems;
 	}
@@ -65,11 +80,11 @@ public class Order implements Serializable {
 	public void setSyncId(int syncId) {
 		this.syncId = syncId;
 	}
-	public Company getCustomer() {
-		return customer;
+	public String getCustomer() {
+		return customerId;
 	}
-	public void setCustomer(Company customer) {
-		this.customer = customer;
+	public void setCustomer(String customerId) {
+		this.customerId = customerId;
 	}
 	public String getOrderReference() {
 		return orderReference;
@@ -89,22 +104,22 @@ public class Order implements Serializable {
 	public void setLastPaymentReminder(LocalDateTime lastPaymentReminder) {
 		this.lastPaymentReminder = lastPaymentReminder;
 	}
-	public BigDecimal getNetAmount() {
+	public String getNetAmount() {
 		return netAmount;
 	}
-	public void setNetAmount(BigDecimal netAmount) {
+	public void setNetAmount(String netAmount) {
 		this.netAmount = netAmount;
 	}
-	public BigDecimal getTaxAmount() {
+	public String getTaxAmount() {
 		return taxAmount;
 	}
-	public void setTaxAmount(BigDecimal taxAmount) {
+	public void setTaxAmount(String taxAmount) {
 		this.taxAmount = taxAmount;
 	}
-	public BigDecimal getTotalAmount() {
+	public String getTotalAmount() {
 		return totalAmount;
 	}
-	public void setTotalAmount(BigDecimal totalAmount) {
+	public void setTotalAmount(String totalAmount) {
 		this.totalAmount = totalAmount;
 	}
 	public String getCurrency() {

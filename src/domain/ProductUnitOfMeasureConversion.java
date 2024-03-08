@@ -1,22 +1,27 @@
 package domain;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+@Entity
 public class ProductUnitOfMeasureConversion {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long productUnitId;
+	private long id;
 	
-	private int syncId;
+	private String productId;
+	
+	private String syncId;
 	private String formUnitOfMeasure;
 	private String toUnitOfMeasure;
-	private int fromQuantity;
-	private int toQuantity;
+	private String fromQuantity;
+	private String toQuantity;
 	
-	public ProductUnitOfMeasureConversion(int syncId, String formUnitOfMeasure, String toUnitOfMeasure, int fromQuantity, int toQuantity) {
+	public ProductUnitOfMeasureConversion(String productId, String syncId, String formUnitOfMeasure, String toUnitOfMeasure, String fromQuantity, String toQuantity) {
+		setProductId(productId);
 		setSyncId(syncId);
 		setFormUnitOfMeasure(formUnitOfMeasure);
 		setToUnitOfMeasure(toUnitOfMeasure);
@@ -28,11 +33,19 @@ public class ProductUnitOfMeasureConversion {
 		
 	}
 
-	public int getSyncId() {
+	public String getProductId() {
+		return productId;
+	}
+
+	public void setProductId(String productId) {
+		this.productId = productId;
+	}
+
+	public String getSyncId() {
 		return syncId;
 	}
 
-	public void setSyncId(int syncId) {
+	public void setSyncId(String syncId) {
 		this.syncId = syncId;
 	}
 
@@ -52,19 +65,19 @@ public class ProductUnitOfMeasureConversion {
 		this.toUnitOfMeasure = toUnitOfMeasure;
 	}
 
-	public int getFromQuantity() {
+	public String getFromQuantity() {
 		return fromQuantity;
 	}
 
-	public void setFromQuantity(int fromQuantity) {
+	public void setFromQuantity(String fromQuantity) {
 		this.fromQuantity = fromQuantity;
 	}
 
-	public int getToQuantity() {
+	public String getToQuantity() {
 		return toQuantity;
 	}
 
-	public void setToQuantity(int toQuantity) {
+	public void setToQuantity(String toQuantity) {
 		this.toQuantity = toQuantity;
 	}
 }

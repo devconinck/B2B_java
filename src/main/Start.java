@@ -1,9 +1,18 @@
 package main;
 
-import domain.Order;
+import domain.OrderController;
 
 public class Start {
+	private OrderController oc;
+	
 	public static void main(String[] args) {
-		Order o = new Order();
+		new Start().run();
+	}
+	
+	public void run() {
+		oc = new OrderController();
+		oc.close();
 	}
 }
+
+

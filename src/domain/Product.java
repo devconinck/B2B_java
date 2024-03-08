@@ -2,31 +2,39 @@ package domain;
 
 import java.io.Serializable;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
+@Entity
+//@Table(name="product_table")
 public class Product implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
+	
 	private String productId;
 	
-	@OneToOne
+	//@OneToOne
 	private ProductPrice productPrice;
-	@OneToOne
+	//@OneToOne
 	private ProductDescription productDescription;
-	@OneToOne
+	//@OneToOne
 	private ProductUnitOfMeasureConversion productUnitOfMeasureConversion;
 	private int syncId;
-	private String unitOfMeasure;
+	private String unitOfMeasureId;
+	private String productCategoryId;
 	private String productAvailability;
 	
-	public Product(String productId, int syncId, String unitOfMeasure, String productAvailability) {
+	public Product(String productId, int syncId, String unitOfMeasureId, String productCategoryId, String productAvailability) {
 		setProductId(productId);
 		setSyncId(syncId);
-		setUnitOfMeasure(unitOfMeasure);
+		setUnitOfMeasureId(unitOfMeasureId);
+		setProductCategoryId(productCategoryId);
 		setProductAvailability(productAvailability);
 	}
 	
@@ -62,12 +70,20 @@ public class Product implements Serializable {
 		this.syncId = syncId;
 	}
 
-	public String getUnitOfMeasure() {
-		return unitOfMeasure;
+	public String getUnitOfMeasureId() {
+		return unitOfMeasureId;
 	}
 
-	public void setUnitOfMeasure(String unitOfMeasure) {
-		this.unitOfMeasure = unitOfMeasure;
+	public void setUnitOfMeasureId(String unitOfMeasureId) {
+		this.unitOfMeasureId = unitOfMeasureId;
+	}
+	
+	public String getProductCategoryId() {
+		return productCategoryId;
+	}
+	
+	public void setProductCategoryId(String productCategoryId) {
+		this.productCategoryId = productCategoryId;
 	}
 
 	public String getProductAvailability() {
