@@ -3,19 +3,27 @@ package domain.login;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import Repository.AccountDao;
+import Repository.AccountDaoJpa;
 import domain.AdminController;
 import domain.Controller;
 import domain.SupplierController;
-import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.NoResultException;
-import jakarta.persistence.Persistence;
 
 
 public class LoginController {
 
-	public final String PERSISTENCE_UNIT_NAME = "delawaredb";
-	private EntityManager em = Persistence.createEntityManagerFactory(null).createEntityManager();
+	private AccountDao accountRepo;
 	private static final byte[] salt = new String("J#7pQzL9").getBytes();
+	
+	public LoginController() {
+		setAccountRepo(new AccountDaoJpa());
+	}
+	
+	private void setAccountRepo(AccountDao mock) {
+		this.accountRepo = mock;
+	}
 
 	public Controller login(String email, String password) {
 		try {	
@@ -60,10 +68,13 @@ public class LoginController {
 	}
 	
 	private Account getAccountByEmail(String email) {
-		Account acc = em.createNamedQuery("Account.getByEmail", Account.class)
-				.setParameter("email", email)
-				.getSingleResult();
-		return acc;
+		Account account;
+		try {
+			account = accountRepo.getAccountByEmail(email);
+		} catch (EntityNotFoundException ex) {
+			throw new IllegalArgumentException("Email " + email + " does not exist");
+		}
+		return account;
 	}
 	
 }

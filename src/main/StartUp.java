@@ -14,8 +14,8 @@ public class StartUp extends Application {
 	}
 	
 	@Override
-	public void start(Stage stage) throws IOException {		
+	public void start(Stage stage) throws IOException {
+		new Seed();
 		new LoginScreenController();
-		Seed.closePersistence();
 	}
 }
