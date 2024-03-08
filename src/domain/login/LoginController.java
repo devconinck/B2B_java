@@ -15,9 +15,7 @@ import jakarta.persistence.Persistence;
 
 public class LoginController {
 
-	public final String PERSISTENCE_UNIT_NAME = "delawaredb";
-    private EntityManager em;
-    private EntityManagerFactory emf;
+	 
 	private static final byte[] salt = new String("J#7pQzL9").getBytes();
 	
 	public LoginController() {
