@@ -2,26 +2,20 @@ package domain.login;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.stream.Stream;
 
 import domain.AdminController;
 import domain.Controller;
 import domain.SupplierController;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Persistence;
 
 
 public class LoginController {
 
-	 
+	public final String PERSISTENCE_UNIT_NAME = "delawaredb";
+	private EntityManager em = Persistence.createEntityManagerFactory(null).createEntityManager();
 	private static final byte[] salt = new String("J#7pQzL9").getBytes();
-	
-	public LoginController() {
-		openPersistentie();
-		addUsers();
-	}
 
 	public Controller login(String email, String password) {
 		try {	
@@ -40,7 +34,7 @@ public class LoginController {
 		}
 	}
 
-	public String encryptPassword(String password) {
+	public static String encryptPassword(String password) {
 		try {
 			// combine both on byte level
 			byte[] fullPassword = new byte[password.length() + salt.length];
@@ -70,24 +64,6 @@ public class LoginController {
 				.setParameter("email", email)
 				.getSingleResult();
 		return acc;
-	}
-	
-	private void openPersistentie() {
-        emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-        em = emf.createEntityManager();
-    }
-	
-	private void closePersistentie() {
-        em.close();
-        emf.close();
-    }
-	
-	private void addUsers() {
-		Account acc1 = new Account("Charles.leclerc@gmail.com", encryptPassword("test123"), 123456, Role.Supplier);
-		Account acc2 = new Account("Danny.ricciardo@gmail.com", encryptPassword("root123"), 123456, Role.Admin);
-		em.getTransaction().begin();
-		Stream.of(acc1, acc2).forEach(em::persist);
-		em.getTransaction().commit();
 	}
 	
 }

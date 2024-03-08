@@ -22,7 +22,6 @@ public class Account implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String email;
-	// @Column(length = 512)
 	private String password;
 	private int companyVAT;
 	private Role role;
