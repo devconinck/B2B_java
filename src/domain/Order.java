@@ -25,8 +25,7 @@ public class Order implements Serializable {
 	private long id;
 	
 	private int orderId;
-
-	//@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<OrderItem> orderItems;
 	private int syncId;
 	private String customerId; //moet misschien nog aangepast worden, later bekijken wanneer company gekoppeld wordt
@@ -53,10 +52,6 @@ public class Order implements Serializable {
 	}
 	
 	protected Order() {
-		
-	}
-	
-	public void showOrders() {
 		
 	}
 	

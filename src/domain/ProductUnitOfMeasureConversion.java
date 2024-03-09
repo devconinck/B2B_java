@@ -1,28 +1,20 @@
 package domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.Embeddable;
 
-@Entity
+@Embeddable
 public class ProductUnitOfMeasureConversion {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-	
-	private String productId;
-	
-	private String syncId;
+	private String productUnitId;
+	private String syncUnitId;
 	private String formUnitOfMeasure;
 	private String toUnitOfMeasure;
 	private String fromQuantity;
 	private String toQuantity;
 	
-	public ProductUnitOfMeasureConversion(String productId, String syncId, String formUnitOfMeasure, String toUnitOfMeasure, String fromQuantity, String toQuantity) {
-		setProductId(productId);
-		setSyncId(syncId);
+	public ProductUnitOfMeasureConversion(String productUnitId, String syncUnitId, String formUnitOfMeasure, String toUnitOfMeasure, String fromQuantity, String toQuantity) {
+		setProductUnitId(productUnitId);
+		setSyncUnitId(syncUnitId);
 		setFormUnitOfMeasure(formUnitOfMeasure);
 		setToUnitOfMeasure(toUnitOfMeasure);
 		setFromQuantity(fromQuantity);
@@ -33,20 +25,20 @@ public class ProductUnitOfMeasureConversion {
 		
 	}
 
-	public String getProductId() {
-		return productId;
+	public String getProductUnitId() {
+		return productUnitId;
 	}
 
-	public void setProductId(String productId) {
-		this.productId = productId;
+	public void setProductUnitId(String productUnitId) {
+		this.productUnitId = productUnitId;
 	}
 
-	public String getSyncId() {
-		return syncId;
+	public String getSyncUnitId() {
+		return syncUnitId;
 	}
 
-	public void setSyncId(String syncId) {
-		this.syncId = syncId;
+	public void setSyncUnitId(String syncUnitId) {
+		this.syncUnitId = syncUnitId;
 	}
 
 	public String getFormUnitOfMeasure() {

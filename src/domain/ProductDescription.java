@@ -1,22 +1,14 @@
 package domain;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.Embeddable;
 
-@Entity
+@Embeddable
 public class ProductDescription {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-	
-	private String productId;
-
+	private String productDescriptionId;
 	private String languageId;
-	private int syncId;
+	private int syncDescriptionId;
 	private String productName;
 	@Column(length = 400)
 	private String productListerDescription;
@@ -25,10 +17,10 @@ public class ProductDescription {
 	@Column(length = 2000)
 	private String productLongDescription;
 	
-	public ProductDescription(String productId, String languageId, int syncId, String productName, String productListerDescription, String productShortDescription, String productLongDescription) {
-		setProductId(productId);
+	public ProductDescription(String productDescriptionId, String languageId, int syncDescriptionId, String productName, String productListerDescription, String productShortDescription, String productLongDescription) {
+		setProductDescriptionId(productDescriptionId);
 		setLanguageId(languageId);
-		setSyncId(syncId);
+		setSyncDescriptionId(syncDescriptionId);
 		setProductName(productName);
 		setProductListerDescription(productListerDescription);
 		setProductShortDescription(productShortDescription);
@@ -39,12 +31,12 @@ public class ProductDescription {
 		
 	}
 
-	public String getProductId() {
-		return productId;
+	public String getProductDescriptionId() {
+		return productDescriptionId;
 	}
 
-	public void setProductId(String productId) {
-		this.productId = productId;
+	public void setProductDescriptionId(String productDescriptionId) {
+		this.productDescriptionId = productDescriptionId;
 	}
 
 	public String getLanguageId() {
@@ -55,12 +47,12 @@ public class ProductDescription {
 		this.languageId = languageId;
 	}
 
-	public int getSyncId() {
-		return syncId;
+	public int getSyncDescriptionId() {
+		return syncDescriptionId;
 	}
 
-	public void setSyncId(int syncId) {
-		this.syncId = syncId;
+	public void setSyncDescriptionId(int syncDescriptionId) {
+		this.syncDescriptionId = syncDescriptionId;
 	}
 
 	public String getProductName() {

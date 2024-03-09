@@ -1,33 +1,24 @@
 package domain;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.Embeddable;
 
-@Entity
+@Embeddable
 public class ProductPrice {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-	
-	private String productId;
-
+	private String productPriceId;
 	private String currencyId;
-	private int syncId;
+	private int syncPriceId;
 	private String price;
 	private String unitOfMeasureId;
 	private LocalDateTime syncDateTime;
 	private int quantity;
 	
-	public ProductPrice(String productId, String currencyId, int syncId, String price, String unitOfMeasureId, LocalDateTime syncDateTime, int quantity) {
-		setProductId(productId);
+	public ProductPrice(String productPriceId, String currencyId, int syncPriceId, String price, String unitOfMeasureId, LocalDateTime syncDateTime, int quantity) {
+		setProductPriceId(productPriceId);
 		setCurrencyId(currencyId);
-		setSyncId(syncId);
+		setSyncPriceId(syncPriceId);
 		setPrice(price);
 		setUnitOfMeasureId(unitOfMeasureId);
 		setSyncDateTime(syncDateTime);
@@ -38,12 +29,12 @@ public class ProductPrice {
 		
 	}
 	
-	public String getProductId() {
-		return productId;
+	public String getProductPriceId() {
+		return productPriceId;
 	}
 	
-	public void setProductId(String productId) {
-		this.productId = productId;
+	public void setProductPriceId(String productPriceId) {
+		this.productPriceId = productPriceId;
 	}
 
 	public String getCurrencyId() {
@@ -54,12 +45,12 @@ public class ProductPrice {
 		this.currencyId = currencyId;
 	}
 
-	public int getSyncId() {
-		return syncId;
+	public int getSyncPriceId() {
+		return syncPriceId;
 	}
 
-	public void setSyncId(int syncId) {
-		this.syncId = syncId;
+	public void setSyncPriceId(int syncPriceId) {
+		this.syncPriceId = syncPriceId;
 	}
 
 	public String getPrice() {
