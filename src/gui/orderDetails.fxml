@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="610.0" prefWidth="743.0" type="AnchorPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox alignment="TOP_CENTER" fillWidth="false" layoutX="1.0" layoutY="2.0" maxWidth="1.7976931348623157E308" prefHeight="610.0" prefWidth="743.0" styleClass="userDetails" stylesheets="@styles.css" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox prefHeight="100.0" prefWidth="623.0" spacing="50.0" styleClass="hbox" stylesheets="@styles.css">
+               <children>
+                  <VBox prefHeight="100.0" prefWidth="198.0" styleClass="vbox" stylesheets="@styles.css">
+                     <children>
+                        <VBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="255.0">
+                           <children>
+                              <Label prefHeight="30.0" prefWidth="167.0" text="Customer Name" />
+                              <TextField fx:id="nameField" prefHeight="25.0" prefWidth="241.0" styleClass="text-field" stylesheets="@styles.css" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="100.0" prefWidth="198.0" styleClass="vbox" stylesheets="@styles.css">
+                     <children>
+                        <VBox prefHeight="100.0" prefWidth="240.0">
+                           <children>
+                              <Label prefHeight="30.0" prefWidth="167.0" text="Customer Contact" />
+                              <TextField fx:id="vatField" prefHeight="25.0" prefWidth="287.0" styleClass="text-field" stylesheets="@styles.css" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="100.0" prefWidth="198.0" styleClass="vbox" stylesheets="@styles.css">
+                     <children>
+                        <VBox prefHeight="100.0" prefWidth="240.0">
+                           <children>
+                              <Label prefHeight="30.0" prefWidth="167.0" text="Order ID" />
+                              <TextField fx:id="sectorField" prefHeight="25.0" prefWidth="287.0" styleClass="text-field" stylesheets="@styles.css" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="623.0" spacing="50.0" styleClass="hbox" stylesheets="@styles.css">
+               <children>
+                  <VBox prefHeight="100.0" prefWidth="198.0" styleClass="vbox" stylesheets="@styles.css">
+                     <children>
+                        <VBox prefHeight="100.0" prefWidth="240.0">
+                           <children>
+                              <Label prefHeight="30.0" prefWidth="167.0" text="Street" />
+                              <TextField fx:id="streetField" prefHeight="25.0" prefWidth="287.0" styleClass="text-field" stylesheets="@styles.css" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="100.0" prefWidth="198.0" styleClass="vbox" stylesheets="@styles.css">
+                     <children>
+                        <VBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="255.0">
+                           <children>
+                              <Label prefHeight="30.0" prefWidth="167.0" text="Address Nr." />
+                              <TextField fx:id="addressNrField" prefHeight="25.0" prefWidth="241.0" styleClass="text-field" stylesheets="@styles.css" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="623.0" spacing="50.0" styleClass="hbox" stylesheets="@styles.css">
+               <children>
+                  <VBox prefHeight="100.0" prefWidth="198.0" styleClass="vbox" stylesheets="@styles.css">
+                     <children>
+                        <VBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="255.0">
+                           <children>
+                              <Label prefHeight="30.0" prefWidth="167.0" text="City" />
+                              <TextField fx:id="cityField" prefHeight="25.0" prefWidth="241.0" styleClass="text-field" stylesheets="@styles.css" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="100.0" prefWidth="198.0" styleClass="vbox" stylesheets="@styles.css">
+                     <children>
+                        <VBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="255.0">
+                           <children>
+                              <Label prefHeight="30.0" prefWidth="167.0" text="Postal Code" />
+                              <TextField fx:id="postalcodeField" prefHeight="25.0" prefWidth="241.0" styleClass="text-field" stylesheets="@styles.css" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="100.0" prefWidth="198.0" styleClass="vbox" stylesheets="@styles.css">
+                     <children>
+                        <VBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="255.0">
+                           <children>
+                              <Label prefHeight="30.0" prefWidth="167.0" text="Country" />
+                              <TextField fx:id="countryField" prefHeight="25.0" prefWidth="241.0" styleClass="text-field" stylesheets="@styles.css" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="623.0" spacing="50.0" styleClass="hbox" stylesheets="@styles.css">
+               <children>
+                  <VBox prefHeight="100.0" prefWidth="198.0" styleClass="vbox" stylesheets="@styles.css">
+                     <children>
+                        <VBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="255.0">
+                           <children>
+                              <Label prefHeight="30.0" prefWidth="167.0" text="Order Status" />
+                              <TextField fx:id="bankField" prefHeight="25.0" prefWidth="241.0" styleClass="text-field" stylesheets="@styles.css" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="100.0" prefWidth="198.0" styleClass="vbox" stylesheets="@styles.css">
+                     <children>
+                        <VBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="255.0">
+                           <children>
+                              <Label prefHeight="30.0" prefWidth="167.0" text="Payment Status" />
+                              <TextField fx:id="phoneField" prefHeight="25.0" prefWidth="241.0" styleClass="text-field" stylesheets="@styles.css" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="100.0" prefWidth="198.0" styleClass="vbox" stylesheets="@styles.css">
+                     <children>
+                        <VBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="255.0">
+                           <children>
+                              <Label prefHeight="30.0" prefWidth="167.0" text="Last Payment Update" />
+                              <TextField fx:id="emailField" prefHeight="25.0" prefWidth="241.0" styleClass="text-field" stylesheets="@styles.css" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="623.0" styleClass="hbox" stylesheets="@styles.css">
+               <children>
+                  <VBox prefHeight="100.0" prefWidth="419.0" styleClass="vbox" stylesheets="@styles.css">
+                     <children>
+                        <HBox fx:id="buttonBox" prefHeight="100.0" prefWidth="435.0" spacing="20.0" styleClass="hbox" stylesheets="@styles.css">
+                           <children>
+                              <Button fx:id="clearBtn" mnemonicParsing="false" styleClass="cancel" stylesheets="@styles.css" text="Clear" />
+                              <Button fx:id="saveButton" mnemonicParsing="false" styleClass="save" stylesheets="@styles.css" text="Save" />
+                              <Button fx:id="inactiveBtn" mnemonicParsing="false" styleClass="cancel" stylesheets="@styles.css" text="Active/Inactive" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets top="30.0" />
+         </padding>
+      </VBox>
+   </children>
+</fx:root>
