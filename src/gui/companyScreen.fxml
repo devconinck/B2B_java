@@ -3,12 +3,12 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 
-<fx:root prefHeight="580.0" prefWidth="752.0" stylesheets="@styles.css" type="TableView" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="578.0" stylesheets="@styles.css" type="TableView" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
   <columns>
     <TableColumn fx:id="nameCol" editable="false" prefWidth="75.0" text="Name" />
     <TableColumn fx:id="sectorCol" editable="false" prefWidth="75.0" text="Sector" />
       <TableColumn fx:id="addressCol" editable="false" prefWidth="75.0" text="Address" />
       <TableColumn fx:id="amountOfCustomersCol" editable="false" prefWidth="75.0" text="#Customers" />
-      <TableColumn fx:id="isActiveCol"  editable="false" prefWidth="75.0" text="Active" />
+      <TableColumn fx:id="isActiveCol" editable="false" prefWidth="75.0" text="Active" />
   </columns>
 </fx:root>
