@@ -5,6 +5,7 @@ import java.io.IOException;
 import domain.Company;
 import domain.DomainController;
 import domain.Observer;
+import domain.Order;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -49,8 +50,9 @@ public class OrderDetailsScreenController extends AnchorPane implements Observer
 
     //private AdminController dc;
     private DomainController dc;
-    
-    public CompanyDetailsScreenController(DomainController dc) {
+
+
+	public OrderDetailsScreenController(DomainController dc) {
     	this.dc = dc;
     	this.dc.addObserver(this);
     	
@@ -78,13 +80,13 @@ public class OrderDetailsScreenController extends AnchorPane implements Observer
 	 */
 
 	private void buildGui() {
-		FXMLLoader loader = new FXMLLoader(this.getClass().getResource("companyDetails.fxml"));
+		FXMLLoader loader = new FXMLLoader(this.getClass().getResource("orderDetails.fxml"));
 		loader.setRoot(this);
 		loader.setController(this);
 		try {
 			loader.load();
 		} catch (IOException e) {
-			System.out.println("Couldn't load Company details Screen");
+			System.out.println("Couldn't load Order details Screen");
 			System.out.println(e.getMessage());
 		}
 		
@@ -189,6 +191,12 @@ public class OrderDetailsScreenController extends AnchorPane implements Observer
 	@Override
 	public void update(Order o) {
 		loadCompany(o.getName());
+		
+	}
+
+	@Override
+	public void update(Order c) {
+		// TODO Auto-generated method stub
 		
 	}
 

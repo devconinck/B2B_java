@@ -3,11 +3,11 @@ package main;
 import java.io.IOException;
 
 import domain.DomainController;
-import domain.UserController;
-import gui.LoginScreenController;
+import gui.SupplierScreenController;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class StartUp extends Application {
 
@@ -17,12 +17,12 @@ public class StartUp extends Application {
 	
 	@Override
 	public void start(Stage stage) throws IOException {
-		DomainController dc = new UserController();
+		DomainController dc = new DomainController();
 		
-		LoginScreenController root = new LoginScreenController(dc);
+		SupplierScreenController root = new SupplierScreenController(dc);
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
-		stage.setTitle("SDP2_G16");
+		stage.setTitle("SDP2_G02");
 		stage.show();
 	}
 }
