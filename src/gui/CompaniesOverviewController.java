@@ -16,14 +16,15 @@ public class CompaniesOverviewController extends GridPane {
 	private CompanyScreenController companies;
 	private CompanyDetailsScreenController companyDetails;
 	private ControlScreenController controls;
+    private FilterController filter;
 	
 	public CompaniesOverviewController(DomainController dc) {
 		this.dc = dc;
 		
-		this.companies = new CompanyScreenController(dc);
+		this.filter = new FilterController(dc.getCompanyList());
+		this.companies = new CompanyScreenController(dc, filter);
 		this.companyDetails = new CompanyDetailsScreenController(dc);
 		this.controls = new ControlScreenController(dc);
-		
 		buildGui();
 	}
 	
@@ -38,12 +39,15 @@ public class CompaniesOverviewController extends GridPane {
 			System.out.println(e.getMessage());
 		}
 		
-		this.add(companies, 0, 0);
+		VBox vBox1 = new VBox();
+		vBox1.setAlignment(Pos.CENTER); 
+		this.add(vBox1, 0, 0);
+		vBox1.getChildren().addAll(filter, companies);
 		
-		VBox vBox = new VBox();
-		vBox.setAlignment(Pos.CENTER); 
-		this.add(vBox, 1, 0);
-		vBox.getChildren().addAll(companyDetails, controls);
+		VBox vBox2 = new VBox();
+		vBox2.setAlignment(Pos.CENTER); 
+		this.add(vBox2, 1, 0);
+		vBox2.getChildren().addAll(companyDetails, controls);
 	}
 
 }
