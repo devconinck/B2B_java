@@ -8,6 +8,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import util.Seed;
 
 public class StartUp extends Application {
 
@@ -38,7 +39,14 @@ public class StartUp extends Application {
 	}
 
 	private void initializeDevelopmentEnvironment() throws IOException {
-		// Roep seeding aan
-		System.out.println("Seeding");
+		try {
+			System.out.println("Seeding");
+			new Seed();
+			System.out.println("Seeding complete");
+		} catch (Exception e) {
+			System.out.println("Something went wrong");
+			System.out.println(e.getMessage());
+		}
+		
 	}
 }

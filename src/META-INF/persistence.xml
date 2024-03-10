@@ -8,9 +8,9 @@
     
   <persistence-unit name="delaware" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>domein.Address</class>
-    <class>domein.Company</class>
-    <class>domein.Contact</class>
+    <class>domain.Address</class>
+    <class>domain.Company</class>
+    <class>domain.Contact</class>
     <properties>
 	  <!-- KIES DE JUISTE DATABANK-->
       <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/delawaredb?serverTimezone=UTC"/>
