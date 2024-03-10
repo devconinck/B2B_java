@@ -1,17 +1,15 @@
 package gui;
 
 import java.io.IOException;
-import java.util.List;
 import domain.Company;
 import domain.DomainController;
 import domain.Observer;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.layout.Pane;
+
 
 public class CompanyScreenController extends TableView<Company> implements Observer{
 
@@ -47,11 +45,11 @@ public class CompanyScreenController extends TableView<Company> implements Obser
     }
 
     private void loadCompanies() {
-        nameCol.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-        sectorCol.setCellValueFactory(cellData -> cellData.getValue().sectorProperty());
+        nameCol.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
+        sectorCol.setCellValueFactory(cellData -> cellData.getValue().getSectorProperty());
         addressCol.setCellValueFactory(cellData -> cellData.getValue().getAddressString());
         isActiveCol.setCellValueFactory(cellData -> {
-            boolean isActive = cellData.getValue().isActiveProperty().get();
+            boolean isActive = cellData.getValue().getIsActiveProperty().get();
             SimpleStringProperty text = new SimpleStringProperty(isActive ? "Active" : "Inactive");
             return text;
         });

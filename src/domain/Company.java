@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Transient;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -36,11 +37,23 @@ public class Company implements Serializable{
 	private List<String> paymentOptions; // Niet duidelijk welk type
 	private Date customerStart;
 	
-	// TableView Attributes
-	private SimpleStringProperty name = new SimpleStringProperty();
-	private SimpleStringProperty sector = new SimpleStringProperty();
-	private SimpleLongProperty bankAccountNr = new SimpleLongProperty();
-	private SimpleBooleanProperty isActive = new SimpleBooleanProperty(true);
+	// TableView Attributes + Gewone properties om serializable te zijn
+	@Transient
+	private SimpleStringProperty nameProperty = new SimpleStringProperty();
+	private String name;
+	
+	@Transient
+	private SimpleStringProperty sectorProperty = new SimpleStringProperty();
+	private String sector;
+	
+	@Transient
+	private SimpleLongProperty bankAccountNrProperty = new SimpleLongProperty();
+	private Long bankAccountNr;
+		
+	@Transient
+	private SimpleBooleanProperty isActiveProperty = new SimpleBooleanProperty(true);
+	private Boolean isActive = true;
+	
 	
 	// Default constructor JPA
 	protected Company() {
@@ -63,25 +76,26 @@ public class Company implements Serializable{
 	
 	
 	public void setActive() {
-		isActive.set(!isActive.get());
+		isActiveProperty.set(!isActiveProperty.get());
+		isActive = !isActive;
 	}
 	
 	// Property Getters
 	// Geen idee of waarschuwing relevant is
-    public StringProperty nameProperty() {
-        return name;
+    public StringProperty getNameProperty() {
+        return nameProperty;
     }
     
-    public StringProperty sectorProperty() {
-        return sector;
+    public StringProperty getSectorProperty() {
+        return sectorProperty;
     }
     
-    public SimpleLongProperty bankAccountNrProperty() {
-        return bankAccountNr;
+    public SimpleLongProperty getBankAccountNrProperty() {
+        return bankAccountNrProperty;
     }
     
-    public SimpleBooleanProperty isActiveProperty() {
-        return isActive;
+    public SimpleBooleanProperty getIsActiveProperty() {
+        return isActiveProperty;
     }
 	
 	// Getters en setters toevoegen
@@ -127,27 +141,30 @@ public class Company implements Serializable{
 	}
 
 	public String getName() {
-		return name.get();
+		return nameProperty.get();
 	}
 
 	public void setName(String name) {
-		this.name.set(name);
+		this.nameProperty.set(name);
+		this.name = name;
 	}
 
 	public String getSector() {
-		return sector.get();
+		return sectorProperty.get();
 	}
 
 	public void setSector(String sector) {
-		this.sector.set(sector);
+		this.sectorProperty.set(sector);
+		this.sector = sector;
 	}
 
 	public Long getBankAccountNr() {
-		return bankAccountNr.get();
+		return bankAccountNrProperty.get();
 	}
 
 	public void setBankAccountNr(Long bankAccountNr) {
-		this.bankAccountNr.set(bankAccountNr);
+		this.bankAccountNrProperty.set(bankAccountNr);
+		this.bankAccountNr = bankAccountNr;
 	}
 
 	public List<String> getPaymentOptions() {
