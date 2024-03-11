@@ -34,9 +34,9 @@ public class OrdersScreenController extends TableView<Order> implements Observer
         this.dc = dc;
         this.dc.addObserver(this);
         buildGui();
-        loadCompanies();
+        //loadOrders();
 
-  }
+    }
 
 	private void buildGui() {
         
@@ -48,29 +48,24 @@ public class OrdersScreenController extends TableView<Order> implements Observer
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
-		
 	}
 
-
-	private void loadCompanies() {
-        idCol.setCellValueFactory(cellData -> cellData.getValue().idProperty());
+	private void loadOrders() {
+        idCol.setCellValueFactory(cellData -> cellData.getValue().orderIdProperty());
         nameCol.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
         dateCol.setCellValueFactory(cellData -> cellData.getValue().dateProperty());
         orderStatusCol.setCellValueFactory(cellData -> cellData.getValue().getAddressString());
         
-
-
         this.setItems(dc.getOrdersList());
         
         this.setOnMouseClicked(event -> {
             if (event.getClickCount() == 1) {
                 Order selectedOrder = this.getSelectionModel().getSelectedItem();
-                if (selectedCompany != null) {
+                if (selectedOrder != null) {
                     dc.setCurrentOrder(selectedOrder);
                 }
             }
         });
-		
 	}
 
 	@Override

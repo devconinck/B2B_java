@@ -41,16 +41,22 @@ public class SupplierScreenController extends BorderPane {
 		try {
 			loader.load();
 		} catch (IOException e) {
-			System.out.println("Couldn't load Application Screen");
+			System.out.println("Couldn't load Supplier Screen");
 			System.out.println(e.getMessage());
 		}
 		//this.logOutButton.setOnMouseClicked(e -> logOut());
 		
 		ordersButton.setOnMouseClicked(e -> {
-			OrdersOverviewController companiesScreen = new OrdersOverviewController(dc);
+			OrdersOverviewController ordersScreen = new OrdersOverviewController(dc);
 			this.mainScreen.getChildren().clear();
-			this.mainScreen.getChildren().add(companiesScreen);
+			this.mainScreen.getChildren().add(ordersScreen);
 		});
+		
+		/*customersButton.setOnMouseClicked(e -> {
+			CustomersOverviewController customersScreen = new CustomersOverviewController(dc);
+			this.mainScreen.getChildren().clear();
+			this.mainScreen.getChildren().add(customersScreen);
+		});*/
 		
 		
 		//logica om update requests scherm te tonen

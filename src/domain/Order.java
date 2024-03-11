@@ -15,6 +15,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 @Entity 
 @Table(name="order_table")
@@ -24,7 +26,10 @@ public class Order implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	private int orderId;
+	private final SimpleStringProperty orderId = new SimpleStringProperty();
+	private final SimpleStringProperty name = new SimpleStringProperty();
+	private final SimpleStringProperty date = new SimpleStringProperty();
+	private final SimpleStringProperty addressString = new SimpleStringProperty();
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<OrderItem> orderItems;
 	private int syncId;
@@ -37,7 +42,7 @@ public class Order implements Serializable {
 	private String totalAmount;
 	private String currency;
 	
-	public Order(int orderId, int syncId, String customerId, String orderReference, LocalDateTime orderDateTime, LocalDateTime lastPaymentReminder, 
+	public Order(String orderId, int syncId, String customerId, String orderReference, LocalDateTime orderDateTime, LocalDateTime lastPaymentReminder, 
 			String netAmount, String taxAmount, String totalAmount, String currency) {
 		setOrderId(orderId);
 		setSyncId(syncId);
@@ -55,12 +60,28 @@ public class Order implements Serializable {
 		
 	}
 	
-	public int getOrderId() {
+	public String getOrderId() {
+		return orderId.get();
+	}
+	
+	private void setOrderId(String orderId) {
+		this.orderId.set(orderId);
+	}
+	
+	public StringProperty orderIdProperty() {
 		return orderId;
 	}
 	
-	public void setOrderId(int orderId) {
-		this.orderId = orderId;
+	public StringProperty nameProperty() {
+		return name;
+	}
+	
+	public StringProperty dateProperty() {
+		return date;
+	}
+	
+	public String getAddressString() {
+		return addressString;
 	}
 	
 	public List<OrderItem> getOrderItems() {

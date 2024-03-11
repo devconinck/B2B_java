@@ -35,7 +35,7 @@
 		   <top>
 		      <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #EC4842;" BorderPane.alignment="CENTER">
 		         <children>
-		            <Label text="Delaware" textFill="#e1bdbd">
+		            <Label text="delaware" textFill="#e1bdbd">
 		               <graphic>
 		                  <ImageView fitHeight="167.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" />
 		               </graphic>

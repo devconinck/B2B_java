@@ -4,19 +4,16 @@ import java.io.IOException;
 
 import domain.DomainController;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.GridPane;
 
-public class OrdersOverviewController extends GridPane {
-	private DomainController dc;
+public class CustomersOverviewController {
+private DomainController dc;
 	
-	private OrdersScreenController ordersScreen;
-	private OrderDetailsScreenController orderDetails;
+	private CustomersScreenController customers;
 	
-	public OrdersOverviewController(DomainController dc) {
+	public CustomersOverviewController(DomainController dc) {
 		this.dc = dc;
 		
-		this.ordersScreen = new OrdersScreenController(dc);
-		this.orderDetails = new OrderDetailsScreenController(dc);
+		this.customers = new CustomersScreenController(dc);
 		
 		buildGui();
 	}
@@ -32,9 +29,7 @@ public class OrdersOverviewController extends GridPane {
 			System.out.println(e.getMessage());
 		}
 		
-		this.add(ordersScreen, 0, 0);
-		this.add(orderDetails, 1, 0);
+		//this.add(orders, 0, 0);
 	}
 
 }
-

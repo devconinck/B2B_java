@@ -20,17 +20,13 @@ public class DomainController implements Subject {
 
 
 	public DomainController() {
-		setCompanyRepo(new GenericDaoJpa<>(Company.class));
+		setOrderRepo(new GenericDaoJpa<>(Order.class));
 		observers = new HashSet<>();
-		
-		
 	}
 
-
-	public void setCompanyRepo(GenericDao<Company> mock) {
+	public void setOrderRepo(GenericDao<Order> mock) {
 		orderRepo = mock;
 	}
-
 	
 	public void setCurrentOrder(Order o) {
 		this.currentOrder = o;
@@ -46,7 +42,15 @@ public class DomainController implements Subject {
 	}
 	*/
 	
-	public ObservableList<Order> getOrderList() {
+	public ObservableList<Order> getOrdersList() {
+		if(orderList == null) { 
+			orderList = new ArrayList<Order>();
+		}
+		
+		return FXCollections.observableArrayList(orderList);
+	}
+	
+	/*public ObservableList<Order> getOrderList() {
 		if (orderList == null) {
 			//companyList = companyRepo.findAllDisplayData();
 		
@@ -64,14 +68,13 @@ public class DomainController implements Subject {
 			companyList.add(fakeCompany2);
 		}
 		return FXCollections.observableArrayList(companyList);
-	}
+	}*/
 	
-	public Company getCompany(String name) {
-		this.getCompanyList();
-		for (Company c : companyList) {
-			if (c.getName().equals(name)) {
-				return c;
-			}
+	public Order getOrder(int orderId) {
+		this.getOrdersList();
+		for(Order o : orderList) {
+			if(o.getOrderId() == orderId)
+				return o;
 		}
 		return null;
 	}
