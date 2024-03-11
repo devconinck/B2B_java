@@ -9,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToOne;
@@ -30,9 +31,13 @@ public class Company implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long VatNumber;
 	private String logo; // URL Nr Afbeelding https://stackoverflow.com/questions/76284097/how-do-i-set-an-imageview-in-javafx-to-have-a-url-of-an-image-on-the-internet
-	@OneToOne(mappedBy = "address")
+	
+	@OneToOne
+	@JoinColumn(name = "address_id")
 	private Address address;
-	@OneToOne(mappedBy = "contact")
+	
+    @OneToOne
+    @JoinColumn(name = "contact_id")
 	private Contact contact;
 	private List<String> paymentOptions; // Niet duidelijk welk type
 	private Date customerStart;
