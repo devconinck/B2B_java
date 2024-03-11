@@ -55,7 +55,7 @@ public class DomainController implements Subject {
 	
 	public ObservableList<Company> getCompanyList() {
 		if (companyList == null) {
-			//companyList = companyRepo.findAllDisplayData();
+			companyList = companyRepo.findAll();
 	
 		}
 		return FXCollections.observableArrayList(companyList);

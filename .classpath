@@ -5,38 +5,8 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Arno/Desktop/School/Opgenomen/SDP 2/Jars/Mockito/byte-buddy-1.14.8.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Arno/Desktop/School/Opgenomen/SDP 2/Jars/Mockito/byte-buddy-agent-1.14.8.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Arno/Desktop/School/Opgenomen/SDP 2/Jars/Mockito/jakarta.persistence-api-3.1.0.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Arno/Desktop/School/Opgenomen/SDP 2/Jars/Mockito/mockito-core-5.5.0.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Arno/Desktop/School/Opgenomen/SDP 2/Jars/Mockito/mockito-junit-jupiter-5.5.0.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Arno/Desktop/School/Opgenomen/SDP 2/Jars/Mockito/objenesis-3.3.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Arno/Desktop/School/Opgenomen/SDP 2/Jars/mysql-connector-j-8.3.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Arno/Desktop/School/Opgenomen/SDP 2/Jars/eclipselink-4.0.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Arno/OneDrive - Hogeschool Gent/Bureaublad/School/Opgenomen/SDP 2/Jars/mysql-connector-j-8.3.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Arno/OneDrive - Hogeschool Gent/Bureaublad/School/Opgenomen/SDP 2/Jars/eclipselink-4.0.2.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/JavaFX17/javafx-sdk-17/lib/javafx.base.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
@@ -83,5 +53,35 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="C:/Users/Arno/OneDrive - Hogeschool Gent/Bureaublad/School/Opgenomen/SDP 2/Jars/Mockito/byte-buddy-1.14.8.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Arno/OneDrive - Hogeschool Gent/Bureaublad/School/Opgenomen/SDP 2/Jars/Mockito/byte-buddy-agent-1.14.8.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Arno/OneDrive - Hogeschool Gent/Bureaublad/School/Opgenomen/SDP 2/Jars/Mockito/jakarta.persistence-api-3.1.0.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Arno/OneDrive - Hogeschool Gent/Bureaublad/School/Opgenomen/SDP 2/Jars/Mockito/mockito-core-5.5.0.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Arno/OneDrive - Hogeschool Gent/Bureaublad/School/Opgenomen/SDP 2/Jars/Mockito/mockito-junit-jupiter-5.5.0.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Arno/OneDrive - Hogeschool Gent/Bureaublad/School/Opgenomen/SDP 2/Jars/Mockito/objenesis-3.3.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

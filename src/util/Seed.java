@@ -67,6 +67,6 @@ public class Seed {
             throw e;
         }
         
-        GenericDaoJpa.closePersistency();
+        //GenericDaoJpa.closePersistency();
     }
 }

@@ -5,14 +5,13 @@ import java.util.Objects;
 
 import jakarta.persistence.*;
 
-@Entity
+@Embeddable
 // Queries toevoegen
 public class Address implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int addressId;
+	//@Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String country;
 	private String city;
 	private String zipCode;

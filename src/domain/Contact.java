@@ -6,14 +6,13 @@ import java.util.Objects;
 import jakarta.persistence.*;
 
 
-@Entity
+@Embeddable
 // QUERIES TOEVOEGEN
 public class Contact implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int contactId;
+	//@Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String phoneNumber; // Waarschijnlijk makkelijker met validatie bibliotheek
 	private String email;
 	
