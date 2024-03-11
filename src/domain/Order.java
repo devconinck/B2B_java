@@ -26,10 +26,11 @@ public class Order implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	private final SimpleStringProperty orderId = new SimpleStringProperty();
+	/*private final SimpleStringProperty orderId = new SimpleStringProperty();
 	private final SimpleStringProperty name = new SimpleStringProperty();
 	private final SimpleStringProperty date = new SimpleStringProperty();
-	private final SimpleStringProperty addressString = new SimpleStringProperty();
+	private final SimpleStringProperty addressString = new SimpleStringProperty();*/
+	private String orderId;
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<OrderItem> orderItems;
 	private int syncId;
@@ -60,7 +61,11 @@ public class Order implements Serializable {
 		
 	}
 	
-	public String getOrderId() {
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
+	}
+	
+	/*public String getOrderId() {
 		return orderId.get();
 	}
 	
@@ -80,9 +85,9 @@ public class Order implements Serializable {
 		return date;
 	}
 	
-	public String getAddressString() {
+	public StringProperty getAddressString() {
 		return addressString;
-	}
+	}*/
 	
 	public List<OrderItem> getOrderItems() {
 		return orderItems;

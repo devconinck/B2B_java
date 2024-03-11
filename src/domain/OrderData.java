@@ -29,7 +29,7 @@ public class OrderData {
 			reader.readNext();
 			while ((line = reader.readNext()) != null && !line[0].equals(";;;;;;;;;")) { //2 deel alternatief zoeken
 				items = line[0].split(";", -1);
-				int orderId = Integer.parseInt(items[0]);
+				String orderId = items[0];
 				int syncId = Integer.parseInt(items[1]);
 				String customerId = items[2];
 				String orderReference = items[3];
@@ -114,7 +114,6 @@ public class OrderData {
 			String[] line, items;
 			reader.readNext();
 			while ((line = reader.readNext()) != null && !line[0].equals(";;;;;;;;;")) {
-				System.out.println(line[0]);
 				items = line[0].split(";", -1);
 				String productId = items[0];
 				String languageId = items[1];

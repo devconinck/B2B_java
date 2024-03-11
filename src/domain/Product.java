@@ -1,8 +1,6 @@
 package domain;
 
 import java.io.Serializable;
-
-import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,13 +16,10 @@ public class Product implements Serializable {
 	
 	private String productId;
 	@OneToOne
-	@Embedded
 	private ProductPrice productPrice;
 	@OneToOne
-	@Embedded
 	private ProductDescription productDescription;
 	@OneToOne
-	@Embedded
 	private ProductUnitOfMeasureConversion productUnitOfMeasureConversion;
 	private int syncId;
 	private String productUnitOfMeasureId;
