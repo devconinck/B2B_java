@@ -1,4 +1,4 @@
-module JvaFXAndPersistenceAndUnitTests {
+open module JvaFXAndPersistenceAndUnitTests {
 	//FX
 	requires javafx.base;
 	requires javafx.controls;
@@ -13,11 +13,4 @@ module JvaFXAndPersistenceAndUnitTests {
 	requires org.junit.jupiter.api;
 	requires org.mockito.junit.jupiter;
 	requires org.mockito;
-	
-	opens gui to javafx.fxml;
-	
-	exports util;
-	exports domain;
-	exports gui;
-	exports main;
 }
