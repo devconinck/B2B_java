@@ -1,28 +1,39 @@
 package gui;
 
-import java.io.IOException;
-
-import domain.DomainController;
-import javafx.fxml.FXMLLoader;
+import javafx.beans.binding.Bindings;
+import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 
 public class ControlScreenController extends HBox {
-	private DomainController dc;
-	
-    public ControlScreenController(DomainController dc) {
-    	this.dc = dc;
-    	buildGui();
-    }
-    
-    private void buildGui() {
-    	FXMLLoader loader = new FXMLLoader(this.getClass().getResource("controlScreen.fxml"));
-		loader.setRoot(this);
-		loader.setController(this);
-		try {
-			loader.load();
-		} catch (IOException e) {
-			System.out.println("Couldn't load Application Screen");
-			System.out.println(e.getMessage());
-		}
-    }
+	private CompanyDetailsScreenController companyDetails;
+
+	private Button clearBtn;
+	private Button saveButton;
+	private Button inactiveBtn;
+
+	public ControlScreenController(CompanyDetailsScreenController companyDetails) {
+		this.companyDetails = companyDetails;
+	}
+
+	public void createButtons() {
+		this.getChildren().clear();
+		
+		clearBtn = new Button("Clear");
+		saveButton = new Button("Save");
+		inactiveBtn = new Button();
+		
+		inactiveBtn.textProperty().bind(
+		    Bindings.when(companyDetails.isActive)
+		        .then("Active")
+		        .otherwise("Inactive")
+		);
+
+		this.getChildren().addAll(clearBtn, saveButton, inactiveBtn);
+
+		// Dikke saus code
+		inactiveBtn.setOnMouseClicked(e -> companyDetails.isActive.setValue(!companyDetails.isActive.getValue()));
+		
+		clearBtn.setOnMouseClicked(e -> companyDetails.clearAllFields());
+	}
+
 }

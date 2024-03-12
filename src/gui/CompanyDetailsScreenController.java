@@ -5,6 +5,8 @@ import java.io.IOException;
 import domain.Company;
 import domain.DomainController;
 import domain.Observer;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -15,48 +17,43 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 
 public class CompanyDetailsScreenController extends AnchorPane implements Observer {
-	
-    @FXML
-    private TextField nameField;
-    @FXML
-    private TextField vatField;
-    @FXML
-    private TextField sectorField;
-    @FXML
-    private TextField streetField;
-    @FXML
-    private TextField addressNrField;
-    @FXML
-    private TextField cityField;
-    @FXML
-    private TextField postalcodeField;
-    @FXML
-    private TextField countryField;
-    @FXML
-    private TextField bankField;
-    @FXML
-    private TextField phoneField;
-    @FXML
-    private TextField emailField;
-    @FXML
-    private HBox buttonBox;
-    @FXML
-    private Button clearBtn;
-    @FXML
-    private Button saveButton;
-    @FXML
-    private Button inactiveBtn;
 
-    //private AdminController dc;
-    private DomainController dc;
-    
-    public CompanyDetailsScreenController(DomainController dc) {
-    	this.dc = dc;
-    	this.dc.addObserver(this);
-    	
-    	buildGui();
-    	//init();
-    }
+	@FXML
+	private TextField nameField;
+	@FXML
+	private TextField vatField;
+	@FXML
+	private TextField sectorField;
+	@FXML
+	private TextField streetField;
+	@FXML
+	private TextField addressNrField;
+	@FXML
+	private TextField cityField;
+	@FXML
+	private TextField postalcodeField;
+	@FXML
+	private TextField countryField;
+	@FXML
+	private TextField bankField;
+	@FXML
+	private TextField phoneField;
+	@FXML
+	private TextField emailField;
+	
+	// Niet goed
+	public SimpleBooleanProperty isActive;
+
+	// private AdminController dc;
+	private DomainController dc;
+
+	public CompanyDetailsScreenController(DomainController dc) {
+		this.dc = dc;
+		this.dc.addObserver(this);
+
+		buildGui();
+		// init();
+	}
 
 	/*
 	 * private void init() { // Add a button to save the changes to the user's
@@ -72,7 +69,6 @@ public class CompanyDetailsScreenController extends AnchorPane implements Observ
 	 * showInfoAlert("User information succesfully updated!", "User updated");
 	 * dc.setCurrentProcess(this.currentUserId, true); } });
 	 * 
-	 * cancelBtn.setOnAction(event -> { clearAllFields(); });
 	 * 
 	 * }
 	 */
@@ -87,26 +83,26 @@ public class CompanyDetailsScreenController extends AnchorPane implements Observ
 			System.out.println("Couldn't load Company details Screen");
 			System.out.println(e.getMessage());
 		}
-		
+
 	}
-	
-	
+
 	public void loadCompany(String companyName) {
 		Company c = dc.getCompany(companyName);
-		
-	    this.nameField.setText(c.getName());
-	    this.vatField.setText(Long.toString(c.getVatNumber()));
-	    this.sectorField.setText(c.getSector());
-	    this.streetField.setText(c.getAddress().getStreet());
-	    this.addressNrField.setText(c.getAddress().getNumber());
-	    this.cityField.setText(c.getAddress().getCity());
-	    this.postalcodeField.setText(c.getAddress().getZipCode());
-	    this.countryField.setText(c.getAddress().getCountry());
-	    this.bankField.setText(Long.toString(c.getBankAccountNr()));
-	    this.phoneField.setText(c.getContact().getPhoneNumber());
-	    this.emailField.setText(c.getContact().getEmail());
 
-    	
+		this.nameField.setText(c.getName());
+		this.vatField.setText(Long.toString(c.getVatNumber()));
+		this.sectorField.setText(c.getSector());
+		this.streetField.setText(c.getAddress().getStreet());
+		this.addressNrField.setText(c.getAddress().getNumber());
+		this.cityField.setText(c.getAddress().getCity());
+		this.postalcodeField.setText(c.getAddress().getZipCode());
+		this.countryField.setText(c.getAddress().getCountry());
+		this.bankField.setText(Long.toString(c.getBankAccountNr()));
+		this.phoneField.setText(c.getContact().getPhoneNumber());
+		this.emailField.setText(c.getContact().getEmail());
+		
+		this.isActive = c.getIsActiveProperty();
+		
 		/*
 		 * if (this.currentUserId.equals(dc.getCurrentUserId())) {
 		 * buttonBox.getChildren().clear(); buttonBox.getChildren().setAll(saveButton,
@@ -114,22 +110,22 @@ public class CompanyDetailsScreenController extends AnchorPane implements Observ
 		 * buttonBox.getChildren().setAll(saveButton, deleteUserBtn, cancelBtn); }
 		 */
 	}
-	
-	/*
-	 * private void clearAllFields() { this.currentCompany = "";
-	 * 
-	 * this.userIdField.clear(); this.userIdField.setDisable(true);
-	 * this.firstnameField.clear(); this.firstnameField.setDisable(false);
-	 * this.lastnameField.clear(); this.lastnameField.setDisable(false);
-	 * this.cityField.clear(); this.countryField.clear(); this.emailField.clear();
-	 * this.mobileNumberField.clear(); this.phoneNumberField.clear();
-	 * this.postalcodeField.clear(); this.streetField.clear();
-	 * this.addressNrField.clear();
-	 * 
-	 * 
-	 * buttonBox.getChildren().clear();
-	 * buttonBox.getChildren().setAll(createUserBtn, cancelBtn); }
-	 */
+
+	public void clearAllFields() {	    
+	    this.nameField.clear();
+	    this.vatField.clear();
+	    this.sectorField.clear();
+	    this.streetField.clear();
+	    this.addressNrField.clear();
+	    this.cityField.clear();
+	    this.postalcodeField.clear();
+	    this.countryField.clear();
+	    this.bankField.clear();
+	    this.phoneField.clear();
+	    this.emailField.clear();
+
+	}
+
 
 	/*
 	 * private boolean validateInput() { if (cityField.getText().isEmpty() ||
@@ -170,26 +166,26 @@ public class CompanyDetailsScreenController extends AnchorPane implements Observ
 	 */
 
 	private void showErrorAlert(String message) {
-	    Alert alert = new Alert(AlertType.ERROR);
-	    alert.setTitle("Error");
-	    alert.setHeaderText(null);
-	    alert.setContentText(message);
-	    alert.showAndWait();
-		
-	}
-	private void showInfoAlert(String message, String title) {
-	    Alert alert = new Alert(AlertType.INFORMATION);
-	    alert.setTitle(title);
-	    alert.setHeaderText(null);
-	    alert.setContentText(message);
-	    alert.showAndWait();
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Error");
+		alert.setHeaderText(null);
+		alert.setContentText(message);
+		alert.showAndWait();
+
 	}
 
+	private void showInfoAlert(String message, String title) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle(title);
+		alert.setHeaderText(null);
+		alert.setContentText(message);
+		alert.showAndWait();
+	}
 
 	@Override
 	public void update(Company c) {
 		loadCompany(c.getName());
-		
+
 	}
 
 }

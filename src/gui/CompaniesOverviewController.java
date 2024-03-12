@@ -5,7 +5,9 @@ import java.io.IOException;
 import domain.DomainController;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class CompaniesOverviewController extends GridPane {
@@ -22,9 +24,9 @@ public class CompaniesOverviewController extends GridPane {
 		this.dc = dc;
 		
 		this.filter = new FilterController(dc.getCompanyList());
-		this.companies = new CompanyScreenController(dc, filter);
 		this.companyDetails = new CompanyDetailsScreenController(dc);
-		this.controls = new ControlScreenController(dc);
+		this.controls = new ControlScreenController(companyDetails);
+		this.companies = new CompanyScreenController(dc, filter, companyDetails, controls);
 		buildGui();
 	}
 	
@@ -39,10 +41,17 @@ public class CompaniesOverviewController extends GridPane {
 			System.out.println(e.getMessage());
 		}
 		
+		
+		Button createCompany = new Button();
+		createCompany.setText("Create Company");
+		createCompany.setOnMouseClicked(e -> companyDetails.clearAllFields());
+		HBox hBox1 = new HBox();
+		hBox1.getChildren().addAll(filter, createCompany);
+		
 		VBox vBox1 = new VBox();
 		vBox1.setAlignment(Pos.CENTER); 
 		this.add(vBox1, 0, 0);
-		vBox1.getChildren().addAll(filter, companies);
+		vBox1.getChildren().addAll(hBox1, companies);
 		
 		VBox vBox2 = new VBox();
 		vBox2.setAlignment(Pos.CENTER); 

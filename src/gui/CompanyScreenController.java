@@ -24,10 +24,14 @@ public class CompanyScreenController extends TableView<Company> implements Obser
 
     private final DomainController dc;
     private final FilterController filter;
+    private CompanyDetailsScreenController companyDetails;
+    private ControlScreenController controls;
 
-    public CompanyScreenController(DomainController dc, FilterController filter) {
+    public CompanyScreenController(DomainController dc, FilterController filter, CompanyDetailsScreenController companyDetails, ControlScreenController controls) {
         this.dc = dc;
         this.filter = filter;
+        this.companyDetails = companyDetails;
+        this.controls = controls;
         this.dc.addObserver(this);
         buildGui();
         loadCompanies();
@@ -61,6 +65,7 @@ public class CompanyScreenController extends TableView<Company> implements Obser
                 Company selectedCompany = this.getSelectionModel().getSelectedItem();
                 if (selectedCompany != null) {
                     dc.setCurrentCompany(selectedCompany);
+                    controls.createButtons();
                 }
             }
         });
