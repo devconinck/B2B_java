@@ -7,64 +7,58 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
 public class GenericDaoJpa<T> implements GenericDao<T> {
+    private static final String PU_NAME = "delaware";
+    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory(PU_NAME);
+    protected static final EntityManager em = emf.createEntityManager();
+    private final Class<T> type;
+    
+    public GenericDaoJpa(Class<T> type) {
+        this.type = type;
+    }
+    public static void closePersistency() {
+        em.close();
+        emf.close();
+    }
+    public static void startTransaction() {
+        em.getTransaction().begin();
+    }
+    public static void commitTransaction() {
+        em.getTransaction().commit();
+    }
+    public static void rollbackTransaction() {
+        em.getTransaction().rollback();
+    }
 
-	private static final String PERSISTENCE_UNIT_NAME = "delawaredb";
-	private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-	protected static final EntityManager em = emf.createEntityManager();
-	private final Class<T> type;
-	
-	public GenericDaoJpa(Class<T> type) {
-		this.type = type;
-	}
+    @Override
+    public List<T> findAll() {
+        //return em.createNamedQuery(type.getName()+".findAll", type).getResultList();
+        return em.createQuery("select entity from " + type.getName() + " entity", type).getResultList();
+    }
 
-	public static void closePersistency() {
-		em.close();
-		emf.close();
-	}
+    @Override
+    public <U> T get(U id) {
+        T entity = em.find(type, id);
+        return entity;
+    }
 
-	public static void startTransaction() {
-		em.getTransaction().begin();
-	}
+    @Override
+    public T update(T object) {
+        return em.merge(object);
+    }
 
-	public static void commitTransaction() {
-		em.getTransaction().commit();
-	}
+    @Override
+    public void delete(T object) {
+        em.remove(em.merge(object));
+    }
 
-	public static void rollbackTransaction() {
-		em.getTransaction().rollback();
-	}
+    @Override
+    public void insert(T object) {
+        em.persist(object);
+    }
 
-	@Override
-	public List<T> findAll() {
-		return em.createNamedQuery(type.getName() + ".findAll", type).getResultList();
-	}
-
-	@Override
-	public T get(Long id) {
-		T entity = em.find(type, id);
-		return entity;
-	}
-
-	@Override
-	public T update(T object) {
-		return em.merge(object);
-	}
-
-	@Override
-	public void delete(T object) {
-		em.remove(em.merge(object));
-		
-	}
-
-	@Override
-	public void insert(T object) {
-		em.persist(object);
-		
-	}
-
-	@Override
-	public boolean exists(Long id) {
-		T entity = em.find(type, id);
-		return entity != null;
-	}
+    @Override
+    public <U> boolean exists(U id) {
+        T entity = em.find(type, id);
+        return entity != null;
+    } 
 }

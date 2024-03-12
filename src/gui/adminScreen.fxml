@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="720" minWidth="1280" type="BorderPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+			<left>
+		      <VBox prefHeight="720" prefWidth="250.0" spacing="25.0" style="-fx-background-color: #E0433E;" BorderPane.alignment="CENTER">
+		         <children>
+		            <Button fx:id="companiesButton" mnemonicParsing="false" prefHeight="64.0" prefWidth="250.0" stylesheets="@../css/styling.css" text="Companies" textFill="WHITE">
+		               <font>
+		                  <Font name="System Bold Italic" size="16.0" />
+		               </font>
+		            </Button>
+		            <Button fx:id="updateButton" mnemonicParsing="false" prefHeight="62.0" prefWidth="250.0" stylesheets="@../css/styling.css" text="Update requests" textFill="WHITE">
+		               <font>
+		                  <Font name="System Bold Italic" size="16.0" />
+		               </font>
+		            </Button>
+		            <Button fx:id="logOutButton" mnemonicParsing="false" prefHeight="67.0" prefWidth="250.0" style="-fx-background-color: #EC4842;" text="Log out " textFill="WHITE">
+		               <VBox.margin>
+		                  <Insets top="600.0" />
+		               </VBox.margin>
+		            </Button>
+		         </children>
+		      </VBox>
+		   </left>
+		   <top>
+		      <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #EC4842;" BorderPane.alignment="CENTER">
+		         <children>
+		            <Label text="Delaware" textFill="#e1bdbd">
+		               <graphic>
+		                  <ImageView fitHeight="167.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" />
+		               </graphic>
+		               <font>
+		                  <Font name="SansSerif Bold" size="36.0" />
+		               </font>
+		            </Label>
+		         </children>
+		      </HBox>
+		   </top>
+		   <center>
+		   </center>
+   <center>
+      <AnchorPane fx:id="mainScreen" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </center>
+</fx:root>

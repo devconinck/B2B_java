@@ -4,7 +4,7 @@ open module JvaFXAndPersistenceAndUnitTests {
 	requires javafx.controls;
 	requires javafx.graphics;
 	requires javafx.fxml;
-	
+
 	//Persistence
 	requires jakarta.persistence;
 	requires java.sql;
@@ -14,11 +14,9 @@ open module JvaFXAndPersistenceAndUnitTests {
 	requires org.mockito.junit.jupiter;
 	requires org.mockito;
 	requires org.junit.jupiter.params;
-	
+
 	exports util;
 	exports domain;
 	exports gui;
 	exports main;
-	exports domain.login;
-	exports repository;
 }
