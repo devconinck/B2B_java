@@ -8,11 +8,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Screen;
 
 public class OverviewController extends BorderPane {
 	
@@ -20,13 +23,16 @@ public class OverviewController extends BorderPane {
     private Button btn_customers, btn_orders;
 	
 	@FXML
-    private HBox header_hbox;
+    private HBox hbox_header;
 
     @FXML
     private AnchorPane main_anchorpane;
     
     @FXML
     private Label hbox_label;
+    
+    @FXML
+    private VBox vbox_sidebar;
     
     private Company currentCompany;
 	
@@ -46,16 +52,34 @@ public class OverviewController extends BorderPane {
 			System.out.println("Couldn't load Supplier Overview screen");
 			e.printStackTrace();
 		}
-		setCustomerFields();
-		//btn_customers.setOnAction(event -> setCustomerFields());
-		//btn_orders.setOnAction(event -> setOrderFields());
+		btn_customers.setOnAction(event -> setCustomerFields());
+		btn_orders.setOnAction(event -> setOrderFields());
 	}
 
 	private void setCustomerFields() {
+		main_anchorpane.getChildren().clear();
 		GenericTableView<Customer> customerTableView = new GenericTableView<>(Customer.class);
 		customerTableView.setData(createCustomers());
-		customerTableView.setPrefWidth(main_anchorpane.getWidth());
 		main_anchorpane.getChildren().add(customerTableView);
+		
+		/*
+		 * Testing to get screen width
+		 */
+		
+		Screen screen = Screen.getPrimary();
+
+        // Get the visual bounds of the primary screen
+        Rectangle2D visualBounds = screen.getVisualBounds();
+
+        // Retrieve the width of the screen
+        double screenWidth = visualBounds.getWidth();
+
+        System.out.println("Screen Width: " + screenWidth);
+        System.out.println("AnchorPane width: " + (screenWidth - vbox_sidebar.getWidth()));
+        System.out.println("Screen Height: " + visualBounds.getHeight());
+        
+        customerTableView.setPrefWidth((visualBounds.getWidth() - vbox_sidebar.getWidth()) / 2 );
+        //customerTableView.setPrefHeight((visualBounds.getHeight() - hbox_header.getHeight()) / 2);
 	}
 	
 	private void setOrderFields() {

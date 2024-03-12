@@ -10,16 +10,16 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="720" minWidth="1280" type="BorderPane" xmlns="http://javafx.com/javafx/16.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="720" minWidth="1280" type="BorderPane" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
 			<left>
-		      <VBox prefHeight="720" prefWidth="250.0" spacing="25.0" style="-fx-background-color: #E0433E;" BorderPane.alignment="CENTER">
+		      <VBox fx:id="vbox_sidebar" prefHeight="720" prefWidth="250.0" spacing="25.0" style="-fx-background-color: #E0433E;" BorderPane.alignment="CENTER">
 		         <children>
-		            <Button mnemonicParsing="false" prefHeight="64.0" prefWidth="250.0" stylesheets="@../../css/styling.css" text="Customers" textFill="WHITE">
+		            <Button fx:id="btn_customers" mnemonicParsing="false" prefHeight="64.0" prefWidth="250.0" stylesheets="@../../css/styling.css" text="Customers" textFill="WHITE">
 		               <font>
 		                  <Font name="System Bold Italic" size="16.0" />
 		               </font>
 		            </Button>
-		            <Button mnemonicParsing="false" prefHeight="62.0" prefWidth="250.0" stylesheets="@../../css/styling.css" text="Orders" textFill="WHITE">
+		            <Button fx:id="btn_orders" mnemonicParsing="false" prefHeight="62.0" prefWidth="250.0" stylesheets="@../../css/styling.css" text="Orders" textFill="WHITE">
 		               <font>
 		                  <Font name="System Bold Italic" size="16.0" />
 		               </font>
@@ -33,7 +33,7 @@
 		      </VBox>
 		   </left>
 		   <top>
-		      <HBox fx:id="header_hbox" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #EC4842;" BorderPane.alignment="CENTER">
+		      <HBox fx:id="hbox_header" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #EC4842;" BorderPane.alignment="CENTER">
 		         <children>
 		            <Label fx:id="hbox_label" text="Delaware" textFill="#e1bdbd">
 		               <graphic>
@@ -49,6 +49,6 @@
 		   <center>
 		   </center>
    <center>
-      <AnchorPane fx:id="main_anchorpane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <AnchorPane fx:id="main_anchorpane" BorderPane.alignment="CENTER" />
    </center>
 </fx:root>
