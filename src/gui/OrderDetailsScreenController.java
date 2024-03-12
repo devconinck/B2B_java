@@ -2,7 +2,6 @@ package gui;
 
 import java.io.IOException;
 
-import domain.Company;
 import domain.DomainController;
 import domain.Observer;
 import domain.Order;
@@ -20,9 +19,9 @@ public class OrderDetailsScreenController extends AnchorPane implements Observer
     @FXML
     private TextField nameField;
     @FXML
-    private TextField vatField;
+    private TextField contactField;
     @FXML
-    private TextField sectorField;
+    private TextField orderIdField;
     @FXML
     private TextField streetField;
     @FXML
@@ -34,17 +33,17 @@ public class OrderDetailsScreenController extends AnchorPane implements Observer
     @FXML
     private TextField countryField;
     @FXML
-    private TextField bankField;
+    private TextField orderStatusField;
     @FXML
-    private TextField phoneField;
+    private TextField paymentStatusField;
     @FXML
-    private TextField emailField;
+    private TextField lastPaymentField;
     @FXML
     private HBox buttonBox;
     @FXML
     private Button clearBtn;
     @FXML
-    private Button saveButton;
+    private Button saveBtn;
     @FXML
     private Button inactiveBtn;
 
@@ -57,27 +56,7 @@ public class OrderDetailsScreenController extends AnchorPane implements Observer
     	this.dc.addObserver(this);
     	
     	buildGui();
-    	//init();
     }
-
-	/*
-	 * private void init() { // Add a button to save the changes to the user's
-	 * details saveButton.setOnAction(event -> { // Validate the user input before
-	 * updating the user's details if (validateInput()) { // Update the user's
-	 * details with the new values CompanyDTO updatedCompany = new CompanyDTO(
-	 * //HIER ALLE DATA VAN COMAPNYDTO );
-	 * 
-	 * 
-	 * // Save the changes to the user's details in the database
-	 * dc.updateUser(updatedUser, currentUserId);
-	 * 
-	 * showInfoAlert("User information succesfully updated!", "User updated");
-	 * dc.setCurrentProcess(this.currentUserId, true); } });
-	 * 
-	 * cancelBtn.setOnAction(event -> { clearAllFields(); });
-	 * 
-	 * }
-	 */
 
 	private void buildGui() {
 		FXMLLoader loader = new FXMLLoader(this.getClass().getResource("orderDetails.fxml"));
@@ -93,45 +72,21 @@ public class OrderDetailsScreenController extends AnchorPane implements Observer
 	}
 	
 	
-	public void loadCompany(String companyName) {
-		Company c = dc.getCompany(companyName);
+	public void loadOrder(String orderId) {
+		Order o = dc.getOrder(orderId);
 		
-	    this.nameField.setText(c.getName());
-	    this.vatField.setText(Long.toString(c.getVatNumber()));
-	    this.sectorField.setText(c.getSector());
-	    this.streetField.setText(c.getAddress().getStreet());
-	    this.addressNrField.setText(c.getAddress().getNumber());
-	    this.cityField.setText(c.getAddress().getCity());
-	    this.postalcodeField.setText(c.getAddress().getZipCode());
-	    this.countryField.setText(c.getAddress().getCountry());
-	    this.bankField.setText(Long.toString(c.getBankAccountNr()));
-	    this.phoneField.setText(c.getContact().getPhoneNumber());
-	    this.emailField.setText(c.getContact().getEmail());
-
-    	
-		/*
-		 * if (this.currentUserId.equals(dc.getCurrentUserId())) {
-		 * buttonBox.getChildren().clear(); buttonBox.getChildren().setAll(saveButton,
-		 * cancelBtn); } else { buttonBox.getChildren().clear();
-		 * buttonBox.getChildren().setAll(saveButton, deleteUserBtn, cancelBtn); }
-		 */
+	    this.nameField.setText(o.getName());
+	    this.contactField.setText("Temp");
+	    this.orderIdField.setText(o.getOrderId());
+	    this.streetField.setText("Temp");
+	    this.addressNrField.setText("Temp");
+	    this.cityField.setText("Temp");
+	    this.postalcodeField.setText("Temp");
+	    this.countryField.setText("Temp");
+	    this.orderStatusField.setText(o.getOrderStatus());
+	    this.paymentStatusField.setText(o.getPaymentStatus());
+	    this.lastPaymentField.setText(o.getLastPaymentReminder());
 	}
-	
-	/*
-	 * private void clearAllFields() { this.currentCompany = "";
-	 * 
-	 * this.userIdField.clear(); this.userIdField.setDisable(true);
-	 * this.firstnameField.clear(); this.firstnameField.setDisable(false);
-	 * this.lastnameField.clear(); this.lastnameField.setDisable(false);
-	 * this.cityField.clear(); this.countryField.clear(); this.emailField.clear();
-	 * this.mobileNumberField.clear(); this.phoneNumberField.clear();
-	 * this.postalcodeField.clear(); this.streetField.clear();
-	 * this.addressNrField.clear();
-	 * 
-	 * 
-	 * buttonBox.getChildren().clear();
-	 * buttonBox.getChildren().setAll(createUserBtn, cancelBtn); }
-	 */
 
 	/*
 	 * private boolean validateInput() { if (cityField.getText().isEmpty() ||
@@ -190,16 +145,8 @@ public class OrderDetailsScreenController extends AnchorPane implements Observer
 
 	@Override
 	public void update(Order o) {
-		loadCompany(o.getName());
-		
+		loadOrder(o.getOrderId());
 	}
-
-	@Override
-	public void update(Order c) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }
 
 

@@ -7,7 +7,6 @@ import gui.SupplierScreenController;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class StartUp extends Application {
 

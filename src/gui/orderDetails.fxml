@@ -29,7 +29,7 @@
                         <VBox prefHeight="100.0" prefWidth="240.0">
                            <children>
                               <Label prefHeight="30.0" prefWidth="167.0" text="Customer Contact" />
-                              <TextField fx:id="vatField" prefHeight="25.0" prefWidth="287.0" styleClass="text-field"/>
+                              <TextField fx:id="contactField" prefHeight="25.0" prefWidth="287.0" styleClass="text-field"/>
                            </children>
                         </VBox>
                      </children>
@@ -39,7 +39,7 @@
                         <VBox prefHeight="100.0" prefWidth="240.0">
                            <children>
                               <Label prefHeight="30.0" prefWidth="167.0" text="Order ID" />
-                              <TextField fx:id="sectorField" prefHeight="25.0" prefWidth="287.0" styleClass="text-field" />
+                              <TextField fx:id="orderIdField" prefHeight="25.0" prefWidth="287.0" styleClass="text-field" />
                            </children>
                         </VBox>
                      </children>
@@ -111,7 +111,7 @@
                         <VBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="255.0">
                            <children>
                               <Label prefHeight="30.0" prefWidth="167.0" text="Order Status" />
-                              <TextField fx:id="bankField" prefHeight="25.0" prefWidth="241.0" styleClass="text-field"/>
+                              <TextField fx:id="orderStatusField" prefHeight="25.0" prefWidth="241.0" styleClass="text-field"/>
                            </children>
                         </VBox>
                      </children>
@@ -121,7 +121,7 @@
                         <VBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="255.0">
                            <children>
                               <Label prefHeight="30.0" prefWidth="167.0" text="Payment Status" />
-                              <TextField fx:id="phoneField" prefHeight="25.0" prefWidth="241.0" styleClass="text-field"/>
+                              <TextField fx:id="paymentStatusField" prefHeight="25.0" prefWidth="241.0" styleClass="text-field"/>
                            </children>
                         </VBox>
                      </children>
@@ -131,24 +131,9 @@
                         <VBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="255.0">
                            <children>
                               <Label prefHeight="30.0" prefWidth="167.0" text="Last Payment Update" />
-                              <TextField fx:id="emailField" prefHeight="25.0" prefWidth="241.0" styleClass="text-field"/>
+                              <TextField fx:id="lastPaymentField" prefHeight="25.0" prefWidth="241.0" styleClass="text-field"/>
                            </children>
                         </VBox>
-                     </children>
-                  </VBox>
-               </children>
-            </HBox>
-            <HBox prefHeight="100.0" prefWidth="623.0" styleClass="hbox">
-               <children>
-                  <VBox prefHeight="100.0" prefWidth="419.0" styleClass="vbox">
-                     <children>
-                        <HBox fx:id="buttonBox" prefHeight="100.0" prefWidth="435.0" spacing="20.0" styleClass="hbox">
-                           <children>
-                              <Button fx:id="clearBtn" mnemonicParsing="false" styleClass="cancel" text="Clear" />
-                              <Button fx:id="saveButton" mnemonicParsing="false" styleClass="save" text="Save" />
-                              <Button fx:id="inactiveBtn" mnemonicParsing="false" styleClass="cancel" text="Active/Inactive" />
-                           </children>
-                        </HBox>
                      </children>
                   </VBox>
                </children>
