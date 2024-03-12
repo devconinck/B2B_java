@@ -52,7 +52,8 @@ public class Seed {
 	private void addUsers() {
 		Account acc1 = new Account("Charles.leclerc@icloud.com", "Test123!", "BE0404754472", Role.Supplier);
 		Account acc2 = new Account("Danny.ricciardo@gmail.com", "Root123!", "BE0404754472", Role.Customer);
-		Stream.of(acc1, acc2).forEach(accountRepo::addAccount);
+		Account acc3 = new Account("Admin.ricciardo@gmail.com", "Root123!", "BE0404754472", Role.Admin);
+		Stream.of(acc1, acc2, acc3).forEach(accountRepo::addAccount);
 	}
 
         private void addCompanies() {

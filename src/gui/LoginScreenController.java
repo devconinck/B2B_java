@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 
 import domain.AdminController;
 import domain.Controller;
+import domain.DomainController;
 import domain.SupplierController;
 import domain.LoginController;
 import javafx.geometry.Insets;
@@ -31,10 +32,12 @@ public class LoginScreenController {
 	private Stage primaryStage;
 	private Scene scene;
 	private LoginController loginController;
+	private DomainController dc;
 	private static final Color DEFAULTBACKGROUNDCOLOR = Color.WHITE; 
 	private Label errormessage = new Label();
 
-	public LoginScreenController()  {
+	public LoginScreenController(DomainController dc)  {
+		this.dc = dc;
 		loginController = new LoginController();
 		primaryStage = new Stage();
 		root = new StackPane();
@@ -99,10 +102,14 @@ public class LoginScreenController {
 	
 	private void login(String email, String password) {
 		Controller controller = loginController.login(email, password);
-		if (controller instanceof AdminController)
+		if (controller instanceof AdminController) {
 			System.out.println("Admin logged in");
+			Scene tempScene = new Scene(new AdminScreenController(dc));
+			primaryStage.setScene(tempScene);
+		}
 		else if (controller instanceof SupplierController)
 			System.out.println("Supplier logged in");
+		
 		else
 		{
 			errormessage.setText("Login Failed");

@@ -23,7 +23,7 @@ public class StartUp extends Application {
 		}		
 		DomainController dc = new DomainController();
 		
-		new LoginScreenController();
+		new LoginScreenController(dc);
 	}
 
 	private boolean isDevelopmentEnvironment() {
