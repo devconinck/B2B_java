@@ -1,17 +1,19 @@
 package domain;
 
 import com.opencsv.CSVReader;
+
 import com.opencsv.exceptions.CsvValidationException;
+
+import repository.GenericDaoJpa;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class OrderData {
 	
-	private OrderManager om;
+	private GenericDaoJpa<Order> orderRepo;
 	private String orderCSVFile = "src/CSVFiles/orderdata.csv";
 	private String productPriceCSVFile = "src/CSVFiles/productpricedata.csv";
 	private String productDescriptionCSVFile = "src/CSVFiles/productdescriptiondata.csv";
@@ -19,8 +21,8 @@ public class OrderData {
 	private String productCSVFile = "src/CSVFiles/productdata.csv";
 	private String orderItemCSVFile = "src/CSVFiles/orderitemdata.csv";
 	
-	public OrderData(OrderManager om) {
-		this.om = om;
+	public OrderData(GenericDaoJpa<Order> orderRepo) {
+		this.orderRepo = orderRepo;
 	}
 	
 	public void addData() {
@@ -33,26 +35,31 @@ public class OrderData {
 				int syncId = Integer.parseInt(items[1]);
 				String customerId = items[2];
 				String orderReference = items[3];
-				String str = items[4];
+				String orderDateTime = items[4];
+				/*String str = items[4];
 		        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSS");
 		        LocalDateTime orderDateTime;
 		        if(str.isBlank())
 		        	orderDateTime = null;
 		        else
-		        	orderDateTime = LocalDateTime.parse(str, formatter);
-				LocalDateTime lastPaymentReminder = null;
+		        	orderDateTime = LocalDateTime.parse(str, formatter);*/
+				LocalDateTime dateTime = LocalDateTime.now();
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+				String lastPaymentReminder = dateTime.format(formatter);
 				String netAmount = items[5];
 				String taxAmount = items[6];
 				String totalAmount = items[7];
 				String currency = items[8];
 				
-				om.addOrder(new Order(orderId, syncId, customerId, orderReference, orderDateTime, lastPaymentReminder, netAmount, taxAmount, totalAmount, currency));
+				orderRepo.startTransaction();
+				orderRepo.insert(new Order(orderId, syncId, customerId, orderReference, orderDateTime, lastPaymentReminder, netAmount, taxAmount, totalAmount, currency));
+				orderRepo.commitTransaction();
 			}
 		}catch(IOException | CsvValidationException e) {
 			e.printStackTrace();
 		}
 		
-		try (CSVReader reader = new CSVReader(new FileReader(orderItemCSVFile))){
+		/*try (CSVReader reader = new CSVReader(new FileReader(orderItemCSVFile))){
 			String[] line, items;
 			reader.readNext();
 			while ((line = reader.readNext()) != null && !line[0].equals(";;;;;;;;;")) {
@@ -66,7 +73,9 @@ public class OrderData {
 				String netPrice = items[6];
 				String netAmount = items[7];
 			
-				om.addOrderItem(new OrderItem(orderId, orderItemId, syncId, productId, quantity, unitOfMeasureId, netPrice, netAmount));
+				orderRepo.startTransaction();
+				orderRepo.insert(new OrderItem(orderId, orderItemId, syncId, productId, quantity, unitOfMeasureId, netPrice, netAmount));
+				orderRepo.commitTransaction();
 			}	
 		}catch(IOException | CsvValidationException e) {
 			e.printStackTrace();
@@ -145,7 +154,7 @@ public class OrderData {
 			}
 		}catch(IOException | CsvValidationException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 
 }

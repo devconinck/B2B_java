@@ -1,12 +1,10 @@
 package domain;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.sql.Date;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
-import domain.Company;
 import domain.Product;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -15,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -26,25 +25,40 @@ public class Order implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	/*private final SimpleStringProperty orderId = new SimpleStringProperty();
+	@Transient
+	private final SimpleStringProperty orderID = new SimpleStringProperty();
+	@Transient
 	private final SimpleStringProperty name = new SimpleStringProperty();
+	@Transient
 	private final SimpleStringProperty date = new SimpleStringProperty();
-	private final SimpleStringProperty addressString = new SimpleStringProperty();*/
+	@Transient
+	private final SimpleStringProperty orderStatus = new SimpleStringProperty();
+	@Transient
+	private final SimpleStringProperty paymentStatus = new SimpleStringProperty();
+	
 	private String orderId;
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<OrderItem> orderItems;
 	private int syncId;
 	private String customerId; //moet misschien nog aangepast worden, later bekijken wanneer company gekoppeld wordt
 	private String orderReference;
-	private LocalDateTime orderDateTime;
-	private LocalDateTime lastPaymentReminder;
+	private String orderDateTime;
+	//private LocalDateTime orderDateTime;
+	private String lastPaymentReminder;
 	private String netAmount;
 	private String taxAmount;
 	private String totalAmount;
 	private String currency;
 	
-	public Order(String orderId, int syncId, String customerId, String orderReference, LocalDateTime orderDateTime, LocalDateTime lastPaymentReminder, 
+	
+	public Order(String orderId, int syncId, String customerId, String orderReference, String orderDateTime, String lastPaymentReminder, 
 			String netAmount, String taxAmount, String totalAmount, String currency) {
+		setOrderID(orderId);
+		setName("Test");
+		setDate(orderDateTime);
+		setOrderStatus((int) (Math.random()*2)+1 == 1 ? "NOT PAID" : "PAID");
+		int randomPaymentStatus = (int) (Math.random()*3)+1;
+		setPaymentStatus(randomPaymentStatus == 1 ? "RECEIVED" : randomPaymentStatus == 2 ? "PROCESSED" : "DONE");
 		setOrderId(orderId);
 		setSyncId(syncId);
 		setCustomer(customerId);
@@ -61,33 +75,73 @@ public class Order implements Serializable {
 		
 	}
 	
-	public void setOrderId(String orderId) {
-		this.orderId = orderId;
-	}
-	
-	/*public String getOrderId() {
-		return orderId.get();
+	public String getOrderId() {
+		return orderId;
 	}
 	
 	private void setOrderId(String orderId) {
-		this.orderId.set(orderId);
+		this.orderId = orderId;
 	}
 	
-	public StringProperty orderIdProperty() {
-		return orderId;
+	private void setOrderID(String orderId) {
+		this.orderID.set(orderId);
+	}
+	
+	public String getOrderID() {
+		return orderID.get();
+	}
+	
+	public StringProperty orderIDProperty() {
+		return orderID;
+	}
+	
+	private void setName(String name) {
+		this.name.set(name);
+	}
+	
+	public String getName() {
+		return name.get();
 	}
 	
 	public StringProperty nameProperty() {
 		return name;
 	}
 	
+	private void setDate(String date) {
+		this.date.set(date);
+	}
+	
+	public String getDate() {
+		return date.get();
+	}
+	
 	public StringProperty dateProperty() {
 		return date;
 	}
 	
-	public StringProperty getAddressString() {
-		return addressString;
-	}*/
+	private void setOrderStatus(String orderStatus) {
+		this.orderStatus.set(orderStatus);
+	}
+	
+	public String getOrderStatus() {
+		return orderStatus.get();
+	}
+	
+	public StringProperty orderStatusProperty() {
+		return orderStatus;
+	}
+	
+	private void setPaymentStatus(String paymentStatus) {
+		this.paymentStatus.set(paymentStatus);
+	}
+	
+	public String getPaymentStatus() {
+		return paymentStatus.get();
+	}
+	
+	public StringProperty paymentStatusProperty() {
+		return paymentStatus;
+	}
 	
 	public List<OrderItem> getOrderItems() {
 		return orderItems;
@@ -113,16 +167,16 @@ public class Order implements Serializable {
 	public void setOrderReference(String orderReference) {
 		this.orderReference = orderReference;
 	}
-	public LocalDateTime getOrderDateTime() {
+	public String getOrderDateTime() {
 		return orderDateTime;
 	}
-	public void setOrderDateTime(LocalDateTime orderDateTime) {
+	public void setOrderDateTime(String orderDateTime) {
 		this.orderDateTime = orderDateTime;
 	}
-	public LocalDateTime getLastPaymentReminder() {
+	public String getLastPaymentReminder() {
 		return lastPaymentReminder;
 	}
-	public void setLastPaymentReminder(LocalDateTime lastPaymentReminder) {
+	public void setLastPaymentReminder(String lastPaymentReminder) {
 		this.lastPaymentReminder = lastPaymentReminder;
 	}
 	public String getNetAmount() {

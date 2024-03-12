@@ -1,30 +1,31 @@
 package domain;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import repository.GenericDao;
 import repository.GenericDaoJpa;
 
 public class DomainController implements Subject {
 	private List<Order> orderList;
-	private GenericDao<Order> orderRepo;
+	private GenericDaoJpa<Order> orderRepo;
 	
 	private Set<Observer> observers;
 	private Order currentOrder;
-
+	
+	private OrderData od;
 
 	public DomainController() {
 		setOrderRepo(new GenericDaoJpa<>(Order.class));
 		observers = new HashSet<>();
+		od = new OrderData(orderRepo);
+		od.addData();
 	}
 
-	public void setOrderRepo(GenericDao<Order> mock) {
+	public void setOrderRepo(GenericDaoJpa<Order> mock) {
 		orderRepo = mock;
 	}
 	
@@ -46,7 +47,11 @@ public class DomainController implements Subject {
 		if(orderList == null) { 
 			orderList = new ArrayList<Order>();
 		}
+		List<Order> ordersFromRepo = orderRepo.findAll();
 		
+		orderList.clear();
+		orderList.addAll(ordersFromRepo);
+	
 		return FXCollections.observableArrayList(orderList);
 	}
 	
@@ -70,10 +75,10 @@ public class DomainController implements Subject {
 		return FXCollections.observableArrayList(companyList);
 	}*/
 	
-	public Order getOrder(int orderId) {
+	public Order getOrder(String orderId) {
 		this.getOrdersList();
 		for(Order o : orderList) {
-			if(o.getOrderId() == orderId)
+			if(o.getOrderId().equals(orderId))
 				return o;
 		}
 		return null;

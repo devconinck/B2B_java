@@ -3,16 +3,13 @@ package gui;
 
 import java.io.IOException;
 
-import domain.Company;
 import domain.DomainController;
 import domain.Observer;
 import domain.Order;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.layout.Pane;
 
 public class OrdersScreenController extends TableView<Order> implements Observer{
 	// FILTER TOEVOEGEN!!!
@@ -34,12 +31,11 @@ public class OrdersScreenController extends TableView<Order> implements Observer
         this.dc = dc;
         this.dc.addObserver(this);
         buildGui();
-        //loadOrders();
+        loadOrders();
 
     }
 
 	private void buildGui() {
-        
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ordersScreen.fxml"));
         loader.setRoot(this);
         loader.setController(this);
@@ -51,13 +47,14 @@ public class OrdersScreenController extends TableView<Order> implements Observer
 	}
 
 	private void loadOrders() {
-        idCol.setCellValueFactory(cellData -> cellData.getValue().orderIdProperty());
+        idCol.setCellValueFactory(cellData -> cellData.getValue().orderIDProperty());
         nameCol.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
         dateCol.setCellValueFactory(cellData -> cellData.getValue().dateProperty());
-        orderStatusCol.setCellValueFactory(cellData -> cellData.getValue().getAddressString());
+        orderStatusCol.setCellValueFactory(cellData -> cellData.getValue().orderStatusProperty());
+        paymentStatusCol.setCellValueFactory(cellData -> cellData.getValue().paymentStatusProperty());
         
         this.setItems(dc.getOrdersList());
-        
+
         this.setOnMouseClicked(event -> {
             if (event.getClickCount() == 1) {
                 Order selectedOrder = this.getSelectionModel().getSelectedItem();
