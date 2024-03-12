@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 
 public class FilterController extends HBox {
     
@@ -20,6 +21,9 @@ public class FilterController extends HBox {
         this.originalList = originalList;
         this.filteredList = FXCollections.observableArrayList();
         filterField = new TextField();
+        filterField.setPromptText("Search by company name");
+        
+        HBox.setHgrow(filterField, Priority.ALWAYS);
         
         filterField.textProperty().addListener(new ChangeListener<String>() {
             @Override

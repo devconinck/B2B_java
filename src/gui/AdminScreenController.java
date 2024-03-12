@@ -6,9 +6,11 @@ import java.io.IOException;
 import domain.DomainController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 public class AdminScreenController extends BorderPane {
 	
 	private DomainController dc;
@@ -40,7 +42,8 @@ public class AdminScreenController extends BorderPane {
 			System.out.println("Couldn't load Application Screen");
 			System.out.println(e.getMessage());
 		}
-		//this.logOutButton.setOnMouseClicked(e -> logOut());
+		
+		this.logOutButton.setOnMouseClicked(e -> logOut());
 		
 		companiesButton.setOnMouseClicked(e -> {
 			CompaniesOverviewController companiesScreen = new CompaniesOverviewController(dc);
@@ -58,14 +61,17 @@ public class AdminScreenController extends BorderPane {
 		 * this.mainScreen.getChildren().add(updateScreen); });
 		 */
     }
-    
-    //logica voor uitloggen, daarvoor moeten we wel met login branch mnergen
-	/*
-	 * private void logOut() { this.dc.logOut(); this.dc = new UserController();
-	 * 
-	 * LoginScreenController login = new LoginScreenController(dc); Stage stage =
-	 * new Stage(); stage.setScene(new Scene(login)); stage.setFullScreen(false);
-	 * stage.show(); getScene().getWindow().hide(); }
-	 */
+   
+    // ???
+    private void logOut() {
+        Stage currentStage = new Stage();
+        LoginScreenController login = new LoginScreenController(dc);
+        currentStage.setScene(new Scene(login));
+        currentStage.show();
+        currentStage.close();
+
+        Stage stage = (Stage) this.getScene().getWindow();
+        stage.close();
+    }
 
 }

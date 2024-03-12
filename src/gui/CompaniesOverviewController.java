@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 public class CompaniesOverviewController extends GridPane {
@@ -45,11 +46,14 @@ public class CompaniesOverviewController extends GridPane {
 		Button createCompany = new Button();
 		createCompany.setText("Create Company");
 		createCompany.setOnMouseClicked(e -> companyDetails.clearAllFields());
+		
 		HBox hBox1 = new HBox();
+		HBox.setHgrow(filter, Priority.ALWAYS); 
+	    HBox.setHgrow(hBox1, Priority.ALWAYS);
 		hBox1.getChildren().addAll(filter, createCompany);
 		
 		VBox vBox1 = new VBox();
-		vBox1.setAlignment(Pos.CENTER); 
+		VBox.setVgrow(companies, Priority.ALWAYS);
 		this.add(vBox1, 0, 0);
 		vBox1.getChildren().addAll(hBox1, companies);
 		

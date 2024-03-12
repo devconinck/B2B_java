@@ -25,8 +25,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
-public class LoginScreenController {
+public class LoginScreenController extends Pane {
 	
 	private StackPane root;
 	private Stage primaryStage;
@@ -36,7 +37,7 @@ public class LoginScreenController {
 	private static final Color DEFAULTBACKGROUNDCOLOR = Color.WHITE; 
 	private Label errormessage = new Label();
 
-	public LoginScreenController(DomainController dc)  {
+	public LoginScreenController(DomainController dc) {
 		this.dc = dc;
 		loginController = new LoginController();
 		primaryStage = new Stage();
@@ -106,6 +107,11 @@ public class LoginScreenController {
 			System.out.println("Admin logged in");
 			Scene tempScene = new Scene(new AdminScreenController(dc));
 			primaryStage.setScene(tempScene);
+			
+			// WERKT NIET
+			primaryStage.setMaximized(true);
+			primaryStage.setResizable(false);
+
 		}
 		else if (controller instanceof SupplierController)
 			System.out.println("Supplier logged in");
