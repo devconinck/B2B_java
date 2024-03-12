@@ -1,20 +1,22 @@
 package gui;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 
+import domain.Address;
 import domain.Company;
+import domain.Contact;
 import domain.DomainController;
 import domain.Observer;
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
+import util.Validation;
 
 public class CompanyDetailsScreenController extends AnchorPane implements Observer {
 
@@ -86,8 +88,8 @@ public class CompanyDetailsScreenController extends AnchorPane implements Observ
 
 	}
 
-	public void loadCompany(String companyName) {
-		Company c = dc.getCompany(companyName);
+	public void loadCompany(Long vat) {
+		Company c = dc.getCompany(vat);
 
 		this.nameField.setText(c.getName());
 		this.vatField.setText(Long.toString(c.getVatNumber()));
@@ -127,43 +129,75 @@ public class CompanyDetailsScreenController extends AnchorPane implements Observ
 	}
 
 
-	/*
-	 * private boolean validateInput() { if (cityField.getText().isEmpty() ||
-	 * countryField.getText().isEmpty() || emailField.getText().isEmpty() ||
-	 * mobileNumberField.getText().isEmpty() || phoneNumberField.getText().isEmpty()
-	 * || postalcodeField.getText().isEmpty() || streetField.getText().isEmpty() ||
-	 * addressNrField.getText().isEmpty()) {
-	 * showErrorAlert("Please enter information for all fields."); return false; }
-	 * 
-	 * // Validate email format String emailRegex =
-	 * "^[\\w\\d._%+-]+@[\\w\\d.-]+\\.[a-zA-Z]{2,}$"; if
-	 * (!emailField.getText().matches(emailRegex)) {
-	 * showErrorAlert("Please enter a valid email address."); return false; }
-	 * 
-	 * // Validate mobile number format String mobileNumberRegex = "^\\d{10}$"; if
-	 * (!phoneField.getText().matches(mobileNumberRegex)) {
-	 * showErrorAlert("Please enter a valid mobile number."); return false; }
-	 * 
-	 * 
-	 * // Validate postal code format try { int postalCode =
-	 * Integer.parseInt(postalcodeField.getText()); if (postalCode < 1000 ||
-	 * postalCode > 9999) {
-	 * showErrorAlert("Postal code should be between 1000 and 9999."); return false;
-	 * } } catch (NumberFormatException e) {
-	 * showErrorAlert("Please enter a valid integer for the postal code number.");
-	 * return false; }
-	 * 
-	 * try { int addressNumber = Integer.parseInt(addressNrField.getText()); if
-	 * (addressNumber <= 0 || addressNumber >= 1000) {
-	 * showErrorAlert("Please enter a valid address number between 1 and 999.");
-	 * return false; } } catch (NumberFormatException e) {
-	 * showErrorAlert("Please enter a valid integer for the address number.");
-	 * return false; }
-	 * 
-	 * // If all validations pass, return true return true;
-	 * 
-	 * }
-	 */
+	private boolean isInputValid() {		
+	    if (	this.nameField.getText().isEmpty() ||
+	    	    this.vatField.getText().isEmpty() ||
+	    	    this.sectorField.getText().isEmpty() ||
+	    	    this.streetField.getText().isEmpty() ||
+	    	    this.addressNrField.getText().isEmpty() ||
+	    	    this.cityField.getText().isEmpty() ||
+	    	    this.postalcodeField.getText().isEmpty() ||
+	    	    this.countryField.getText().isEmpty() ||
+	    	    this.bankField.getText().isEmpty() ||
+	    	    this.phoneField.getText().isEmpty() ||
+	    	    this.emailField.getText().isEmpty()) {
+	        showErrorAlert("Please fill in all fields.");
+	        return false;
+	    }
+
+	    // Name
+	    // Nuttig?
+	    
+	    // Vat
+	    if (!vatField.getText().matches(Validation.vatRegex)) {
+	        showErrorAlert("Please enter a valid VAT Number.");
+	        return false;
+	    }
+	    
+	    // House Number
+	    // Nuttig?
+	    
+	    // Sector
+	    // Nuttig?
+	    
+	    // Street
+	    // Nuttig?
+	    
+	    // House Number
+	    if (!addressNrField.getText().matches(Validation.houseNumberRegex)) {
+	        showErrorAlert("Please enter a valid house number.");
+	        return false;
+	    }
+	    
+	    // City
+	    // Nuttig?
+	    
+	    // Postal Code
+	    // Wereldwijde postcodes hebben geen patroon, dus alles toelaten?
+	    
+	    // Country
+	    // Nuttig?
+	    
+	    // Bank
+	    if (!bankField.getText().matches(Validation.ibanRegex)) {
+	        showErrorAlert("Please enter a valid bank account number.");
+	        return false;
+	    }
+	    
+	    // Phone
+	    if (!phoneField.getText().matches(Validation.phoneNumberRegex)) {
+	        showErrorAlert("Please enter a valid mobile number.");
+	        return false;
+	    }
+	    
+	    // Email
+	    if (!emailField.getText().matches(Validation.emailRegex)) {
+	        showErrorAlert("Please enter a valid email address.");
+	        return false;
+	    }
+	    return true;
+	}
+
 
 	private void showErrorAlert(String message) {
 		Alert alert = new Alert(AlertType.ERROR);
@@ -184,8 +218,38 @@ public class CompanyDetailsScreenController extends AnchorPane implements Observ
 
 	@Override
 	public void update(Company c) {
-		loadCompany(c.getName());
+		loadCompany(c.getVatNumber());
 
 	}
-
+	
+	public void persistCompany() {		
+		if (isInputValid()) {
+			Long vatNumber = Long.parseLong(vatField.getText());
+			
+			Company existingCompany = dc.getCompany(vatNumber);
+			if (existingCompany != null) {
+				// update
+				existingCompany.setName(nameField.getText());
+                existingCompany.setVatNumber(vatNumber);
+                existingCompany.setSector(sectorField.getText());
+                existingCompany.getAddress().setCountry(countryField.getText());
+                existingCompany.getAddress().setCity(cityField.getText());
+                existingCompany.getAddress().setZipCode(postalcodeField.getText());
+                existingCompany.getAddress().setStreet(streetField.getText());
+                existingCompany.getAddress().setNumber(addressNrField.getText());
+                existingCompany.setBankAccountNr(Long.parseLong(bankField.getText()));
+                existingCompany.getContact().setPhoneNumber(phoneField.getText());
+                existingCompany.getContact().setEmail(emailField.getText());
+				
+				dc.updateCompany(existingCompany);
+			} else {
+				// insert	
+				Address tempAddress = new Address(countryField.getText(), cityField.getText(), postalcodeField.getText(), streetField.getText(), addressNrField.getText());
+				Contact tempContact = new Contact(phoneField.getText(), emailField.getText());
+				Company tempCompany = new Company(Long.parseLong(vatField.getText()), "", tempAddress, tempContact, nameField.getText(), sectorField.getText(), Long.parseLong(bankField.getText()), new ArrayList<String>(), new Date());
+				dc.addCompany(tempCompany);
+			}	
+			showInfoAlert("Company saved", "The company has been saved");
+		}
+	}
 }

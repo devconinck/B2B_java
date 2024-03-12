@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import jakarta.persistence.*;
+import util.Validation;
 
 
 @Embeddable
@@ -34,9 +35,7 @@ public class Contact implements Serializable {
 	}
 
 	public void setEmail(String email) {
-		// Source: https://emailregex.com
-		String emailRegex = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
-		if (!email.matches(emailRegex)) {
+		if (!email.matches(Validation.emailRegex)) {
 			throw new IllegalArgumentException("Not a valid email address");
 		}
 		this.email = email;
@@ -47,10 +46,7 @@ public class Contact implements Serializable {
 	}
 
 	public void setPhoneNumber(String phoneNumber) {
-		// Is een placeholder
-		// Source: https://stackoverflow.com/questions/42104546/java-regular-expressions-to-validate-phone-numbers#42105140
-		String allCountryRegex = "^(\\+\\d{1,3}( )?)?((\\(\\d{1,3}\\))|\\d{1,3})[- .]?\\d{3,4}[- .]?\\d{4}$";
-		if (!phoneNumber.matches(allCountryRegex)) {
+		if (!phoneNumber.matches(Validation.phoneNumberRegex)) {
 			throw new IllegalArgumentException("Not a valid phone number");
 		}
 		this.phoneNumber = phoneNumber;

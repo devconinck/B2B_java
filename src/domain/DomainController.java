@@ -1,7 +1,5 @@
 package domain;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -61,14 +59,26 @@ public class DomainController implements Subject {
 		return FXCollections.observableArrayList(companyList);
 	}
 	
-	public Company getCompany(String name) {
+	public Company getCompany(Long vat) {
 		this.getCompanyList();
 		for (Company c : companyList) {
-			if (c.getName().equals(name)) {
+			if (c.getVatNumber() == vat) {
 				return c;
 			}
 		}
 		return null;
+	}
+	
+	public void addCompany(Company company) {
+		GenericDaoJpa.startTransaction();
+		companyRepo.insert(company);
+		GenericDaoJpa.commitTransaction();
+	}
+	
+	public void updateCompany(Company company) {
+		GenericDaoJpa.startTransaction();
+		companyRepo.update(company);
+		GenericDaoJpa.commitTransaction();
 	}
 
 	public void close() {

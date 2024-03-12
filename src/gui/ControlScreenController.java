@@ -1,8 +1,12 @@
 package gui;
 
+import domain.Address;
+import domain.Company;
+import domain.Contact;
 import javafx.beans.binding.Bindings;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
+import repository.GenericDaoJpa;
 
 public class ControlScreenController extends HBox {
 	private CompanyDetailsScreenController companyDetails;
@@ -29,6 +33,8 @@ public class ControlScreenController extends HBox {
 		);
 
 		this.getChildren().addAll(clearBtn, saveButton, inactiveBtn);
+		
+		saveButton.setOnMouseClicked(e -> companyDetails.persistCompany());
 
 		// Dikke saus code
 		inactiveBtn.setOnMouseClicked(e -> companyDetails.isActive.setValue(!companyDetails.isActive.getValue()));
