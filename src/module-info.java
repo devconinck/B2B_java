@@ -13,10 +13,12 @@ open module JvaFXAndPersistenceAndUnitTests {
 	requires org.junit.jupiter.api;
 	requires org.mockito.junit.jupiter;
 	requires org.mockito;
+	requires org.junit.jupiter.params;
 	
 	exports util;
 	exports domain;
 	exports gui;
 	exports main;
 	exports domain.login;
+	exports repository;
 }

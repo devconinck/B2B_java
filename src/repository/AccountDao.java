@@ -1,4 +1,4 @@
-package Repository;
+package repository;
 
 import domain.login.Account;
 import jakarta.persistence.EntityNotFoundException;
