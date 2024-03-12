@@ -1,4 +1,4 @@
-package domain.login;
+package domain;
 
 import jakarta.persistence.Entity;
 

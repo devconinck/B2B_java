@@ -1,12 +1,9 @@
 package gui;
 
-import domain.Address;
-import domain.Company;
-import domain.Contact;
 import javafx.beans.binding.Bindings;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
-import repository.GenericDaoJpa;
+
 
 public class ControlScreenController extends HBox {
 	private CompanyDetailsScreenController companyDetails;

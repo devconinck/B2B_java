@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 import domain.AdminController;
 import domain.Controller;
 import domain.SupplierController;
-import domain.login.LoginController;
+import domain.LoginController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -19,6 +19,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -33,7 +34,7 @@ public class LoginScreenController {
 	private static final Color DEFAULTBACKGROUNDCOLOR = Color.WHITE; 
 	private Label errormessage = new Label();
 
-	public LoginScreenController() {
+	public LoginScreenController()  {
 		loginController = new LoginController();
 		primaryStage = new Stage();
 		root = new StackPane();
@@ -44,7 +45,7 @@ public class LoginScreenController {
 	
 	private void setup() {
 		primaryStage.setScene(scene);
-		primaryStage.setTitle("SDP2_G16");
+		primaryStage.setTitle("SDP2_G02");
 		addElements();
 		scene.getStylesheets().add(getClass().getResource("/css/login.css").toExternalForm());
 	}
@@ -57,7 +58,7 @@ public class LoginScreenController {
 		vbox.setMaxHeight(500);
 		
 		try {
-			Image img_delawarelogo = new Image(new FileInputStream("../images/delaware-logo.jpg"), 0.2, 0.2, false ,false);
+			Image img_delawarelogo = new Image(new FileInputStream("src/images/delaware-logo.jpg"), 0.2, 0.2, false ,false);
 			ImageView imgvw_delawarelogo = new ImageView(img_delawarelogo);
 			imgvw_delawarelogo.setFitHeight(100);
 			imgvw_delawarelogo.setPreserveRatio(true);

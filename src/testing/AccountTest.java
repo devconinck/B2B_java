@@ -1,4 +1,4 @@
-package test.login;
+package testing;
 
 import java.util.stream.Stream;
 
@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import domain.login.Account;
-import domain.login.Role;
+import domain.Account;
+import domain.Role;
 
 class AccountTest {
 

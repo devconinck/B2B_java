@@ -1,6 +1,6 @@
 package repository;
 
-import domain.login.Account;
+import domain.Account;
 import jakarta.persistence.EntityNotFoundException;
 
 public interface AccountDao extends GenericDao<Account> {

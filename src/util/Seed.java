@@ -2,9 +2,8 @@ package util;
 
 import java.util.stream.Stream;
 import java.util.List;
-import domain.login.Account;
-import domain.login.LoginController;
-import domain.login.Role;
+import domain.Account;
+import domain.Role;
 import repository.AccountDao;
 import repository.AccountDaoJpa;
 import repository.GenericDao;

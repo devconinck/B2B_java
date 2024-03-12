@@ -1,4 +1,4 @@
-package domain.login;
+package domain;
 
 import java.io.Serializable;
 import java.util.Objects;

@@ -15,8 +15,4 @@ open module JvaFXAndPersistenceAndUnitTests {
 	requires org.mockito;
 	requires org.junit.jupiter.params;
 
-	exports util;
-	exports domain;
-	exports gui;
-	exports main;
 }

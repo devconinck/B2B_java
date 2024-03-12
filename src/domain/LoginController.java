@@ -1,4 +1,4 @@
-package domain.login;
+package domain;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -72,7 +72,7 @@ public class LoginController {
 		try {
 			account = accountRepo.getAccountByEmail(email);
 		} catch (EntityNotFoundException ex) {
-			throw new IllegalArgumentException("Email " + email + " does not exist");
+			throw new NoResultException("Email " + email + " does not exist");
 		}
 		return account;
 	}

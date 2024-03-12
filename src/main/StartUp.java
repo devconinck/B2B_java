@@ -5,6 +5,7 @@ import gui.LoginScreenController;
 import domain.DomainController;
 import gui.AdminScreenController;
 import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import util.Seed;
@@ -19,16 +20,10 @@ public class StartUp extends Application {
 	public void start(Stage stage) throws IOException {
 		if (isDevelopmentEnvironment()) {
 			initializeDevelopmentEnvironment(); // Seeden
-		}
-		// Moet nog geswitched worden
-		new LoginScreenController();
+		}		
 		DomainController dc = new DomainController();
-
-		AdminScreenController root = new AdminScreenController(dc);
-		Scene scene = new Scene(root);
-		stage.setScene(scene);
-		stage.setTitle("SDP2_G02");
-		stage.show();
+		
+		new LoginScreenController();
 	}
 
 	private boolean isDevelopmentEnvironment() {
