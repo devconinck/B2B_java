@@ -14,5 +14,4 @@ open module JvaFXAndPersistenceAndUnitTests {
 	requires org.mockito.junit.jupiter;
 	requires org.mockito;
 	requires org.junit.jupiter.params;
-
 }
