@@ -25,15 +25,16 @@ public class Company implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long VatNumber;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
+    private String VatNumber;
 	private String logo; // URL Nr Afbeelding https://stackoverflow.com/questions/76284097/how-do-i-set-an-imageview-in-javafx-to-have-a-url-of-an-image-on-the-internet
 	
 	@OneToOne
 	//@JoinColumn(name = "address_id")
 	@Embedded
 	private Address address;
-	
+	 
     @OneToOne
     //@JoinColumn(name = "contact_id")
     @Embedded
@@ -65,7 +66,7 @@ public class Company implements Serializable{
 	}
 	
 	// Constructor
-	public Company(long vatNumber, String logo, Address address, Contact contact, String name, String sector, Long bankAccountNr, List<String> paymentOptions, Date customerStart) {
+	public Company(String vatNumber, String logo, Address address, Contact contact, String name, String sector, Long bankAccountNr, List<String> paymentOptions, Date customerStart) {
 		setVatNumber(vatNumber);
 		setLogo(logo);
 		setAddressId(address);
@@ -104,11 +105,11 @@ public class Company implements Serializable{
 	
 	// Getters en setters toevoegen
 	// SETTER VALIDATIE TOEVOEGEN
-	public long getVatNumber() {
+	public String getVatNumber() {
 		return VatNumber;
 	}
 	
-	public void setVatNumber(long vatNumber) {
+	public void setVatNumber(String vatNumber) {
 		this.VatNumber = vatNumber;
 	}
 

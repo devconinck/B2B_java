@@ -18,7 +18,7 @@ public class Account implements Serializable {
 
 	private static final String EMAIL_REGEX = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
 	private static final String PASSWORD_REGEX = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$";
-	private static final String COMPANY_VAT_REGEX = "BE[0-9]{8}[0-9]{2}";
+	private static final String COMPANY_VAT_REGEX = "[A-Z]{2}[0-9A-Za-z]{1,30}";
 
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -46,14 +46,14 @@ public class Account implements Serializable {
 	}
 	
 	private void setPassword(String password) {
-		if (!patternMatches(password, PASSWORD_REGEX))
-			throw new IllegalArgumentException(String.format("The password for %s is not strong enough", email));
+		//if (!patternMatches(password, PASSWORD_REGEX))
+		//	throw new IllegalArgumentException(String.format("The password for %s is not strong enough", email));
 		this.password = LoginController.encryptPassword(password);
 	}
 	
 	private void setCompanyVAT(String companyVAT) {
-		if (!patternMatches(companyVAT, COMPANY_VAT_REGEX) || !isValidMOD97(companyVAT))
-			throw new IllegalArgumentException(String.format("The company VAT number is not valid for %s", email));
+		//if (!patternMatches(companyVAT, COMPANY_VAT_REGEX) || !isValidMOD97(companyVAT))
+			//throw new IllegalArgumentException(String.format("The company VAT number is not valid for %s", email));
 		this.companyVAT = companyVAT;
 	}
 	

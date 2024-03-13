@@ -59,7 +59,7 @@ public class DomainController implements Subject {
 		return FXCollections.observableArrayList(companyList);
 	}
 	
-	public Company getCompany(Long vat) {
+	public Company getCompany(String vat) {
 		this.getCompanyList();
 		for (Company c : companyList) {
 			if (c.getVatNumber() == vat) {

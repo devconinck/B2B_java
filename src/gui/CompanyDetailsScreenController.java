@@ -88,11 +88,11 @@ public class CompanyDetailsScreenController extends AnchorPane implements Observ
 
 	}
 
-	public void loadCompany(Long vat) {
+	public void loadCompany(String vat) {
 		Company c = dc.getCompany(vat);
 
 		this.nameField.setText(c.getName());
-		this.vatField.setText(Long.toString(c.getVatNumber()));
+		this.vatField.setText(c.getVatNumber());
 		this.sectorField.setText(c.getSector());
 		this.streetField.setText(c.getAddress().getStreet());
 		this.addressNrField.setText(c.getAddress().getNumber());
@@ -224,7 +224,7 @@ public class CompanyDetailsScreenController extends AnchorPane implements Observ
 	
 	public void persistCompany() {		
 		if (isInputValid()) {
-			Long vatNumber = Long.parseLong(vatField.getText());
+			String vatNumber = vatField.getText();
 			
 			Company existingCompany = dc.getCompany(vatNumber);
 			if (existingCompany != null) {
@@ -246,7 +246,7 @@ public class CompanyDetailsScreenController extends AnchorPane implements Observ
 				// insert	
 				Address tempAddress = new Address(countryField.getText(), cityField.getText(), postalcodeField.getText(), streetField.getText(), addressNrField.getText());
 				Contact tempContact = new Contact(phoneField.getText(), emailField.getText());
-				Company tempCompany = new Company(Long.parseLong(vatField.getText()), "", tempAddress, tempContact, nameField.getText(), sectorField.getText(), Long.parseLong(bankField.getText()), new ArrayList<String>(), new Date());
+				Company tempCompany = new Company(vatField.getText(), "", tempAddress, tempContact, nameField.getText(), sectorField.getText(), Long.parseLong(bankField.getText()), new ArrayList<String>(), new Date());
 				dc.addCompany(tempCompany);
 			}	
 			showInfoAlert("Company saved", "The company has been saved");
