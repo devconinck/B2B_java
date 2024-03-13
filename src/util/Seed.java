@@ -1,13 +1,13 @@
 package util;
 
 import java.util.stream.Stream;
+
 import java.util.List;
 import domain.Account;
 import domain.Role;
 import repository.AccountDao;
 import repository.AccountDaoJpa;
-import repository.CompanyDao;
-import repository.CompanyDaoJpa;
+
 import repository.GenericDao;
 import repository.GenericDaoJpa;
 import java.util.ArrayList;
@@ -18,12 +18,12 @@ import domain.Contact;
 
 public class Seed {
 	private AccountDao accountRepo;
-    private CompanyDao companyRepo;
+    private GenericDao<Company> companyRepo;
 
 	
 	public Seed() {
 		setAccountRepo(new AccountDaoJpa());
-		setCompanyRepo(new CompanyDaoJpa());
+		setCompanyRepo(new GenericDaoJpa<Company>(Company.class));
 		run();
 	}
 	
@@ -31,7 +31,7 @@ public class Seed {
 		this.accountRepo = mock;
 	}
 	
-    private void setCompanyRepo(CompanyDao mock) {
+    private void setCompanyRepo(GenericDao<Company> mock) {
         this.companyRepo = mock;
     }
 
@@ -149,6 +149,14 @@ public class Seed {
         companyList.add(new Company("BE889012345", "logo89.png", new Address("Belgium", "Brussels", "1000", "Avenue Louise", "789"), new Contact("889012345", "email89@example.com"), "Food Innovations NV", "Food", 8890123456L, List.of("Credit Card", "Bank Transfer"), new Date()));
         companyList.add(new Company("BE890123456", "logo90.png", new Address("Belgium", "Antwerp", "2000", "Meir", "123"), new Contact("890123456", "email90@example.com"), "Media Innovations BVBA", "Media", 8901234567L, List.of("PayPal", "Stripe"), new Date()));
 
-        companyList.stream().forEach(companyRepo::addCompany);
+        companyList.stream().forEach(c -> {
+			GenericDaoJpa.startTransaction();
+			if (companyRepo.exists(c.getVatNumber())) {
+				GenericDaoJpa.rollbackTransaction();
+			} else {
+				companyRepo.insert(c);
+				GenericDaoJpa.commitTransaction();
+			}
+		});
     }
 }

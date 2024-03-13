@@ -44,19 +44,22 @@ public class Account implements Serializable {
 			throw new IllegalArgumentException(String.format("The email: %s , is not a valiable email", email));
 		this.email = email;
 	}
-	
+
 	private void setPassword(String password) {
-		//if (!patternMatches(password, PASSWORD_REGEX))
-		//	throw new IllegalArgumentException(String.format("The password for %s is not strong enough", email));
+		// if (!patternMatches(password, PASSWORD_REGEX))
+		// throw new IllegalArgumentException(String.format("The password for %s is not
+		// strong enough", email));
 		this.password = LoginController.encryptPassword(password);
 	}
-	
+
 	private void setCompanyVAT(String companyVAT) {
-		//if (!patternMatches(companyVAT, COMPANY_VAT_REGEX) || !isValidMOD97(companyVAT))
-			//throw new IllegalArgumentException(String.format("The company VAT number is not valid for %s", email));
+		// if (!patternMatches(companyVAT, COMPANY_VAT_REGEX) ||
+		// !isValidMOD97(companyVAT))
+		// throw new IllegalArgumentException(String.format("The company VAT number is
+		// not valid for %s", email));
 		this.companyVAT = companyVAT;
 	}
-	
+
 	private static boolean isValidMOD97(String companyVAT) {
 		int mod97 = 97 - (Integer.parseInt(companyVAT.substring(2, 10)) % 97);
 		return mod97 == Integer.parseInt(companyVAT.substring(10));

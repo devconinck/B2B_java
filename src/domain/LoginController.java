@@ -11,26 +11,25 @@ import jakarta.persistence.NoResultException;
 import repository.AccountDao;
 import repository.AccountDaoJpa;
 
-
 public class LoginController {
 
 	private AccountDao accountRepo;
 	private static final byte[] salt = new String("J#7pQzL9").getBytes();
-	
+
 	public LoginController() {
 		setAccountRepo(new AccountDaoJpa());
 	}
-	
+
 	private void setAccountRepo(AccountDao mock) {
 		this.accountRepo = mock;
 	}
 
 	public Controller login(String email, String password) {
-		try {	
+		try {
 			Account accountBoundToEmail = getAccountByEmail(email);
 			if (accountBoundToEmail.getPassword().equals(encryptPassword(password))) {
 				if (accountBoundToEmail.getRole() == Role.Admin)
-					return  new AdminController();
+					return new AdminController();
 				if (accountBoundToEmail.getRole() == Role.Supplier)
 					return new SupplierController();
 			}
@@ -47,26 +46,26 @@ public class LoginController {
 			// combine both on byte level
 			byte[] fullPassword = new byte[password.length() + salt.length];
 			System.arraycopy(password.getBytes(), 0, fullPassword, 0, password.length());
-            System.arraycopy(salt, 0, fullPassword, password.length(), salt.length);
-			
-            // hashing
+			System.arraycopy(salt, 0, fullPassword, password.length(), salt.length);
+
+			// hashing
 			MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
 			byte[] hashedBytes = messageDigest.digest(fullPassword);
-			
+
 			// convert back to string
 			StringBuilder stringBuilder = new StringBuilder();
-            for (byte b : hashedBytes) {
-                stringBuilder.append(String.format("%02x", b));
-            }
+			for (byte b : hashedBytes) {
+				stringBuilder.append(String.format("%02x", b));
+			}
 
-            return stringBuilder.toString();
-			
+			return stringBuilder.toString();
+
 		} catch (NoSuchAlgorithmException e) {
 			System.err.println(e.getMessage());
 			return null;
 		}
 	}
-	
+
 	private Account getAccountByEmail(String email) {
 		Account account;
 		try {
@@ -76,5 +75,5 @@ public class LoginController {
 		}
 		return account;
 	}
-	
+
 }

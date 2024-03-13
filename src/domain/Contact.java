@@ -6,20 +6,19 @@ import java.util.Objects;
 import jakarta.persistence.*;
 import util.Validation;
 
-
 @Embeddable
 // QUERIES TOEVOEGEN
 public class Contact implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
-	//@Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+
+	// @Id
+	// @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String phoneNumber; // Waarschijnlijk makkelijker met validatie bibliotheek
 	private String email;
-	
+
 	// Default constructor JPA
 	protected Contact() {
-		
+
 	}
 
 	// Constructor
@@ -27,7 +26,6 @@ public class Contact implements Serializable {
 		setPhoneNumber(phoneNumber);
 		setEmail(email);
 	}
-
 
 	// Getters en setters toevoegen + validatie
 	public String getEmail() {
@@ -40,7 +38,7 @@ public class Contact implements Serializable {
 		}
 		this.email = email;
 	}
-	
+
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -70,5 +68,4 @@ public class Contact implements Serializable {
 		return Objects.equals(email, other.email) && Objects.equals(phoneNumber, other.phoneNumber);
 	}
 
-	
 }

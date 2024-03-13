@@ -21,52 +21,53 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 @Entity
-public class Company implements Serializable{
+public class Company implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-    private String VatNumber;
-	private String logo; // URL Nr Afbeelding https://stackoverflow.com/questions/76284097/how-do-i-set-an-imageview-in-javafx-to-have-a-url-of-an-image-on-the-internet
-	
+	private String VatNumber;
+	private String logo; // URL Nr Afbeelding
+							// https://stackoverflow.com/questions/76284097/how-do-i-set-an-imageview-in-javafx-to-have-a-url-of-an-image-on-the-internet
+
 	@OneToOne
-	//@JoinColumn(name = "address_id")
+	// @JoinColumn(name = "address_id")
 	@Embedded
 	private Address address;
-	 
-    @OneToOne
-    //@JoinColumn(name = "contact_id")
-    @Embedded
+
+	@OneToOne
+	// @JoinColumn(name = "contact_id")
+	@Embedded
 	private Contact contact;
 	private List<String> paymentOptions; // Niet duidelijk welk type
 	private Date customerStart;
-	
+
 	// TableView Attributes + Gewone properties om serializable te zijn
 	@Transient
 	private SimpleStringProperty nameProperty = new SimpleStringProperty();
 	private String name;
-	
+
 	@Transient
 	private SimpleStringProperty sectorProperty = new SimpleStringProperty();
 	private String sector;
-	
+
 	@Transient
 	private SimpleLongProperty bankAccountNrProperty = new SimpleLongProperty();
 	private Long bankAccountNr;
-		
+
 	@Transient
 	private SimpleBooleanProperty isActiveProperty = new SimpleBooleanProperty(true);
 	private Boolean isActive = true;
-	
-	
+
 	// Default constructor JPA
 	protected Company() {
-		
+
 	}
-	
+
 	// Constructor
-	public Company(String vatNumber, String logo, Address address, Contact contact, String name, String sector, Long bankAccountNr, List<String> paymentOptions, Date customerStart) {
+	public Company(String vatNumber, String logo, Address address, Contact contact, String name, String sector,
+			Long bankAccountNr, List<String> paymentOptions, Date customerStart) {
 		setVatNumber(vatNumber);
 		setLogo(logo);
 		setAddressId(address);
@@ -76,39 +77,39 @@ public class Company implements Serializable{
 		setBankAccountNr(bankAccountNr);
 		setPaymentOptions(paymentOptions);
 		setCustomerStart(customerStart);
-		// isActive = true; overbodig doordat Initiele toestand bij attributen reeds goed gezet wordt
+		// isActive = true; overbodig doordat Initiele toestand bij attributen reeds
+		// goed gezet wordt
 	}
-	
-	
+
 	public void setActive() {
 		isActiveProperty.set(!isActiveProperty.get());
 		isActive = !isActive;
 	}
-	
+
 	// Property Getters
 	// Geen idee of waarschuwing relevant is
-    public StringProperty getNameProperty() {
-        return nameProperty;
-    }
-    
-    public StringProperty getSectorProperty() {
-        return sectorProperty;
-    }
-    
-    public SimpleLongProperty getBankAccountNrProperty() {
-        return bankAccountNrProperty;
-    }
-    
-    public SimpleBooleanProperty getIsActiveProperty() {
-        return isActiveProperty;
-    }
-	
+	public StringProperty getNameProperty() {
+		return nameProperty;
+	}
+
+	public StringProperty getSectorProperty() {
+		return sectorProperty;
+	}
+
+	public SimpleLongProperty getBankAccountNrProperty() {
+		return bankAccountNrProperty;
+	}
+
+	public SimpleBooleanProperty getIsActiveProperty() {
+		return isActiveProperty;
+	}
+
 	// Getters en setters toevoegen
 	// SETTER VALIDATIE TOEVOEGEN
 	public String getVatNumber() {
 		return VatNumber;
 	}
-	
+
 	public void setVatNumber(String vatNumber) {
 		this.VatNumber = vatNumber;
 	}
@@ -124,13 +125,12 @@ public class Company implements Serializable{
 	public Address getAddress() {
 		return address;
 	}
-	
+
 	public SimpleStringProperty getAddressString() {
-		return address != null ? new SimpleStringProperty(address.getStreet() + ", " +
-												          address.getZipCode() + " " +
-												          address.getCity() + ", " +
-												          address.getCountry()) 
-							   : new SimpleStringProperty("No address found.");
+		return address != null
+				? new SimpleStringProperty(address.getStreet() + ", " + address.getZipCode() + " " + address.getCity()
+						+ ", " + address.getCountry())
+				: new SimpleStringProperty("No address found.");
 	}
 
 	public void setAddressId(Address address) {
@@ -187,8 +187,7 @@ public class Company implements Serializable{
 	public void setCustomerStart(Date customerStart) {
 		this.customerStart = customerStart;
 	}
-	
-	
+
 	// Noodzakelijk voor JPA
 	@Override
 	public int hashCode() {
