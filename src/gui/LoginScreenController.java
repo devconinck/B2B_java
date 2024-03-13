@@ -113,8 +113,11 @@ public class LoginScreenController extends Pane {
 			primaryStage.setResizable(false);
 
 		}
-		else if (controller instanceof SupplierController)
+		else if (controller instanceof SupplierController) {			
 			System.out.println("Supplier logged in");
+			Scene tempScene = new Scene(new SupplierScreenController(dc));
+			primaryStage.setScene(tempScene);
+		}
 		
 		else
 		{

@@ -38,6 +38,7 @@ public class Seed {
 
 	private void run() {
 		addAdmins();
+		addUsers();
 		addSuppliersAndCustomers();
         addCompanies();
 	}

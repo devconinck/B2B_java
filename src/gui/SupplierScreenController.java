@@ -1,10 +1,14 @@
 package gui;
 
 import java.io.IOException;
-
+import java.time.LocalDate;
 
 import domain.DomainController;
 import domain.UserController;
+import gui.customer.Customer;
+import gui.customer.CustomerOverview;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -47,16 +51,18 @@ public class SupplierScreenController extends BorderPane {
 		//this.logOutButton.setOnMouseClicked(e -> logOut());
 		
 		ordersButton.setOnMouseClicked(e -> {
-			OrdersOverviewController ordersScreen = new OrdersOverviewController(dc);
 			this.mainScreen.getChildren().clear();
+			OrdersOverviewController ordersScreen = new OrdersOverviewController(dc);
 			this.mainScreen.getChildren().add(ordersScreen);
 		});
 		
-		/*customersButton.setOnMouseClicked(e -> {
-			CustomersOverviewController customersScreen = new CustomersOverviewController(dc);
+		customersButton.setOnMouseClicked(e -> {
 			this.mainScreen.getChildren().clear();
-			this.mainScreen.getChildren().add(customersScreen);
-		});*/
+			CustomerOverview co = new CustomerOverview(dc.getCurrentCompany(), createCustomers());
+			this.mainScreen.getChildren().add(co.getHBox());
+		});
+		
+		logOutButton.setOnMouseClicked(e -> logOut());
 		
 		
 		//logica om update requests scherm te tonen
@@ -67,6 +73,27 @@ public class SupplierScreenController extends BorderPane {
 		 * this.mainScreen.getChildren().clear();
 		 * this.mainScreen.getChildren().add(updateScreen); });
 		 */
+    }
+    
+    private ObservableList<Customer> createCustomers() {
+		ObservableList<Customer> customers = FXCollections.observableArrayList();
+		Customer c1 = new Customer("Henk", 29, LocalDate.of(1993, 3, 7));
+		Customer c2 = new Customer("Alice", 35, LocalDate.of(1987, 8, 15));
+		Customer c3 = new Customer("Bob", 42, LocalDate.of(1980, 5, 20));
+		customers.addAll(c1, c2, c3);
+		return customers;
+	}
+    
+    // TODO ??? ctrl+v ctrl+c AdminScreenController
+    private void logOut() {
+        Stage currentStage = new Stage();
+        LoginScreenController login = new LoginScreenController(dc);
+        currentStage.setScene(new Scene(login));
+        currentStage.show();
+        currentStage.close();
+
+        Stage stage = (Stage) this.getScene().getWindow();
+        stage.close();
     }
     
     //logica voor uitloggen, daarvoor moeten we wel met login branch mnergen

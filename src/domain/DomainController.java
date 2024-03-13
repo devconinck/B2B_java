@@ -45,7 +45,7 @@ public class DomainController implements Subject {
 		setCompanyRepo(new GenericDaoJpa<>(Company.class));
 		observers = new HashSet<>();
 		od = new OrderData(orderRepo, orderItemRepo, productRepo, productPriceRepo, productDescriptionRepo, productUnitRepo);
-		od.addOrderData();
+		//od.addOrderData();
 		listCustomers();
 	}
 	public void setOrderRepo(GenericDaoJpa<Order> o) {
@@ -91,6 +91,9 @@ public class DomainController implements Subject {
 	public void setCurrentCompany(Company c) {
 		this.currentCompany = c;
 		notifyObservers();
+	}
+	public Company getCurrentCompany() {
+		return currentCompany;
 	}
 	public ObservableList<Order> getOrdersList() {
 		if(orderList == null) { 
