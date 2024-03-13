@@ -11,11 +11,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 public class GenericTableView<T> extends TableView<T> {
 
-	public GenericTableView(Class<T> entityClass) {
-		setup(entityClass);
+	public GenericTableView(T entityClass) {
+		setup(entityClass, getAttributeNames(entityClass));
 	}
 	
-	public GenericTableView(Class<T> entityClass, List<String> attributes) {
+	public GenericTableView(T entityClass, List<String> attributes) {
+		setup(entityClass, attributes);
+	}
+
+	private void setup(T entityClass, List<String> attributes) {		
 		for (String attribute : attributes) {
 			TableColumn<T, Object> column = new TableColumn<>(attribute);
 			column.setCellValueFactory(new PropertyValueFactory<>(attribute));
@@ -23,18 +27,8 @@ public class GenericTableView<T> extends TableView<T> {
 		}
 	}
 
-	private void setup(Class<T> entityClass) {
-		List<String> attributes = getAttributeNames(entityClass);
-		
-		for (String attribute : attributes) {
-			TableColumn<T, Object> column = new TableColumn<>(attribute);
-			column.setCellValueFactory(new PropertyValueFactory<>(attribute));
-			getColumns().add(column);
-		}
-	}
-
-	private List<String> getAttributeNames(Class<T> entityClass) {
-		return Arrays.stream(entityClass.getDeclaredFields())
+	private List<String> getAttributeNames(T entityClass) {
+		return Arrays.stream(entityClass.getClass().getDeclaredFields())
 				.map(field -> field.getName())
 				.collect(Collectors.toList());
 	}

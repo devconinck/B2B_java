@@ -26,4 +26,16 @@ public class Customer {
 		return birthdate;
 	}
 
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public void setBirthdate(LocalDate birthdate) {
+		this.birthdate = birthdate;
+	}
+
+	public void setName(String text) {
+		this.name = text;
+	}
+
 }
