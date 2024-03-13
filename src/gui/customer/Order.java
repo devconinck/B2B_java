@@ -3,6 +3,8 @@ package gui.customer;
 import java.io.Serializable;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -193,5 +195,9 @@ public class Order implements Serializable {
 	}
 	public void setCurrency(String currency) {
 		this.currency = currency;
+	}
+	
+	public String getCustomerId() {
+		return customerId;
 	}
 }

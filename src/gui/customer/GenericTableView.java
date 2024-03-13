@@ -14,6 +14,14 @@ public class GenericTableView<T> extends TableView<T> {
 	public GenericTableView(Class<T> entityClass) {
 		setup(entityClass);
 	}
+	
+	public GenericTableView(Class<T> entityClass, List<String> attributes) {
+		for (String attribute : attributes) {
+			TableColumn<T, Object> column = new TableColumn<>(attribute);
+			column.setCellValueFactory(new PropertyValueFactory<>(attribute));
+			getColumns().add(column);
+		}
+	}
 
 	private void setup(Class<T> entityClass) {
 		List<String> attributes = getAttributeNames(entityClass);
