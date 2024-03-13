@@ -69,17 +69,20 @@ public class DomainController implements Subject {
 	}
 	
 	public void setProductUnitRepo(GenericDaoJpa<ProductUnitOfMeasureConversion> pu) {
+		productUnitRepo = pu;
 	}
 	
-		productUnitRepo = pu;
+
 	public void setCustomerRepo(GenericDaoJpa<Customer> c) {
+		customerRepo = c;
 	}
 	
 	public void setCurrentOrder(Order o) {
 		this.currentOrder = o;
-	}
 		notifyObservers();
-		customerRepo = c;
+	}
+
+	
 	
 	public void setCompanyRepo(GenericDaoJpa<Company> mock) {
 		companyRepo = mock;
@@ -168,7 +171,7 @@ public class DomainController implements Subject {
 		customerIds = orders.stream().map(Order::getCustomer).distinct().collect(Collectors.toList());
 		for(int i = 0; i < customerIds.size(); i++) {
 			customerRepo.startTransaction();
-			customerRepo.insert(new Customer(customerIds.get(i), firstNameList.get(i), lastNameList.get(i), street, addressNr, city, postalCode, country));
+			//customerRepo.insert(new Customer(customerIds.get(i), firstNameList.get(i), lastNameList.get(i), street, addressNr, city, postalCode, country));
 			customerRepo.commitTransaction();
 		}
 	}
