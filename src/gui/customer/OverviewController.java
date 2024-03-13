@@ -46,10 +46,10 @@ public class OverviewController extends BorderPane {
 	private Company currentCompany;
 	private Customer currentCustomer;
 	private List<VBox> vboxDetails;
+	private Order currentOrder;
 
 	public OverviewController(Company currentCompany) {
 		this.currentCompany = currentCompany;
-		this.vboxDetails = new ArrayList<>();
 		buildGui();
 	}
 
@@ -70,12 +70,18 @@ public class OverviewController extends BorderPane {
 
 	private void setCustomerFields() {
 		main_anchorpane.getChildren().clear();
+		vboxDetails = new ArrayList<>();
 		HBox hbox = new HBox();
 		VBox vboxDetailsAndButtons = new VBox();
 
 		// Add Table
 		GenericTableView<Customer> customerTableView = new GenericTableView<>(Customer.class);
 		customerTableView.setData(createCustomers());
+		customerTableView.setOnMouseClicked(event -> {
+			this.currentCustomer = customerTableView.getSelectionModel().getSelectedItem();
+			setCurrentCustomer();
+		});
+
 		Screen screen = Screen.getPrimary();
 		Rectangle2D visualBounds = screen.getVisualBounds();
 		double screenWidth = visualBounds.getWidth();
@@ -96,28 +102,51 @@ public class OverviewController extends BorderPane {
 
 		main_anchorpane.getChildren().add(hbox);
 	}
-	
+
+	private void setCurrentCustomer() {
+		clearFields();
+		vboxDetails.stream().map(vbox -> vbox.getChildren().get(1))
+				.forEach(field -> ((TextInputControl) field).setText("Hoe doe ik dit? ln 108"));
+	}
+
 	private void clearFields() {
-		vboxDetails.stream().map(vbox -> vbox.getChildrenUnmodifiable().get(1)).forEach(field -> ((TextInputControl) field).clear());
+		vboxDetails.stream().map(vbox -> vbox.getChildren().get(1))
+				.forEach(field -> ((TextInputControl) field).clear());
 	}
 
 	private void saveFields() {
-		vboxDetails.stream().map(vbox -> vbox.getChildren().get(1)).forEach(field -> System.out.println(((TextInputControl) field).getText()));
+		vboxDetails.stream().map(vbox -> vbox.getChildren().get(1))
+				.forEach(field -> System.out.println(field.getId() + ": " + ((TextInputControl) field).getText()));
 	}
 
 	private void setOrderFields() {
 		main_anchorpane.getChildren().clear();
+		vboxDetails = new ArrayList<>();
 		HBox hbox = new HBox();
-		
+		VBox vboxDetailsAndButtons = new VBox();
+
 		// Table
 		GenericTableView<Order> orderTableView = new GenericTableView<>(Order.class, getAttributeNames(Order.class));
 		orderTableView.setData(createOrders(6));
+		orderTableView.setOnMouseClicked(event -> {
+			this.currentOrder = orderTableView.getSelectionModel().getSelectedItem();
+			setCurrentCustomer();
+		});
+
 		Screen screen = Screen.getPrimary();
 		Rectangle2D visualBounds = screen.getVisualBounds();
 		orderTableView.setPrefWidth(visualBounds.getWidth() / 2);
 
-		// Add details screen
-		hbox.getChildren().addAll(orderTableView, createDetails(createOrders(1).get(0)));
+		// Details and Buttons
+		VBox details = createDetails(createOrders(1).get(0));
+		Buttons buttons = new Buttons(Arrays.asList("Save", "Remove", "Clear"));
+		HBox hbox_buttons = buttons.getButtonfield();
+		buttons.getButtons().get(0).setOnMouseClicked(event -> saveFields());
+		buttons.getButtons().get(2).setOnMouseClicked(event -> clearFields());
+		
+		// Add all together
+		vboxDetailsAndButtons.getChildren().addAll(details, hbox_buttons);
+		hbox.getChildren().addAll(orderTableView, vboxDetailsAndButtons);
 
 		main_anchorpane.getChildren().add(hbox);
 	}
@@ -130,23 +159,27 @@ public class OverviewController extends BorderPane {
 			HBox hbox_twoAttributes = new HBox();
 			hbox_twoAttributes.setPadding(new Insets(20));
 			if (attributes.size() - i > 1)
-				hbox_twoAttributes.getChildren().addAll(
-						createLabel(String.format("%s", attributes.get(i) + i), attributes.get(i)),
-						createLabel(String.format("%s", attributes.get(i + 1) + (i + 1)), attributes.get(i + 1)));
+				hbox_twoAttributes.getChildren().addAll(createLabel(attributes.get(i)),
+						createLabel(attributes.get(i + 1)));
 			else
-				hbox_twoAttributes.getChildren()
-						.add(createLabel(String.format("%s", attributes.get(i) + i), attributes.get(i)));
+				hbox_twoAttributes.getChildren().add(createLabel(attributes.get(i)));
 			vbox_mainDetails.getChildren().add(hbox_twoAttributes);
 		}
 		return vbox_mainDetails;
 	}
 
-	private VBox createLabel(String field_name, String attribute) {
+	private VBox createLabel(String attribute) {
+		return createLabel("", attribute);
+	}
+
+	private VBox createLabel(String txf_text, String attribute) {
 		VBox vbox = new VBox();
 		vbox.setPadding(new Insets(10));
 		vboxDetails.add(vbox);
 		Label lbl_generic = new Label(attribute);
 		TextField txf_generic = new TextField();
+		txf_generic.setId(attribute);
+		txf_generic.setText(txf_text);
 		vbox.getChildren().addAll(lbl_generic, txf_generic);
 		return vbox;
 	}
