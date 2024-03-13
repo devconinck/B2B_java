@@ -40,21 +40,19 @@ public class Order implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<OrderItem> orderItems;
 	private int syncId;
-	private String customerId; //moet misschien nog aangepast worden, later bekijken wanneer company gekoppeld wordt
+	private String customerId; 
 	private String orderReference;
 	private String orderDateTime;
-	//private LocalDateTime orderDateTime;
 	private String lastPaymentReminder;
 	private String netAmount;
 	private String taxAmount;
 	private String totalAmount;
 	private String currency;
 	
-	
 	public Order(String orderId, int syncId, String customerId, String orderReference, String orderDateTime, String lastPaymentReminder, 
 			String netAmount, String taxAmount, String totalAmount, String currency) {
 		setOrderID(orderId);
-		setName("Test");
+		setName("Temp");
 		setDate(orderDateTime);
 		setOrderStatus((int) (Math.random()*2)+1 == 1 ? "NOT PAID" : "PAID");
 		int randomPaymentStatus = (int) (Math.random()*3)+1;

@@ -18,25 +18,22 @@ public class OrderItemsController extends TableView<OrderItem> {
     private TableColumn<OrderItem, String> nameCol;
 
     @FXML
-    private TableColumn<OrderItem, Integer> quantityCol;
+    private TableColumn<OrderItem, String> quantityCol;
 
     @FXML
     private TableColumn<OrderItem, String> inStockCol;
 
     @FXML
-    private TableColumn<OrderItem, Double> unitPriceCol;
+    private TableColumn<OrderItem, String> unitPriceCol;
 
     @FXML
-    private TableColumn<OrderItem, Double> totalCol;
+    private TableColumn<OrderItem, String> totalCol;
 
     public OrderItemsController(DomainController dc) {    	
         this.dc = dc;
         buildGui();
         loadOrderItems();
-
     }
-
-
 
 	private void buildGui() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("orderItems.fxml"));
@@ -50,17 +47,13 @@ public class OrderItemsController extends TableView<OrderItem> {
 	}
 
 	private void loadOrderItems() {
-		/*
-		 * nameCol.setCellValueFactory(cellData -> cellData.getValue().);
-		 * quantityCol.setCellValueFactory(cellData -> cellData.getValue().);
-		 * inStockCol.setCellValueFactory(cellData -> cellData.getValue().);
-		 * unitPriceCol.setCellValueFactory(cellData -> cellData.getValue().);
-		 * totalCol.setCellValueFactory(cellData -> cellData.getValue().);
-		 * 
-		 *   this.setItems(dc.getOrderItems()?);
-		 * 
-		 */
-        
+		  nameCol.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+		  quantityCol.setCellValueFactory(cellData -> cellData.getValue().qProperty());
+		  inStockCol.setCellValueFactory(cellData -> cellData.getValue().inStockProperty());
+		  unitPriceCol.setCellValueFactory(cellData -> cellData.getValue().unitPriceProperty());
+		  totalCol.setCellValueFactory(cellData -> cellData.getValue().totalProperty());
+		  
+		  this.setItems(dc.getOrderItemsList());        
 	}
 
 

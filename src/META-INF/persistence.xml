@@ -14,6 +14,7 @@
     <class>domain.ProductPrice</class>
     <class>domain.ProductDescription</class>
     <class>domain.ProductUnitOfMeasureConversion</class>
+    <class>domain.Customer</class>
     <properties>
       <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/delawaredb?serverTimezone=UTC"/>
       <property name="jakarta.persistence.jdbc.user" value="root"/> 

@@ -14,6 +14,11 @@ import java.time.format.DateTimeFormatter;
 public class OrderData {
 	
 	private GenericDaoJpa<Order> orderRepo;
+	private GenericDaoJpa<OrderItem> orderItemRepo;
+	private GenericDaoJpa<Product> productRepo;
+	private GenericDaoJpa<ProductPrice> productPriceRepo;
+	private GenericDaoJpa<ProductDescription> productDescriptionRepo;
+	private GenericDaoJpa<ProductUnitOfMeasureConversion> productUnitRepo;
 	private String orderCSVFile = "src/CSVFiles/orderdata.csv";
 	private String productPriceCSVFile = "src/CSVFiles/productpricedata.csv";
 	private String productDescriptionCSVFile = "src/CSVFiles/productdescriptiondata.csv";
@@ -21,11 +26,16 @@ public class OrderData {
 	private String productCSVFile = "src/CSVFiles/productdata.csv";
 	private String orderItemCSVFile = "src/CSVFiles/orderitemdata.csv";
 	
-	public OrderData(GenericDaoJpa<Order> orderRepo) {
+	public OrderData(GenericDaoJpa<Order> orderRepo, GenericDaoJpa<OrderItem> orderItemRepo, GenericDaoJpa<Product> productRepo, GenericDaoJpa<ProductPrice> productPriceRepo, GenericDaoJpa<ProductDescription> productDescriptionRepo, GenericDaoJpa<ProductUnitOfMeasureConversion> productUnitRepo) {
 		this.orderRepo = orderRepo;
+		this.orderItemRepo = orderItemRepo;
+		this.productRepo = productRepo;
+		this.productPriceRepo = productPriceRepo;
+		this.productDescriptionRepo = productDescriptionRepo;
+		this.productUnitRepo = productUnitRepo;
 	}
-	
-	public void addData() {
+		
+	public void addOrderData() {
 		try (CSVReader reader = new CSVReader(new FileReader(orderCSVFile))){
 			String[] line, items;
 			reader.readNext();
@@ -36,13 +46,6 @@ public class OrderData {
 				String customerId = items[2];
 				String orderReference = items[3];
 				String orderDateTime = items[4];
-				/*String str = items[4];
-		        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSS");
-		        LocalDateTime orderDateTime;
-		        if(str.isBlank())
-		        	orderDateTime = null;
-		        else
-		        	orderDateTime = LocalDateTime.parse(str, formatter);*/
 				LocalDateTime dateTime = LocalDateTime.now();
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 				String lastPaymentReminder = dateTime.format(formatter);
@@ -59,7 +62,7 @@ public class OrderData {
 			e.printStackTrace();
 		}
 		
-		/*try (CSVReader reader = new CSVReader(new FileReader(orderItemCSVFile))){
+		try (CSVReader reader = new CSVReader(new FileReader(orderItemCSVFile))){
 			String[] line, items;
 			reader.readNext();
 			while ((line = reader.readNext()) != null && !line[0].equals(";;;;;;;;;")) {
@@ -73,9 +76,9 @@ public class OrderData {
 				String netPrice = items[6];
 				String netAmount = items[7];
 			
-				orderRepo.startTransaction();
-				orderRepo.insert(new OrderItem(orderId, orderItemId, syncId, productId, quantity, unitOfMeasureId, netPrice, netAmount));
-				orderRepo.commitTransaction();
+				orderItemRepo.startTransaction();
+				orderItemRepo.insert(new OrderItem(orderId, orderItemId, syncId, productId, quantity, unitOfMeasureId, netPrice, netAmount));
+				orderItemRepo.commitTransaction();
 			}	
 		}catch(IOException | CsvValidationException e) {
 			e.printStackTrace();
@@ -92,7 +95,9 @@ public class OrderData {
 				String productCategoryId = items[3];
 				String productAvailability = items[4];
 				
-				om.addProduct(new Product(productId, syncId, unitOfMeasureId, productCategoryId, productAvailability));
+				productRepo.startTransaction();
+				productRepo.insert(new Product(productId, syncId, unitOfMeasureId, productCategoryId, productAvailability));
+				productRepo.commitTransaction();
 			}
 		}catch(IOException | CsvValidationException e) {
 			e.printStackTrace();
@@ -113,7 +118,9 @@ public class OrderData {
 				LocalDateTime syncDateTime = LocalDateTime.parse(str, formatter);
 				int quantity = Integer.parseInt(items[6]);
 				
-				om.addProductPrice(new ProductPrice(productId, currencyId, syncId, price, unitOfMeasureId, syncDateTime, quantity));
+				productPriceRepo.startTransaction();
+				productPriceRepo.insert(new ProductPrice(productId, currencyId, syncId, price, unitOfMeasureId, syncDateTime, quantity));
+				productPriceRepo.commitTransaction();
 			}
 		}catch(IOException | CsvValidationException e) {
 			e.printStackTrace();
@@ -132,7 +139,9 @@ public class OrderData {
 				String productShortDescription = items[5];
 				String productLongDescription = items[6];
 				
-				om.addProductDescription(new ProductDescription(productId, languageId, syncId, productName, productListerDescription, productShortDescription, productLongDescription));
+				productDescriptionRepo.startTransaction();
+				productDescriptionRepo.insert(new ProductDescription(productId, languageId, syncId, productName, productListerDescription, productShortDescription, productLongDescription));
+				productDescriptionRepo.commitTransaction();
 			}
 		}catch(IOException | CsvValidationException e) {
 			e.printStackTrace();
@@ -150,11 +159,12 @@ public class OrderData {
 				String formQuantity = items[4];
 				String toQuantity = items[5];
 				
-				om.addProductUnitOfMeasureConversion(new ProductUnitOfMeasureConversion(productId, syncId, formUnitOfMeasure, toUnitOfMeasure, formQuantity, toQuantity));
+				productUnitRepo.startTransaction();
+				productUnitRepo.insert(new ProductUnitOfMeasureConversion(productId, syncId, formUnitOfMeasure, toUnitOfMeasure, formQuantity, toQuantity));
+				productUnitRepo.commitTransaction();
 			}
 		}catch(IOException | CsvValidationException e) {
 			e.printStackTrace();
-		}*/
+		}
 	}
-
 }

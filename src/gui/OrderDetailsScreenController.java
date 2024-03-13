@@ -2,6 +2,7 @@ package gui;
 
 import java.io.IOException;
 
+import domain.Customer;
 import domain.DomainController;
 import domain.Observer;
 import domain.Order;
@@ -68,21 +69,21 @@ public class OrderDetailsScreenController extends AnchorPane implements Observer
 			System.out.println("Couldn't load Order details Screen");
 			System.out.println(e.getMessage());
 		}
-		
 	}
 	
 	
 	public void loadOrder(String orderId) {
 		Order o = dc.getOrder(orderId);
+		Customer c = dc.getCustomer(o.getCustomer());
 		
-	    this.nameField.setText(o.getName());
-	    this.contactField.setText("Temp");
+	    this.nameField.setText(c.getLastName() + " " + c.getFirstName());
+	    this.contactField.setText(c.getLastName() + " " + c.getFirstName());
 	    this.orderIdField.setText(o.getOrderId());
-	    this.streetField.setText("Temp");
-	    this.addressNrField.setText("Temp");
-	    this.cityField.setText("Temp");
-	    this.postalcodeField.setText("Temp");
-	    this.countryField.setText("Temp");
+	    this.streetField.setText(c.getStreet());
+	    this.addressNrField.setText(c.getAddressNr());
+	    this.cityField.setText(c.getCity());
+	    this.postalcodeField.setText(c.getPostalCode());
+	    this.countryField.setText(c.getCountry());
 	    this.orderStatusField.setText(o.getOrderStatus());
 	    this.paymentStatusField.setText(o.getPaymentStatus());
 	    this.lastPaymentField.setText(o.getLastPaymentReminder());
