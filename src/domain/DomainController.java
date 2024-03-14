@@ -41,8 +41,8 @@ public class DomainController implements Subject {
 		observers = new HashSet<>();
 		
 		System.out.println("Adding orders...");
-		od = new OrderData(orderRepo, orderItemRepo, productRepo, productPriceRepo, productDescriptionRepo, productUnitRepo);
-		od.addOrderData();
+		//od = new OrderData(orderRepo, orderItemRepo, productRepo, productPriceRepo, productDescriptionRepo, productUnitRepo);
+		//od.addOrderData();
 		System.out.println("Adding orders complete!");
 		
 		listCustomers();
