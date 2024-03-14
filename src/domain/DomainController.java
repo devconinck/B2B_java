@@ -4,19 +4,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+
 import java.util.stream.Collectors;
 
 import repository.GenericDao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import repository.GenericDaoJpa;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import repository.GenericDaoJpa;
+
 public class DomainController implements Subject {
 	private List<Order> orderList;
 	private List<OrderItem> orderItemList;
@@ -44,8 +39,12 @@ public class DomainController implements Subject {
 		setCustomerRepo(new GenericDaoJpa<>(Customer.class));
 		setCompanyRepo(new GenericDaoJpa<>(Company.class));
 		observers = new HashSet<>();
-		//od = new OrderData(orderRepo, orderItemRepo, productRepo, productPriceRepo, productDescriptionRepo, productUnitRepo);
-		//od.addOrderData();
+		/*
+		System.out.println("Adding orders...");
+		od = new OrderData(orderRepo, orderItemRepo, productRepo, productPriceRepo, productDescriptionRepo, productUnitRepo);
+		od.addOrderData();
+		System.out.println("Adding orders complete!");
+		*/
 		listCustomers();
 	}
 	public void setOrderRepo(GenericDaoJpa<Order> o) {

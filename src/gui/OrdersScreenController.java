@@ -3,6 +3,7 @@ package gui;
 
 import java.io.IOException;
 
+import domain.Company;
 import domain.DomainController;
 import domain.Observer;
 import domain.Order;
@@ -65,8 +66,15 @@ public class OrdersScreenController extends TableView<Order> implements Observer
         });
 	}
 
+
 	@Override
-	public void update(Order o) {
+	public void update(Company c) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update(Order c) {
 		// TODO Auto-generated method stub
 		
 	}

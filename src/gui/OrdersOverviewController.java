@@ -37,8 +37,8 @@ public class OrdersOverviewController extends GridPane {
 		}
 		
 	    VBox vBox1 = new VBox();
-        VBox.setVgrow(orderDetails, Priority.ALWAYS);
-        VBox.setVgrow(orderItems, Priority.ALWAYS);
+        //VBox.setVgrow(orderDetails, Priority.ALWAYS);
+        //VBox.setVgrow(orderItems, Priority.ALWAYS);
         this.add(vBox1, 1, 0);
         vBox1.getChildren().addAll(orderDetails, orderItems);
 		

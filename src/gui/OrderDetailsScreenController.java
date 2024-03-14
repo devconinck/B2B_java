@@ -2,6 +2,7 @@ package gui;
 
 import java.io.IOException;
 
+import domain.Company;
 import domain.Customer;
 import domain.DomainController;
 import domain.Observer;
@@ -145,9 +146,17 @@ public class OrderDetailsScreenController extends AnchorPane implements Observer
 
 
 	@Override
+	public void update(Company c) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
 	public void update(Order o) {
 		loadOrder(o.getOrderId());
+		
 	}
+
 }
 
 

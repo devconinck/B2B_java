@@ -4,6 +4,7 @@ import java.io.IOException;
 import domain.Company;
 import domain.DomainController;
 import domain.Observer;
+import domain.Order;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -75,4 +76,10 @@ public class CompanyScreenController extends TableView<Company> implements Obser
     public void update(Company c) {
         // TODO Auto-generated method stub
     }
+
+	@Override
+	public void update(Order c) {
+		// TODO Auto-generated method stub
+		
+	}
 }

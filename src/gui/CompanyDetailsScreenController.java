@@ -9,6 +9,7 @@ import domain.Company;
 import domain.Contact;
 import domain.DomainController;
 import domain.Observer;
+import domain.Order;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -251,5 +252,11 @@ public class CompanyDetailsScreenController extends AnchorPane implements Observ
 			}	
 			showInfoAlert("Company saved", "The company has been saved");
 		}
+	}
+
+	@Override
+	public void update(Order c) {
+		// TODO Auto-generated method stub
+		
 	}
 }
