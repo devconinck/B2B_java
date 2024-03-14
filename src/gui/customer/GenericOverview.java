@@ -55,14 +55,14 @@ public abstract class GenericOverview<T, O> {
 
 		// Details and Buttons
 		VBox details = createDetails(others.get(0));
-		Buttons buttons = new Buttons(Arrays.asList("Save", "Remove", "Clear"));
-		HBox hbox_buttons = buttons.getButtonfield();
-		buttons.getButtons().get(0).setOnMouseClicked(event -> saveEntity());
-		buttons.getButtons().get(1).setOnMouseClicked(event -> removeEntity());
-		buttons.getButtons().get(2).setOnMouseClicked(event -> clearFields());
+		//Buttons buttons = new Buttons(Arrays.asList("Save", "Remove", "Clear"));
+		//HBox hbox_buttons = buttons.getButtonfield();
+		//buttons.getButtons().get(0).setOnMouseClicked(event -> saveEntity());
+		//buttons.getButtons().get(1).setOnMouseClicked(event -> removeEntity());
+		//buttons.getButtons().get(2).setOnMouseClicked(event -> clearFields());
 
 		// Add all together
-		vboxDetailsAndButtons.getChildren().addAll(details, hbox_buttons);
+		vboxDetailsAndButtons.getChildren().addAll(details/* hbox_buttons*/);
 		hbox.getChildren().addAll(genericTableView, vboxDetailsAndButtons);
 
 		hbox_main.getChildren().add(hbox);
