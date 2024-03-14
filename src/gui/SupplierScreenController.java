@@ -7,6 +7,7 @@ import java.util.List;
 
 import domain.DomainController;
 import domain.UserController;
+import gui.customer.CompanyDTO;
 import gui.customer.Customer;
 import gui.customer.CustomerOverview;
 import javafx.beans.property.SimpleBooleanProperty;

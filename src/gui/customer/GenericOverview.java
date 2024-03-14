@@ -18,29 +18,30 @@ public abstract class GenericOverview<T, O> {
 	protected O current;
 	protected GenericTableView<O> genericTableView;
 	private static final int SIDEBAR_WIDTH = 250;
+	private static final int TOPBAR_HEIGHT = 200;
 	
-	public GenericOverview(T entity, List<O> others, O current) {
+	public GenericOverview(T entity, ObservableList<O> others, O current) {
 		hbox_main = new HBox();
 		this.current = current;
 		this.genericTableView = new GenericTableView<>(others.get(0));
 		setClassFields(entity, others);
 	}
 	
-	public GenericOverview(T entity, List<O> others, O current, List<String> attributes) {
+	public GenericOverview(T entity, ObservableList<O> others, O current, List<String> attributes) {
 		hbox_main = new HBox();
 		this.current = current;
 		this.genericTableView = new GenericTableView<>(others.get(0), attributes);
 		setClassFields(entity, others);
 	}
 	
-	private void setClassFields(T entity, List<O> others) {
+	private void setClassFields(T entity, ObservableList<O> others) {
 		hbox_main.getChildren().clear();
 		vboxDetails = new ArrayList<>();
 		HBox hbox = new HBox();
 		VBox vboxDetailsAndButtons = new VBox();
 
 		// Add Table
-		genericTableView.setData((ObservableList<O>) others);
+		genericTableView.setData(others);
 		genericTableView.setOnMouseClicked(event -> {
 			this.current = genericTableView.getSelectionModel().getSelectedItem();
 			clearFields();
@@ -50,6 +51,7 @@ public abstract class GenericOverview<T, O> {
 		Screen screen = Screen.getPrimary();
 		Rectangle2D visualBounds = screen.getVisualBounds();
 		genericTableView.setPrefWidth((visualBounds.getWidth() - SIDEBAR_WIDTH) / 2);
+		genericTableView.setPrefHeight(visualBounds.getHeight() - TOPBAR_HEIGHT);
 
 		// Details and Buttons
 		VBox details = createDetails(others.get(0));

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import domain.Company;
 import javafx.collections.ObservableList;
@@ -19,17 +20,16 @@ public class CustomerOverview extends GenericOverview<Company, Company> {
 			txf_number, txf_email, txf_phonenr;
 
 	public CustomerOverview(Company entity, ObservableList<Company> others, List<String> attributes) {
-		super(entity, others, others.get(0), attributes);
+		super(entity, others, others.get(0));
 	}
 
 	@Override
 	protected void saveEntity() {
+		// TODO
 		current.setName(txf_name.getText());
 		try {
 			String sector = txf_sector.getText();
-			current.setAge(age);
-			LocalDate date = LocalDate.parse(txf_birthdate.getText());
-			current.setBirthdate(date);
+			current.setSector(sector);
 		} catch (NumberFormatException e) {
 			// Handle the case where the text field does not contain a valid integer
 			System.err.println("Invalid age format");
