@@ -26,6 +26,13 @@ public abstract class GenericOverview<T, O> {
 		setClassFields(entity, others);
 	}
 	
+	public GenericOverview(T entity, List<O> others, O current, List<String> attributes) {
+		hbox_main = new HBox();
+		this.current = current;
+		this.genericTableView = new GenericTableView<>(others.get(0), attributes);
+		setClassFields(entity, others);
+	}
+	
 	private void setClassFields(T entity, List<O> others) {
 		hbox_main.getChildren().clear();
 		vboxDetails = new ArrayList<>();

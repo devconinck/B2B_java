@@ -7,6 +7,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 
 public class Buttons {
 	
@@ -27,6 +28,7 @@ public class Buttons {
 		}
 		buttonfield.getChildren().addAll(buttons);
 		buttonfield.setAlignment(Pos.CENTER);
+		buttonfield.setPadding(new Insets(20));
 	}
 	
 	public HBox getButtonfield() {

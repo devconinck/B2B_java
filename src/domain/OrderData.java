@@ -7,6 +7,7 @@ import com.opencsv.exceptions.CsvValidationException;
 
 import repository.GenericDaoJpa;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -37,9 +38,7 @@ public class OrderData {
 	}
 		
 	public void addOrderData() {
-		System.out.println("Wanker");
 		try (CSVReader reader = new CSVReader(new FileReader(orderCSVFile))){
-			System.out.println("Test of het tot hier komt");
 			String[] line, items;
 			reader.readNext();
 			while ((line = reader.readNext()) != null && !line[0].equals(";;;;;;;;;")) { //2 deel alternatief zoeken
@@ -62,7 +61,6 @@ public class OrderData {
 				orderRepo.commitTransaction();
 			}
 		}catch(IOException | CsvValidationException e) {
-			System.out.println("Fout hier");
 			e.printStackTrace();
 		}
 		

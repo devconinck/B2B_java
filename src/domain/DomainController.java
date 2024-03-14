@@ -44,7 +44,7 @@ public class DomainController implements Subject {
 		setCustomerRepo(new GenericDaoJpa<>(Customer.class));
 		setCompanyRepo(new GenericDaoJpa<>(Company.class));
 		observers = new HashSet<>();
-		od = new OrderData(orderRepo, orderItemRepo, productRepo, productPriceRepo, productDescriptionRepo, productUnitRepo);
+		//od = new OrderData(orderRepo, orderItemRepo, productRepo, productPriceRepo, productDescriptionRepo, productUnitRepo);
 		//od.addOrderData();
 		listCustomers();
 	}

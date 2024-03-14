@@ -2,11 +2,14 @@ package gui;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 
 import domain.DomainController;
 import domain.UserController;
 import gui.customer.Customer;
 import gui.customer.CustomerOverview;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -58,7 +61,8 @@ public class SupplierScreenController extends BorderPane {
 		
 		customersButton.setOnMouseClicked(e -> {
 			this.mainScreen.getChildren().clear();
-			CustomerOverview co = new CustomerOverview(dc.getCurrentCompany(), createCustomers());
+			List<String> attributes = Arrays.asList("name", "customerStart", "sector", "isActiveProperty", "contact");
+			CustomerOverview co = new CustomerOverview(dc.getCurrentCompany(), dc.getCompanyList(), attributes);
 			this.mainScreen.getChildren().add(co.getHBox());
 		});
 		
