@@ -181,7 +181,7 @@ public class Company implements Serializable {
 		this.paymentOptions = paymentOptions;
 	}
 
-	public Date getCustomerStart() {
+	public LocalDate getCustomerStart() {
 		return customerStart;
 	}
 
