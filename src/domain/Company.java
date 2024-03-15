@@ -1,6 +1,7 @@
 package domain;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -41,7 +42,7 @@ public class Company implements Serializable {
 	@Embedded
 	private Contact contact;
 	private List<String> paymentOptions; // Niet duidelijk welk type
-	private Date customerStart;
+	private LocalDate customerStart;
 
 	// TableView Attributes + Gewone properties om serializable te zijn
 	@Transient
@@ -67,7 +68,7 @@ public class Company implements Serializable {
 
 	// Constructor
 	public Company(String vatNumber, String logo, Address address, Contact contact, String name, String sector,
-			Long bankAccountNr, List<String> paymentOptions, Date customerStart) {
+			Long bankAccountNr, List<String> paymentOptions, LocalDate customerStart, List<Integer> orders) {
 		setVatNumber(vatNumber);
 		setLogo(logo);
 		setAddressId(address);
@@ -184,7 +185,7 @@ public class Company implements Serializable {
 		return customerStart;
 	}
 
-	public void setCustomerStart(Date customerStart) {
+	public void setCustomerStart(LocalDate customerStart) {
 		this.customerStart = customerStart;
 	}
 
