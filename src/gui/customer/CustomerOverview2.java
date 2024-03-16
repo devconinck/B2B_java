@@ -1,15 +1,10 @@
 package gui.customer;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import domain.Company;
 import domain.DomainController;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -41,17 +36,22 @@ public class CustomerOverview2 extends GenericOverview2<CompanyDTO> {
 
 	@Override
 	protected void setCurrent() {
-		txf_name.setText(current.getName());
-		txf_customerSince.setText(current.getCustomerStart().toString());
-		txf_sector.setText(current.getSector());
-		txf_country.setText(current.getAddress().getCountry()); 
-		txf_city.setText(current.getAddress().getCity());
-		txf_zipcode.setText(current.getAddress().getZipCode());
-		txf_street.setText(current.getAddress().getStreet());
-		txf_number.setText(current.getAddress().getNumber());
-		txf_email.setText(current.getContact().getEmail());
-		txf_phonenr.setText(current.getContact().getPhoneNumber());
-		
+		txf_name.setText(current.name());
+		txf_customerSince.setText(current.customerStart());
+		txf_sector.setText(current.sector());
+		txf_country.setText(current.country()); 
+		txf_city.setText(current.city());
+		txf_zipcode.setText(current.zipcode());
+		txf_street.setText(current.street());
+		txf_number.setText(current.number());
+		txf_email.setText(current.email());
+		txf_phonenr.setText(current.phoneNumber());
+		try {
+			imgvw_logo.setImage(new Image(String.format("images/%s", current.logo())));
+		} catch (IllegalArgumentException e) {
+			System.err.println(String.format("Failed to get logo for: %s", current.name()));
+			imgvw_logo.setImage(new Image(String.format("images/%s", "delaware-logo.jpg")));
+		}
 	}
 
 	@Override
@@ -70,6 +70,9 @@ public class CustomerOverview2 extends GenericOverview2<CompanyDTO> {
 			System.err.println(String.format("Failed to get logo for: %s", current.name()));
 			imgvw_logo = new ImageView(new Image(String.format("images/%s", "delaware-logo.jpg")));
 		}
+		imgvw_logo.setFitHeight(50);
+		imgvw_logo.setFitWidth(50);
+		vbox_logo.getChildren().add(imgvw_logo);
 		// Name
 		VBox vbox_name = new VBox(new Label("Name"));
 		txf_name = new TextField(company.name());
@@ -83,7 +86,7 @@ public class CustomerOverview2 extends GenericOverview2<CompanyDTO> {
 		vbox_customerSince.setPadding(new Insets(20, 10, 10, 10));
 		vboxDetails.add(vbox_customerSince);
 
-		hbox_logo_name_customerSince.getChildren().addAll(vbox_name, vbox_customerSince);
+		hbox_logo_name_customerSince.getChildren().addAll(vbox_logo, vbox_name, vbox_customerSince);
 
 		// Sector
 		VBox vbox_sector = new VBox(new Label("Sector"));

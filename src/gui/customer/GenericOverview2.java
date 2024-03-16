@@ -1,7 +1,6 @@
 package gui.customer;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javafx.collections.ObservableList;
@@ -41,6 +40,7 @@ public abstract class GenericOverview2<O> {
 		VBox vboxDetailsAndButtons = new VBox();
 
 		// Add Table
+		genericTableView.getStyleClass().add("css/customerTable.css");
 		genericTableView.setData(others);
 		genericTableView.setOnMouseClicked(event -> {
 			this.current = genericTableView.getSelectionModel().getSelectedItem();

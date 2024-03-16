@@ -12,7 +12,7 @@ public record CompanyDTO(String vatNumber, String logo, List<Integer> orders, St
 		this(c.getVatNumber(), c.getLogo(), c.getOrders(), c.getAddress().getCountry(), c.getAddress().getCity(),
 				c.getAddress().getZipCode(), c.getAddress().getStreet(), c.getAddress().getNumber(), c.getContact().getPhoneNumber(), c.getContact().getEmail(),
 				c.getPaymentOptions(), c.getCustomerStart().toString(), c.getName(), c.getSector(), c.getBankAccountNr(),
-				c.getIsActiveProperty());
+				c.getIsActiveProperty().get());
 	}
 
 	// Needed for TableView

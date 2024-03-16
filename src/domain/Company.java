@@ -2,21 +2,16 @@ package domain;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import jakarta.persistence.Access;
-import jakarta.persistence.AccessType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.NamedQueries;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Transient;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -34,7 +29,7 @@ public class Company implements Serializable {
 	private String VatNumber;
 	private String logo; // URL Nr Afbeelding
 							// https://stackoverflow.com/questions/76284097/how-do-i-set-an-imageview-in-javafx-to-have-a-url-of-an-image-on-the-internet
-	
+
 	@OneToOne
 	// @JoinColumn(name = "address_id")
 	@Embedded
@@ -60,7 +55,8 @@ public class Company implements Serializable {
 	@Transient
 	private SimpleBooleanProperty isActiveProperty = new SimpleBooleanProperty(true);
 	
-	private List<Integer> orders;
+	@Column
+	private List<Integer> orders = new ArrayList<>();
 
 	// Default constructor JPA
 	protected Company() {
@@ -81,8 +77,7 @@ public class Company implements Serializable {
 		setCustomerStart(customerStart);
 		// isActive = true; overbodig doordat Initiele toestand bij attributen reeds
 		// goed gezet wordt
-		// TODO 
-		this.orders = orders;
+		setOrders(orders);
 	}
 
 	public void setActive() {
@@ -95,16 +90,16 @@ public class Company implements Serializable {
 		return nameProperty.get();
 	}
 
-	public String getSectorProperty() {
-		return sectorProperty.get();
+	public StringProperty getSectorProperty() {
+		return sectorProperty;
 	}
 
-	public long getBankAccountNrProperty() {
-		return bankAccountNrProperty.get();
+	public SimpleLongProperty getBankAccountNrProperty() {
+		return bankAccountNrProperty;
 	}
 
-	public boolean getIsActiveProperty() {
-		return isActiveProperty.get();
+	public SimpleBooleanProperty getIsActiveProperty() {
+		return isActiveProperty;
 	}
 
 	// Getters en setters toevoegen
