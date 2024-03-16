@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="src/" kind="src" path=""/>
-	<classpathentry kind="src" path="src"/>
+	<classpathentry excluding="src/|src/CSVFiles/" kind="src" path=""/>
+	<classpathentry excluding="CSVFiles/" kind="src" path="src"/>
+	<classpathentry kind="src" path="src/CSVFiles"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5">
 		<attributes>
 			<attribute name="module" value="true"/>

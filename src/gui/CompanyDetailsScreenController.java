@@ -150,7 +150,7 @@ public class CompanyDetailsScreenController extends AnchorPane implements Observ
 	    // Nuttig?
 	    
 	    // Vat
-	    if (!vatField.getText().matches(Validation.vatRegex)) {
+	    if (!vatField.getText().matches(Validation.VAT_REGEX)) {
 	        showErrorAlert("Please enter a valid VAT Number.");
 	        return false;
 	    }
@@ -165,7 +165,7 @@ public class CompanyDetailsScreenController extends AnchorPane implements Observ
 	    // Nuttig?
 	    
 	    // House Number
-	    if (!addressNrField.getText().matches(Validation.houseNumberRegex)) {
+	    if (!addressNrField.getText().matches(Validation.HOUSE_NUMBER_REGEX)) {
 	        showErrorAlert("Please enter a valid house number.");
 	        return false;
 	    }
@@ -180,19 +180,19 @@ public class CompanyDetailsScreenController extends AnchorPane implements Observ
 	    // Nuttig?
 	    
 	    // Bank
-	    if (!bankField.getText().matches(Validation.ibanRegex)) {
+	    if (!bankField.getText().matches(Validation.IBAN_REGEX)) {
 	        showErrorAlert("Please enter a valid bank account number.");
 	        return false;
 	    }
 	    
 	    // Phone
-	    if (!phoneField.getText().matches(Validation.phoneNumberRegex)) {
+	    if (!phoneField.getText().matches(Validation.PHONE_NUMBER_REGEX)) {
 	        showErrorAlert("Please enter a valid mobile number.");
 	        return false;
 	    }
 	    
 	    // Email
-	    if (!emailField.getText().matches(Validation.emailRegex)) {
+	    if (!emailField.getText().matches(Validation.EMAIL_REGEX)) {
 	        showErrorAlert("Please enter a valid email address.");
 	        return false;
 	    }

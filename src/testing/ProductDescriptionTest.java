@@ -1,4 +1,4 @@
-package tests;
+package testing;
 
 import org.junit.jupiter.api.BeforeEach;
 

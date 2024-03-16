@@ -33,7 +33,7 @@ public class Contact implements Serializable {
 	}
 
 	public void setEmail(String email) {
-		if (!email.matches(Validation.emailRegex)) {
+		if (!email.matches(Validation.EMAIL_REGEX)) {
 			throw new IllegalArgumentException("Not a valid email address");
 		}
 		this.email = email;
@@ -44,7 +44,7 @@ public class Contact implements Serializable {
 	}
 
 	public void setPhoneNumber(String phoneNumber) {
-		if (!phoneNumber.matches(Validation.phoneNumberRegex)) {
+		if (!phoneNumber.matches(Validation.PHONE_NUMBER_REGEX)) {
 			throw new IllegalArgumentException("Not a valid phone number");
 		}
 		this.phoneNumber = phoneNumber;

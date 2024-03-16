@@ -280,9 +280,9 @@ public class DomainController implements Subject {
 			String city = address[2];
 			String postalCode = address[3];
 			String country = address[4];
-			customerRepo.startTransaction();
+			GenericDaoJpa.startTransaction();
 			customerRepo.insert(new Customer(customerIds.get(i), firstNameList.get(i), lastNameList.get(i), street, addressNr, city, postalCode, country));
-			customerRepo.commitTransaction();
+			GenericDaoJpa.commitTransaction();
 		}
 		
 		customerIds = orders.stream().map(Order::getCustomer).distinct().collect(Collectors.toList());
