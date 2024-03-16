@@ -29,6 +29,7 @@ public class DomainController implements Subject {
 	private Company currentCompany;
 	private Order currentOrder;
 	private OrderData od;
+	
 	public DomainController() {
 		setOrderRepo(new GenericDaoJpa<>(Order.class));
 		setOrderItemRepo(new GenericDaoJpa<>(OrderItem.class));
@@ -71,17 +72,20 @@ public class DomainController implements Subject {
 		productUnitRepo = pu;
 	}
 	
-
 	public void setCustomerRepo(GenericDaoJpa<Customer> c) {
 		customerRepo = c;
 	}
+	
 	
 	public void setCurrentOrder(Order o) {
 		this.currentOrder = o;
 		notifyObservers();
 	}
-
 	
+	public Order getCurrentOrder() {
+		return currentOrder;
+	}
+
 	
 	public void setCompanyRepo(GenericDaoJpa<Company> mock) {
 		companyRepo = mock;
@@ -91,9 +95,11 @@ public class DomainController implements Subject {
 		this.currentCompany = c;
 		notifyObservers();
 	}
+	
 	public Company getCurrentCompany() {
 		return currentCompany;
 	}
+	
 	public ObservableList<Order> getOrdersList() {
 		if(orderList == null) { 
 			orderList = new ArrayList<Order>();
@@ -106,23 +112,22 @@ public class DomainController implements Subject {
 		return FXCollections.observableArrayList(orderList);
 	}
 	
-	public ObservableList<OrderItem> getOrderItemsList() {
+	public ObservableList<OrderItem> getOrderItemsList(String orderId) {
 		if(orderItemList == null) { 
 			orderItemList = new ArrayList<OrderItem>();
 		}
-		List<OrderItem> orderItemsFromRepo = orderItemRepo.findAll();
-		
+		System.out.println("test1");
+		List<OrderItem> orderItemsFromOrder = orderItemRepo.findAll().stream().filter(oi -> oi.getOrderId() == (Integer.parseInt(orderId))).collect(Collectors.toList());
+		System.out.println("test2");
 		orderItemList.clear();
-		orderItemList.addAll(orderItemsFromRepo);
+		orderItemList.addAll(orderItemsFromOrder);
 	
 		return FXCollections.observableArrayList(orderItemList);
 	}
 	
-
 	public ObservableList<Company> getCompanyList() {
 		if (companyList == null) {
 			companyList = companyRepo.findAll();
-
 		}
 		return FXCollections.observableArrayList(companyList);
 	}
@@ -156,7 +161,6 @@ public class DomainController implements Subject {
 	@Override
 	public void addObserver(Observer o) {
 		observers.add(o);
-
 	}
 
 	@Override
@@ -168,6 +172,7 @@ public class DomainController implements Subject {
 	private void notifyObservers() {
 		observers.forEach(o -> {o.update(currentCompany); o.update(currentOrder);});
 	}
+	
 	private void listCustomers() {
 		List<Order> orders = orderRepo.findAll();
 		customerIds = orders.stream().map(Order::getCustomer).distinct().collect(Collectors.toList());
