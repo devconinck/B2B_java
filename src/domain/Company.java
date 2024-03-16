@@ -5,22 +5,21 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.Access;
+import jakarta.persistence.AccessType;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.NamedQueries;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.Transient;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+
 
 @Entity
+@Access(AccessType.FIELD)
 public class Company implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -43,22 +42,11 @@ public class Company implements Serializable {
 	private List<String> paymentOptions; // Niet duidelijk welk type
 	private Date customerStart;
 
-	// TableView Attributes + Gewone properties om serializable te zijn
-	@Transient
-	private SimpleStringProperty nameProperty = new SimpleStringProperty();
-	private String name;
+	private SimpleStringProperty name = new SimpleStringProperty();
+	private SimpleStringProperty sector = new SimpleStringProperty();
+	private SimpleLongProperty bankAccountNr = new SimpleLongProperty();
+	private SimpleBooleanProperty isActive = new SimpleBooleanProperty(true);
 
-	@Transient
-	private SimpleStringProperty sectorProperty = new SimpleStringProperty();
-	private String sector;
-
-	@Transient
-	private SimpleLongProperty bankAccountNrProperty = new SimpleLongProperty();
-	private Long bankAccountNr;
-
-	@Transient
-	private SimpleBooleanProperty isActiveProperty = new SimpleBooleanProperty(true);
-	private Boolean isActive = true;
 
 	// Default constructor JPA
 	protected Company() {
@@ -78,114 +66,120 @@ public class Company implements Serializable {
 		setPaymentOptions(paymentOptions);
 		setCustomerStart(customerStart);
 		// isActive = true; overbodig doordat Initiele toestand bij attributen reeds
-		// goed gezet wordt
 	}
 
-	public void setActive() {
-		isActiveProperty.set(!isActiveProperty.get());
-		isActive = !isActive;
-	}
-
-	// Property Getters
-	// Geen idee of waarschuwing relevant is
-	public StringProperty getNameProperty() {
-		return nameProperty;
-	}
-
-	public StringProperty getSectorProperty() {
-		return sectorProperty;
-	}
-
-	public SimpleLongProperty getBankAccountNrProperty() {
-		return bankAccountNrProperty;
-	}
-
-	public SimpleBooleanProperty getIsActiveProperty() {
-		return isActiveProperty;
-	}
-
-	// Getters en setters toevoegen
-	// SETTER VALIDATIE TOEVOEGEN
+	// Getters
 	public String getVatNumber() {
 		return VatNumber;
-	}
-
-	public void setVatNumber(String vatNumber) {
-		this.VatNumber = vatNumber;
 	}
 
 	public String getLogo() {
 		return logo;
 	}
 
-	public void setLogo(String logo) {
-		this.logo = logo;
-	}
-
 	public Address getAddress() {
 		return address;
 	}
 
-	public SimpleStringProperty getAddressString() {
+	public String getAddressString() {
 		return address != null
-				? new SimpleStringProperty(address.getStreet() + ", " + address.getZipCode() + " " + address.getCity()
-						+ ", " + address.getCountry())
-				: new SimpleStringProperty("No address found.");
-	}
-
-	public void setAddressId(Address address) {
-		this.address = address;
+				? address.toString()
+				: "No address found.";
 	}
 
 	public Contact getContact() {
 		return contact;
 	}
 
+	@Access(AccessType.PROPERTY)
+	public String getName() {
+		return name.get();
+	}
+
+	@Access(AccessType.PROPERTY)
+	public String getSector() {
+		return sector.get();
+	}
+
+	@Access(AccessType.PROPERTY)
+	public Long getBankAccountNr() {
+		return bankAccountNr.get();
+	}
+	
+	@Access(AccessType.PROPERTY)
+	public boolean getIsActive() {
+		return isActive.get();
+	}
+	
+
+	public List<String> getPaymentOptions() {
+		return paymentOptions;
+	}
+
+	public Date getCustomerStart() {
+		return customerStart;
+	}
+	
+	// Property gettters:
+	public SimpleStringProperty getNameProperty() {
+		return name;
+	}
+	
+	public SimpleStringProperty getSectorProperty() {
+		return sector;
+	}
+	
+	public SimpleStringProperty getAddressProperty() {
+		return new SimpleStringProperty(address.toString());
+	}
+	
+	public SimpleBooleanProperty getIsActiveProperty() {
+		return isActive;
+	}
+	
+	// Setters
+	public void setVatNumber(String vatNumber) {
+		this.VatNumber = vatNumber;
+	}
+
+	public void setIsActive(boolean isActive) {
+	    this.isActive.set(isActive);
+	}
+
+	public void setLogo(String logo) {
+		this.logo = logo;
+	}
+
+	public void setAddressId(Address address) {
+		this.address = address;
+	}
+
 	public void setContactId(Contact contact) {
 		this.contact = contact;
 	}
 
-	public String getName() {
-		return nameProperty.get();
-	}
-
 	public void setName(String name) {
-		this.nameProperty.set(name);
-		this.name = name;
-	}
-
-	public String getSector() {
-		return sectorProperty.get();
+		this.name.set(name);
 	}
 
 	public void setSector(String sector) {
-		this.sectorProperty.set(sector);
-		this.sector = sector;
-	}
-
-	public Long getBankAccountNr() {
-		return bankAccountNrProperty.get();
+		this.sector.set(sector);
 	}
 
 	public void setBankAccountNr(Long bankAccountNr) {
-		this.bankAccountNrProperty.set(bankAccountNr);
-		this.bankAccountNr = bankAccountNr;
-	}
-
-	public List<String> getPaymentOptions() {
-		return paymentOptions;
+		this.bankAccountNr.set(bankAccountNr);
 	}
 
 	public void setPaymentOptions(List<String> paymentOptions) {
 		this.paymentOptions = paymentOptions;
 	}
 
-	public Date getCustomerStart() {
-		return customerStart;
-	}
-
 	public void setCustomerStart(Date customerStart) {
 		this.customerStart = customerStart;
+	}
+	
+	public void toggleIsActive() {
+		isActive.set(!isActive.get());
 	}
 
 	// Noodzakelijk voor JPA
@@ -205,4 +199,5 @@ public class Company implements Serializable {
 		Company other = (Company) obj;
 		return VatNumber == other.VatNumber;
 	}
+
 }

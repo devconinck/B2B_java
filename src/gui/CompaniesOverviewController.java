@@ -13,21 +13,17 @@ import javafx.scene.layout.VBox;
 
 public class CompaniesOverviewController extends GridPane {
 	
-	//private AdminController dc;
-	private DomainController dc;
 	
 	private CompanyScreenController companies;
 	private CompanyDetailsScreenController companyDetails;
 	private ControlScreenController controls;
     private FilterController filter;
 	
-	public CompaniesOverviewController(DomainController dc) {
-		this.dc = dc;
-		
+	public CompaniesOverviewController(DomainController dc) {		
 		this.filter = new FilterController(dc.getCompanyList());
 		this.companyDetails = new CompanyDetailsScreenController(dc);
 		this.controls = new ControlScreenController(companyDetails);
-		this.companies = new CompanyScreenController(dc, filter, companyDetails, controls);
+		this.companies = new CompanyScreenController(dc, filter, controls);
 		buildGui();
 	}
 	
