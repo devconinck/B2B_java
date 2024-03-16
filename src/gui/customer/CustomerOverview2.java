@@ -22,6 +22,7 @@ public class CustomerOverview2 extends GenericOverview2<CompanyDTO> {
 
 	public CustomerOverview2(List<String> attributes, DomainController dc) {
 		super(FXCollections.observableArrayList(dc.getCompanyList().stream().map(comp -> new CompanyDTO(comp)).collect(Collectors.toList())), attributes);
+		genericTableView.setPrefHeight(100);
 	}
 
 	@Override

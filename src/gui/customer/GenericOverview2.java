@@ -40,7 +40,7 @@ public abstract class GenericOverview2<O> {
 		VBox vboxDetailsAndButtons = new VBox();
 
 		// Add Table
-		genericTableView.getStyleClass().add("css/customerTable.css");
+		genericTableView.getStylesheets().add("css/customerTable.css");
 		genericTableView.setData(others);
 		genericTableView.setOnMouseClicked(event -> {
 			this.current = genericTableView.getSelectionModel().getSelectedItem();
