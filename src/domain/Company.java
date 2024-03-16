@@ -17,10 +17,9 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-
 @Entity
 @Access(AccessType.FIELD)
-public class Company implements Serializable {
+public class Company implements Serializable, B2BCompany {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -69,53 +68,63 @@ public class Company implements Serializable {
 	}
 
 	// Getters
+	@Override
 	public String getVatNumber() {
 		return VatNumber;
 	}
-
+	
+	@Override
 	public String getLogo() {
 		return logo;
 	}
 
+	@Override
 	public Address getAddress() {
 		return address;
 	}
 
+	@Override
 	public String getAddressString() {
 		return address != null
 				? address.toString()
 				: "No address found.";
 	}
 
+	@Override
 	public Contact getContact() {
 		return contact;
 	}
 
+	@Override
 	@Access(AccessType.PROPERTY)
 	public String getName() {
 		return name.get();
 	}
 
+	@Override
 	@Access(AccessType.PROPERTY)
 	public String getSector() {
 		return sector.get();
 	}
 
+	@Override
 	@Access(AccessType.PROPERTY)
 	public Long getBankAccountNr() {
 		return bankAccountNr.get();
 	}
 	
+	@Override
 	@Access(AccessType.PROPERTY)
 	public boolean getIsActive() {
 		return isActive.get();
 	}
 	
-
+	@Override
 	public List<String> getPaymentOptions() {
 		return paymentOptions;
 	}
 
+	@Override
 	public Date getCustomerStart() {
 		return customerStart;
 	}
