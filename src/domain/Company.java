@@ -2,10 +2,13 @@ package domain;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.Access;
+import jakarta.persistence.AccessType;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,7 +34,7 @@ public class Company implements Serializable {
 	private String VatNumber;
 	private String logo; // URL Nr Afbeelding
 							// https://stackoverflow.com/questions/76284097/how-do-i-set-an-imageview-in-javafx-to-have-a-url-of-an-image-on-the-internet
-
+	
 	@OneToOne
 	// @JoinColumn(name = "address_id")
 	@Embedded
@@ -47,19 +50,17 @@ public class Company implements Serializable {
 	// TableView Attributes + Gewone properties om serializable te zijn
 	@Transient
 	private SimpleStringProperty nameProperty = new SimpleStringProperty();
-	private String name;
 
 	@Transient
 	private SimpleStringProperty sectorProperty = new SimpleStringProperty();
-	private String sector;
 
 	@Transient
 	private SimpleLongProperty bankAccountNrProperty = new SimpleLongProperty();
-	private Long bankAccountNr;
 
 	@Transient
 	private SimpleBooleanProperty isActiveProperty = new SimpleBooleanProperty(true);
-	private Boolean isActive = true;
+	
+	private List<Integer> orders;
 
 	// Default constructor JPA
 	protected Company() {
@@ -80,29 +81,30 @@ public class Company implements Serializable {
 		setCustomerStart(customerStart);
 		// isActive = true; overbodig doordat Initiele toestand bij attributen reeds
 		// goed gezet wordt
+		// TODO 
+		this.orders = orders;
 	}
 
 	public void setActive() {
 		isActiveProperty.set(!isActiveProperty.get());
-		isActive = !isActive;
 	}
 
 	// Property Getters
 	// Geen idee of waarschuwing relevant is
-	public StringProperty getNameProperty() {
-		return nameProperty;
+	public String getNameProperty() {
+		return nameProperty.get();
 	}
 
-	public StringProperty getSectorProperty() {
-		return sectorProperty;
+	public String getSectorProperty() {
+		return sectorProperty.get();
 	}
 
-	public SimpleLongProperty getBankAccountNrProperty() {
-		return bankAccountNrProperty;
+	public long getBankAccountNrProperty() {
+		return bankAccountNrProperty.get();
 	}
 
-	public SimpleBooleanProperty getIsActiveProperty() {
-		return isActiveProperty;
+	public boolean getIsActiveProperty() {
+		return isActiveProperty.get();
 	}
 
 	// Getters en setters toevoegen
@@ -152,7 +154,6 @@ public class Company implements Serializable {
 
 	public void setName(String name) {
 		this.nameProperty.set(name);
-		this.name = name;
 	}
 
 	public String getSector() {
@@ -161,7 +162,6 @@ public class Company implements Serializable {
 
 	public void setSector(String sector) {
 		this.sectorProperty.set(sector);
-		this.sector = sector;
 	}
 
 	public Long getBankAccountNr() {
@@ -170,7 +170,6 @@ public class Company implements Serializable {
 
 	public void setBankAccountNr(Long bankAccountNr) {
 		this.bankAccountNrProperty.set(bankAccountNr);
-		this.bankAccountNr = bankAccountNr;
 	}
 
 	public List<String> getPaymentOptions() {
@@ -187,6 +186,14 @@ public class Company implements Serializable {
 
 	public void setCustomerStart(LocalDate customerStart) {
 		this.customerStart = customerStart;
+	}
+
+	public List<Integer> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Integer> orders) {
+		this.orders = orders;
 	}
 
 	// Noodzakelijk voor JPA

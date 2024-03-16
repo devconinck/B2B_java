@@ -66,7 +66,6 @@ public class Seed {
 
 	private void addCompanies() {
 		List<Company> companyList = new ArrayList<>();
-		List<Order> orders = new ArrayList<>();
 
 		companyList.add(new Company("US123456789", "company_logo_1.png",
 				new Address("United States", "New York", "10001", "Broadway", "123"),
