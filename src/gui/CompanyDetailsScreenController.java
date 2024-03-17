@@ -106,25 +106,22 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
         customerStartField = new TextField();
         paymentOptionsField = new TextField();
         logoUrlField = new TextField();
-        try {
-            logoImageView = new ImageView(new Image(new FileInputStream("src/images/delaware-logo.jpg")));
-            logoImageView.setFitHeight(100);
-            logoImageView.setPreserveRatio(true);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        
+        logoImageView = new ImageView();
+        logoImageView.setFitHeight(100);
+        logoImageView.setPreserveRatio(true);
 
         HBox generalBox = new HBox(10); // Add 10 pixels of spacing between children
         generalBox.getChildren().addAll(createField(nameLabel, nameField), createField(sectorLabel, sectorField),
                 createField(customerStartLabel, customerStartField));
         
-        streetField.setPrefWidth(310);
         vatField.setMaxWidth(470);
-        logoUrlField.setMaxWidth(470);
 
         Label addressLabel = new Label("Address:");
         addressLabel.setStyle("-fx-font-size: 20px;");
-
+        
+        streetField.setPrefWidth(310);
+        
         HBox addressBox1 = new HBox(10);
         addressBox1.getChildren().addAll(createField(streetLabel, streetField),
                 createField(addressNrLabel, addressNrField));
@@ -150,6 +147,8 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
         logoLabel.setStyle("-fx-font-size: 20px;");
 
         Label logoUrlLabel = new Label("Logo url:");
+        
+        logoUrlField.setMaxWidth(470);
 
         VBox logoBox = new VBox(10);
         logoBox.getChildren().addAll(logoImageView, createField(logoUrlLabel, logoUrlField));
@@ -185,6 +184,20 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
 		
 		this.isActive = c.getIsActiveProperty();
 		
+		this.customerStartField.setText(c.getCustomerStart().toString());
+		this.paymentOptionsField.setText(c.getPaymentOptions().toString());
+		this.logoUrlField.setText(c.getLogo());
+		try {
+			this.logoImageView.setImage(new Image(new FileInputStream(c.getLogo())));
+		} catch (FileNotFoundException fe) {
+			try {
+				this.logoImageView.setImage(new Image(new FileInputStream("src/images/no-logo.png")));
+			} catch (Exception e) {
+				// Do nothing
+			}
+		}
+		
+		
 		/*
 		 * if (this.currentUserId.equals(dc.getCurrentUserId())) {
 		 * buttonBox.getChildren().clear(); buttonBox.getChildren().setAll(saveButton,
@@ -205,8 +218,11 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
 	    this.bankField.clear();
 	    this.phoneField.clear();
 	    this.emailField.clear();
-
+	    this.customerStartField.clear();
+	    this.paymentOptionsField.clear();
+	    this.logoUrlField.clear();
 	}
+
 
 
 	private boolean isInputValid() {		
