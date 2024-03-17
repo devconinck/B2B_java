@@ -2,14 +2,15 @@ package gui.customer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import domain.DomainController;
 import javafx.collections.ObservableList;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
-import domain.DomainController;
 
 public abstract class GenericOverview2<O> {
 	
@@ -29,7 +30,7 @@ public abstract class GenericOverview2<O> {
 		setClassFields(others);
 	}
 	
-	public GenericOverview2(ObservableList<O> others, List<String> attributes, DomainController dc) {
+	public GenericOverview2(ObservableList<O> others, Map<String, String> attributes, DomainController dc) {
 		this.dc = dc;
 		hbox_main = new HBox();
 		this.current = others.get(0);
@@ -55,7 +56,8 @@ public abstract class GenericOverview2<O> {
 		Screen screen = Screen.getPrimary();
 		Rectangle2D visualBounds = screen.getVisualBounds();
 		genericTableView.setPrefWidth((visualBounds.getWidth() - SIDEBAR_WIDTH) / 2);
-		genericTableView.setPrefHeight(visualBounds.getHeight() - TOPBAR_HEIGHT);
+		// TODO tot beneden laten gaan?
+		//genericTableView.setPrefHeight(visualBounds.getHeight() - TOPBAR_HEIGHT);
 
 		// Details and Buttons
 		VBox details = createDetails(others.get(0));

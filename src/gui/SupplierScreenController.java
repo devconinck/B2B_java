@@ -1,19 +1,11 @@
 package gui;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import domain.DomainController;
-import domain.UserController;
-import gui.customer.CompanyDTO;
-import gui.customer.Customer;
-import gui.customer.CustomerOverview;
 import gui.customer.CustomerOverview2;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -63,7 +55,11 @@ public class SupplierScreenController extends BorderPane {
 		
 		customersButton.setOnMouseClicked(e -> {
 			this.mainScreen.getChildren().clear();
-			CustomerOverview2 co = new CustomerOverview2(List.of("logo", "name", "numberOfOpenOrders"), dc);
+			Map<String, String> map = new TreeMap<>();
+			map.put("Open orders", "numberOfOpenOrders");
+			map.put("Name", "name");
+			map.put("Logo", "logo");
+			CustomerOverview2 co = new CustomerOverview2(map, dc);
 			this.mainScreen.getChildren().add(co.getHBox());
 		});
 		

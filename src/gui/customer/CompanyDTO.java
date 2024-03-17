@@ -79,4 +79,8 @@ public record CompanyDTO(String vatNumber, String logo, List<Integer> orders, St
 	public boolean getIsActive() {
 		return isActive;
 	}
+	
+	public int getNumberOfOpenOrders() {
+		return numberOfOpenOrders;
+	}
 }
