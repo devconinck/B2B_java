@@ -1,6 +1,8 @@
 package gui;
 
 import javafx.beans.binding.Bindings;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 
@@ -18,6 +20,10 @@ public class ControlScreenController extends HBox {
 
 	public void createButtons() {
 		this.getChildren().clear();
+		
+        setPadding(new Insets(10, 50, 10, 50));
+        setSpacing(25);
+        setAlignment(Pos.CENTER);
 		
 		clearBtn = new Button("Clear");
 		saveButton = new Button("Save");

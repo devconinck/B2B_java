@@ -1,5 +1,7 @@
 package gui;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -10,8 +12,10 @@ import domain.DomainController;
 import domain.Observer;
 import domain.Order;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
@@ -68,13 +72,13 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
 	 * }
 	 */
 
-	private void buildGui() {
-		Label headerLabel = new Label("Company Details:");
-		headerLabel.setStyle("-fx-font-size: 30px;");
-		
-		// Labels aanmaken
-		Label paymentOptionsLabel = new Label("Payment Options:");
-		Label customerStartLabel = new Label("Customer since: ");
+    private void buildGui() {
+        Label headerLabel = new Label("Company Details:");
+        headerLabel.setStyle("-fx-font-size: 30px;");
+
+        // Labels
+        Label paymentOptionsLabel = new Label("Payment Options:");
+        Label customerStartLabel = new Label("Customer since: ");
         Label nameLabel = new Label("Name:");
         Label vatLabel = new Label("VAT Number:");
         Label sectorLabel = new Label("Sector:");
@@ -102,58 +106,67 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
         customerStartField = new TextField();
         paymentOptionsField = new TextField();
         logoUrlField = new TextField();
-        logoImageView = new ImageView();
+        try {
+            logoImageView = new ImageView(new Image(new FileInputStream("src/images/delaware-logo.jpg")));
+            logoImageView.setFitHeight(100);
+            logoImageView.setPreserveRatio(true);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        HBox generalBox = new HBox(10); // Add 10 pixels of spacing between children
+        generalBox.getChildren().addAll(createField(nameLabel, nameField), createField(sectorLabel, sectorField),
+                createField(customerStartLabel, customerStartField));
         
-        
-        
-        HBox generalBox = new HBox();
-        generalBox.getChildren().addAll(createField(nameLabel, nameField), createField(sectorLabel, sectorField), createField(customerStartLabel, customerStartField));
-        
-        
+        streetField.setPrefWidth(310);
+        vatField.setMaxWidth(470);
+        logoUrlField.setMaxWidth(470);
+
         Label addressLabel = new Label("Address:");
         addressLabel.setStyle("-fx-font-size: 20px;");
-        
-        HBox addressBox1 = new HBox();
-        addressBox1.getChildren().addAll(createField(streetLabel, streetField), createField(addressNrLabel, addressNrField));
-        
-        HBox addressBox2 = new HBox();
-        addressBox2.getChildren().addAll(createField(cityLabel, cityField), createField(postalcodeLabel, postalcodeField), createField(countryLabel, countryField));
-        
-        
-        
+
+        HBox addressBox1 = new HBox(10);
+        addressBox1.getChildren().addAll(createField(streetLabel, streetField),
+                createField(addressNrLabel, addressNrField));
+
+        HBox addressBox2 = new HBox(10);
+        addressBox2.getChildren().addAll(createField(cityLabel, cityField), createField(postalcodeLabel, postalcodeField),
+                createField(countryLabel, countryField));
+
         Label contactLabel = new Label("Contact:");
         contactLabel.setStyle("-fx-font-size: 20px;");
-       
-        HBox contactBox = new HBox();
+
+        HBox contactBox = new HBox(10);
         contactBox.getChildren().addAll(createField(phoneLabel, phoneField), createField(emailLabel, emailField));
-        
-        
-        
+
         Label paymentLabel = new Label("Payment:");
         paymentLabel.setStyle("-fx-font-size: 20px;");
-        
-        HBox paymentBox = new HBox();
-        paymentBox.getChildren().addAll(createField(bankLabel, bankField), createField(paymentOptionsLabel, paymentOptionsField));
-        
-        
-        
+
+        HBox paymentBox = new HBox(10);
+        paymentBox.getChildren().addAll(createField(bankLabel, bankField),
+                createField(paymentOptionsLabel, paymentOptionsField));
+
         Label logoLabel = new Label("Logo:");
-        paymentLabel.setStyle("-fx-font-size: 20px;");
-        
+        logoLabel.setStyle("-fx-font-size: 20px;");
+
         Label logoUrlLabel = new Label("Logo url:");
-        
-        VBox logoBox = new VBox();
+
+        VBox logoBox = new VBox(10);
         logoBox.getChildren().addAll(logoImageView, createField(logoUrlLabel, logoUrlField));
+
+        VBox mainVBox = new VBox(3);
+        mainVBox.getChildren().addAll(headerLabel, generalBox, createField(vatLabel, vatField), addressLabel,
+                addressBox1, addressBox2, contactLabel, contactBox, paymentLabel, paymentBox, logoLabel, logoBox);
         
-        this.getChildren().addAll(headerLabel, generalBox, createField(vatLabel, vatField), addressLabel, addressBox1, addressBox2, contactLabel, contactBox, paymentLabel, paymentBox, logoLabel, logoBox);
-	}
-	
-	
-	private VBox createField(Label label, TextField field) {
-		VBox vbox = new VBox();
-		vbox.getChildren().addAll(label, field);
-		return vbox;
-	}
+        VBox.setMargin(this, new Insets(0, 0, 0, 50));
+        this.getChildren().addAll(mainVBox);
+    }
+
+    private VBox createField(Label label, TextField field) {
+        VBox vbox = new VBox(5); 
+        vbox.getChildren().addAll(label, field);
+        return vbox;
+    }
 	
 	public void loadCompany(String vat) {
 		Company c = dc.getCompany(vat);
