@@ -128,9 +128,8 @@ public class DomainController implements Subject {
 	}
 
 	public Company getCompany(String vat) {
-		this.getCompanyList();
 		for (Company c : companyList) {
-			if (c.getVatNumber() == vat) {
+			if (c.getVatNumber().equals(vat)) {
 				return c;
 			}
 		}

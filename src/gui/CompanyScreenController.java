@@ -5,6 +5,7 @@ import domain.Company;
 import domain.DomainController;
 import domain.Observer;
 import domain.Order;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -50,15 +51,18 @@ public class CompanyScreenController extends TableView<Company> implements Obser
     private void loadCompanies() {
         nameCol.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
         sectorCol.setCellValueFactory(cellData -> cellData.getValue().getSectorProperty());
+        
         addressCol.setCellValueFactory(cellData -> cellData.getValue().getAddressProperty());
+        
         isActiveCol.setCellValueFactory(cellData -> {
-            boolean isActive = cellData.getValue().getIsActiveProperty().get();
-            SimpleStringProperty text = new SimpleStringProperty(isActive ? "Active" : "Inactive");
+            SimpleStringProperty text = new SimpleStringProperty();
+            text.bind(Bindings.when(cellData.getValue().getIsActiveProperty())
+                    .then("Active")
+                    .otherwise("Inactive"));
             return text;
         });
 
         this.setItems(filter.getFilteredList(dc.getCompanyList()));
-
         this.setOnMouseClicked(event -> {
             if (event.getClickCount() == 1) {
                 Company selectedCompany = this.getSelectionModel().getSelectedItem();
@@ -69,7 +73,6 @@ public class CompanyScreenController extends TableView<Company> implements Obser
             }
         });
     }
-
     @Override
     public void update(Company c) {
         // TODO Auto-generated method stub

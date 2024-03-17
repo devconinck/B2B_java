@@ -34,7 +34,7 @@ public class ControlScreenController extends HBox {
 		saveButton.setOnMouseClicked(e -> companyDetails.persistCompany());
 
 		// Dikke saus code
-		inactiveBtn.setOnMouseClicked(e -> companyDetails.isActive.setValue(!companyDetails.isActive.getValue()));
+		inactiveBtn.setOnMouseClicked(e -> companyDetails.toggleIsActive());
 		
 		clearBtn.setOnMouseClicked(e -> companyDetails.clearAllFields());
 	}

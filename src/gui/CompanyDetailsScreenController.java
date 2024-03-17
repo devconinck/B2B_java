@@ -131,6 +131,7 @@ public class CompanyDetailsScreenController extends AnchorPane implements Observ
 
 
 	private boolean isInputValid() {		
+		/*
 	    if (	this.nameField.getText().isEmpty() ||
 	    	    this.vatField.getText().isEmpty() ||
 	    	    this.sectorField.getText().isEmpty() ||
@@ -196,6 +197,7 @@ public class CompanyDetailsScreenController extends AnchorPane implements Observ
 	        showErrorAlert("Please enter a valid email address.");
 	        return false;
 	    }
+	    */
 	    return true;
 	}
 
@@ -223,6 +225,12 @@ public class CompanyDetailsScreenController extends AnchorPane implements Observ
 
 	}
 	
+	public void toggleIsActive() {
+		Company currentComp = dc.getCurrentCompany();
+		currentComp.toggleIsActive();
+		dc.updateCompany(currentComp);
+	}
+	
 	public void persistCompany() {		
 		if (isInputValid()) {
 			String vatNumber = vatField.getText();
@@ -233,14 +241,17 @@ public class CompanyDetailsScreenController extends AnchorPane implements Observ
 				existingCompany.setName(nameField.getText());
                 existingCompany.setVatNumber(vatNumber);
                 existingCompany.setSector(sectorField.getText());
+                existingCompany.setBankAccountNr(Long.parseLong(bankField.getText()));
+                
                 existingCompany.getAddress().setCountry(countryField.getText());
                 existingCompany.getAddress().setCity(cityField.getText());
                 existingCompany.getAddress().setZipCode(postalcodeField.getText());
                 existingCompany.getAddress().setStreet(streetField.getText());
                 existingCompany.getAddress().setNumber(addressNrField.getText());
-                existingCompany.setBankAccountNr(Long.parseLong(bankField.getText()));
                 existingCompany.getContact().setPhoneNumber(phoneField.getText());
                 existingCompany.getContact().setEmail(emailField.getText());
+                existingCompany.setIsActive(isInputValid());
+                
 				
 				dc.updateCompany(existingCompany);
 			} else {

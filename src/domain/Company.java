@@ -57,8 +57,8 @@ public class Company implements Serializable, B2BCompany {
 			Long bankAccountNr, List<String> paymentOptions, Date customerStart) {
 		setVatNumber(vatNumber);
 		setLogo(logo);
-		setAddressId(address);
-		setContactId(contact);
+		setAddress(address);
+		setContact(contact);
 		setName(name);
 		setSector(sector);
 		setBankAccountNr(bankAccountNr);
@@ -159,11 +159,11 @@ public class Company implements Serializable, B2BCompany {
 		this.logo = logo;
 	}
 
-	public void setAddressId(Address address) {
+	public void setAddress(Address address) {
 		this.address = address;
 	}
 
-	public void setContactId(Contact contact) {
+	public void setContact(Contact contact) {
 		this.contact = contact;
 	}
 
