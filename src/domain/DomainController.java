@@ -48,6 +48,7 @@ public class DomainController implements Subject {
 		
 		listCustomers();
 	}
+	
 	public void setOrderRepo(GenericDaoJpa<Order> o) {
 		orderRepo = o;
 	}
@@ -116,9 +117,7 @@ public class DomainController implements Subject {
 		if(orderItemList == null) { 
 			orderItemList = new ArrayList<OrderItem>();
 		}
-		System.out.println("test1");
 		List<OrderItem> orderItemsFromOrder = orderItemRepo.findAll().stream().filter(oi -> oi.getOrderId() == (Integer.parseInt(orderId))).collect(Collectors.toList());
-		System.out.println("test2");
 		orderItemList.clear();
 		orderItemList.addAll(orderItemsFromOrder);
 	

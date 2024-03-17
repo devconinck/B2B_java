@@ -121,6 +121,10 @@ public class LoginScreenController extends Pane {
 			System.out.println("Supplier logged in");
 			Scene tempScene = new Scene(new SupplierScreenController(dc));
 			primaryStage.setScene(tempScene);
+			
+			//WERKT NIET => MAAR: logOut werkt hiermee wel omdat het niet full screen is 
+			primaryStage.setMaximized(true);
+			primaryStage.setResizable(false);
 		}
 		
 		else

@@ -52,7 +52,8 @@ public class SupplierScreenController extends BorderPane {
 			System.out.println("Couldn't load Supplier Screen");
 			System.out.println(e.getMessage());
 		}
-		//this.logOutButton.setOnMouseClicked(e -> logOut());
+		
+		this.logOutButton.setOnMouseClicked(e -> logOut());
 		
 		ordersButton.setOnMouseClicked(e -> {
 			this.mainScreen.getChildren().clear();
@@ -67,17 +68,6 @@ public class SupplierScreenController extends BorderPane {
 			this.mainScreen.getChildren().add(co.getHBox());
 		});
 		
-		logOutButton.setOnMouseClicked(e -> logOut());
-		
-		
-		//logica om update requests scherm te tonen
-		/*
-		 * updateButton.setOnMouseClicked(e -> { this.dc.clearObservers();
-		 * UpdateOverviewController updateScreen = new
-		 * UpdateOverviewScreenController((AdminController) dc);
-		 * this.mainScreen.getChildren().clear();
-		 * this.mainScreen.getChildren().add(updateScreen); });
-		 */
     }
     
     private ObservableList<Customer> createCustomers() {
@@ -89,7 +79,6 @@ public class SupplierScreenController extends BorderPane {
 		return customers;
 	}
     
-    // TODO ??? ctrl+v ctrl+c AdminScreenController
     private void logOut() {
         Stage currentStage = new Stage();
         LoginScreenController login = new LoginScreenController(dc);

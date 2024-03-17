@@ -36,7 +36,6 @@ public class OrderItemsController extends TableView<OrderItem> implements Observ
         this.dc = dc;
         this.dc.addObserver(this);
         buildGui();
-        //loadOrderItems();
     }
 
 	private void buildGui() {
