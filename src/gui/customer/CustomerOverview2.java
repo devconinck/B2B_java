@@ -182,7 +182,9 @@ public class CustomerOverview2 extends GenericOverview2<CompanyDTO> {
 		dc.getCompanyList();
 		ObservableList<OrderDTO> orders = FXCollections.observableArrayList(dc.getOrdersList().stream().map(or -> new OrderDTO(or)).collect(Collectors.toList()));
 		GenericTableView<OrderDTO> orderTable = new GenericTableView<>(orders.get(0));
-		orderTable.getStylesheets().add("customerTable.css");
+		System.out.println(orders.subList(0, 15));
+		orderTable.setData(FXCollections.observableArrayList(orders.subList(0, 15)));
+		orderTable.getStylesheets().add("css/customerTable.css");
 		vbox_complete.getChildren().add(orderTable);
 	}
 

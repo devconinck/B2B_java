@@ -63,7 +63,7 @@ public class SupplierScreenController extends BorderPane {
 		
 		customersButton.setOnMouseClicked(e -> {
 			this.mainScreen.getChildren().clear();
-			CustomerOverview2 co = new CustomerOverview2(List.of("logo", "name", "orders"), dc);
+			CustomerOverview2 co = new CustomerOverview2(List.of("logo", "name", "numberOfOpenOrders"), dc);
 			this.mainScreen.getChildren().add(co.getHBox());
 		});
 		

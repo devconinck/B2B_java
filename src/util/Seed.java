@@ -1,23 +1,18 @@
 package util;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Stream;
 
-import java.util.List;
 import domain.Account;
-import repository.AccountDao;
-import repository.AccountDaoJpa;
-
-import repository.GenericDao;
-import repository.GenericDaoJpa;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import domain.Address;
 import domain.Company;
 import domain.Contact;
-import domain.Order;
+import repository.AccountDao;
+import repository.AccountDaoJpa;
+import repository.GenericDao;
+import repository.GenericDaoJpa;
 
 public class Seed {
 	private AccountDao accountRepo;
@@ -45,7 +40,7 @@ public class Seed {
 	}
 
 	private void addSuppliersAndCustomers() {
-		List<Account> suppliersAndCustomers = new ArrayList<>();
+		//List<Account> suppliersAndCustomers = new ArrayList<>();
 
 	}
 
@@ -69,84 +64,84 @@ public class Seed {
 		companyList.add(new Company("US123456789", "company_logo_1.png",
 				new Address("United States", "New York", "10001", "Broadway", "123"),
 				new Contact("123456789", "email1@example.com"), "Fake Company Inc. 1", "Technology", 9876543210L,
-				List.of("Credit Card", "PayPal"), LocalDate.now(), List.of(49151, 47126, 47128, 47090)));
+				List.of("Credit Card", "PayPal"), new Date(), List.of(49151, 47126, 47128, 47090)));
 		companyList.add(new Company("CT987654321", "company_logo_2.png",
 				new Address("Country2", "City2", "23456", "Street2", "2"),
 				new Contact("987654321", "email2@example.com"), "Fake Company Inc. 2", "Finance", 1234567890L,
-				List.of("Bank Transfer", "Bitcoin"), LocalDate.now(), List.of(49151, 47126, 47128, 47090)));
+				List.of("Bank Transfer", "Bitcoin"), new Date(), List.of(49151, 47126, 47128, 47090)));
 		companyList.add(
 				new Company("CA345678901", "logo3.png", new Address("Canada", "Toronto", "M5V 2L7", "King St W", "789"),
 						new Contact("345678901", "email3@example.com"), "Tech Solutions Ltd.", "Technology",
-						1357924680L, List.of("Credit Card", "Stripe"), LocalDate.now(), List.of(49151, 47126, 47128, 47090)));
+						1357924680L, List.of("Credit Card", "Stripe"), new Date(), List.of(49151, 47126, 47128, 47090)));
 		companyList.add(new Company("UK234567890", "logo4.png",
 				new Address("United Kingdom", "London", "WC2N 5DU", "Trafalgar Square", "456"),
 				new Contact("234567890", "email4@example.com"), "Financial Services Inc.", "Finance", 2468013579L,
-				List.of("PayPal", "Bank Transfer"), LocalDate.now(), List.of(49151, 47126, 47128, 47090)));
+				List.of("PayPal", "Bank Transfer"), new Date(), List.of(49151, 47126, 47128, 47090)));
 		companyList.add(new Company("DE456789012", "logo5.png",
 				new Address("Germany", "Berlin", "10178", "Unter den Linden", "789"),
 				new Contact("456789012", "email5@example.com"), "Software Solutions GmbH", "Technology", 3692581470L,
-				List.of("Credit Card", "Bitcoin"), LocalDate.now(), List.of(49151, 47126, 47128, 47090)));
+				List.of("Credit Card", "Bitcoin"), new Date(), List.of(49151, 47126, 47128, 47090)));
 		companyList.add(new Company("FR567890129", "logo6.png",
 				new Address("France", "Paris", "75001", "Avenue des Champs-Élysées", "123"),
 				new Contact("567890123", "email6@example.com"), "Fashion Trends SAS", "Retail", 9876543210L,
-				List.of("Credit Card", "Bank Transfer"), LocalDate.now(), List.of(49151, 47126, 47128, 47090)));
+				List.of("Credit Card", "Bank Transfer"), new Date(), List.of(49151, 47126, 47128, 47090)));
 		companyList.add(
 				new Company("AS678901234", "logo7.png", new Address("Australia", "Sydney", "2000", "George St", "456"),
 						new Contact("678901234", "email7@example.com"), "Energy Solutions Pty Ltd.", "Energy",
-						7539518462L, List.of("PayPal", "Stripe"), LocalDate.now(), List.of(49151, 47126, 47128, 47090)));
+						7539518462L, List.of("PayPal", "Stripe"), new Date(), List.of(49151, 47126, 47128, 47090)));
 		companyList.add(
 				new Company("JP789012345", "logo8.png", new Address("Japan", "Tokyo", "100-0004", "Shibakoen", "789"),
 						new Contact("789012345", "email8@example.com"), "Tech Innovations KK", "Technology",
-						1592637480L, List.of("Credit Card", "Bank Transfer"), LocalDate.now(), List.of(49151, 47126, 47128, 47090)));
+						1592637480L, List.of("Credit Card", "Bank Transfer"), new Date(), List.of(49151, 47126, 47128, 47090)));
 		companyList.add(new Company("BR890123456", "logo9.png",
 				new Address("Brazil", "São Paulo", "01204-000", "Avenida Paulista", "456"),
 				new Contact("890123456", "email9@example.com"), "Marketing Solutions Ltda.", "Marketing", 3692581470L,
-				List.of("Credit Card", "Bitcoin"), LocalDate.now(), List.of(49151, 47126, 47128, 47090)));
+				List.of("Credit Card", "Bitcoin"), new Date(), List.of(49151, 47126, 47128, 47090)));
 		companyList.add(new Company("SA901234567", "logo10.png",
 				new Address("South Africa", "Johannesburg", "2001", "Simmonds St", "123"),
 				new Contact("901234567", "email10@example.com"), "Logistics Services Pty Ltd.", "Logistics",
-				9876543210L, List.of("PayPal", "Bank Transfer"), LocalDate.now(), List.of(49151, 47126, 47128, 47090)));
+				9876543210L, List.of("PayPal", "Bank Transfer"), new Date(), List.of(49151, 47126, 47128, 47090)));
 		// 10
 		companyList.add(
 				new Company("ES109876543", "logo11.png", new Address("Spain", "Madrid", "28001", "Gran Vía", "789"),
 						new Contact("109876543", "email11@example.com"), "Healthcare Solutions S.L.", "Healthcare",
-						1234567890L, List.of("Credit Card", "Stripe"), LocalDate.now(), List.of(49151, 47126, 47128, 47090)));
+						1234567890L, List.of("Credit Card", "Stripe"), new Date(), List.of(49151, 47126, 47128, 47090)));
 		companyList.add(
 				new Company("IT210987654", "logo12.png", new Address("Italy", "Rome", "00187", "Via del Corso", "456"),
 						new Contact("210987654", "email12@example.com"), "Fashion Trends Italia", "Retail", 2345678901L,
-						List.of("PayPal", "Bank Transfer"), LocalDate.now(), List.of(49151, 47126, 47128, 47090)));
+						List.of("PayPal", "Bank Transfer"), new Date(), List.of(49151, 47126, 47128, 47090)));
 		companyList.add(new Company("IN321098765", "logo13.png",
 				new Address("India", "Mumbai", "400001", "Nariman Point", "123"),
 				new Contact("321098765", "email13@example.com"), "Software Solutions Pvt. Ltd.", "Technology",
-				3456789012L, List.of("Credit Card", "Bitcoin"), LocalDate.now(), List.of(49151, 47126, 47128, 47090)));
+				3456789012L, List.of("Credit Card", "Bitcoin"), new Date(), List.of(49151, 47126, 47128, 47090)));
 		companyList.add(
 				new Company("CH43210987", "logo14.png", new Address("China", "Shanghai", "200002", "Nanjing Rd", "789"),
 						new Contact("432109876", "email14@example.com"), "International Trading Co.", "Trade",
-						4567890123L, List.of("PayPal", "Stripe"), LocalDate.now(), List.of(49151, 47126, 47128, 47090)));
+						4567890123L, List.of("PayPal", "Stripe"), new Date(), List.of(49151, 47126, 47128, 47090)));
 		companyList.add(new Company("RU543210987", "logo15.png",
 				new Address("Russia", "Moscow", "101000", "Tverskaya St", "456"),
 				new Contact("543210987", "email15@example.com"), "Tech Innovations LLC", "Technology", 5678901234L,
-				List.of("Credit Card", "Bank Transfer"), LocalDate.now(), List.of(49151, 47126, 47128, 47090)));
+				List.of("Credit Card", "Bank Transfer"), new Date(), List.of(49151, 47126, 47128, 47090)));
 		companyList.add(new Company("MX654321098", "logo16.png",
 				new Address("Mexico", "Mexico City", "06010", "Paseo de la Reforma", "123"),
 				new Contact("654321098", "email16@example.com"), "Transport Solutions S.A. de C.V.", "Transport",
-				6789012345L, List.of("Credit Card", "Bitcoin"), LocalDate.now(), List.of(49151, 47126, 47128, 47090)));
+				6789012345L, List.of("Credit Card", "Bitcoin"), new Date(), List.of(49151, 47126, 47128, 47090)));
 		companyList.add(new Company("CA765432109", "logo17.png",
 				new Address("Canada", "Vancouver", "V6C 1H2", "Granville St", "789"),
 				new Contact("765432109", "email17@example.com"), "Engineering Services Ltd.", "Engineering",
-				7890123456L, List.of("PayPal", "Bank Transfer"), LocalDate.now(), List.of(49151, 47126, 47128, 47090)));
+				7890123456L, List.of("PayPal", "Bank Transfer"), new Date(), List.of(49151, 47126, 47128, 47090)));
 		companyList.add(new Company("DE876543210", "logo18.png",
 				new Address("Germany", "Munich", "80331", "Marienplatz", "456"),
 				new Contact("876543210", "email18@example.com"), "Food Solutions GmbH", "Food", 8901234567L,
-				List.of("Credit Card", "Stripe"), LocalDate.now(), List.of(49151, 47126, 47128, 47090)));
+				List.of("Credit Card", "Stripe"), new Date(), List.of(49151, 47126, 47128, 47090)));
 		companyList.add(new Company("US987654321", "logo19.png",
 				new Address("United States", "Los Angeles", "90001", "Hollywood Blvd", "123"),
 				new Contact("987654321", "email19@example.com"), "Media Solutions Inc.", "Media", 9012345678L,
-				List.of("PayPal", "Bank Transfer"), LocalDate.now(), List.of(49151, 47126, 47128, 47090)));
+				List.of("PayPal", "Bank Transfer"), new Date(), List.of(49151, 47126, 47128, 47090)));
 		companyList.add(new Company("UK198765432", "logo20.png",
 				new Address("United Kingdom", "Manchester", "M1 1FN", "Market St", "789"),
 				new Contact("198765432", "email20@example.com"), "Retail Solutions Ltd.", "Retail", 1098765432L,
-				List.of("Credit Card", "Bitcoin"), LocalDate.now(), List.of(49151, 47126, 47128, 47090)));
+				List.of("Credit Card", "Bitcoin"), new Date(), List.of(49151, 47126, 47128, 47090)));
 		// 20
 		/*
 		companyList.add(new Company("SE201987654", "logo21.png",

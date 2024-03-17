@@ -40,6 +40,7 @@ public class Company implements Serializable, B2BCompany {
 	private Contact contact;
 	private List<String> paymentOptions; // Niet duidelijk welk type
 	private Date customerStart;
+	private List<Integer> orders;
 
 	private SimpleStringProperty name = new SimpleStringProperty();
 	private SimpleStringProperty sector = new SimpleStringProperty();
@@ -54,7 +55,7 @@ public class Company implements Serializable, B2BCompany {
 
 	// Constructor
 	public Company(String vatNumber, String logo, Address address, Contact contact, String name, String sector,
-			Long bankAccountNr, List<String> paymentOptions, Date customerStart) {
+			Long bankAccountNr, List<String> paymentOptions, Date customerStart, List<Integer> orders) {
 		setVatNumber(vatNumber);
 		setLogo(logo);
 		setAddressId(address);
@@ -65,6 +66,7 @@ public class Company implements Serializable, B2BCompany {
 		setPaymentOptions(paymentOptions);
 		setCustomerStart(customerStart);
 		// isActive = true; overbodig doordat Initiele toestand bij attributen reeds
+		this.orders = orders;
 	}
 
 	// Getters
@@ -129,7 +131,7 @@ public class Company implements Serializable, B2BCompany {
 		return customerStart;
 	}
 	
-	// Property gettters:
+	// Property getters:
 	public SimpleStringProperty getNameProperty() {
 		return name;
 	}
@@ -189,6 +191,14 @@ public class Company implements Serializable, B2BCompany {
 	
 	public void toggleIsActive() {
 		isActive.set(!isActive.get());
+	}
+
+	public List<Integer> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Integer> orders) {
+		this.orders = orders;
 	}
 
 	// Noodzakelijk voor JPA
