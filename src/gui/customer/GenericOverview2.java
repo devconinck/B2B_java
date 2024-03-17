@@ -9,6 +9,7 @@ import javafx.scene.control.TextInputControl;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
+import domain.DomainController;
 
 public abstract class GenericOverview2<O> {
 	
@@ -16,17 +17,20 @@ public abstract class GenericOverview2<O> {
 	protected List<VBox> vboxDetails;
 	protected O current;
 	protected GenericTableView<O> genericTableView;
+	protected DomainController dc;
 	private static final int SIDEBAR_WIDTH = 250;
 	private static final int TOPBAR_HEIGHT = 200;
 	
-	public GenericOverview2(ObservableList<O> others) {
+	public GenericOverview2(ObservableList<O> others, DomainController dc) {
+		this.dc = dc;
 		hbox_main = new HBox();
 		this.current = others.get(0);
 		this.genericTableView = new GenericTableView<>(others.get(0));
 		setClassFields(others);
 	}
 	
-	public GenericOverview2(ObservableList<O> others, List<String> attributes) {
+	public GenericOverview2(ObservableList<O> others, List<String> attributes, DomainController dc) {
+		this.dc = dc;
 		hbox_main = new HBox();
 		this.current = others.get(0);
 		this.genericTableView = new GenericTableView<>(others.get(0), attributes);

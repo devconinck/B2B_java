@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import domain.DomainController;
+import domain.Order;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -18,10 +20,12 @@ public class CustomerOverview2 extends GenericOverview2<CompanyDTO> {
 	private TextField txf_name, txf_customerSince, txf_sector, txf_country, txf_city, txf_zipcode, txf_street,
 			txf_number, txf_email, txf_phonenr;
 	private ImageView imgvw_logo;
+	//private DomainController dc;
 
 
 	public CustomerOverview2(List<String> attributes, DomainController dc) {
-		super(FXCollections.observableArrayList(dc.getCompanyList().stream().map(comp -> new CompanyDTO(comp)).collect(Collectors.toList())), attributes);
+		super(FXCollections.observableArrayList(dc.getCompanyList().stream().map(comp -> new CompanyDTO(comp)).collect(Collectors.toList())), attributes, dc);
+		// TODO om te laten zien dat de scrollbar ook css heeft
 		genericTableView.setPrefHeight(100);
 	}
 
@@ -58,6 +62,9 @@ public class CustomerOverview2 extends GenericOverview2<CompanyDTO> {
 	@Override
 	protected VBox createDetails(CompanyDTO company) {
 		// logo, name, sector, address, contact, customerSinds
+		// TODO UC (gegevens overzicht beschikbare klanten) = naam, aantal openstaande bestellingen
+		// TODO UC (gegevens details klant) = naam, logo, adres, contactgegevens
+		// TODO UC (gegevens bestellingen klant) = order id, datum, orderbedrag, orderstatus, betalingsstatus
 		vboxDetails.clear();
 		VBox vbox_complete = new VBox();
 
@@ -171,7 +178,12 @@ public class CustomerOverview2 extends GenericOverview2<CompanyDTO> {
 
 	private void setOrders(VBox vbox_complete) {
 		// TODO Auto-generated method stub
-		
+		// TODO UC (gegevens bestellingen klant) = order id, datum, orderbedrag, orderstatus, betalingsstatus
+		dc.getCompanyList();
+		ObservableList<OrderDTO> orders = FXCollections.observableArrayList(dc.getOrdersList().stream().map(or -> new OrderDTO(or)).collect(Collectors.toList()));
+		GenericTableView<OrderDTO> orderTable = new GenericTableView<>(orders.get(0));
+		orderTable.getStylesheets().add("customerTable.css");
+		vbox_complete.getChildren().add(orderTable);
 	}
 
 }
