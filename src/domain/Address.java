@@ -95,4 +95,12 @@ public class Address implements Serializable {
 				&& Objects.equals(number, other.number) && Objects.equals(street, other.street)
 				&& Objects.equals(zipCode, other.zipCode);
 	}
+
+	@Override
+	public String toString() {
+		return street + ", " + number + ", " + zipCode + ", " + city + ", " + country;
+
+	}
+	
+	
 }

@@ -61,4 +61,16 @@ public class GenericDaoJpa<T> implements GenericDao<T> {
         T entity = em.find(type, id);
         return entity != null;
     } 
+    
+    @Override
+    public void insertBatch(List<T> entities) {
+        if (entities == null || entities.isEmpty()) {
+            return;
+        }
+
+        for (T entity : entities) {
+            em.persist(entity);
+        }
+
+    }
 }

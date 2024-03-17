@@ -25,13 +25,11 @@ public class CompanyScreenController extends TableView<Company> implements Obser
 
     private final DomainController dc;
     private final FilterController filter;
-    private CompanyDetailsScreenController companyDetails;
     private ControlScreenController controls;
 
-    public CompanyScreenController(DomainController dc, FilterController filter, CompanyDetailsScreenController companyDetails, ControlScreenController controls) {
+    public CompanyScreenController(DomainController dc, FilterController filter, ControlScreenController controls) {
         this.dc = dc;
         this.filter = filter;
-        this.companyDetails = companyDetails;
         this.controls = controls;
         this.dc.addObserver(this);
         buildGui();
@@ -52,7 +50,7 @@ public class CompanyScreenController extends TableView<Company> implements Obser
     private void loadCompanies() {
         nameCol.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
         sectorCol.setCellValueFactory(cellData -> cellData.getValue().getSectorProperty());
-        addressCol.setCellValueFactory(cellData -> cellData.getValue().getAddressString());
+        addressCol.setCellValueFactory(cellData -> cellData.getValue().getAddressProperty());
         isActiveCol.setCellValueFactory(cellData -> {
             boolean isActive = cellData.getValue().getIsActiveProperty().get();
             SimpleStringProperty text = new SimpleStringProperty(isActive ? "Active" : "Inactive");

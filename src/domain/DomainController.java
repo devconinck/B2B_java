@@ -41,8 +41,8 @@ public class DomainController implements Subject {
 		observers = new HashSet<>();
 		
 		System.out.println("Adding orders...");
-		//od = new OrderData(orderRepo, orderItemRepo, productRepo, productPriceRepo, productDescriptionRepo, productUnitRepo);
-		//od.addOrderData();
+		od = new OrderData(orderRepo, orderItemRepo, productRepo, productPriceRepo, productDescriptionRepo, productUnitRepo);
+		od.addOrderData();
 		System.out.println("Adding orders complete!");
 		
 		listCustomers();
@@ -280,9 +280,9 @@ public class DomainController implements Subject {
 			String city = address[2];
 			String postalCode = address[3];
 			String country = address[4];
-			customerRepo.startTransaction();
+			GenericDaoJpa.startTransaction();
 			customerRepo.insert(new Customer(customerIds.get(i), firstNameList.get(i), lastNameList.get(i), street, addressNr, city, postalCode, country));
-			customerRepo.commitTransaction();
+			GenericDaoJpa.commitTransaction();
 		}
 		
 		customerIds = orders.stream().map(Order::getCustomer).distinct().collect(Collectors.toList());

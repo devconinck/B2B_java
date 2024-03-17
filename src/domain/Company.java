@@ -1,26 +1,25 @@
 package domain;
 
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import jakarta.persistence.Column;
+import jakarta.persistence.Access;
+import jakarta.persistence.AccessType;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.Transient;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 
 @Entity
-public class Company implements Serializable {
+@Access(AccessType.FIELD)
+public class Company implements Serializable, B2BCompany {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -40,23 +39,13 @@ public class Company implements Serializable {
 	@Embedded
 	private Contact contact;
 	private List<String> paymentOptions; // Niet duidelijk welk type
-	private LocalDate customerStart;
+	private Date customerStart;
 
-	// TableView Attributes + Gewone properties om serializable te zijn
-	@Transient
-	private SimpleStringProperty nameProperty = new SimpleStringProperty();
+	private SimpleStringProperty name = new SimpleStringProperty();
+	private SimpleStringProperty sector = new SimpleStringProperty();
+	private SimpleLongProperty bankAccountNr = new SimpleLongProperty();
+	private SimpleBooleanProperty isActive = new SimpleBooleanProperty(true);
 
-	@Transient
-	private SimpleStringProperty sectorProperty = new SimpleStringProperty();
-
-	@Transient
-	private SimpleLongProperty bankAccountNrProperty = new SimpleLongProperty();
-
-	@Transient
-	private SimpleBooleanProperty isActiveProperty = new SimpleBooleanProperty(true);
-	
-	@Column
-	private List<Integer> orders = new ArrayList<>();
 
 	// Default constructor JPA
 	protected Company() {
@@ -65,7 +54,7 @@ public class Company implements Serializable {
 
 	// Constructor
 	public Company(String vatNumber, String logo, Address address, Contact contact, String name, String sector,
-			Long bankAccountNr, List<String> paymentOptions, LocalDate customerStart, List<Integer> orders) {
+			Long bankAccountNr, List<String> paymentOptions, Date customerStart) {
 		setVatNumber(vatNumber);
 		setLogo(logo);
 		setAddressId(address);
@@ -76,119 +65,130 @@ public class Company implements Serializable {
 		setPaymentOptions(paymentOptions);
 		setCustomerStart(customerStart);
 		// isActive = true; overbodig doordat Initiele toestand bij attributen reeds
-		// goed gezet wordt
-		setOrders(orders);
 	}
 
-	public void setActive() {
-		isActiveProperty.set(!isActiveProperty.get());
-	}
-
-	// Property Getters
-	// Geen idee of waarschuwing relevant is
-	public String getNameProperty() {
-		return nameProperty.get();
-	}
-
-	public StringProperty getSectorProperty() {
-		return sectorProperty;
-	}
-
-	public SimpleLongProperty getBankAccountNrProperty() {
-		return bankAccountNrProperty;
-	}
-
-	public SimpleBooleanProperty getIsActiveProperty() {
-		return isActiveProperty;
-	}
-
-	// Getters en setters toevoegen
-	// SETTER VALIDATIE TOEVOEGEN
+	// Getters
+	@Override
 	public String getVatNumber() {
 		return VatNumber;
 	}
+	
+	@Override
+	public String getLogo() {
+		return logo;
+	}
 
+	@Override
+	public Address getAddress() {
+		return address;
+	}
+
+	@Override
+	public String getAddressString() {
+		return address != null
+				? address.toString()
+				: "No address found.";
+	}
+
+	@Override
+	public Contact getContact() {
+		return contact;
+	}
+
+	@Override
+	@Access(AccessType.PROPERTY)
+	public String getName() {
+		return name.get();
+	}
+
+	@Override
+	@Access(AccessType.PROPERTY)
+	public String getSector() {
+		return sector.get();
+	}
+
+	@Override
+	@Access(AccessType.PROPERTY)
+	public Long getBankAccountNr() {
+		return bankAccountNr.get();
+	}
+	
+	@Override
+	@Access(AccessType.PROPERTY)
+	public boolean getIsActive() {
+		return isActive.get();
+	}
+	
+	@Override
+	public List<String> getPaymentOptions() {
+		return paymentOptions;
+	}
+
+	@Override
+	public Date getCustomerStart() {
+		return customerStart;
+	}
+	
+	// Property gettters:
+	public SimpleStringProperty getNameProperty() {
+		return name;
+	}
+	
+	public SimpleStringProperty getSectorProperty() {
+		return sector;
+	}
+	
+	public SimpleStringProperty getAddressProperty() {
+		return new SimpleStringProperty(address.toString());
+	}
+	
+	public SimpleBooleanProperty getIsActiveProperty() {
+		return isActive;
+	}
+	
+	// Setters
 	public void setVatNumber(String vatNumber) {
 		this.VatNumber = vatNumber;
 	}
 
-	public String getLogo() {
-		return logo;
+	public void setIsActive(boolean isActive) {
+	    this.isActive.set(isActive);
 	}
 
 	public void setLogo(String logo) {
 		this.logo = logo;
 	}
 
-	public Address getAddress() {
-		return address;
-	}
-
-	public SimpleStringProperty getAddressString() {
-		return address != null
-				? new SimpleStringProperty(address.getStreet() + ", " + address.getZipCode() + " " + address.getCity()
-						+ ", " + address.getCountry())
-				: new SimpleStringProperty("No address found.");
-	}
-
 	public void setAddressId(Address address) {
 		this.address = address;
-	}
-
-	public Contact getContact() {
-		return contact;
 	}
 
 	public void setContactId(Contact contact) {
 		this.contact = contact;
 	}
 
-	public String getName() {
-		return nameProperty.get();
-	}
-
 	public void setName(String name) {
-		this.nameProperty.set(name);
-	}
-
-	public String getSector() {
-		return sectorProperty.get();
+		this.name.set(name);
 	}
 
 	public void setSector(String sector) {
-		this.sectorProperty.set(sector);
-	}
-
-	public Long getBankAccountNr() {
-		return bankAccountNrProperty.get();
+		this.sector.set(sector);
 	}
 
 	public void setBankAccountNr(Long bankAccountNr) {
-		this.bankAccountNrProperty.set(bankAccountNr);
-	}
-
-	public List<String> getPaymentOptions() {
-		return paymentOptions;
+		this.bankAccountNr.set(bankAccountNr);
 	}
 
 	public void setPaymentOptions(List<String> paymentOptions) {
 		this.paymentOptions = paymentOptions;
 	}
 
-	public LocalDate getCustomerStart() {
-		return customerStart;
-	}
-
-	public void setCustomerStart(LocalDate customerStart) {
+	public void setCustomerStart(Date customerStart) {
 		this.customerStart = customerStart;
 	}
-
-	public List<Integer> getOrders() {
-		return orders;
-	}
-
-	public void setOrders(List<Integer> orders) {
-		this.orders = orders;
+	
+	public void toggleIsActive() {
+		isActive.set(!isActive.get());
 	}
 
 	// Noodzakelijk voor JPA
@@ -208,4 +208,5 @@ public class Company implements Serializable {
 		Company other = (Company) obj;
 		return VatNumber == other.VatNumber;
 	}
+
 }

@@ -11,15 +11,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import util.Role;
+import util.Validation;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "Account.getByEmail", query = "SELECT a FROM Account a WHERE :email = a.email"), })
 public class Account implements Serializable {
-
-	private static final String EMAIL_REGEX = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
-	private static final String PASSWORD_REGEX = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$";
-	private static final String COMPANY_VAT_REGEX = "[A-Z]{2}[0-9A-Za-z]{1,30}";
-
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +25,8 @@ public class Account implements Serializable {
 	private String password;
 	private String companyVAT;
 	private Role role;
+	
+	private static final String EMAIL_REGEX = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
 
 	protected Account() {
 	};
@@ -41,19 +40,19 @@ public class Account implements Serializable {
 
 	private void setEmail(String email) {
 		if (!patternMatches(email, EMAIL_REGEX))
-			throw new IllegalArgumentException(String.format("The email: %s , is not a valiable email", email));
+			throw new IllegalArgumentException(String.format("The email: %s , is not a valid email", email));
 		this.email = email;
 	}
 
 	private void setPassword(String password) {
-		// if (!patternMatches(password, PASSWORD_REGEX))
+		// if (!patternMatches(password, Validation.PASSWORD_REGEX))
 		// throw new IllegalArgumentException(String.format("The password for %s is not
 		// strong enough", email));
 		this.password = LoginController.encryptPassword(password);
 	}
 
 	private void setCompanyVAT(String companyVAT) {
-		// if (!patternMatches(companyVAT, COMPANY_VAT_REGEX) ||
+		// if (!patternMatches(companyVAT, Validation.COMPANY_VAT_REGEX) ||
 		// !isValidMOD97(companyVAT))
 		// throw new IllegalArgumentException(String.format("The company VAT number is
 		// not valid for %s", email));
