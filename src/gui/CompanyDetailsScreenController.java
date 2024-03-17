@@ -1,6 +1,5 @@
 package gui;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -11,38 +10,31 @@ import domain.DomainController;
 import domain.Observer;
 import domain.Order;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.AnchorPane;
-import util.Validation;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+public class CompanyDetailsScreenController extends VBox implements Observer {
 
-public class CompanyDetailsScreenController extends AnchorPane implements Observer {
-
-	@FXML
 	private TextField nameField;
-	@FXML
 	private TextField vatField;
-	@FXML
 	private TextField sectorField;
-	@FXML
 	private TextField streetField;
-	@FXML
 	private TextField addressNrField;
-	@FXML
 	private TextField cityField;
-	@FXML
 	private TextField postalcodeField;
-	@FXML
 	private TextField countryField;
-	@FXML
 	private TextField bankField;
-	@FXML
 	private TextField phoneField;
-	@FXML
 	private TextField emailField;
+	private TextField customerStartField;
+	private TextField paymentOptionsField;
+	private TextField logoUrlField;
+	private ImageView logoImageView;
+
 	
 	// Niet goed
 	public SimpleBooleanProperty isActive;
@@ -77,18 +69,92 @@ public class CompanyDetailsScreenController extends AnchorPane implements Observ
 	 */
 
 	private void buildGui() {
-		FXMLLoader loader = new FXMLLoader(this.getClass().getResource("companyDetails.fxml"));
-		loader.setRoot(this);
-		loader.setController(this);
-		try {
-			loader.load();
-		} catch (IOException e) {
-			System.out.println("Couldn't load Company details Screen");
-			System.out.println(e.getMessage());
-		}
+		Label headerLabel = new Label("Company Details:");
+		headerLabel.setStyle("-fx-font-size: 30px;");
+		
+		// Labels aanmaken
+		Label paymentOptionsLabel = new Label("Payment Options:");
+		Label customerStartLabel = new Label("Customer since: ");
+        Label nameLabel = new Label("Name:");
+        Label vatLabel = new Label("VAT Number:");
+        Label sectorLabel = new Label("Sector:");
+        Label streetLabel = new Label("Street:");
+        Label addressNrLabel = new Label("House Number:");
+        Label cityLabel = new Label("City:");
+        Label postalcodeLabel = new Label("Postal Code:");
+        Label countryLabel = new Label("Country:");
+        Label bankLabel = new Label("Bank Account:");
+        Label phoneLabel = new Label("Phone:");
+        Label emailLabel = new Label("Email:");
 
+        // Create text fields for each input
+        nameField = new TextField();
+        vatField = new TextField();
+        sectorField = new TextField();
+        streetField = new TextField();
+        addressNrField = new TextField();
+        cityField = new TextField();
+        postalcodeField = new TextField();
+        countryField = new TextField();
+        bankField = new TextField();
+        phoneField = new TextField();
+        emailField = new TextField();
+        customerStartField = new TextField();
+        paymentOptionsField = new TextField();
+        logoUrlField = new TextField();
+        logoImageView = new ImageView();
+        
+        
+        
+        HBox generalBox = new HBox();
+        generalBox.getChildren().addAll(createField(nameLabel, nameField), createField(sectorLabel, sectorField), createField(customerStartLabel, customerStartField));
+        
+        
+        Label addressLabel = new Label("Address:");
+        addressLabel.setStyle("-fx-font-size: 20px;");
+        
+        HBox addressBox1 = new HBox();
+        addressBox1.getChildren().addAll(createField(streetLabel, streetField), createField(addressNrLabel, addressNrField));
+        
+        HBox addressBox2 = new HBox();
+        addressBox2.getChildren().addAll(createField(cityLabel, cityField), createField(postalcodeLabel, postalcodeField), createField(countryLabel, countryField));
+        
+        
+        
+        Label contactLabel = new Label("Contact:");
+        contactLabel.setStyle("-fx-font-size: 20px;");
+       
+        HBox contactBox = new HBox();
+        contactBox.getChildren().addAll(createField(phoneLabel, phoneField), createField(emailLabel, emailField));
+        
+        
+        
+        Label paymentLabel = new Label("Payment:");
+        paymentLabel.setStyle("-fx-font-size: 20px;");
+        
+        HBox paymentBox = new HBox();
+        paymentBox.getChildren().addAll(createField(bankLabel, bankField), createField(paymentOptionsLabel, paymentOptionsField));
+        
+        
+        
+        Label logoLabel = new Label("Logo:");
+        paymentLabel.setStyle("-fx-font-size: 20px;");
+        
+        Label logoUrlLabel = new Label("Logo url:");
+        
+        VBox logoBox = new VBox();
+        logoBox.getChildren().addAll(logoImageView, createField(logoUrlLabel, logoUrlField));
+        
+        this.getChildren().addAll(headerLabel, generalBox, createField(vatLabel, vatField), addressLabel, addressBox1, addressBox2, contactLabel, contactBox, paymentLabel, paymentBox, logoLabel, logoBox);
 	}
-
+	
+	
+	private VBox createField(Label label, TextField field) {
+		VBox vbox = new VBox();
+		vbox.getChildren().addAll(label, field);
+		return vbox;
+	}
+	
 	public void loadCompany(String vat) {
 		Company c = dc.getCompany(vat);
 
