@@ -7,6 +7,7 @@ import java.util.Map;
 import domain.DomainController;
 import javafx.collections.ObservableList;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -41,7 +42,7 @@ public abstract class GenericOverview2<O> {
 	private void setClassFields(ObservableList<O> others) {
 		hbox_main.getChildren().clear();
 		vboxDetails = new ArrayList<>();
-		HBox hbox = new HBox();
+		VBox vboxFilterAndTable = new VBox();
 		VBox vboxDetailsAndButtons = new VBox();
 
 		// Add Table
@@ -69,26 +70,29 @@ public abstract class GenericOverview2<O> {
 
 		// Add all together
 		vboxDetailsAndButtons.getChildren().addAll(details/* hbox_buttons*/);
-		hbox.getChildren().addAll(genericTableView, vboxDetailsAndButtons);
+		vboxFilterAndTable.getChildren().addAll(setFilter(), genericTableView);
 
-		hbox_main.getChildren().add(hbox);
+		hbox_main.getChildren().addAll(vboxFilterAndTable, vboxDetailsAndButtons);
 	}
 	
-	protected abstract VBox createDetails(O entityClass);
-	
+	protected abstract VBox setFilter();
+
 	private void clearFields() {
 		vboxDetails.stream().map(vbox -> vbox.getChildren().get(1))
 				.forEach(field -> ((TextInputControl) field).clear());
 	}
 	
-	public HBox getHBox() {
-		return hbox_main;
-	}
+	protected abstract VBox createDetails(O entityClass);
 	
 	protected abstract void saveEntity();
 	
 	protected abstract void removeEntity();
 	
 	protected abstract void setCurrent();
+	
+	// Nodig om van scherm te veranderen
+	public HBox getHBox() {
+		return hbox_main;
+	}
 
 }

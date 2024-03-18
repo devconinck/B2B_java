@@ -29,14 +29,7 @@ public class GenericTableView<T> extends TableView<T> {
 			TableColumn<T, Object> column = new TableColumn<>(set.getKey());
 			column.setCellValueFactory(new PropertyValueFactory<>(set.getValue()));
 			getColumns().add(column);
-       } 
-		/*
-		for (String attribute : attributes) {
-			TableColumn<T, Object> column = new TableColumn<>(attribute);
-			column.setCellValueFactory(new PropertyValueFactory<>(attribute));
-			getColumns().add(column);
-		}
-		*/
+       }
 	}
 
 	private List<String> getAttributeNames(T entityClass) {

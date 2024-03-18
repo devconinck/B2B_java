@@ -1,13 +1,15 @@
 package gui.customer;
 
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import domain.DomainController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.scene.AccessibleRole;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -21,11 +23,12 @@ public class CustomerOverview2 extends GenericOverview2<CompanyDTO> {
 			txf_number, txf_email, txf_phonenr;
 	private ImageView imgvw_logo;
 
-
 	public CustomerOverview2(Map<String, String> attributes, DomainController dc) {
-		super(FXCollections.observableArrayList(dc.getCompanyList().stream().map(comp -> new CompanyDTO(comp)).collect(Collectors.toList())), attributes, dc);
-		// TODO om te laten zien dat de scrollbar ook css heeft, werkt niet?
-		genericTableView.setPrefHeight(100);
+		super(FXCollections.observableArrayList(
+				dc.getCompanyList().stream().map(comp -> new CompanyDTO(comp)).collect(Collectors.toList())),
+				attributes, dc);
+		// TODO logica in dc voor deze super lange constructor
+		hbox_main.getStylesheets().add("css/label.css");
 	}
 
 	@Override
@@ -43,7 +46,7 @@ public class CustomerOverview2 extends GenericOverview2<CompanyDTO> {
 		txf_name.setText(current.name());
 		txf_customerSince.setText(current.customerStart());
 		txf_sector.setText(current.sector());
-		txf_country.setText(current.country()); 
+		txf_country.setText(current.country());
 		txf_city.setText(current.city());
 		txf_zipcode.setText(current.zipcode());
 		txf_street.setText(current.street());
@@ -61,9 +64,11 @@ public class CustomerOverview2 extends GenericOverview2<CompanyDTO> {
 	@Override
 	protected VBox createDetails(CompanyDTO company) {
 		// logo, name, sector, address, contact, customerSinds
-		// TODO UC (gegevens overzicht beschikbare klanten) = naam, aantal openstaande bestellingen
+		// TODO UC (gegevens overzicht beschikbare klanten) = naam, aantal openstaande
+		// bestellingen
 		// TODO UC (gegevens details klant) = naam, logo, adres, contactgegevens
-		// TODO UC (gegevens bestellingen klant) = order id, datum, orderbedrag, orderstatus, betalingsstatus
+		// TODO UC (gegevens bestellingen klant) = order id, datum, orderbedrag,
+		// orderstatus, betalingsstatus
 		vboxDetails.clear();
 		VBox vbox_complete = new VBox();
 
@@ -100,7 +105,8 @@ public class CustomerOverview2 extends GenericOverview2<CompanyDTO> {
 		// Sector
 		VBox vbox_sector = new VBox(new Label("Sector"));
 		txf_sector = new TextField(String.format("%s", company.sector()));
-		txf_sector.setEditable(false);;
+		txf_sector.setEditable(false);
+		;
 		vbox_sector.getChildren().add(txf_sector);
 		vbox_sector.setPadding(new Insets(10, 10, 10, 20));
 		vboxDetails.add(vbox_sector);
@@ -108,7 +114,7 @@ public class CustomerOverview2 extends GenericOverview2<CompanyDTO> {
 		// Address
 		VBox vbox_address_complete = new VBox();
 		Label lbl_address = new Label("Address");
-		lbl_address.setPadding(new Insets(0, 0, 0, 20));
+		lbl_address.getStyleClass().add("labelheader");
 		vbox_address_complete.getChildren().add(lbl_address);
 		// AddressLine1
 		HBox hbox_country_city_zipcode = new HBox();
@@ -157,7 +163,7 @@ public class CustomerOverview2 extends GenericOverview2<CompanyDTO> {
 		// Contact
 		VBox vbox_email_phonenr = new VBox();
 		Label lbl_contact = new Label("Contact");
-		lbl_contact.setPadding(new Insets(0, 0, 0, 20));
+		lbl_contact.getStyleClass().add("labelheader");
 		vbox_email_phonenr.getChildren().add(lbl_contact);
 		HBox hbox_email_phonenr = new HBox();
 		// Email
@@ -179,7 +185,7 @@ public class CustomerOverview2 extends GenericOverview2<CompanyDTO> {
 
 		vbox_complete.getChildren().addAll(hbox_logo_name_customerSince, vbox_sector, vbox_address_complete,
 				vbox_email_phonenr);
-		
+
 		setOrders(vbox_complete);
 
 		return vbox_complete;
@@ -187,12 +193,48 @@ public class CustomerOverview2 extends GenericOverview2<CompanyDTO> {
 
 	private void setOrders(VBox vbox_complete) {
 		// TODO Auto-generated method stub
-		// TODO UC (gegevens bestellingen klant) = order id, datum, orderbedrag, orderstatus, betalingsstatus
-		ObservableList<OrderDTO> orders = FXCollections.observableArrayList(dc.getOrdersList().stream().map(or -> new OrderDTO(or)).collect(Collectors.toList()));
-		GenericTableView<OrderDTO> orderTable = new GenericTableView<>(orders.get(0));
+		// TODO UC (gegevens bestellingen klant) = order id, datum, orderbedrag,
+		// orderstatus, betalingsstatus
+		Map<String, String> mapOrders = new TreeMap<>(Map.ofEntries(
+				Map.entry("Order ID", "orderId"),
+				Map.entry("Date", "date"),
+				Map.entry("Price", "orderAmount"),
+				Map.entry("Order Status", "orderStatus"),
+				Map.entry("Payment Status", "paymentStatus")
+				));
+		ObservableList<OrderDTO> orders = FXCollections.observableArrayList(
+				dc.getOrdersList().stream().map(or -> new OrderDTO(or)).collect(Collectors.toList()));
+		GenericTableView<OrderDTO> orderTable = new GenericTableView<>(orders.get(0), mapOrders);
 		orderTable.setData(FXCollections.observableArrayList(orders.subList(0, 15)));
-		orderTable.getStylesheets().add("css/customerTable.css");
 		vbox_complete.getChildren().add(orderTable);
+	}
+
+	@Override
+	protected VBox setFilter() {
+		VBox vboxFilter = new VBox();
+		HBox hboxFilter = new HBox();
+		hboxFilter.setPrefWidth(genericTableView.getWidth());
+		
+		TextField filter = new TextField();
+		filter.setPromptText("Filter on name");
+		
+		Button btnFilter = new Button("Search");
+		btnFilter.setOnMouseClicked(event -> filterTable(filter.getText()));
+		btnFilter.getStyleClass().add("filterButton");
+		
+		hboxFilter.getChildren().addAll(filter, btnFilter);
+		hboxFilter.getStyleClass().add("filterHbox");
+		
+		vboxFilter.getChildren().add(hboxFilter);
+		
+		return vboxFilter;
+	}
+
+	private void filterTable(String name) {
+		// TODO logica dc
+		ObservableList<CompanyDTO> listToShow = FXCollections.observableArrayList(
+				dc.getCompanyList().stream().map(comp -> new CompanyDTO(comp)).filter(dto -> dto.name().toLowerCase().contains(name)).collect(Collectors.toList()));
+		genericTableView.setData(listToShow);
 	}
 
 }
