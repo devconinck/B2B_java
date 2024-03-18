@@ -16,6 +16,7 @@ import jakarta.persistence.OneToOne;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
+import util.PaymentOption;
 
 @Entity
 @Access(AccessType.FIELD)
@@ -38,7 +39,7 @@ public class Company implements Serializable, B2BCompany {
 	// @JoinColumn(name = "contact_id")
 	@Embedded
 	private Contact contact;
-	private List<String> paymentOptions; // Niet duidelijk welk type
+	private List<PaymentOption> paymentOptions; // Niet duidelijk welk type
 	private Date customerStart;
 
 	private SimpleStringProperty name = new SimpleStringProperty();
@@ -54,7 +55,7 @@ public class Company implements Serializable, B2BCompany {
 
 	// Constructor
 	public Company(String vatNumber, String logo, Address address, Contact contact, String name, String sector,
-			Long bankAccountNr, List<String> paymentOptions, Date customerStart) {
+			Long bankAccountNr, List<PaymentOption> paymentOptions, Date customerStart) {
 		setVatNumber(vatNumber);
 		setLogo(logo);
 		setAddress(address);
@@ -120,7 +121,7 @@ public class Company implements Serializable, B2BCompany {
 	}
 	
 	@Override
-	public List<String> getPaymentOptions() {
+	public List<PaymentOption> getPaymentOptions() {
 		return paymentOptions;
 	}
 
@@ -179,7 +180,7 @@ public class Company implements Serializable, B2BCompany {
 		this.bankAccountNr.set(bankAccountNr);
 	}
 
-	public void setPaymentOptions(List<String> paymentOptions) {
+	public void setPaymentOptions(List<PaymentOption> paymentOptions) {
 		this.paymentOptions = paymentOptions;
 	}
 
