@@ -28,6 +28,7 @@ public class DomainController implements Subject {
 	private Company currentCompany;
 	private Order currentOrder;
 	private OrderData od;
+	
 	public DomainController() {
 		setOrderRepo(new GenericDaoJpa<>(Order.class));
 		setOrderItemRepo(new GenericDaoJpa<>(OrderItem.class));
@@ -46,6 +47,7 @@ public class DomainController implements Subject {
 		System.out.println("Adding orders complete!");
 		
 	}
+	
 	public void setOrderRepo(GenericDaoJpa<Order> o) {
 		orderRepo = o;
 	}
@@ -74,8 +76,11 @@ public class DomainController implements Subject {
 		this.currentOrder = o;
 		notifyObservers();
 	}
-
 	
+	public Order getCurrentOrder() {
+		return currentOrder;
+	}
+
 	
 	public void setCompanyRepo(GenericDaoJpa<Company> mock) {
 		companyRepo = mock;
@@ -85,9 +90,11 @@ public class DomainController implements Subject {
 		this.currentCompany = c;
 		notifyObservers();
 	}
+	
 	public Company getCurrentCompany() {
 		return currentCompany;
 	}
+	
 	public ObservableList<Order> getOrdersList() {
 		if(orderList == null) { 
 			orderList = new ArrayList<Order>();
@@ -101,23 +108,20 @@ public class DomainController implements Subject {
 	}
 	
 	// TODO niet alles teruggeven enkel items van specifiek order !!
-	public ObservableList<OrderItem> getOrderItemsList() {
+	public ObservableList<OrderItem> getOrderItemsList(String orderId) {
 		if(orderItemList == null) { 
 			orderItemList = new ArrayList<OrderItem>();
 		}
-		List<OrderItem> orderItemsFromRepo = orderItemRepo.findAll();
-		
+		List<OrderItem> orderItemsFromOrder = orderItemRepo.findAll().stream().filter(oi -> oi.getOrderId() == (Integer.parseInt(orderId))).collect(Collectors.toList());
 		orderItemList.clear();
-		orderItemList.addAll(orderItemsFromRepo);
+		orderItemList.addAll(orderItemsFromOrder);
 	
 		return FXCollections.observableArrayList(orderItemList);
 	}
 	
-
 	public ObservableList<Company> getCompanyList() {
 		if (companyList == null) {
 			companyList = companyRepo.findAll();
-
 		}
 		return FXCollections.observableArrayList(companyList);
 	}
@@ -150,7 +154,6 @@ public class DomainController implements Subject {
 	@Override
 	public void addObserver(Observer o) {
 		observers.add(o);
-
 	}
 
 	@Override

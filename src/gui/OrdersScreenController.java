@@ -16,6 +16,9 @@ public class OrdersScreenController extends TableView<Order> implements Observer
 	// FILTER TOEVOEGEN!!!
 
 	@FXML
+	private TableView<?> orderItems;
+	
+	@FXML
 	private TableColumn<Order, String> idCol;
 	@FXML
 	private TableColumn<Order, String> nameCol;
@@ -27,9 +30,11 @@ public class OrdersScreenController extends TableView<Order> implements Observer
 	private TableColumn<Order, String> paymentStatusCol;
 
 	private DomainController dc;
+	private final OrdersFilterController filter;
 
-	public OrdersScreenController(DomainController dc) {
+	public OrdersScreenController(DomainController dc, OrdersFilterController filter) {
 		this.dc = dc;
+		this.filter = filter;
 		this.dc.addObserver(this);
 		buildGui();
 		loadOrders();
@@ -54,7 +59,7 @@ public class OrdersScreenController extends TableView<Order> implements Observer
 		orderStatusCol.setCellValueFactory(cellData -> cellData.getValue().orderStatusProperty());
 		paymentStatusCol.setCellValueFactory(cellData -> cellData.getValue().paymentStatusProperty());
 
-		this.setItems(dc.getOrdersList());
+		this.setItems(filter.getFilteredList(dc.getOrdersList()));
 
 		this.setOnMouseClicked(event -> {
 			Order selectedOrder = this.getSelectionModel().getSelectedItem();
