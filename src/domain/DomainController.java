@@ -37,6 +37,7 @@ public class DomainController implements Subject {
 		setProductUnitRepo(new GenericDaoJpa<>(ProductUnitOfMeasureConversion.class));
 		setCompanyRepo(new GenericDaoJpa<>(Company.class));
 		observers = new HashSet<>();
+		this.currentCompany = getCompanyList().get(0);
 		
 		System.out.println("Adding orders...");
 		od = new OrderData(orderRepo, orderItemRepo, productRepo, productPriceRepo, productDescriptionRepo, productUnitRepo, companyRepo);

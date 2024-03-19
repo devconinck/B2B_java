@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 import domain.DomainController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableSet;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -22,6 +22,7 @@ public class CustomerOverview extends GenericOverview<CompanyDTO> {
 	private TextField txf_name, txf_customerSince, txf_sector, txf_country, txf_city, txf_zipcode, txf_street,
 			txf_number, txf_email, txf_phonenr;
 	private ImageView imgvw_logo;
+	private GenericTableView<OrderDTO> orderTable;
 
 	public CustomerOverview(Map<String, String> attributes, DomainController dc) {
 		super(FXCollections.observableArrayList(
@@ -63,6 +64,9 @@ public class CustomerOverview extends GenericOverview<CompanyDTO> {
 			System.err.println(String.format("Failed to get logo for: %s", current.name()));
 			imgvw_logo.setImage(new Image(String.format("images/%s", "delaware-logo.jpg")));
 		}
+		ObservableList<OrderDTO> orders = FXCollections.observableArrayList(
+				current.getOrders().stream().map(or -> new OrderDTO(or)).collect(Collectors.toList()));
+		orderTable.setData(orders);
 	}
 
 	@Override
@@ -206,10 +210,12 @@ public class CustomerOverview extends GenericOverview<CompanyDTO> {
 				Map.entry("Order Status", "orderStatus"),
 				Map.entry("Payment Status", "paymentStatus")
 				));
+		//current.getOrders().stream().map(or -> new OrderDTO(or)).collect(Collectors.toList());
+		System.out.println(current.name());
 		ObservableList<OrderDTO> orders = FXCollections.observableArrayList(
-				dc.getOrdersList().stream().map(or -> new OrderDTO(or)).collect(Collectors.toList()));
-		GenericTableView<OrderDTO> orderTable = new GenericTableView<>(orders.get(0), mapOrders);
-		orderTable.setData(FXCollections.observableArrayList(orders.subList(0, 15)));
+				current.getOrders().stream().map(or -> new OrderDTO(or)).collect(Collectors.toList()));
+		orderTable = new GenericTableView<>(orders.get(0), mapOrders);
+		orderTable.setData(orders);
 		vbox_complete.getChildren().add(orderTable);
 	}
 

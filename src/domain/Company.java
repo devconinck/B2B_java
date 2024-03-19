@@ -52,9 +52,9 @@ public class Company implements Serializable, B2BCompany {
     /*
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Company> customers;
+    */
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
     private Set<Order> orders;
-    */
 	private Date customerStart;
 
 	private SimpleStringProperty name = new SimpleStringProperty();
@@ -68,7 +68,7 @@ public class Company implements Serializable, B2BCompany {
 
 	// Constructor
 	public Company(String vatNumber, String logo, Address address, Contact contact, String name, String sector,
-			Long bankAccountNr, List<PaymentOption> paymentOptions, Date customerStart) {
+			Long bankAccountNr, List<PaymentOption> paymentOptions, Date customerStart, Set<Order> orders) {
 		setVatNumber(vatNumber);
 		setLogo(logo);
 		setAddress(address);
@@ -78,15 +78,14 @@ public class Company implements Serializable, B2BCompany {
 		setBankAccountNr(bankAccountNr);
 		setPaymentOptions(paymentOptions);
 		setCustomerStart(customerStart);
-		//setOrders(orders);
+		setOrders(orders);
 		// isActive = true; overbodig doordat Initiele toestand bij attributen reeds
 	}
 	
-	/* TODO
-	private void setOrders(Set<Order> orders) {
+	
+	public void setOrders(Set<Order> orders) {
 		this.orders = orders;
 	}
-	*/
 
 	// Getters
 	@Override
@@ -236,9 +235,8 @@ public class Company implements Serializable, B2BCompany {
 		return VatNumber == other.VatNumber;
 	}
 
-	public List<Integer> getOrders() {
-		// TODO Auto-generated method stub
-		return List.of(1, 2, 3);
+	public Set<Order> getOrders() {
+		return orders;
 	}
 
 }

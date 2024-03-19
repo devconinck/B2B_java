@@ -51,7 +51,7 @@ public class OrderData {
 	}
 
 	public void addOrderData() {
-		processOrderData();
+		//processOrderData();
 		processOrderItemData();
 		processProductData();
 		processProductPriceData();
@@ -59,6 +59,7 @@ public class OrderData {
 		processProductUnitOfMeasureConversionData();
 	}
 
+	/*
 	private void processOrderData() {
 		try (CSVReader reader = new CSVReader(new FileReader(orderCSVFile))) {
 			String[] line;
@@ -92,6 +93,7 @@ public class OrderData {
 			e.printStackTrace();
 		}
 	}
+	*/
 
 	private void processOrderItemData() {
 		try (CSVReader reader = new CSVReader(new FileReader(orderItemCSVFile))) {
