@@ -29,7 +29,7 @@ import util.PaymentOption;
 
 @Entity
 @Access(AccessType.FIELD)
-public class Company implements Serializable, B2BCompany {
+public class Company implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -101,63 +101,63 @@ public class Company implements Serializable, B2BCompany {
 	}
 
 	// Getters
-	@Override
+	
 	public String getVatNumber() {
 		return VatNumber;
 	}
 	
-	@Override
+	
 	public String getLogo() {
 		return logo;
 	}
 
-	@Override
+	
 	public Address getAddress() {
 		return address;
 	}
 
-	@Override
+	
 	public String getAddressString() {
 		return address != null
 				? address.toString()
 				: "No address found.";
 	}
 
-	@Override
+	
 	public Contact getContact() {
 		return contact;
 	}
 
-	@Override
+	
 	@Access(AccessType.PROPERTY)
 	public String getName() {
 		return name.get();
 	}
 
-	@Override
+	
 	@Access(AccessType.PROPERTY)
 	public String getSector() {
 		return sector.get();
 	}
 
-	@Override
+	
 	@Access(AccessType.PROPERTY)
 	public Long getBankAccountNr() {
 		return bankAccountNr.get();
 	}
 	
-	@Override
+	
 	@Access(AccessType.PROPERTY)
 	public boolean getIsActive() {
 		return isActive.get();
 	}
 	
-	@Override
+	
 	public List<PaymentOption> getPaymentOptions() {
 		return paymentOptions;
 	}
 
-	@Override
+	
 	public Date getCustomerStart() {
 		return customerStart;
 	}
@@ -231,12 +231,12 @@ public class Company implements Serializable, B2BCompany {
 	}
 
 	// Noodzakelijk voor JPA
-	@Override
+	
 	public int hashCode() {
 		return Objects.hash(VatNumber);
 	}
 
-	@Override
+	
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
