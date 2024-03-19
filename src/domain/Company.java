@@ -7,11 +7,15 @@ import java.util.Objects;
 
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleLongProperty;
@@ -28,18 +32,21 @@ public class Company implements Serializable, B2BCompany {
 	private long id;
 	private String VatNumber;
 	private String logo; // URL Nr Afbeelding
-							// https://stackoverflow.com/questions/76284097/how-do-i-set-an-imageview-in-javafx-to-have-a-url-of-an-image-on-the-internet
 
 	@OneToOne
-	// @JoinColumn(name = "address_id")
 	@Embedded
 	private Address address;
 
 	@OneToOne
-	// @JoinColumn(name = "contact_id")
 	@Embedded
 	private Contact contact;
-	private List<PaymentOption> paymentOptions; // Niet duidelijk welk type
+	
+	
+	// Niet volledig tevreden met het resultaat
+	// Maar goed genoeg voorlopig
+    @ElementCollection
+    @Enumerated(EnumType.STRING)
+    private List<PaymentOption> paymentOptions;
 	private Date customerStart;
 
 	private SimpleStringProperty name = new SimpleStringProperty();
