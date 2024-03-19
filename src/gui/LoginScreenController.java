@@ -1,8 +1,5 @@
 package gui;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
 import domain.AdminController;
 import domain.Controller;
 import domain.DomainController;
