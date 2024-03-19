@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import domain.DomainController;
 import domain.UserController;
@@ -57,8 +59,18 @@ public class SupplierScreenController extends BorderPane {
 		
 		ordersButton.setOnMouseClicked(e -> {
 			this.mainScreen.getChildren().clear();
+			Map<String, String> map = new TreeMap<>();
+			map.put("Order ID", "orderId");
+			map.put("Name Customer", "nameCustomer");
+			map.put("Date", "date");
+			map.put("Order Status", "orderStatus");
+			map.put("Payment Status", "paymentStatus");
+			OrdersOverview oo = new OrdersOverview(map, dc);
+			this.mainScreen.getChildren().add(oo.getHBox());
+			
+			/*this.mainScreen.getChildren().clear();
 			OrdersOverviewController ordersScreen = new OrdersOverviewController(dc);
-			this.mainScreen.getChildren().add(ordersScreen);
+			this.mainScreen.getChildren().add(ordersScreen);*/
 		});
 		
 		customersButton.setOnMouseClicked(e -> {

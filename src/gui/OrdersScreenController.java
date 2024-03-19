@@ -16,6 +16,9 @@ public class OrdersScreenController extends TableView<Order> implements Observer
 	// FILTER TOEVOEGEN!!!
 
 	@FXML
+	private TableView<?> orderItems;
+	
+	@FXML
 	private TableColumn<Order, String> idCol;
 	@FXML
 	private TableColumn<Order, String> nameCol;
