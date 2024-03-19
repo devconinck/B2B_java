@@ -1,10 +1,20 @@
-.text-field {
-  -fx-background-color: -fx-text-box-border, -fx-background;
-  -fx-background-insets: 0, 0 0 1 0;
-  -fx-background-radius: 0;
+* {
+	-fx-primary-color: #EC4842;
+	-fx-secondary-color: #4B6EAF;
+	-fx-grey-color: #b9b9b9;
+    
+	-fx-focus-color: -fx-secondary-color;
 }
+
+.text-field {
+	-fx-accent: -fx-primary-color;
+	-fx-background-color: -fx-grey-color, white;
+	-fx-background-insets: 0, 0 0 1 0;
+	-fx-background-radius: 0;
+}
+
 .text-field:focused {
-  -fx-background-color: -fx-focus-color, -fx-background;
+	-fx-background-color: -fx-primary-color, white;
 }
 
 .label {
@@ -12,7 +22,7 @@
 }
 
 .button {
-   -fx-background-color: #E0433E;
+   -fx-background-color: #EC4842;
    -fx-padding: 10px;
    -fx-background-radius: 1em;
    -fx-font-weight: bold;
@@ -22,7 +32,7 @@
    -fx-background-color: #E0433E;
 }
 .button:pressed{
-   -fx-background-color: #7256DD;
+   -fx-background-color: #E04330;
 }
 .button:focussed{
    -fx-background-color: #2A1C42;
