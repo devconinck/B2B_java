@@ -15,9 +15,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Transient;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import util.PaymentOption;
@@ -33,11 +32,9 @@ public class Company implements Serializable, B2BCompany {
 	private String VatNumber;
 	private String logo; // URL Nr Afbeelding
 
-	@OneToOne
 	@Embedded
 	private Address address;
 
-	@OneToOne
 	@Embedded
 	private Contact contact;
 	
@@ -47,6 +44,9 @@ public class Company implements Serializable, B2BCompany {
     @ElementCollection
     @Enumerated(EnumType.STRING)
     private List<PaymentOption> paymentOptions;
+    
+    private List<Company> customerList;
+    private List<Order> orderList;
 	private Date customerStart;
 
 	private SimpleStringProperty name = new SimpleStringProperty();
@@ -74,7 +74,7 @@ public class Company implements Serializable, B2BCompany {
 		setCustomerStart(customerStart);
 		// isActive = true; overbodig doordat Initiele toestand bij attributen reeds
 	}
-
+	
 	// Getters
 	@Override
 	public String getVatNumber() {
@@ -152,6 +152,10 @@ public class Company implements Serializable, B2BCompany {
 	
 	public SimpleBooleanProperty getIsActiveProperty() {
 		return isActive;
+	}
+	
+	public SimpleIntegerProperty getAmountOfCustomers() {
+		return new SimpleIntegerProperty(customerList.size());
 	}
 	
 	// Setters
