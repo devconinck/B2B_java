@@ -1,4 +1,4 @@
-package gui.customer;
+package dto;
 
 import java.util.List;
 import java.util.Set;

@@ -1,19 +1,17 @@
 package gui.customer;
 
-import java.util.Date;
-import java.util.List;
+
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-import domain.Address;
-import domain.Company;
-import domain.Contact;
 import domain.DomainController;
-import domain.Order;
+import dto.CompanyDTO;
+import dto.OrderDTO;
+import gui.GenericOverview;
+import gui.GenericTableView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableSet;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -22,7 +20,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import util.PaymentOption;
 
 public class CustomerOverview extends GenericOverview<CompanyDTO> {
 

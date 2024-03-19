@@ -1,4 +1,4 @@
-package gui;
+package dto;
 
 import domain.OrderItem;
 

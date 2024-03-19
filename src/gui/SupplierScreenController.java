@@ -1,9 +1,6 @@
 package gui;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -11,9 +8,6 @@ import java.util.TreeMap;
 import domain.DomainController;
 
 import gui.customer.CustomerOverview;
-import gui.customer.Customer;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

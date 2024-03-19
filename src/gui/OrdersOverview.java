@@ -1,17 +1,17 @@
 package gui;
 
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import domain.DomainController;
-import gui.GenericOverview;
+import dto.OrderDTO;
+import dto.OrderItemDTO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -184,11 +184,23 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 	}
 	
 	private void setOrderItems(VBox vbox_complete, String orderId) {
+		Map<String, String> mapOrders = new TreeMap<>(Map.ofEntries(
+				Map.entry("Name", "name"),
+				Map.entry("Quantity", "quantity"),
+				Map.entry("In Stock", "inStock"),
+				Map.entry("Unit Price", "unitPrice"),
+				Map.entry("Total Product", "totalProduct")
+				));
 		ObservableList<OrderItemDTO> orderItems = FXCollections.observableArrayList(dc.getOrderItemsList(orderId).stream().map(or -> new OrderItemDTO(or)).collect(Collectors.toList()));
-		GenericTableView<OrderItemDTO> orderItemTable = new GenericTableView<>(orderItems.get(0));
-		orderItemTable.setData(FXCollections.observableArrayList(orderItems.subList(0, 2)));
-		orderItemTable.getStylesheets().add("css/orderPage.css");
+		GenericTableView<OrderItemDTO> orderItemTable = new GenericTableView<>(mapOrders);
+		orderItemTable.setData(FXCollections.observableArrayList(orderItems));
+		orderItemTable.getStylesheets().add("css/customerTable.css");
 		vbox_complete.getChildren().add(orderItemTable);
+	}
+
+	@Override
+	protected VBox setFilter() {
+		return new VBox();
 	}
 	
 	

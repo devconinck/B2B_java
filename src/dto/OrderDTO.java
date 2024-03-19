@@ -1,13 +1,13 @@
-package gui;
+package dto;
 
 import domain.Order;
 
 public record OrderDTO(String name, String orderId, String date, String orderAmount, String orderStatus, String paymentStatus, String lastPaymentReminder) {
 
 	public OrderDTO(Order o) {
-		this(o.getName(), o.getOrderId(), o.getDate(), o.getTotalAmount(), o.getOrderStatus(), o.getPaymentStatus(), o.getLastPaymentReminder());
+		this(o.getCompany().getName(), o.getOrderId(), o.getDate(), o.getTotalAmount(), o.getOrderStatus(), o.getPaymentStatus(), o.getLastPaymentReminder());
 	}
-	
+		
 	public String getName() {
 		return name;
 	}

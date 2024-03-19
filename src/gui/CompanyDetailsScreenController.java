@@ -410,7 +410,7 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
                     customerStartDate = new Date();
                 }
 
-                Company tempCompany = new Company(vatField.getText(), logoUrlField.getText(), tempAddress, tempContact, nameField.getText(), sectorField.getText(), Long.parseLong(bankField.getText()), selectedOptions, customerStartDate, null);
+                Company tempCompany = new Company(vatField.getText(), logoUrlField.getText(), tempAddress, tempContact, nameField.getText(), sectorField.getText(), Long.parseLong(bankField.getText()), selectedOptions, customerStartDate, null, null);
                 dc.addCompany(tempCompany);
             }
 
