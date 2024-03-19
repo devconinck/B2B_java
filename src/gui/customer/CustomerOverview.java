@@ -26,7 +26,7 @@ public class CustomerOverview extends GenericOverview<CompanyDTO> {
 
 	public CustomerOverview(Map<String, String> attributes, DomainController dc) {
 		super(FXCollections.observableArrayList(
-				dc.getCompanyList().stream().map(comp -> new CompanyDTO(comp)).collect(Collectors.toList())),
+				dc.getCurrentCompany().getCustomers().stream().map(comp -> new CompanyDTO(comp)).collect(Collectors.toList())),
 				attributes, dc);
 		// TODO logica in dc voor deze super lange constructor
 		hbox_main.getStylesheets().add("css/label.css");
@@ -48,6 +48,8 @@ public class CustomerOverview extends GenericOverview<CompanyDTO> {
 	}
 	@Override
 	protected void setCurrent() {
+		// TODO
+		dc.setCurrentCompany(dc.getCompany(current.vatNumber()));
 		txf_name.setText(current.name());
 		txf_customerSince.setText(current.customerStart());
 		txf_sector.setText(current.sector());

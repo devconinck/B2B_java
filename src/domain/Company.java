@@ -18,10 +18,11 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import util.PaymentOption;
@@ -49,10 +50,13 @@ public class Company implements Serializable, B2BCompany {
     @ElementCollection
     @Enumerated(EnumType.STRING)
     private List<PaymentOption> paymentOptions;
-    /*
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
+    @JoinTable(
+            name = "company_known_companies",
+            joinColumns = @JoinColumn(name = "company_id"),
+            inverseJoinColumns = @JoinColumn(name = "known_company_id")
+        )
     private Set<Company> customers;
-    */
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
     private Set<Order> orders;
 	private Date customerStart;
@@ -68,7 +72,7 @@ public class Company implements Serializable, B2BCompany {
 
 	// Constructor
 	public Company(String vatNumber, String logo, Address address, Contact contact, String name, String sector,
-			Long bankAccountNr, List<PaymentOption> paymentOptions, Date customerStart, Set<Order> orders) {
+			Long bankAccountNr, List<PaymentOption> paymentOptions, Date customerStart, Set<Order> orders, Set<Company> customers) {
 		setVatNumber(vatNumber);
 		setLogo(logo);
 		setAddress(address);
@@ -80,9 +84,18 @@ public class Company implements Serializable, B2BCompany {
 		setCustomerStart(customerStart);
 		setOrders(orders);
 		// isActive = true; overbodig doordat Initiele toestand bij attributen reeds
+		setCustomers(customers);
 	}
 	
 	
+	public void setCustomers(Set<Company> customers) {
+		this.customers = customers;
+	}
+	
+	public Set<Company> getCustomers() {
+		return customers;
+	}
+
 	public void setOrders(Set<Order> orders) {
 		this.orders = orders;
 	}
