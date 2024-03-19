@@ -67,7 +67,7 @@ public class Seed {
 	private void addOrder() {
 		Order order1 = new Order("asdf", 12, companyList.get(0), "asdf", "asdf", "asdf", 
 				 "asdf",  "asdf",  "asdf",  "asdf");
-		Order order2 = new Order("sdfg", 12, companyList.get(0), "sdfg", "sdfg", "sdfg", 
+		Order order2 = new Order("sdfg", 12, companyList.get(1), "sdfg", "sdfg", "sdfg", 
 				 "sdgf",  "sdfg",  "sdfg",  "sdfg");
 		companyList.get(0).setOrders(Set.of(order1));
 		companyList.get(1).setOrders(Set.of(order2));
