@@ -13,7 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 
-public abstract class GenericOverview2<O> {
+public abstract class GenericOverview<O> {
 	
 	protected HBox hbox_main;
 	protected List<VBox> vboxDetails;
@@ -23,7 +23,7 @@ public abstract class GenericOverview2<O> {
 	private static final int SIDEBAR_WIDTH = 250;
 	private static final int TOPBAR_HEIGHT = 200;
 	
-	public GenericOverview2(ObservableList<O> others, DomainController dc) {
+	public GenericOverview(ObservableList<O> others, DomainController dc) {
 		this.dc = dc;
 		hbox_main = new HBox();
 		this.current = others.get(0);
@@ -31,7 +31,7 @@ public abstract class GenericOverview2<O> {
 		setClassFields(others);
 	}
 	
-	public GenericOverview2(ObservableList<O> others, Map<String, String> attributes, DomainController dc) {
+	public GenericOverview(ObservableList<O> others, Map<String, String> attributes, DomainController dc) {
 		this.dc = dc;
 		hbox_main = new HBox();
 		this.current = others.get(0);

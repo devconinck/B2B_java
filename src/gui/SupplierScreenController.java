@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import domain.DomainController;
-import gui.customer.CustomerOverview2;
+import gui.customer.CustomerOverview;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -59,7 +59,7 @@ public class SupplierScreenController extends BorderPane {
 			map.put("Open orders", "numberOfOpenOrders");
 			map.put("Name", "name");
 			map.put("Logo", "logo");
-			CustomerOverview2 co = new CustomerOverview2(map, dc);
+			CustomerOverview co = new CustomerOverview(map, dc);
 			this.mainScreen.getChildren().add(co.getHBox());
 		});
 		

@@ -17,13 +17,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class CustomerOverview2 extends GenericOverview2<CompanyDTO> {
+public class CustomerOverview extends GenericOverview<CompanyDTO> {
 
 	private TextField txf_name, txf_customerSince, txf_sector, txf_country, txf_city, txf_zipcode, txf_street,
 			txf_number, txf_email, txf_phonenr;
 	private ImageView imgvw_logo;
 
-	public CustomerOverview2(Map<String, String> attributes, DomainController dc) {
+	public CustomerOverview(Map<String, String> attributes, DomainController dc) {
 		super(FXCollections.observableArrayList(
 				dc.getCompanyList().stream().map(comp -> new CompanyDTO(comp)).collect(Collectors.toList())),
 				attributes, dc);
@@ -41,6 +41,10 @@ public class CustomerOverview2 extends GenericOverview2<CompanyDTO> {
 		throw new UnsupportedOperationException();
 	}
 
+	private String createPhoneNumber(String phoneNumber)
+	{
+		return String.format("+32%s", phoneNumber);
+	}
 	@Override
 	protected void setCurrent() {
 		txf_name.setText(current.name());
@@ -52,7 +56,7 @@ public class CustomerOverview2 extends GenericOverview2<CompanyDTO> {
 		txf_street.setText(current.street());
 		txf_number.setText(current.number());
 		txf_email.setText(current.email());
-		txf_phonenr.setText(current.phoneNumber());
+		txf_phonenr.setText(createPhoneNumber(current.phoneNumber()));
 		try {
 			imgvw_logo.setImage(new Image(String.format("images/%s", current.logo())));
 		} catch (IllegalArgumentException e) {
@@ -175,7 +179,7 @@ public class CustomerOverview2 extends GenericOverview2<CompanyDTO> {
 		vboxDetails.add(vbox_email);
 		// Phonenr
 		VBox vbox_phonenr = new VBox(new Label("Phone Number"));
-		txf_phonenr = new TextField(String.format("+32%s", company.phoneNumber()));
+		txf_phonenr = new TextField(createPhoneNumber(company.phoneNumber()));
 		txf_phonenr.setEditable(false);
 		vbox_phonenr.getChildren().add(txf_phonenr);
 		vbox_phonenr.setPadding(new Insets(10, 10, 10, 20));

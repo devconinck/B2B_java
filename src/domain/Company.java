@@ -221,4 +221,9 @@ public class Company implements Serializable, B2BCompany {
 		return VatNumber == other.VatNumber;
 	}
 
+	public List<Integer> getOrders() {
+		// TODO Auto-generated method stub
+		return List.of(1, 2, 3);
+	}
+
 }

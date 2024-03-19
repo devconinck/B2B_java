@@ -3,9 +3,10 @@ package gui.customer;
 import java.util.List;
 
 import domain.Company;
+import util.PaymentOption;
 
 public record CompanyDTO(String vatNumber, String logo, List<Integer> orders, String country, String city,
-		String zipcode, String street, String number, String phoneNumber, String email, List<String> paymentOptions, String customerStart,
+		String zipcode, String street, String number, String phoneNumber, String email, List<PaymentOption> paymentOptions, String customerStart,
 		String name, String sector, long bankAccountNr, boolean isActive, int numberOfOpenOrders) {
 	// Date does not work in Record, must be String?
 	public CompanyDTO(Company c) {
@@ -56,7 +57,7 @@ public record CompanyDTO(String vatNumber, String logo, List<Integer> orders, St
 		return email;
 	}
 
-	public List<String> getPaymentOptions() {
+	public List<PaymentOption> getPaymentOptions() {
 		return paymentOptions;
 	}
 
