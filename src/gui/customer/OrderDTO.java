@@ -6,6 +6,10 @@ public record OrderDTO(String orderId, String date, String orderAmount, String o
 	public OrderDTO(Order c) {
 		this(c.getOrderId(), c.getDate(), c.getTotalAmount(), c.getOrderStatus(), c.getPaymentStatus());
 	}
+	
+	public OrderDTO() {
+		this(null, null, null, null, null);
+	}
 
 	public String getOrderId() {
 		return orderId;

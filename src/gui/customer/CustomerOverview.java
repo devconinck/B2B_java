@@ -1,10 +1,16 @@
 package gui.customer;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+import domain.Address;
+import domain.Company;
+import domain.Contact;
 import domain.DomainController;
+import domain.Order;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
@@ -16,6 +22,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import util.PaymentOption;
 
 public class CustomerOverview extends GenericOverview<CompanyDTO> {
 
@@ -213,10 +220,11 @@ public class CustomerOverview extends GenericOverview<CompanyDTO> {
 				Map.entry("Payment Status", "paymentStatus")
 				));
 		//current.getOrders().stream().map(or -> new OrderDTO(or)).collect(Collectors.toList());
+		// TODO
 		System.out.println(current.name());
 		ObservableList<OrderDTO> orders = FXCollections.observableArrayList(
 				current.getOrders().stream().map(or -> new OrderDTO(or)).collect(Collectors.toList()));
-		orderTable = new GenericTableView<>(orders.get(0), mapOrders);
+		orderTable = new GenericTableView<>(new OrderDTO(), mapOrders);
 		orderTable.setData(orders);
 		vbox_complete.getChildren().add(orderTable);
 	}
