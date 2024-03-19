@@ -26,7 +26,7 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 	public OrdersOverview(Map<String, String> attributes, SupplierController sc) {
 		super(FXCollections.observableArrayList(sc.getOrders().stream().map(o -> new OrderDTO(o)).collect(Collectors.toList())), attributes, sc);
 		// TODO om te laten zien dat de scrollbar ook css heeft, werkt niet?
-		genericTableView.setPrefHeight(100);
+		hbox_main.getStylesheets().add("css/label.css");
 	}
 	
 	@Override
