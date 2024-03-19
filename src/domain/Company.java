@@ -4,17 +4,22 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
@@ -44,9 +49,12 @@ public class Company implements Serializable, B2BCompany {
     @ElementCollection
     @Enumerated(EnumType.STRING)
     private List<PaymentOption> paymentOptions;
-    
-    private List<Company> customerList;
-    private List<Order> orderList;
+    /*
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Company> customers;
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
+    private Set<Order> orders;
+    */
 	private Date customerStart;
 
 	private SimpleStringProperty name = new SimpleStringProperty();
@@ -56,9 +64,7 @@ public class Company implements Serializable, B2BCompany {
 
 
 	// Default constructor JPA
-	protected Company() {
-
-	}
+	protected Company() {};
 
 	// Constructor
 	public Company(String vatNumber, String logo, Address address, Contact contact, String name, String sector,
@@ -72,9 +78,16 @@ public class Company implements Serializable, B2BCompany {
 		setBankAccountNr(bankAccountNr);
 		setPaymentOptions(paymentOptions);
 		setCustomerStart(customerStart);
+		//setOrders(orders);
 		// isActive = true; overbodig doordat Initiele toestand bij attributen reeds
 	}
 	
+	/* TODO
+	private void setOrders(Set<Order> orders) {
+		this.orders = orders;
+	}
+	*/
+
 	// Getters
 	@Override
 	public String getVatNumber() {
@@ -154,9 +167,11 @@ public class Company implements Serializable, B2BCompany {
 		return isActive;
 	}
 	
+	/* TODO
 	public SimpleIntegerProperty getAmountOfCustomers() {
-		return new SimpleIntegerProperty(customerList.size());
+		return new SimpleIntegerProperty(customers.size());
 	}
+	*/
 	
 	// Setters
 	public void setVatNumber(String vatNumber) {

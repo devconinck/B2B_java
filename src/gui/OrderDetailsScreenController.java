@@ -3,7 +3,6 @@ package gui;
 import java.io.IOException;
 
 import domain.Company;
-import domain.Customer;
 import domain.DomainController;
 import domain.Observer;
 import domain.Order;
@@ -19,9 +18,7 @@ import javafx.scene.layout.HBox;
 public class OrderDetailsScreenController extends AnchorPane implements Observer {
 	
     @FXML
-    private TextField nameField;
-    @FXML
-    private TextField contactField;
+    private TextField nameField, contactField;
     @FXML
     private TextField orderIdField;
     @FXML
@@ -75,16 +72,16 @@ public class OrderDetailsScreenController extends AnchorPane implements Observer
 	
 	public void loadOrder(String orderId) {
 		Order o = dc.getOrder(orderId);
-		Customer c = dc.getCustomer(o.getCustomer());
+		Company c = o.getCompany();
 		
-	    this.nameField.setText(c.getLastName() + " " + c.getFirstName());
-	    this.contactField.setText(c.getLastName() + " " + c.getFirstName());
+	    this.nameField.setText(c.getName());
+	    this.contactField.setText(c.getName());
 	    this.orderIdField.setText(o.getOrderId());
-	    this.streetField.setText(c.getStreet());
-	    this.addressNrField.setText(c.getAddressNr());
-	    this.cityField.setText(c.getCity());
-	    this.postalcodeField.setText(c.getPostalCode());
-	    this.countryField.setText(c.getCountry());
+	    this.streetField.setText(c.getAddress().getStreet());
+	    this.addressNrField.setText(c.getAddress().getNumber());
+	    this.cityField.setText(c.getAddress().getCity());
+	    this.postalcodeField.setText(c.getAddress().getZipCode());
+	    this.countryField.setText(c.getAddress().getCountry());
 	    this.orderStatusField.setText(o.getOrderStatus());
 	    this.paymentStatusField.setText(o.getPaymentStatus());
 	    this.lastPaymentField.setText(o.getLastPaymentReminder());

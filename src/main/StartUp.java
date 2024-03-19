@@ -9,7 +9,7 @@ import domain.DomainController;
 import gui.LoginScreenController;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import util.Seed;
+import util.seeding.Seed;
 
 public class StartUp extends Application {
 

@@ -1,4 +1,4 @@
-package util;
+package util.seeding;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,7 +13,8 @@ import repository.AccountDao;
 import repository.AccountDaoJpa;
 import repository.GenericDao;
 import repository.GenericDaoJpa;
-import src.util.PaymentOption;
+import util.PaymentOption;
+import util.Role;
 
 public class Seed {
 	private AccountDao accountRepo;

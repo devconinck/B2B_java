@@ -11,6 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
@@ -38,9 +39,7 @@ public class Order implements Serializable {
 	
 	private String orderId;
 	@OneToMany(cascade = CascadeType.ALL)
-	private List<OrderItem> orderItems;
-	private int syncId;
-	private String customerId; 
+	private List<OrderItem> orderItems; 
 	private String orderReference;
 	private String orderDateTime;
 	private String lastPaymentReminder;
@@ -48,8 +47,10 @@ public class Order implements Serializable {
 	private String taxAmount;
 	private String totalAmount;
 	private String currency;
+	@ManyToOne
+	private Company company;
 	
-	public Order(String orderId, int syncId, String customerId, String orderReference, String orderDateTime, String lastPaymentReminder, 
+	public Order(String orderId, int syncId, Company company, String orderReference, String orderDateTime, String lastPaymentReminder, 
 			String netAmount, String taxAmount, String totalAmount, String currency) {
 		setOrderID(orderId);
 		setName("Temp");
@@ -58,8 +59,7 @@ public class Order implements Serializable {
 		int randomPaymentStatus = (int) (Math.random()*3)+1;
 		setPaymentStatus(randomPaymentStatus == 1 ? "RECEIVED" : randomPaymentStatus == 2 ? "PROCESSED" : "DONE");
 		setOrderId(orderId);
-		setSyncId(syncId);
-		setCustomer(customerId);
+		setCompany(company);
 		setOrderReference(orderReference);
 		setOrderDateTime(orderDateTime);
 		setLastPaymentReminder(lastPaymentReminder);
@@ -147,17 +147,11 @@ public class Order implements Serializable {
 	public void setOrderItems(List<OrderItem> orderItems) {
 		this.orderItems = orderItems;
 	}
-	public int getSyncId() {
-		return syncId;
+	public Company getCompany() {
+		return company;
 	}
-	public void setSyncId(int syncId) {
-		this.syncId = syncId;
-	}
-	public String getCustomer() {
-		return customerId;
-	}
-	public void setCustomer(String customerId) {
-		this.customerId = customerId;
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 	public String getOrderReference() {
 		return orderReference;
