@@ -20,7 +20,7 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 	private TextField txf_name, txf_customerContact, txf_orderId, txf_street, txf_addressNr, txf_city, txf_postalcode, txf_country,
 	txf_orderStatus, txf_paymentStatus, txf_lastPayment;
 	
-	private ImageView imgvw_logo;
+	//private ImageView imgvw_logo;
 	
 	public OrdersOverview(Map<String, String> attributes, DomainController dc) {
 		super(FXCollections.observableArrayList(dc.getOrdersList().stream().map(o -> new OrderDTO(o)).collect(Collectors.toList())), attributes, dc);
@@ -69,12 +69,10 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 
 		HBox hbox_logo_name_customerContact = new HBox();
 		
-		HBox hbox_address_complete = new HBox();
-		
 		// Logo
-		VBox vbox_logo = new VBox();
+		/*VBox vbox_logo = new VBox();
 		vbox_logo.setPadding(new Insets(20));
-		/*try {
+		try {
 			imgvw_logo = new ImageView(new Image(String.format("images/%s", current.logo())));
 		} catch (IllegalArgumentException e) {
 			System.err.println(String.format("Failed to get logo for: %s", current.name()));
@@ -97,7 +95,7 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 		txf_customerContact = new TextField(order.name());
 		txf_customerContact.setEditable(false);
 		vbox_customerContact.getChildren().add(txf_customerContact);
-		vbox_customerContact.setPadding(new Insets(20, 10, 10, 10));
+		vbox_customerContact.setPadding(new Insets(20, 10, 10, 20));
 		vboxDetails.add(vbox_customerContact);
 
 		// Order id
@@ -105,10 +103,10 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 		txf_orderId = new TextField(String.format("%s", order.orderId()));
 		txf_orderId.setEditable(false);;
 		vbox_orderId.getChildren().add(txf_orderId);
-		vbox_orderId.setPadding(new Insets(10, 10, 10, 20));
+		vbox_orderId.setPadding(new Insets(20, 10, 10, 20));
 		vboxDetails.add(vbox_orderId);
 		
-		hbox_logo_name_customerContact.getChildren().addAll(vbox_logo, vbox_name, vbox_customerContact, vbox_orderId);
+		hbox_logo_name_customerContact.getChildren().addAll(vbox_name, vbox_customerContact, vbox_orderId);
 		
 		// AddressLine1
 		HBox hbox_street_addressnr = new HBox();
@@ -153,8 +151,6 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 		vboxDetails.add(vbox_country);
 		hbox_city_postalcode_country.getChildren().addAll(vbox_city, vbox_postalcode, vbox_country);
 
-		hbox_address_complete.getChildren().addAll(hbox_street_addressnr, hbox_city_postalcode_country);
-
 		// Status
 		HBox hbox_orderstatus_paymentstatus_lastpayment = new HBox();
 		// Order Status
@@ -180,21 +176,19 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 		vboxDetails.add(vbox_lastpayment);
 		hbox_orderstatus_paymentstatus_lastpayment.getChildren().addAll(vbox_orderstatus, vbox_paymentstatus, vbox_lastpayment);
 		
-		vbox_complete.getChildren().addAll(hbox_logo_name_customerContact, hbox_address_complete, hbox_orderstatus_paymentstatus_lastpayment);
+		vbox_complete.getChildren().addAll(hbox_logo_name_customerContact, hbox_street_addressnr, hbox_city_postalcode_country, hbox_orderstatus_paymentstatus_lastpayment);
 				
-		setOrders(vbox_complete);
+		setOrderItems(vbox_complete, current.getOrderId());
 
 		return vbox_complete;
 	}
 	
-	private void setOrders(VBox vbox_complete) {
-		// TODO Auto-generated method stub
-		// TODO UC (gegevens bestellingen klant) = order id, datum, orderbedrag, orderstatus, betalingsstatus
-		ObservableList<OrderDTO> orders = FXCollections.observableArrayList(dc.getOrdersList().stream().map(or -> new OrderDTO(or)).collect(Collectors.toList()));
-		GenericTableView<OrderDTO> orderTable = new GenericTableView<>(orders.get(0));
-		orderTable.setData(FXCollections.observableArrayList(orders.subList(0, 15)));
-		orderTable.getStylesheets().add("css/orderPage.css");
-		vbox_complete.getChildren().add(orderTable);
+	private void setOrderItems(VBox vbox_complete, String orderId) {
+		ObservableList<OrderItemDTO> orderItems = FXCollections.observableArrayList(dc.getOrderItemsList(orderId).stream().map(or -> new OrderItemDTO(or)).collect(Collectors.toList()));
+		GenericTableView<OrderItemDTO> orderItemTable = new GenericTableView<>(orderItems.get(0));
+		orderItemTable.setData(FXCollections.observableArrayList(orderItems.subList(0, 2)));
+		orderItemTable.getStylesheets().add("css/orderPage.css");
+		vbox_complete.getChildren().add(orderItemTable);
 	}
 	
 	

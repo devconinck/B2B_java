@@ -1,6 +1,7 @@
 package gui;
 
 import java.io.IOException;
+
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -8,11 +9,9 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import domain.DomainController;
-import domain.UserController;
-import gui.customer.CompanyDTO;
+
 import gui.customer.Customer;
 import gui.customer.CustomerOverview;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -61,7 +60,7 @@ public class SupplierScreenController extends BorderPane {
 			this.mainScreen.getChildren().clear();
 			Map<String, String> map = new TreeMap<>();
 			map.put("Order ID", "orderId");
-			map.put("Name Customer", "nameCustomer");
+			map.put("Name Customer", "name");
 			map.put("Date", "date");
 			map.put("Order Status", "orderStatus");
 			map.put("Payment Status", "paymentStatus");
