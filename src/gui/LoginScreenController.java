@@ -6,8 +6,8 @@ import java.io.FileNotFoundException;
 import domain.AdminController;
 import domain.Controller;
 import domain.DomainController;
-import domain.SupplierController;
 import domain.LoginController;
+import domain.SupplierController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -25,7 +25,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class LoginScreenController extends Pane {
 	
@@ -62,7 +61,7 @@ public class LoginScreenController extends Pane {
 		vbox.setMaxHeight(500);
 		
 		try {
-			Image img_delawarelogo = new Image(new FileInputStream("src/images/delaware-logo.jpg"), 0.2, 0.2, false ,false);
+			Image img_delawarelogo = new Image("images/delaware-logo.jpg");
 			ImageView imgvw_delawarelogo = new ImageView(img_delawarelogo);
 			imgvw_delawarelogo.setFitHeight(100);
 			imgvw_delawarelogo.setPreserveRatio(true);
@@ -100,7 +99,7 @@ public class LoginScreenController extends Pane {
 			
 			vbox.getChildren().addAll(imgvw_stackpane, vbox_email, vbox_password, errormessage, hbox_buttons);
 			root.getChildren().add(vbox);
-		} catch (FileNotFoundException e) {
+		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		}
 	}

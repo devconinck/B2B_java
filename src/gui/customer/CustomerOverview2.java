@@ -175,7 +175,7 @@ public class CustomerOverview2 extends GenericOverview2<CompanyDTO> {
 		vboxDetails.add(vbox_email);
 		// Phonenr
 		VBox vbox_phonenr = new VBox(new Label("Phone Number"));
-		txf_phonenr = new TextField(company.phoneNumber());
+		txf_phonenr = new TextField(String.format("+32%s", company.phoneNumber()));
 		txf_phonenr.setEditable(false);
 		vbox_phonenr.getChildren().add(txf_phonenr);
 		vbox_phonenr.setPadding(new Insets(10, 10, 10, 20));
