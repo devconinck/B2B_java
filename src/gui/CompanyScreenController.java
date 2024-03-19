@@ -73,9 +73,12 @@ public class CompanyScreenController extends TableView<Company> implements Obser
             }
         });
     }
+    
+    // Deze oplossing werkt maar is het een goeie oplossing?
+    // Wisselt ook pas als je naar andere company gaat
     @Override
     public void update(Company c) {
-        // TODO Auto-generated method stub
+    	// this.refresh();
     }
 
 	@Override

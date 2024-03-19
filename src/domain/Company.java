@@ -15,8 +15,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Transient;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -147,7 +147,7 @@ public class Company implements Serializable, B2BCompany {
 	}
 	
 	public SimpleStringProperty getAddressProperty() {
-		return new SimpleStringProperty(address.toString());
+		return new SimpleStringProperty(getAddressString());
 	}
 	
 	public SimpleBooleanProperty getIsActiveProperty() {

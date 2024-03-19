@@ -10,15 +10,12 @@ import jakarta.persistence.*;
 public class Address implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	// @Id
-	// @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String country;
 	private String city;
 	private String zipCode;
 	private String street;
 	private String number; // BVB Papegaaistraat 13A --> Huisnummer moet String zijn of apart veld
 
-	// Default constructor JPA
 	protected Address() {
 
 	}

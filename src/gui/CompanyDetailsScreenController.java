@@ -348,16 +348,16 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
                 existingCompany.setVatNumber(vatNumber);
                 existingCompany.setSector(sectorField.getText());
                 existingCompany.setBankAccountNr(Long.parseLong(bankField.getText()));
+                existingCompany.getContact().setPhoneNumber(phoneField.getText());
+                existingCompany.getContact().setEmail(emailField.getText());
 
                 existingCompany.getAddress().setCountry(countryField.getText());
                 existingCompany.getAddress().setCity(cityField.getText());
                 existingCompany.getAddress().setZipCode(postalcodeField.getText());
                 existingCompany.getAddress().setStreet(streetField.getText());
                 existingCompany.getAddress().setNumber(addressNrField.getText());
-                existingCompany.getContact().setPhoneNumber(phoneField.getText());
-                existingCompany.getContact().setEmail(emailField.getText());
-                existingCompany.setIsActive(isInputValid());
 
+                
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                 try {
                     existingCompany.setCustomerStart(dateFormat.parse(customerStartField.getText()));
