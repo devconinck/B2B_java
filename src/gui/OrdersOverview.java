@@ -5,6 +5,7 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import domain.DomainController;
+import domain.SupplierController;
 import dto.OrderDTO;
 import dto.OrderItemDTO;
 import javafx.collections.FXCollections;
@@ -22,8 +23,8 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 	
 	//private ImageView imgvw_logo;
 	
-	public OrdersOverview(Map<String, String> attributes, DomainController dc) {
-		super(FXCollections.observableArrayList(dc.getOrdersList().stream().map(o -> new OrderDTO(o)).collect(Collectors.toList())), attributes, dc);
+	public OrdersOverview(Map<String, String> attributes, SupplierController sc) {
+		super(FXCollections.observableArrayList(sc.getOrders().stream().map(o -> new OrderDTO(o)).collect(Collectors.toList())), attributes, sc);
 		// TODO om te laten zien dat de scrollbar ook css heeft, werkt niet?
 		genericTableView.setPrefHeight(100);
 	}
@@ -191,7 +192,7 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 				Map.entry("Unit Price", "unitPrice"),
 				Map.entry("Total Product", "totalProduct")
 				));
-		ObservableList<OrderItemDTO> orderItems = FXCollections.observableArrayList(dc.getOrderItemsList(orderId).stream().map(or -> new OrderItemDTO(or)).collect(Collectors.toList()));
+		ObservableList<OrderItemDTO> orderItems = FXCollections.observableArrayList(((SupplierController) controller).getOrderItems().stream().map(or -> new OrderItemDTO(or)).collect(Collectors.toList()));
 		GenericTableView<OrderItemDTO> orderItemTable = new GenericTableView<>(mapOrders);
 		orderItemTable.setData(FXCollections.observableArrayList(orderItems));
 		orderItemTable.getStylesheets().add("css/customerTable.css");

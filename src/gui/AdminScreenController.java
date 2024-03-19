@@ -2,7 +2,7 @@ package gui;
 
 import java.io.IOException;
 
-
+import domain.Controller;
 import domain.DomainController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,8 +27,8 @@ public class AdminScreenController extends BorderPane {
     @FXML
     private AnchorPane mainScreen;
     
-    public AdminScreenController(DomainController dc) {
-    	this.dc = dc;
+    public AdminScreenController(Controller controller) {
+    	this.dc = controller;
     	buildGui();
     }
     
@@ -65,7 +65,7 @@ public class AdminScreenController extends BorderPane {
     // ???
     private void logOut() {
         Stage currentStage = new Stage();
-        LoginScreenController login = new LoginScreenController(dc);
+        LoginScreen login = new LoginScreen(dc);
         currentStage.setScene(new Scene(login));
         currentStage.show();
         currentStage.close();

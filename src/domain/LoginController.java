@@ -32,7 +32,7 @@ public class LoginController {
 				if (accountBoundToEmail.getRole() == Role.Admin)
 					return new AdminController();
 				if (accountBoundToEmail.getRole() == Role.Supplier)
-					return new SupplierController();
+					return new SupplierController(accountBoundToEmail.getCompany());
 			}
 			System.err.println("Wrong password");
 			return null;

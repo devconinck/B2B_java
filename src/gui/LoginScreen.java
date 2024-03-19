@@ -23,18 +23,16 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class LoginScreenController extends Pane {
+public class LoginScreen extends Pane {
 	
 	private StackPane root;
 	private Stage primaryStage;
 	private Scene scene;
 	private LoginController loginController;
-	private DomainController dc;
 	private static final Color DEFAULTBACKGROUNDCOLOR = Color.WHITE; 
 	private Label errormessage = new Label();
 
-	public LoginScreenController(DomainController dc) {
-		this.dc = dc;
+	public LoginScreen() {
 		loginController = new LoginController();
 		primaryStage = new Stage();
 		root = new StackPane();
@@ -105,7 +103,7 @@ public class LoginScreenController extends Pane {
 		Controller controller = loginController.login(email, password);
 		if (controller instanceof AdminController) {
 			System.out.println("Admin logged in");
-			Scene tempScene = new Scene(new AdminScreenController(dc));
+			Scene tempScene = new Scene(new AdminScreenController(controller)); // TODO eig admincontroller meegeven
 			primaryStage.setScene(tempScene);
 			
 			// WERKT NIET
@@ -115,7 +113,7 @@ public class LoginScreenController extends Pane {
 		}
 		else if (controller instanceof SupplierController) {			
 			System.out.println("Supplier logged in");
-			Scene tempScene = new Scene(new SupplierScreenController(dc));
+			Scene tempScene = new Scene(new SupplierScreenController((SupplierController) controller)); // TODO eig suppliercontroller meegeven
 			primaryStage.setScene(tempScene);
 			
 			//WERKT NIET => MAAR: logOut werkt hiermee wel omdat het niet full screen is 

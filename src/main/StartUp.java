@@ -6,7 +6,7 @@ import java.util.List;
 
 import domain.Company;
 import domain.DomainController;
-import gui.LoginScreenController;
+import gui.LoginScreen;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import util.seeding.Seed;
@@ -22,9 +22,9 @@ public class StartUp extends Application {
 		if (isDevelopmentEnvironment()) {
 			initializeDevelopmentEnvironment(); // Seeden
 		}		
-		DomainController dc = new DomainController();
+		// DomainController dc = new DomainController();
 		
-		new LoginScreenController(dc);
+		new LoginScreen();
 	}
 
 	private boolean isDevelopmentEnvironment() {

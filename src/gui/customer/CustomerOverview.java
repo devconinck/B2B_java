@@ -6,6 +6,7 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import domain.DomainController;
+import domain.SupplierController;
 import dto.CompanyDTO;
 import dto.OrderDTO;
 import gui.GenericOverview;
@@ -28,10 +29,10 @@ public class CustomerOverview extends GenericOverview<CompanyDTO> {
 	private ImageView imgvw_logo;
 	private GenericTableView<OrderDTO> orderTable;
 
-	public CustomerOverview(Map<String, String> attributes, DomainController dc) {
+	public CustomerOverview(Map<String, String> attributes, SupplierController controller) {
 		super(FXCollections.observableArrayList(
-				dc.getCurrentCompany().getCustomers().stream().map(comp -> new CompanyDTO(comp)).collect(Collectors.toList())),
-				attributes, dc);
+				controller.getCurrentCompany().getCustomers().stream().map(comp -> new CompanyDTO(comp)).collect(Collectors.toList())),
+				attributes, controller);
 		// TODO logica in dc voor deze super lange constructor
 		hbox_main.getStylesheets().add("css/label.css");
 	}
@@ -53,7 +54,7 @@ public class CustomerOverview extends GenericOverview<CompanyDTO> {
 	@Override
 	protected void setCurrent() {
 		// TODO
-		dc.setCurrentCompany(dc.getCompany(current.vatNumber()));
+		controller.setSelectedCompany(controller.getCompany(current.vatNumber()));
 		txf_name.setText(current.name());
 		txf_customerSince.setText(current.customerStart());
 		txf_sector.setText(current.sector());
@@ -250,7 +251,7 @@ public class CustomerOverview extends GenericOverview<CompanyDTO> {
 	private void filterTable(String name) {
 		// TODO logica dc
 		ObservableList<CompanyDTO> listToShow = FXCollections.observableArrayList(
-				dc.getCompanyList().stream().map(comp -> new CompanyDTO(comp)).filter(dto -> dto.name().toLowerCase().contains(name)).collect(Collectors.toList()));
+				controller.getCurrentCompany().getCustomers().stream().map(comp -> new CompanyDTO(comp)).filter(dto -> dto.name().toLowerCase().contains(name)).collect(Collectors.toList()));
 		genericTableView.setData(listToShow);
 	}
 

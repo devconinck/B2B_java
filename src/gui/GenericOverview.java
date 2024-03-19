@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import domain.Controller;
 import domain.DomainController;
+import domain.SupplierController;
 import javafx.collections.ObservableList;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
@@ -19,13 +21,14 @@ public abstract class GenericOverview<O> {
 	protected List<VBox> vboxDetails;
 	protected O current;
 	protected GenericTableView<O> genericTableView;
-	protected DomainController dc;
+	protected SupplierController controller;
 	private static final int SIDEBAR_WIDTH = 250;
 	private static final int TOPBAR_HEIGHT = 200;
 	
-	public GenericOverview(ObservableList<O> others, Map<String, String> attributes, DomainController dc) {
-		this.dc = dc;
+	public GenericOverview(ObservableList<O> others, Map<String, String> attributes, SupplierController controller) {
+		this.controller = controller;
 		hbox_main = new HBox();
+		System.out.println(others.size());
 		this.current = others.get(0);
 		this.genericTableView = new GenericTableView<>(attributes);
 		setClassFields(others);

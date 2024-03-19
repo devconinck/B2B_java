@@ -14,30 +14,15 @@ import repository.GenericDaoJpa;
 import util.seeding.OrderData;
 
 public class DomainController implements Subject {
-	private List<Order> orderList;
-	private List<OrderItem> orderItemList;
-	private GenericDaoJpa<Order> orderRepo;
-	private GenericDaoJpa<OrderItem> orderItemRepo;
-	private GenericDaoJpa<Product> productRepo;
-	private GenericDaoJpa<ProductPrice> productPriceRepo;
-	private GenericDaoJpa<ProductDescription> productDescriptionRepo;
-	private GenericDaoJpa<ProductUnitOfMeasureConversion> productUnitRepo;
-	private List<Company> companyList;
-	private GenericDaoJpa<Company> companyRepo;
-	private Set<Observer> observers;
+	
+	
+	
 	private Company currentCompany;
-	private Order currentOrder;
+	
 	private OrderData od;
 	
 	public DomainController() {
-		setOrderRepo(new GenericDaoJpa<>(Order.class));
-		setOrderItemRepo(new GenericDaoJpa<>(OrderItem.class));
-		setProductRepo(new GenericDaoJpa<>(Product.class));
-		setProductPriceRepo(new GenericDaoJpa<>(ProductPrice.class));
-		setProductDescriptionRepo(new GenericDaoJpa<>(ProductDescription.class));
-		setProductUnitRepo(new GenericDaoJpa<>(ProductUnitOfMeasureConversion.class));
-		setCompanyRepo(new GenericDaoJpa<>(Company.class));
-		observers = new HashSet<>();
+		
 		this.currentCompany = getCompanyList().get(0);
 		
 		
@@ -48,43 +33,12 @@ public class DomainController implements Subject {
 		
 	}
 	
-	public void setOrderRepo(GenericDaoJpa<Order> o) {
-		orderRepo = o;
-	}
 	
-	public void setOrderItemRepo(GenericDaoJpa<OrderItem> oi) {
-		orderItemRepo = oi;
-	}
 	
-	public void setProductRepo(GenericDaoJpa<Product> p) {
-		productRepo = p;
-	}
 	
-	public void setProductPriceRepo(GenericDaoJpa<ProductPrice> pp) {
-		productPriceRepo = pp;
-	}
-	
-	public void setProductDescriptionRepo(GenericDaoJpa<ProductDescription> pd) {
-		productDescriptionRepo = pd;
-	}
-	
-	public void setProductUnitRepo(GenericDaoJpa<ProductUnitOfMeasureConversion> pu) {
-		productUnitRepo = pu;
-	}
-	
-	public void setCurrentOrder(Order o) {
-		this.currentOrder = o;
-		notifyObservers();
-	}
-	
-	public Order getCurrentOrder() {
-		return currentOrder;
-	}
 
 	
-	public void setCompanyRepo(GenericDaoJpa<Company> mock) {
-		companyRepo = mock;
-	}
+	
 
 	public void setCurrentCompany(Company c) {
 		this.currentCompany = c;
@@ -95,36 +49,8 @@ public class DomainController implements Subject {
 		return currentCompany;
 	}
 	
-	public ObservableList<Order> getOrdersList() {
-		if(orderList == null) { 
-			orderList = new ArrayList<Order>();
-		}
-		List<Order> ordersFromRepo = orderRepo.findAll();
-		
-		orderList.clear();
-		orderList.addAll(ordersFromRepo);
-	
-		return FXCollections.observableArrayList(orderList);
-	}
-	
 	// TODO niet alles teruggeven enkel items van specifiek order !!
-	public ObservableList<OrderItem> getOrderItemsList(String orderId) {
-		if(orderItemList == null) { 
-			orderItemList = new ArrayList<OrderItem>();
-		}
-		List<OrderItem> orderItemsFromOrder = orderItemRepo.findAll().stream().filter(oi -> oi.getOrderId() == (Integer.parseInt(orderId))).collect(Collectors.toList());
-		orderItemList.clear();
-		orderItemList.addAll(orderItemsFromOrder);
 	
-		return FXCollections.observableArrayList(orderItemList);
-	}
-	
-	public ObservableList<Company> getCompanyList() {
-		if (companyList == null) {
-			companyList = companyRepo.findAll();
-		}
-		return FXCollections.observableArrayList(companyList);
-	}
 
 	public Company getCompany(String vat) {
 		for (Company c : companyList) {
@@ -135,17 +61,7 @@ public class DomainController implements Subject {
 		return null;
 	}
 
-	public void addCompany(Company company) {
-		GenericDaoJpa.startTransaction();
-		companyRepo.insert(company);
-		GenericDaoJpa.commitTransaction();
-	}
-
-	public void updateCompany(Company company) {
-		GenericDaoJpa.startTransaction();
-		companyRepo.update(company);
-		GenericDaoJpa.commitTransaction();
-	}
+	
 
 	public void close() {
 		GenericDaoJpa.closePersistency();
@@ -159,7 +75,6 @@ public class DomainController implements Subject {
 	@Override
 	public void removeObserver(Observer o) {
 		observers.remove(o);
-
 	}
 
 	private void notifyObservers() {

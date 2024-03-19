@@ -23,19 +23,23 @@ public class Account implements Serializable {
 	private long id;
 	private String email;
 	private String password;
-	private String companyVAT;
+	private Company company;
 	private Role role;
 	
 	private static final String EMAIL_REGEX = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
 
-	protected Account() {
-	};
+	protected Account() {};
 
-	public Account(String email, String password, String companyVAT, Role role) {
+	public Account(String email, String password, Company company, Role role) {
 		setEmail(email);
 		setPassword(password);
-		setCompanyVAT(companyVAT);
+		setCompany(company);
 		this.role = role;
+	}
+
+	private void setCompany(Company company) {
+		this.company = company;
+		
 	}
 
 	private void setEmail(String email) {
@@ -51,19 +55,6 @@ public class Account implements Serializable {
 		this.password = LoginController.encryptPassword(password);
 	}
 
-	private void setCompanyVAT(String companyVAT) {
-		// if (!patternMatches(companyVAT, Validation.COMPANY_VAT_REGEX) ||
-		// !isValidMOD97(companyVAT))
-		// throw new IllegalArgumentException(String.format("The company VAT number is
-		// not valid for %s", email));
-		this.companyVAT = companyVAT;
-	}
-
-	private static boolean isValidMOD97(String companyVAT) {
-		int mod97 = 97 - (Integer.parseInt(companyVAT.substring(2, 10)) % 97);
-		return mod97 == Integer.parseInt(companyVAT.substring(10));
-	}
-
 	private static boolean patternMatches(String string, String regexPattern) {
 		return Pattern.compile(regexPattern).matcher(string).matches();
 	}
@@ -75,10 +66,14 @@ public class Account implements Serializable {
 	public Role getRole() {
 		return role;
 	};
+	
+	public Company getCompany() {
+		return company;
+	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(companyVAT, email, password, role);
+		return Objects.hash(company, email, password, role);
 	}
 
 	@Override
@@ -90,7 +85,7 @@ public class Account implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Account other = (Account) obj;
-		return companyVAT == other.companyVAT && Objects.equals(email, other.email)
+		return Objects.equals(company, other.company) && Objects.equals(email, other.email)
 				&& Objects.equals(password, other.password) && role == other.role;
 	}
 }

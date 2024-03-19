@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import domain.DomainController;
-
+import domain.SupplierController;
 import gui.customer.CustomerOverview;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 
 public class SupplierScreenController extends BorderPane {
 	
-	private DomainController dc;
+	private SupplierController controller;
 
     @FXML
     private Button ordersButton;
@@ -32,8 +32,8 @@ public class SupplierScreenController extends BorderPane {
     @FXML
     private AnchorPane mainScreen;
     
-    public SupplierScreenController(DomainController dc) {
-    	this.dc = dc;
+    public SupplierScreenController(SupplierController controller) {
+    	this.controller = controller;
     	buildGui();
     }
     
@@ -58,7 +58,7 @@ public class SupplierScreenController extends BorderPane {
 			map.put("Date", "date");
 			map.put("Order Status", "orderStatus");
 			map.put("Payment Status", "paymentStatus");
-			OrdersOverview oo = new OrdersOverview(map, dc);
+			OrdersOverview oo = new OrdersOverview(map, controller);
 			this.mainScreen.getChildren().add(oo.getHBox());
 			
 			/*this.mainScreen.getChildren().clear();
@@ -72,7 +72,7 @@ public class SupplierScreenController extends BorderPane {
 			map.put("Open orders", "numberOfOpenOrders");
 			map.put("Name", "name");
 			map.put("Logo", "logo");
-			CustomerOverview co = new CustomerOverview(map, dc);
+			CustomerOverview co = new CustomerOverview(map, controller);
 			this.mainScreen.getChildren().add(co.getHBox());
 		});
 		
@@ -80,7 +80,7 @@ public class SupplierScreenController extends BorderPane {
     
     private void logOut() {
         Stage currentStage = new Stage();
-        LoginScreenController login = new LoginScreenController(dc);
+        LoginScreen login = new LoginScreen(); // moet eig weg
         currentStage.setScene(new Scene(login));
         currentStage.show();
         currentStage.close();

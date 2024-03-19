@@ -21,12 +21,18 @@ import util.Role;
 public class Seed {
 	private AccountDao accountRepo;
 	private GenericDao<Company> companyRepo;
+	private GenericDaoJpa<Order> orderRepo;
 	private List<Company> companyList = new ArrayList<>();
 
 	public Seed() {
 		setAccountRepo(new AccountDaoJpa());
 		setCompanyRepo(new GenericDaoJpa<Company>(Company.class));
+		setOrderRepo(new GenericDaoJpa<Order>(Order.class));
 		run();
+	}
+
+	private void setOrderRepo(GenericDaoJpa<Order> mock) {
+		this.orderRepo = mock;
 	}
 
 	private void setAccountRepo(AccountDao mock) {
@@ -38,10 +44,10 @@ public class Seed {
 	}
 
 	private void run() {
+		addCompanies();
 		addAdmins();
 		addUsers();
 		addSuppliersAndCustomers();
-		addCompanies();
 		addOrder();
 		addCustomers();
 	}
@@ -53,15 +59,15 @@ public class Seed {
 
 	private void addAdmins() {
 		List<Account> adminAccounts = new ArrayList<>();
-		adminAccounts.add(new Account("admin@email.com", "root", "BE1234567890", Role.Admin));
-		adminAccounts.add(new Account("test@email.com", "password", "GB0987654321", Role.Admin));
+		adminAccounts.add(new Account("admin@email.com", "root", companyList.get(2), Role.Admin));
+		adminAccounts.add(new Account("test@email.com", "password", companyList.get(1), Role.Admin));
 
 		adminAccounts.stream().forEach(accountRepo::addAccount);
 	}
 
 	private void addUsers() {
-		Account acc1 = new Account("Charles.leclerc@icloud.com", "Test123!", "BE0404754472", Role.Supplier);
-		Account acc2 = new Account("Danny.ricciardo@gmail.com", "Root123!", "BE0404754472", Role.Customer);
+		Account acc1 = new Account("Charles.leclerc@icloud.com", "Test123!", companyList.get(0), Role.Supplier);
+		Account acc2 = new Account("Danny.ricciardo@gmail.com", "Root123!", companyList.get(0), Role.Customer);
 		Stream.of(acc1, acc2).forEach(accountRepo::addAccount);
 	}
 	
@@ -72,11 +78,22 @@ public class Seed {
 				 "sdgf",  "sdfg",  "sdfg",  "sdfg");
 		companyList.get(0).setOrders(Set.of(order1));
 		companyList.get(1).setOrders(Set.of(order2));
+		List<Order> li = List.of(order1, order2);
+		li.stream().forEach(o -> {
+			GenericDaoJpa.startTransaction();
+			orderRepo.insert(o);
+			GenericDaoJpa.commitTransaction();
+		});
 	}
 	
 	private void addCustomers() {
 		companyList.get(0).setCustomers(Set.of(companyList.get(1)));
 		companyList.get(1).setCustomers(Set.of(companyList.get(2)));
+		companyList.stream().forEach(c -> {
+			GenericDaoJpa.startTransaction();
+			companyRepo.update(c);
+			GenericDaoJpa.commitTransaction();
+		});
 	}
 
 	private void addCompanies() {
