@@ -1,19 +1,19 @@
 package util;
 
-import java.util.stream.Stream;
-
-import java.util.List;
-import domain.Account;
-import repository.AccountDao;
-import repository.AccountDaoJpa;
-
-import repository.GenericDao;
-import repository.GenericDaoJpa;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Stream;
+
+import domain.Account;
 import domain.Address;
 import domain.Company;
 import domain.Contact;
+import repository.AccountDao;
+import repository.AccountDaoJpa;
+import repository.GenericDao;
+import repository.GenericDaoJpa;
+import src.util.PaymentOption;
 
 public class Seed {
 	private AccountDao accountRepo;
