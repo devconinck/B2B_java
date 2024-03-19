@@ -224,7 +224,7 @@ public class CustomerOverview extends GenericOverview<CompanyDTO> {
 		System.out.println(current.name());
 		ObservableList<OrderDTO> orders = FXCollections.observableArrayList(
 				current.getOrders().stream().map(or -> new OrderDTO(or)).collect(Collectors.toList()));
-		orderTable = new GenericTableView<>(new OrderDTO(), mapOrders);
+		orderTable = new GenericTableView<>(mapOrders);
 		orderTable.setData(orders);
 		vbox_complete.getChildren().add(orderTable);
 	}

@@ -23,19 +23,11 @@ public abstract class GenericOverview<O> {
 	private static final int SIDEBAR_WIDTH = 250;
 	private static final int TOPBAR_HEIGHT = 200;
 	
-	public GenericOverview(ObservableList<O> others, DomainController dc) {
-		this.dc = dc;
-		hbox_main = new HBox();
-		this.current = others.get(0);
-		this.genericTableView = new GenericTableView<>(others.get(0));
-		setClassFields(others);
-	}
-	
 	public GenericOverview(ObservableList<O> others, Map<String, String> attributes, DomainController dc) {
 		this.dc = dc;
 		hbox_main = new HBox();
 		this.current = others.get(0);
-		this.genericTableView = new GenericTableView<>(others.get(0), attributes);
+		this.genericTableView = new GenericTableView<>(attributes);
 		setClassFields(others);
 	}
 	
