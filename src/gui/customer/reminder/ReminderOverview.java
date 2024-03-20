@@ -4,6 +4,7 @@ import java.util.Map;
 
 import domain.SupplierController;
 import dto.OrderDTO;
+import gui.FilterController;
 import gui.GenericOverview;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.VBox;
@@ -16,11 +17,6 @@ public class ReminderOverview extends GenericOverview<OrderDTO>{
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	protected VBox setFilter() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	protected void saveEntity() {
@@ -42,6 +38,13 @@ public class ReminderOverview extends GenericOverview<OrderDTO>{
 	
 	@Override
 	protected VBox createDetails(OrderDTO entityClass) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	protected FilterController setFilter() {
 		// TODO Auto-generated method stub
 		return null;
 	}
