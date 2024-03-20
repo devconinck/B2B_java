@@ -55,7 +55,7 @@ public class CompaniesOverviewController extends GridPane {
 		
 		VBox vBox2 = new VBox();
 		vBox2.setAlignment(Pos.CENTER); 
-		this.add(vBox2, 1, 1);
+		this.add(vBox2, 1, 0);
 		vBox2.getChildren().addAll(companyDetails, controls);
 	}
 
