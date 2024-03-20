@@ -1,15 +1,13 @@
 package gui;
 
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Map;
 
-import domain.Controller;
-import domain.DomainController;
 import domain.SupplierController;
 import javafx.collections.ObservableList;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Node;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -28,7 +26,6 @@ public abstract class GenericOverview<O> {
 	public GenericOverview(ObservableList<O> others, Map<String, String> attributes, SupplierController controller) {
 		this.controller = controller;
 		hbox_main = new HBox();
-		System.out.println(others.size());
 		this.current = others.get(0);
 		this.genericTableView = new GenericTableView<>(attributes);
 		setClassFields(others);
@@ -41,7 +38,7 @@ public abstract class GenericOverview<O> {
 		VBox vboxDetailsAndButtons = new VBox();
 
 		// Add Table
-		genericTableView.getStylesheets().add("css/customerTable.css");
+		genericTableView.getStylesheets().add("css/label.css");
 		genericTableView.setData(others);
 		genericTableView.setOnMouseClicked(event -> {
 			this.current = genericTableView.getSelectionModel().getSelectedItem();
@@ -70,7 +67,8 @@ public abstract class GenericOverview<O> {
 		hbox_main.getChildren().addAll(vboxFilterAndTable, vboxDetailsAndButtons);
 	}
 	
-	protected abstract VBox setFilter();
+	@SuppressWarnings("rawtypes")
+	protected abstract FilterController setFilter();
 
 	private void clearFields() {
 		vboxDetails.stream().map(vbox -> vbox.getChildren().get(1))

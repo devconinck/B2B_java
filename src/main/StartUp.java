@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import domain.Company;
-import domain.DomainController;
 import gui.LoginScreen;
 import javafx.application.Application;
 import javafx.stage.Stage;

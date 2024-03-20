@@ -60,10 +60,6 @@ public class SupplierScreenController extends BorderPane {
 			map.put("Payment Status", "paymentStatus");
 			OrdersOverview oo = new OrdersOverview(map, controller);
 			this.mainScreen.getChildren().add(oo.getHBox());
-			
-			/*this.mainScreen.getChildren().clear();
-			OrdersOverviewController ordersScreen = new OrdersOverviewController(dc);
-			this.mainScreen.getChildren().add(ordersScreen);*/
 		});
 		
 		customersButton.setOnMouseClicked(e -> {

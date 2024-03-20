@@ -4,7 +4,6 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-import domain.DomainController;
 import domain.SupplierController;
 import dto.OrderDTO;
 import dto.OrderItemDTO;
@@ -20,8 +19,10 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 	
 	private TextField txf_name, txf_customerContact, txf_orderId, txf_street, txf_addressNr, txf_city, txf_postalcode, txf_country,
 	txf_orderStatus, txf_paymentStatus, txf_lastPayment;
+	private GenericTableView<OrderItemDTO> orderItemTable;
+	private ObservableList<OrderItemDTO> orderItems;
+	private OrdersFilterController ofc;
 	
-	//private ImageView imgvw_logo;
 	
 	public OrdersOverview(Map<String, String> attributes, SupplierController sc) {
 		super(FXCollections.observableArrayList(sc.getOrders().stream().map(o -> new OrderDTO(o)).collect(Collectors.toList())), attributes, sc);
@@ -48,40 +49,21 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 		txf_addressNr.setText(current.addressNr()); 
 		txf_city.setText(current.city());
 		txf_postalcode.setText(current.postalCode());
+		txf_country.setText(current.country());
 		txf_orderStatus.setText(current.orderStatus());
 		txf_paymentStatus.setText(current.paymentStatus());
 		txf_lastPayment.setText(current.lastPaymentReminder());
-		/*try {
-			imgvw_logo.setImage(new Image(String.format("images/%s", current.logo())));
-		} catch (IllegalArgumentException e) {
-			System.err.println(String.format("Failed to get logo for: %s", current.name()));
-			imgvw_logo.setImage(new Image(String.format("images/%s", "delaware-logo.jpg")));
-		}*/
+	
+		orderItems = FXCollections.observableArrayList(((SupplierController) controller).getOrderItems(current.orderId()).stream().map(or -> new OrderItemDTO(or)).collect(Collectors.toList()));
+		orderItemTable.setData(orderItems);
 	}
 	
 	@Override
 	protected VBox createDetails(OrderDTO order) {
-		// logo, name, sector, address, contact, customerSinds
-		// TODO UC (gegevens overzicht beschikbare klanten) = naam, aantal openstaande bestellingen
-		// TODO UC (gegevens details klant) = naam, logo, adres, contactgegevens
-		// TODO UC (gegevens bestellingen klant) = order id, datum, orderbedrag, orderstatus, betalingsstatus
 		vboxDetails.clear();
 		VBox vbox_complete = new VBox();
 
 		HBox hbox_logo_name_customerContact = new HBox();
-		
-		// Logo
-		/*VBox vbox_logo = new VBox();
-		vbox_logo.setPadding(new Insets(20));
-		try {
-			imgvw_logo = new ImageView(new Image(String.format("images/%s", current.logo())));
-		} catch (IllegalArgumentException e) {
-			System.err.println(String.format("Failed to get logo for: %s", current.name()));
-			imgvw_logo = new ImageView(new Image(String.format("images/%s", "delaware-logo.jpg")));
-		}
-		imgvw_logo.setFitHeight(50);
-		imgvw_logo.setFitWidth(50);
-		vbox_logo.getChildren().add(imgvw_logo);*/
 		
 		// Name
 		VBox vbox_name = new VBox(new Label("Name"));
@@ -179,12 +161,12 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 		
 		vbox_complete.getChildren().addAll(hbox_logo_name_customerContact, hbox_street_addressnr, hbox_city_postalcode_country, hbox_orderstatus_paymentstatus_lastpayment);
 				
-		setOrderItems(vbox_complete, current.getOrderId());
+		setOrderItems(vbox_complete);
 
 		return vbox_complete;
 	}
 	
-	private void setOrderItems(VBox vbox_complete, String orderId) {
+	private void setOrderItems(VBox vbox_complete) {
 		Map<String, String> mapOrders = new TreeMap<>(Map.ofEntries(
 				Map.entry("Name", "name"),
 				Map.entry("Quantity", "quantity"),
@@ -192,17 +174,18 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 				Map.entry("Unit Price", "unitPrice"),
 				Map.entry("Total Product", "totalProduct")
 				));
-		ObservableList<OrderItemDTO> orderItems = FXCollections.observableArrayList(((SupplierController) controller).getOrderItems().stream().map(or -> new OrderItemDTO(or)).collect(Collectors.toList()));
-		GenericTableView<OrderItemDTO> orderItemTable = new GenericTableView<>(mapOrders);
+		orderItems = FXCollections.observableArrayList(((SupplierController) controller).getOrderItems(current.getOrderId()).stream().map(or -> new OrderItemDTO(or)).collect(Collectors.toList()));
+		orderItemTable = new GenericTableView<OrderItemDTO>(mapOrders);
 		orderItemTable.setData(FXCollections.observableArrayList(orderItems));
-		orderItemTable.getStylesheets().add("css/customerTable.css");
+		orderItemTable.getStylesheets().add("css/label.css");
 		vbox_complete.getChildren().add(orderItemTable);
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
-	protected VBox setFilter() {
-		return new VBox();
+	protected FilterController setFilter() {
+		return new OrdersFilterController(FXCollections.observableArrayList(
+				controller.getCurrentCompany().getOrders().stream().map(comp -> new OrderDTO(comp)).collect(Collectors.toList())));
 	}
-	
 	
 }
