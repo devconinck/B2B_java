@@ -1,6 +1,7 @@
 package gui.customer;
 
 
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
@@ -9,6 +10,7 @@ import domain.DomainController;
 import domain.SupplierController;
 import dto.CompanyDTO;
 import dto.OrderDTO;
+import gui.FilterController;
 import gui.GenericOverview;
 import gui.GenericTableView;
 import javafx.collections.FXCollections;
@@ -28,6 +30,7 @@ public class CustomerOverview extends GenericOverview<CompanyDTO> {
 			txf_number, txf_email, txf_phonenr;
 	private ImageView imgvw_logo;
 	private GenericTableView<OrderDTO> orderTable;
+	private CustomerFilterController cfc;
 
 	public CustomerOverview(Map<String, String> attributes, SupplierController controller) {
 		super(FXCollections.observableArrayList(
@@ -222,31 +225,11 @@ public class CustomerOverview extends GenericOverview<CompanyDTO> {
 		vbox_complete.getChildren().add(orderTable);
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
-	protected VBox setFilter() {
-		VBox vboxFilter = new VBox();
-		HBox hboxFilter = new HBox();
-		hboxFilter.setPrefWidth(genericTableView.getWidth());
-		
-		TextField filter = new TextField();
-		filter.setPromptText("Filter on name");
-		
-		Button btnFilter = new Button("Search");
-		btnFilter.setOnMouseClicked(event -> filterTable(filter.getText()));
-		btnFilter.getStyleClass().add("filterButton");
-		
-		hboxFilter.getChildren().addAll(filter, btnFilter);
-		hboxFilter.getStyleClass().add("filterHbox");
-		
-		vboxFilter.getChildren().add(hboxFilter);
-		
-		return vboxFilter;
-	}
-
-	private void filterTable(String name) {
-		ObservableList<CompanyDTO> listToShow = FXCollections.observableArrayList(
-				controller.getCurrentCompany().getCustomers().stream().map(comp -> new CompanyDTO(comp)).filter(dto -> dto.name().toLowerCase().contains(name)).collect(Collectors.toList()));
-		genericTableView.setData(listToShow);
+	protected FilterController setFilter() {
+		return new CustomerFilterController(FXCollections.observableArrayList(
+				controller.getCurrentCompany().getCustomers().stream().map(comp -> new CompanyDTO(comp)).collect(Collectors.toList())));
 	}
 
 }

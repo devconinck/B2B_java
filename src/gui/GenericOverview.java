@@ -4,12 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import domain.Controller;
-import domain.DomainController;
 import domain.SupplierController;
 import javafx.collections.ObservableList;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Node;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -69,7 +66,8 @@ public abstract class GenericOverview<O> {
 		hbox_main.getChildren().addAll(vboxFilterAndTable, vboxDetailsAndButtons);
 	}
 	
-	protected abstract VBox setFilter();
+	@SuppressWarnings("rawtypes")
+	protected abstract FilterController setFilter();
 
 	private void clearFields() {
 		vboxDetails.stream().map(vbox -> vbox.getChildren().get(1))
