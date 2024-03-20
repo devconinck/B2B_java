@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -24,6 +25,8 @@ public class AdminScreenController extends BorderPane {
 
     @FXML
     private Button logOutButton;
+    @FXML
+    private Label titleLabel;
 
     @FXML
     private AnchorPane mainScreen;
@@ -48,6 +51,7 @@ public class AdminScreenController extends BorderPane {
 		
 		companiesButton.setOnMouseClicked(e -> {
 			CompaniesOverviewController companiesScreen = new CompaniesOverviewController(controller);
+			titleLabel.setText("Companies");
 			this.mainScreen.getChildren().clear();
 			this.mainScreen.getChildren().add(companiesScreen);
 		});
@@ -58,6 +62,7 @@ public class AdminScreenController extends BorderPane {
 		 * updateButton.setOnMouseClicked(e -> { this.controller.clearObservers();
 		 * UpdateOverviewController updateScreen = new
 		 * UpdateOverviewScreenController((AdminController) controller);
+		 * titleLabel.setText("Update Requests");
 		 * this.mainScreen.getChildren().clear();
 		 * this.mainScreen.getChildren().add(updateScreen); });
 		 */

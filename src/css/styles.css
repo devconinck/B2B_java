@@ -1,0 +1,35 @@
+/* General styles */
+.root {
+    -fx-font-family: "Arial", sans-serif;
+}
+.button{
+	-fx-background-color: transparent;
+	-fx-cursor: hand;
+	-fx-text-fill: white;
+}
+
+.hbox{
+	-fx-border-style: solid;
+    -fx-border-color: red;
+    -fx-border-width: 0 0 1 0;
+
+}
+
+#logOutButton{
+
+	-fx-background-radius: 1em;
+	-fx-background-color: red;
+}
+
+
+/* Left VBox styles */
+.vbox {
+	-fx-background-color: grey;
+    -fx-padding: 10px;
+    -fx-spacing: 10px;
+    -fx-border-style: solid;
+    -fx-border-color: darkgrey;
+    -fx-border-width: 0 1 0 0;
+}
+
+
