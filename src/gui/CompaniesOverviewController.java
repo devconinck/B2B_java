@@ -2,7 +2,7 @@ package gui;
 
 import java.io.IOException;
 
-import domain.DomainController;
+import domain.AdminController;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -19,11 +19,11 @@ public class CompaniesOverviewController extends GridPane {
 	private ControlScreenController controls;
     private FilterController filter;
 	
-	public CompaniesOverviewController(DomainController dc) {		
-		this.filter = new FilterController(dc.getCompanyList());
-		this.companyDetails = new CompanyDetailsScreenController(dc);
+	public CompaniesOverviewController(AdminController ac) {		
+		this.filter = new FilterController(ac.getCompanyList());
+		this.companyDetails = new CompanyDetailsScreenController(ac);
 		this.controls = new ControlScreenController(companyDetails);
-		this.companies = new CompanyScreenController(dc, filter, controls);
+		this.companies = new CompanyScreenController(ac, filter, controls);
 		buildGui();
 	}
 	

@@ -10,7 +10,7 @@ import java.util.List;
 import domain.Address;
 import domain.Company;
 import domain.Contact;
-import domain.DomainController;
+import domain.AdminController;
 import domain.Observer;
 import domain.Order;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -49,11 +49,11 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
 
     public SimpleBooleanProperty isActive;
 
-    private DomainController dc;
+    private AdminController ac;
 
-    public CompanyDetailsScreenController(DomainController dc) {
-        this.dc = dc;
-        this.dc.addObserver(this);
+    public CompanyDetailsScreenController(AdminController ac) {
+        this.ac = ac;
+        this.ac.addObserver(this);
 
         buildGui();
     }
@@ -180,7 +180,7 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
     }
 
     public void loadCompany(String vat) {
-        Company c = dc.getCompany(vat);
+        Company c = ac.getCompany(vat);
 
         this.nameField.setText(c.getName());
         this.vatField.setText(c.getVatNumber());
@@ -340,7 +340,7 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
     public void persistCompany() {
         if (isInputValid()) {
             String vatNumber = vatField.getText();
-            Company existingCompany = dc.getCompany(vatNumber);
+            Company existingCompany = ac.getCompany(vatNumber);
 
             if (existingCompany != null) {
                 // Update existing company
@@ -383,7 +383,7 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
                 }
                 existingCompany.setPaymentOptions(selectedOptions);
 
-                dc.updateCompany(existingCompany);
+                ac.updateCompany(existingCompany);
             } else {
                 // Insert new company
                 Address tempAddress = new Address(countryField.getText(), cityField.getText(), postalcodeField.getText(), streetField.getText(), addressNrField.getText());
@@ -411,7 +411,7 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
                 }
 
                 Company tempCompany = new Company(vatField.getText(), logoUrlField.getText(), tempAddress, tempContact, nameField.getText(), sectorField.getText(), Long.parseLong(bankField.getText()), selectedOptions, customerStartDate, null, null);
-                dc.addCompany(tempCompany);
+                ac.addCompany(tempCompany);
             }
 
             showInfoAlert("Company saved", "The company has been saved");
@@ -419,13 +419,14 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
     }
 
 	public void toggleIsActive() {
-		Company currentComp = dc.getCurrentCompany();
+		Company currentComp = ac.getSelectedCompany();
 		currentComp.toggleIsActive();
-		dc.updateCompany(currentComp);
+		ac.updateCompany(currentComp);
 	}
     
     @Override
     public void update(Order c) {
+    	// overbodig
     }
 
 	@Override

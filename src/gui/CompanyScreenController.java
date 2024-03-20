@@ -2,7 +2,7 @@ package gui;
 
 import java.io.IOException;
 import domain.Company;
-import domain.DomainController;
+import domain.AdminController;
 import domain.Observer;
 import domain.Order;
 import javafx.beans.binding.Bindings;
@@ -26,15 +26,15 @@ public class CompanyScreenController extends TableView<Company> implements Obser
     @FXML
     private TableColumn<Company, Integer> amountOfCustCol;
 
-    private final DomainController dc;
+    private final AdminController ac;
     private final FilterController filter;
     private ControlScreenController controls;
 
-    public CompanyScreenController(DomainController dc, FilterController filter, ControlScreenController controls) {
-        this.dc = dc;
+    public CompanyScreenController(AdminController ac, FilterController filter, ControlScreenController controls) {
+        this.ac = ac;
         this.filter = filter;
         this.controls = controls;
-        this.dc.addObserver(this);
+        this.ac.addObserver(this);
         buildGui();
         loadCompanies();
     }
@@ -64,12 +64,12 @@ public class CompanyScreenController extends TableView<Company> implements Obser
             return text;
         });
 
-        this.setItems(filter.getFilteredList(dc.getCompanyList()));
+        this.setItems(filter.getFilteredList(ac.getCompanyList()));
         this.setOnMouseClicked(event -> {
             if (event.getClickCount() == 1) {
                 Company selectedCompany = this.getSelectionModel().getSelectedItem();
                 if (selectedCompany != null) {
-                    dc.setCurrentCompany(selectedCompany);
+                    ac.setSelectedCompany(selectedCompany);
                     controls.createButtons();
                 }
             }

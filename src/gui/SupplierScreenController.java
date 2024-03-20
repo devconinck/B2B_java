@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.TreeMap;
 
-import domain.DomainController;
 import domain.SupplierController;
 import gui.customer.CustomerOverview;
 import javafx.fxml.FXML;

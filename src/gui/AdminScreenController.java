@@ -3,7 +3,7 @@ package gui;
 import java.io.IOException;
 
 import domain.Controller;
-import domain.DomainController;
+import domain.AdminController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -13,7 +13,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 public class AdminScreenController extends BorderPane {
 	
-	private DomainController dc;
+	private AdminController controller;
 
     @FXML
     private Button companiesButton;
@@ -27,8 +27,8 @@ public class AdminScreenController extends BorderPane {
     @FXML
     private AnchorPane mainScreen;
     
-    public AdminScreenController(Controller controller) {
-    	this.dc = controller;
+    public AdminScreenController(AdminController controller) {
+    	this.controller = controller;
     	buildGui();
     }
     
@@ -46,7 +46,7 @@ public class AdminScreenController extends BorderPane {
 		this.logOutButton.setOnMouseClicked(e -> logOut());
 		
 		companiesButton.setOnMouseClicked(e -> {
-			CompaniesOverviewController companiesScreen = new CompaniesOverviewController(dc);
+			CompaniesOverviewController companiesScreen = new CompaniesOverviewController(controller);
 			this.mainScreen.getChildren().clear();
 			this.mainScreen.getChildren().add(companiesScreen);
 		});
@@ -54,9 +54,9 @@ public class AdminScreenController extends BorderPane {
 		
 		//logica om update requests scherm te tonen
 		/*
-		 * updateButton.setOnMouseClicked(e -> { this.dc.clearObservers();
+		 * updateButton.setOnMouseClicked(e -> { this.controller.clearObservers();
 		 * UpdateOverviewController updateScreen = new
-		 * UpdateOverviewScreenController((AdminController) dc);
+		 * UpdateOverviewScreenController((AdminController) controller);
 		 * this.mainScreen.getChildren().clear();
 		 * this.mainScreen.getChildren().add(updateScreen); });
 		 */
@@ -65,7 +65,7 @@ public class AdminScreenController extends BorderPane {
     // ???
     private void logOut() {
         Stage currentStage = new Stage();
-        LoginScreen login = new LoginScreen(dc);
+        LoginScreen login = new LoginScreen();
         currentStage.setScene(new Scene(login));
         currentStage.show();
         currentStage.close();

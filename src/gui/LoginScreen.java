@@ -103,7 +103,7 @@ public class LoginScreen extends Pane {
 		Controller controller = loginController.login(email, password);
 		if (controller instanceof AdminController) {
 			System.out.println("Admin logged in");
-			Scene tempScene = new Scene(new AdminScreenController(controller)); // TODO eig admincontroller meegeven
+			Scene tempScene = new Scene(new AdminScreenController((AdminController) controller)); // TODO eig admincontroller meegeven
 			primaryStage.setScene(tempScene);
 			
 			// WERKT NIET
