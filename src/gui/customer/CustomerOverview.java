@@ -53,7 +53,6 @@ public class CustomerOverview extends GenericOverview<CompanyDTO> {
 	}
 	@Override
 	protected void setCurrent() {
-		// TODO
 		controller.setSelectedCompany(controller.getCompany(current.vatNumber()));
 		txf_name.setText(current.name());
 		txf_customerSince.setText(current.customerStart());
@@ -69,7 +68,7 @@ public class CustomerOverview extends GenericOverview<CompanyDTO> {
 			imgvw_logo.setImage(new Image(String.format("images/%s", current.logo())));
 		} catch (IllegalArgumentException e) {
 			System.err.println(String.format("Failed to get logo for: %s", current.name()));
-			imgvw_logo.setImage(new Image(String.format("images/%s", "delaware-logo.jpg")));
+			imgvw_logo.setImage(new Image(String.format("images/%s", "no-logo.png")));
 		}
 		ObservableList<OrderDTO> orders = FXCollections.observableArrayList(
 				current.getOrders().stream().map(or -> new OrderDTO(or)).collect(Collectors.toList()));
@@ -95,7 +94,7 @@ public class CustomerOverview extends GenericOverview<CompanyDTO> {
 			imgvw_logo = new ImageView(new Image(String.format("images/%s", current.logo())));
 		} catch (IllegalArgumentException e) {
 			System.err.println(String.format("Failed to get logo for: %s", current.name()));
-			imgvw_logo = new ImageView(new Image(String.format("images/%s", "delaware-logo.jpg")));
+			imgvw_logo = new ImageView(new Image(String.format("images/%s", "no-logo.png")));
 		}
 		imgvw_logo.setFitHeight(50);
 		imgvw_logo.setFitWidth(50);
@@ -207,7 +206,6 @@ public class CustomerOverview extends GenericOverview<CompanyDTO> {
 	}
 
 	private void setOrders(VBox vbox_complete) {
-		// TODO Auto-generated method stub
 		// TODO UC (gegevens bestellingen klant) = order id, datum, orderbedrag,
 		// orderstatus, betalingsstatus
 		Map<String, String> mapOrders = new TreeMap<>(Map.ofEntries(
@@ -217,9 +215,6 @@ public class CustomerOverview extends GenericOverview<CompanyDTO> {
 				Map.entry("Order Status", "orderStatus"),
 				Map.entry("Payment Status", "paymentStatus")
 				));
-		//current.getOrders().stream().map(or -> new OrderDTO(or)).collect(Collectors.toList());
-		// TODO
-		System.out.println(current.name());
 		ObservableList<OrderDTO> orders = FXCollections.observableArrayList(
 				current.getOrders().stream().map(or -> new OrderDTO(or)).collect(Collectors.toList()));
 		orderTable = new GenericTableView<>(mapOrders);
@@ -249,7 +244,6 @@ public class CustomerOverview extends GenericOverview<CompanyDTO> {
 	}
 
 	private void filterTable(String name) {
-		// TODO logica dc
 		ObservableList<CompanyDTO> listToShow = FXCollections.observableArrayList(
 				controller.getCurrentCompany().getCustomers().stream().map(comp -> new CompanyDTO(comp)).filter(dto -> dto.name().toLowerCase().contains(name)).collect(Collectors.toList()));
 		genericTableView.setData(listToShow);

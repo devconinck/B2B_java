@@ -28,7 +28,6 @@ public abstract class GenericOverview<O> {
 	public GenericOverview(ObservableList<O> others, Map<String, String> attributes, SupplierController controller) {
 		this.controller = controller;
 		hbox_main = new HBox();
-		System.out.println(others.size());
 		this.current = others.get(0);
 		this.genericTableView = new GenericTableView<>(attributes);
 		setClassFields(others);
