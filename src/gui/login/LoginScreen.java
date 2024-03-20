@@ -110,7 +110,9 @@ public class LoginScreen extends Pane {
 			
 			// WERKT NIET
 			primaryStage.setMaximized(true);
-			primaryStage.setResizable(false);
+			//primaryStage.setResizable(false);
+			primaryStage.setMinHeight(820);
+			primaryStage.setMinWidth(1260);
 
 		}
 		else if (controller instanceof SupplierController) {			
