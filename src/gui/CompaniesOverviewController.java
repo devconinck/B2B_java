@@ -8,6 +8,7 @@ import gui.company.CompanyFilterController;
 import gui.company.CompanyScreenController;
 import gui.company.ControlScreenController;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
@@ -52,13 +53,16 @@ public class CompaniesOverviewController extends GridPane {
 	    HBox.setHgrow(hBox1, Priority.ALWAYS);
 		hBox1.getChildren().addAll(filter, createCompany);
 		
+		
 		VBox vBox1 = new VBox();
 		VBox.setVgrow(companies, Priority.ALWAYS);
+		vBox1.setPadding(new Insets(20));
 		this.add(vBox1, 0, 0);
 		vBox1.getChildren().addAll(hBox1, companies);
 		
 		VBox vBox2 = new VBox();
 		vBox2.setAlignment(Pos.CENTER); 
+		vBox2.setPadding(new Insets(20));
 		this.add(vBox2, 1, 0);
 		vBox2.getChildren().addAll(companyDetails, controls);
 	}
