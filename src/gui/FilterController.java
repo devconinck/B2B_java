@@ -1,8 +1,6 @@
 package gui;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import domain.Company;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -11,13 +9,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 
-public class FilterController extends HBox {
+public abstract class FilterController<T> extends HBox {
     
     private final TextField filterField;
-    private final ObservableList<Company> originalList;
-    private final ObservableList<Company> filteredList;
+    private final ObservableList<T> originalList;
+    private final ObservableList<T> filteredList;
 
-    public FilterController(ObservableList<Company> originalList) {
+    public FilterController(ObservableList<T> originalList) {
         this.originalList = originalList;
         this.filteredList = FXCollections.observableArrayList();
         filterField = new TextField();
@@ -36,16 +34,17 @@ public class FilterController extends HBox {
         getChildren().add(filterField);
     }
     
+    public String getSearchText() {
+    	return filterField.getText().toLowerCase().trim();
+    }
+    
+    public abstract List<T> Filter(List<T> list);
 
-    public ObservableList<Company> getFilteredList(List<Company> companyList) {
-        String searchText = filterField.getText().toLowerCase().trim();
-        if (searchText.isEmpty()) {
+    public ObservableList<T> getFilteredList(List<T> companyList) {
+        if (getSearchText().isEmpty()) {
             filteredList.setAll(originalList);
         } else {
-            List<Company> filtered = companyList.stream()
-                                                .filter(c -> c.getName().toLowerCase().contains(searchText))
-                                                .collect(Collectors.toList());
-            filteredList.setAll(filtered);
+            filteredList.setAll(Filter(companyList));
         }
         return filteredList;
     }
