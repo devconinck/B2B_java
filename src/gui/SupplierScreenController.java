@@ -79,7 +79,7 @@ public class SupplierScreenController extends BorderPane {
     
     private void logOut() {
         Stage currentStage = new Stage();
-        LoginScreen login = new LoginScreen(); // moet eig weg
+        LoginScreen login = new LoginScreen();
         currentStage.setScene(new Scene(login));
         currentStage.show();
         currentStage.close();

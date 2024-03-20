@@ -103,7 +103,7 @@ public class LoginScreen extends Pane {
 		Controller controller = loginController.login(email, password);
 		if (controller instanceof AdminController) {
 			System.out.println("Admin logged in");
-			Scene tempScene = new Scene(new AdminScreenController((AdminController) controller)); // TODO eig admincontroller meegeven
+			Scene tempScene = new Scene(new AdminScreenController((AdminController) controller));
 			primaryStage.setScene(tempScene);
 			
 			// WERKT NIET
@@ -113,7 +113,7 @@ public class LoginScreen extends Pane {
 		}
 		else if (controller instanceof SupplierController) {			
 			System.out.println("Supplier logged in");
-			Scene tempScene = new Scene(new SupplierScreenController((SupplierController) controller)); // TODO eig suppliercontroller meegeven
+			Scene tempScene = new Scene(new SupplierScreenController((SupplierController) controller));
 			primaryStage.setScene(tempScene);
 			
 			//WERKT NIET => MAAR: logOut werkt hiermee wel omdat het niet full screen is 

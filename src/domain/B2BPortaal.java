@@ -64,7 +64,6 @@ public class B2BPortaal {
 			orderList = new ArrayList<Order>();
 		}
 		List<Order> ordersFromRepo = orderRepo.findAll();
-		System.out.println(ordersFromRepo.size());
 
 		orderList.clear();
 		orderList.addAll(ordersFromRepo);
