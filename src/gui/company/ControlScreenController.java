@@ -1,4 +1,4 @@
-package gui;
+package gui.company;
 
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;

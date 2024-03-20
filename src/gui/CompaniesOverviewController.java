@@ -3,6 +3,10 @@ package gui;
 import java.io.IOException;
 
 import domain.AdminController;
+import gui.company.CompanyDetailsScreenController;
+import gui.company.CompanyFilterController;
+import gui.company.CompanyScreenController;
+import gui.company.ControlScreenController;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -17,10 +21,10 @@ public class CompaniesOverviewController extends GridPane {
 	private CompanyScreenController companies;
 	private CompanyDetailsScreenController companyDetails;
 	private ControlScreenController controls;
-    private FilterController filter;
+    private CompanyFilterController filter;
 	
 	public CompaniesOverviewController(AdminController ac) {		
-		this.filter = new FilterController(ac.getCompanyList());
+		this.filter = new CompanyFilterController(ac.getCompanyList());
 		this.companyDetails = new CompanyDetailsScreenController(ac);
 		this.controls = new ControlScreenController(companyDetails);
 		this.companies = new CompanyScreenController(ac, filter, controls);

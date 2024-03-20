@@ -1,4 +1,4 @@
-package gui;
+package gui.order;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -8,6 +8,8 @@ import domain.DomainController;
 import domain.SupplierController;
 import dto.OrderDTO;
 import dto.OrderItemDTO;
+import gui.GenericOverview;
+import gui.GenericTableView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;

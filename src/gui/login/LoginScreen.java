@@ -1,10 +1,12 @@
-package gui;
+package gui.login;
 
 import domain.AdminController;
 import domain.Controller;
 import domain.DomainController;
 import domain.LoginController;
 import domain.SupplierController;
+import gui.AdminScreenController;
+import gui.SupplierScreenController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

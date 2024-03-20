@@ -3,6 +3,7 @@ package gui;
 import java.io.IOException;
 
 import domain.Controller;
+import gui.login.LoginScreen;
 import domain.AdminController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

@@ -6,7 +6,7 @@ import java.util.List;
 
 import domain.Company;
 import domain.DomainController;
-import gui.LoginScreen;
+import gui.login.LoginScreen;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import util.seeding.Seed;

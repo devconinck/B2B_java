@@ -1,4 +1,4 @@
-package gui;
+package gui.company;
 
 import java.io.FileInputStream;
 import java.text.ParseException;

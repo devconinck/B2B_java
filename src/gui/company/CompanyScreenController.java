@@ -1,10 +1,11 @@
-package gui;
+package gui.company;
 
 import java.io.IOException;
 import domain.Company;
 import domain.AdminController;
 import domain.Observer;
 import domain.Order;
+import gui.FilterController;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
@@ -27,10 +28,10 @@ public class CompanyScreenController extends TableView<Company> implements Obser
     private TableColumn<Company, Integer> amountOfCustCol;
 
     private final AdminController ac;
-    private final FilterController filter;
+    private final CompanyFilterController filter;
     private ControlScreenController controls;
 
-    public CompanyScreenController(AdminController ac, FilterController filter, ControlScreenController controls) {
+    public CompanyScreenController(AdminController ac, CompanyFilterController filter, ControlScreenController controls) {
         this.ac = ac;
         this.filter = filter;
         this.controls = controls;

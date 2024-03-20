@@ -1,4 +1,4 @@
-package gui;
+package gui.order;
 
 import java.util.List;
 import java.util.stream.Collectors;
