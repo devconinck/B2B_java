@@ -1,7 +1,6 @@
 package gui;
 
 import java.io.IOException;
-
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -11,13 +10,19 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class SupplierScreenController extends BorderPane {
 	
 	private SupplierController controller;
+	
+	@FXML
+    private VBox vbox_name_login;
 
     @FXML
     private Button ordersButton;
@@ -46,6 +51,11 @@ public class SupplierScreenController extends BorderPane {
 			System.out.println("Couldn't load Supplier Screen");
 			System.out.println(e.getMessage());
 		}
+		
+		Label lbl_name_login = new Label();
+		lbl_name_login.setText(String.format("Logged in as: %s", controller.getCurrentCompany().getName()));
+		lbl_name_login.setFont(new Font(20));
+		vbox_name_login.getChildren().add(lbl_name_login);
 		
 		this.logOutButton.setOnMouseClicked(e -> logOut());
 		
