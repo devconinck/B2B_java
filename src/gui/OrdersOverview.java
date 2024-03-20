@@ -44,10 +44,10 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 		txf_name.setText(current.name());
 		txf_customerContact.setText(current.name());
 		txf_orderId.setText(current.orderId());
-		txf_street.setText(current.name());
-		txf_addressNr.setText(current.name()); 
-		txf_city.setText(current.name());
-		txf_postalcode.setText(current.name());
+		txf_street.setText(current.street());
+		txf_addressNr.setText(current.addressNr()); 
+		txf_city.setText(current.city());
+		txf_postalcode.setText(current.postalCode());
 		txf_orderStatus.setText(current.orderStatus());
 		txf_paymentStatus.setText(current.paymentStatus());
 		txf_lastPayment.setText(current.lastPaymentReminder());
@@ -113,14 +113,14 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 		HBox hbox_street_addressnr = new HBox();
 		// Street
 		VBox vbox_street = new VBox(new Label("Street"));
-		txf_street = new TextField(order.name());
+		txf_street = new TextField(order.street());
 		txf_street.setEditable(false);
 		vbox_street.getChildren().add(txf_street);
 		vbox_street.setPadding(new Insets(10, 10, 10, 20));
 		vboxDetails.add(vbox_street);
 		// Number
 		VBox vbox_addressnr = new VBox(new Label("Address Nr."));
-		txf_addressNr = new TextField(order.name());
+		txf_addressNr = new TextField(order.addressNr());
 		txf_addressNr.setEditable(false);
 		vbox_addressnr.getChildren().add(txf_addressNr);
 		vbox_addressnr.setPadding(new Insets(10, 10, 10, 20));
@@ -131,21 +131,21 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 		HBox hbox_city_postalcode_country = new HBox();
 		// City
 		VBox vbox_city = new VBox(new Label("City"));
-		txf_city = new TextField(order.name());
+		txf_city = new TextField(order.city());
 		txf_city.setEditable(false);
 		vbox_city.getChildren().add(txf_city);
 		vbox_city.setPadding(new Insets(10, 10, 10, 20));
 		vboxDetails.add(vbox_city);
 		// Postalcode
 		VBox vbox_postalcode = new VBox(new Label("Postalcode"));
-		txf_postalcode = new TextField(order.name());
+		txf_postalcode = new TextField(order.postalCode());
 		txf_postalcode.setEditable(false);
 		vbox_postalcode.getChildren().add(txf_postalcode);
 		vbox_postalcode.setPadding(new Insets(10, 10, 10, 20));
 		vboxDetails.add(vbox_postalcode);
 		// Country
 		VBox vbox_country = new VBox(new Label("Country"));
-		txf_country = new TextField(order.name());
+		txf_country = new TextField(order.country());
 		txf_country.setEditable(false);
 		vbox_country.getChildren().add(txf_country);
 		vbox_country.setPadding(new Insets(10, 10, 10, 20));
