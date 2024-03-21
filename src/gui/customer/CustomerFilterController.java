@@ -1,11 +1,11 @@
 package gui.customer;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 import dto.CompanyDTO;
-import gui.FilterController;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import gui.FilterController;
 
 public class CustomerFilterController extends FilterController<CompanyDTO>{
 
@@ -14,9 +14,8 @@ public class CustomerFilterController extends FilterController<CompanyDTO>{
 	}
 
 	@Override
-	public List<CompanyDTO> Filter(List<CompanyDTO> list) {
-		return list.stream().filter(c -> c.getName().toLowerCase().contains(super.getSearchText()))
-				.collect(Collectors.toList());
+	public ObservableList<CompanyDTO> Filter(ObservableList<CompanyDTO> list) {
+		return FXCollections.observableArrayList(list.stream().filter(c -> c.getName().toLowerCase().contains(super.getSearchText())).collect(Collectors.toList()));
 	}
 
 }

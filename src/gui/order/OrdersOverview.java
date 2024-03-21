@@ -213,8 +213,7 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 	@SuppressWarnings("rawtypes")
 	@Override
 	protected FilterController setFilter() {
-		return new OrdersFilterController(FXCollections.observableArrayList(
-				controller.getCurrentCompany().getOrders().stream().map(comp -> new OrderDTO(comp)).collect(Collectors.toList())));
+		return new OrdersFilterController(others);
 	}
 	
 	private GridPane createPaymentOptionsGrid() {

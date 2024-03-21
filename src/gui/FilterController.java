@@ -1,6 +1,5 @@
 package gui;
 
-import java.util.List;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -14,11 +13,12 @@ public abstract class FilterController<T> extends HBox {
 
 	private final TextField filterField;
     private final ObservableList<T> originalList;
-    private final ObservableList<T> filteredList;
+    private final ObservableList<T> copyOriginal;
 
     public FilterController(ObservableList<T> originalList) {
         this.originalList = originalList;
-        this.filteredList = FXCollections.observableArrayList();
+        this.copyOriginal = FXCollections.observableArrayList(originalList);
+        
         filterField = new TextField();
         filterField.setPromptText("Search by company name");
         
@@ -39,14 +39,15 @@ public abstract class FilterController<T> extends HBox {
     	return filterField.getText().toLowerCase().trim();
     }
     
-    public abstract List<T> Filter(List<T> list);
+    public abstract ObservableList<T> Filter(ObservableList<T> list);
 
-    public ObservableList<T> getFilteredList(List<T> companyList) {
+    public ObservableList<T> getFilteredList(ObservableList<T> companyList) {
         if (getSearchText().isEmpty()) {
-            filteredList.setAll(originalList);
+        	originalList.setAll(copyOriginal);
         } else {
-            filteredList.setAll(Filter(companyList));
+        	originalList.setAll(copyOriginal);
+        	originalList.setAll(Filter(companyList));
         }
-        return filteredList;
+        return originalList;
     }
 }

@@ -29,7 +29,7 @@ public class CustomerOverview extends GenericOverview<CompanyDTO> {
 	private GenericTableView<OrderDTO> orderTable;
 
 	public CustomerOverview(ObservableList<CompanyDTO> list, Map<String, String> attributes, SupplierController controller) {
-		super(list, attributes, controller);
+		super(FXCollections.observableArrayList(controller.getCurrentCompany().getCustomers().stream().map(e -> new CompanyDTO(e)).collect(Collectors.toList())), attributes, controller);
 		// TODO logica in dc voor deze super lange constructor
 		hbox_main.getStylesheets().add("css/label.css");
 	}
