@@ -4,16 +4,20 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+import domain.Company;
 import domain.SupplierController;
 import dto.OrderDTO;
 import dto.OrderItemDTO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import util.PaymentOption;
 
 public class OrdersOverview extends GenericOverview<OrderDTO> {
 	
@@ -22,6 +26,7 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 	private GenericTableView<OrderItemDTO> orderItemTable;
 	private ObservableList<OrderItemDTO> orderItems;
 	private OrdersFilterController ofc;
+	private GridPane paymentPane;
 	
 	
 	public OrdersOverview(Map<String, String> attributes, SupplierController sc) {
@@ -56,6 +61,21 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 	
 		orderItems = FXCollections.observableArrayList(((SupplierController) controller).getOrderItems(current.orderId()).stream().map(or -> new OrderItemDTO(or)).collect(Collectors.toList()));
 		orderItemTable.setData(orderItems);
+		
+		Company c = controller.getCurrentCompany();
+		paymentPane.getChildren().clear();
+        int row = 0;
+        int col = 0;
+        int maxColumns = 3;
+        for (PaymentOption option : PaymentOption.values()) {
+            CheckBox checkBox = new CheckBox(option.getDisplayName());
+            checkBox.setSelected(c.getPaymentOptions().contains(option));
+            paymentPane.add(checkBox, col++, row);
+            if (col >= maxColumns) {
+                col = 0;
+                row++;
+            }
+        }
 	}
 	
 	@Override
@@ -159,7 +179,14 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 		vboxDetails.add(vbox_lastpayment);
 		hbox_orderstatus_paymentstatus_lastpayment.getChildren().addAll(vbox_orderstatus, vbox_paymentstatus, vbox_lastpayment);
 		
-		vbox_complete.getChildren().addAll(hbox_logo_name_customerContact, hbox_street_addressnr, hbox_city_postalcode_country, hbox_orderstatus_paymentstatus_lastpayment);
+		//Payment Options
+		Label paymentOptionsLabel = new Label("Payment Options:");
+        paymentPane = createPaymentOptionsGrid();
+        VBox paymentOptionsVBox = new VBox(5);
+        paymentOptionsVBox.getChildren().addAll(paymentOptionsLabel, paymentPane);
+        paymentOptionsVBox.setPadding(new Insets(10, 10, 10, 20));
+		
+		vbox_complete.getChildren().addAll(hbox_logo_name_customerContact, hbox_street_addressnr, hbox_city_postalcode_country, hbox_orderstatus_paymentstatus_lastpayment, paymentOptionsVBox);
 				
 		setOrderItems(vbox_complete);
 
@@ -187,5 +214,28 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 		return new OrdersFilterController(FXCollections.observableArrayList(
 				controller.getCurrentCompany().getOrders().stream().map(comp -> new OrderDTO(comp)).collect(Collectors.toList())));
 	}
+	
+	private GridPane createPaymentOptionsGrid() {
+        GridPane paymentPane = new GridPane();
+        paymentPane.setHgap(10);
+        paymentPane.setVgap(10);
+
+        int row = 0;
+        int col = 0;
+        int maxColumns = 3;
+
+        for (PaymentOption option : PaymentOption.values()) {
+            CheckBox checkBox = new CheckBox(option.getDisplayName());
+            paymentPane.add(checkBox, col, row);
+
+            col++;
+            if (col >= maxColumns) {
+                col = 0;
+                row++;
+            }
+        }
+
+        return paymentPane;
+    }
 	
 }
