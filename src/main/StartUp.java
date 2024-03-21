@@ -23,7 +23,6 @@ public class StartUp extends Application {
 			initializeDevelopmentEnvironment(); // Seeden
 		}		
 		// DomainController dc = new DomainController();
-		// for all payment in database --> if status is Unpaid --> make it paid
 		new LoginScreen();
 	}
 

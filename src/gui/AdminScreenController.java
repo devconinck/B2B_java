@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import domain.Controller;
 import gui.login.LoginScreen;
+import gui.payment.ProcessOrderController;
 import domain.AdminController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +23,9 @@ public class AdminScreenController extends BorderPane {
 
     @FXML
     private Button updateButton;
+    
+    @FXML
+    private Button processButton;
 
     @FXML
     private Button logOutButton;
@@ -54,6 +58,13 @@ public class AdminScreenController extends BorderPane {
 			titleLabel.setText("Companies");
 			this.mainScreen.getChildren().clear();
 			this.mainScreen.getChildren().add(companiesScreen);
+		});
+		
+		processButton.setOnMouseClicked(e -> {
+			ProcessOrderController processScreen = new ProcessOrderController(controller);
+			titleLabel.setText("Process Orders");
+			this.mainScreen.getChildren().clear();
+			this.mainScreen.getChildren().add(processScreen);
 		});
 		
 		

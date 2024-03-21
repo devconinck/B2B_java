@@ -101,4 +101,10 @@ public class B2BPortaal {
 		companyRepo.update(company);
 		GenericDaoJpa.commitTransaction();
 	}
+	
+	public void updateOrder(Order order) {
+		GenericDaoJpa.startTransaction();
+		orderRepo.update(order);
+		GenericDaoJpa.commitTransaction();
+	}
 }
