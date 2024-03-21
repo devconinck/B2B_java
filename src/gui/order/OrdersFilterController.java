@@ -3,27 +3,19 @@ package gui.order;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import domain.Order;
+import dto.OrderDTO;
 import gui.FilterController;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 
-public class OrdersFilterController extends FilterController<Order> {
-
-	public OrdersFilterController(ObservableList<Order> originalList) {
+public class OrdersFilterController extends FilterController<OrderDTO>{
+	
+	public OrdersFilterController(ObservableList<OrderDTO> originalList) {
 		super(originalList);
 	}
 
 	@Override
-	public List<Order> Filter(List<Order> list) {
-		return list.stream()
-                .filter(o -> o.getOrderId().contains(super.getSearchText()))
-                .collect(Collectors.toList());
+	public List<OrderDTO> Filter(List<OrderDTO> list) {
+		return list.stream().filter(c -> c.getName().toLowerCase().contains(super.getSearchText()))
+				.collect(Collectors.toList());
 	}
-	
 }

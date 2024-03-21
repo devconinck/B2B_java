@@ -38,7 +38,7 @@ public class SupplierController extends Controller{
 	
 	public Order getOrder(String orderId) {
 		for(Order o : portaal.getOrdersList()) {
-			if(o.getOrderId().equals(orderId))
+			if(o.getOrderID().equals(orderId))
 				return o;
 		}
 		return null;

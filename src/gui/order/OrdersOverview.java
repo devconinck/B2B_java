@@ -8,6 +8,7 @@ import domain.Company;
 import domain.SupplierController;
 import dto.OrderDTO;
 import dto.OrderItemDTO;
+import gui.FilterController;
 import gui.GenericOverview;
 import gui.GenericTableView;
 import javafx.collections.FXCollections;
@@ -27,7 +28,6 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 	txf_orderStatus, txf_paymentStatus, txf_lastPayment;
 	private GenericTableView<OrderItemDTO> orderItemTable;
 	private ObservableList<OrderItemDTO> orderItems;
-	private OrdersFilterController ofc;
 	private GridPane paymentPane;
 	
 	
@@ -58,7 +58,7 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 		txf_postalcode.setText(current.postalCode());
 		txf_country.setText(current.country());
 		txf_orderStatus.setText(current.orderStatus());
-		txf_paymentStatus.setText(current.paymentStatus());
+		txf_paymentStatus.setText(current.paymentStatus().getValue());
 		txf_lastPayment.setText(current.lastPaymentReminder());
 	
 		orderItems = FXCollections.observableArrayList(((SupplierController) controller).getOrderItems(current.orderId()).stream().map(or -> new OrderItemDTO(or)).collect(Collectors.toList()));
@@ -167,14 +167,14 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 		vboxDetails.add(vbox_orderstatus);
 		// Payment Status
 		VBox vbox_paymentstatus = new VBox(new Label("Payment Status"));
-		txf_paymentStatus = new TextField(order.paymentStatus());
+		txf_paymentStatus = new TextField(order.paymentStatus().toString());
 		txf_paymentStatus.setEditable(false);
 		vbox_paymentstatus.getChildren().add(txf_paymentStatus);
 		vbox_paymentstatus.setPadding(new Insets(10, 10, 10, 20));
 		vboxDetails.add(vbox_paymentstatus);
 		// Last Payment
 		VBox vbox_lastpayment = new VBox(new Label("Last Payment Update"));
-		txf_lastPayment = new TextField(order.paymentStatus());
+		txf_lastPayment = new TextField(order.paymentStatus().toString());
 		txf_lastPayment.setEditable(false);
 		vbox_lastpayment.getChildren().add(txf_lastPayment);
 		vbox_lastpayment.setPadding(new Insets(10, 10, 10, 20));
