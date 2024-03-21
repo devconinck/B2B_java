@@ -7,9 +7,10 @@ import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import repository.GenericDaoJpa;
+import repository.GenericDao;
 
 public class B2BPortaal {
-	private GenericDaoJpa<Company> companyRepo;
+	private GenericDao<Company> companyRepo;
 	private GenericDaoJpa<Order> orderRepo;
 	private GenericDaoJpa<OrderItem> orderItemRepo;
 	private GenericDaoJpa<Product> productRepo;
@@ -19,16 +20,16 @@ public class B2BPortaal {
 
 	private List<Order> orderList;
 	private List<OrderItem> orderItemList;
-	private List<Company> companyList;
+	private ObservableList<Company> companyList;
 
-	public B2BPortaal() {
+	public B2BPortaal(GenericDao<Company> companyRepo) {
 		setOrderRepo(new GenericDaoJpa<>(Order.class));
 		setOrderItemRepo(new GenericDaoJpa<>(OrderItem.class));
 		setProductRepo(new GenericDaoJpa<>(Product.class));
 		setProductPriceRepo(new GenericDaoJpa<>(ProductPrice.class));
 		setProductDescriptionRepo(new GenericDaoJpa<>(ProductDescription.class));
 		setProductUnitRepo(new GenericDaoJpa<>(ProductUnitOfMeasureConversion.class));
-		setCompanyRepo(new GenericDaoJpa<>(Company.class));
+		setCompanyRepo(companyRepo);
 	}
 
 	public void setOrderRepo(GenericDaoJpa<Order> o) {
@@ -55,7 +56,7 @@ public class B2BPortaal {
 		productUnitRepo = pu;
 	}
 
-	public void setCompanyRepo(GenericDaoJpa<Company> mock) {
+	public void setCompanyRepo(GenericDao<Company> mock) {
 		companyRepo = mock;
 	}
 
@@ -85,9 +86,9 @@ public class B2BPortaal {
 
 	public ObservableList<Company> getCompanyList() {
 		if (companyList == null) {
-			companyList = companyRepo.findAll();
+			companyList = FXCollections.observableArrayList(companyRepo.findAll());
 		}
-		return FXCollections.observableArrayList(companyList);
+		return companyList;
 	}
 	
 	public void addCompany(Company company) {

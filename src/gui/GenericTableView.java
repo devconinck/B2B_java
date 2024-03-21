@@ -24,15 +24,5 @@ public class GenericTableView<T> extends TableView<T> {
 	
 	public void setData(ObservableList<T> data) {
 		setItems(data);
-		/*
-		data.addListener((ListChangeListener.Change<? extends T> change) -> {
-            while (change.next()) {
-                if (change.wasAdded() || change.wasRemoved()) {
-                    getItems().setAll(data);
-                    break;
-                }
-            }
-        });
-        */
 	}
 }

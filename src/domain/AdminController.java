@@ -3,6 +3,10 @@ package domain;
 import javafx.collections.ObservableList;
 
 public class AdminController extends Controller{
+	
+	public ObservableList<Company> getCompanyList() {
+		return portaal.getCompanyList();
+	}
 
 	public ObservableList<Order> getOrders() {
 	    return portaal.getOrdersList();

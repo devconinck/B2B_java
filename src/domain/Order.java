@@ -3,6 +3,7 @@ package domain;
 import java.io.Serializable;
 import java.util.Set;
 
+import dto.OrderDTO;
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
 import jakarta.persistence.CascadeType;
@@ -66,6 +67,10 @@ public class Order implements Serializable {
         setTaxAmount(taxAmount);
         setTotalAmount(totalAmount);
         setCurrency(currency);
+    }
+    
+    public Order(OrderDTO orderdto) {
+    	setOrderID(orderdto.orderId());
     }
 
     // Getters

@@ -61,4 +61,9 @@ public class SupplierController extends Controller{
 	protected void notifyObservers() {
 		observers.forEach(o -> {o.update(company); o.update(currentOrder);});
 	}
+
+	@Override
+	public ObservableList<Company> getCompanyList() {
+		throw new UnsupportedOperationException();
+	}
 }
