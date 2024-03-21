@@ -82,7 +82,6 @@ public class SupplierScreenController extends BorderPane {
 			Map<String, String> map = new TreeMap<>();
 			map.put("Open orders", "numberOfOpenOrders");
 			map.put("Name", "name");
-			map.put("Logo", "logo");
 			ObservableList<CompanyDTO> customerList = FXCollections.observableArrayList(
 					controller.getCurrentCompany().getCustomers().stream().map(comp -> new CompanyDTO(comp)).collect(Collectors.toList()));
 			CustomerOverview co = new CustomerOverview(customerList, map, controller);
