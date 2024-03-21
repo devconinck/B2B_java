@@ -1,8 +1,9 @@
-package domain;
+package gui.login;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import domain.Account;
 import domain.AdminController;
 import domain.Controller;
 import domain.SupplierController;

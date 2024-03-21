@@ -2,8 +2,6 @@ package gui.login;
 
 import domain.AdminController;
 import domain.Controller;
-import domain.DomainController;
-import domain.LoginController;
 import domain.SupplierController;
 import gui.AdminScreenController;
 import gui.SupplierScreenController;
@@ -16,6 +14,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
@@ -95,6 +95,14 @@ public class LoginScreen extends Pane {
 			hbox_buttons.setPadding(new Insets(0,0,30,0)); // Bottom 30
 			
 			vbox.getChildren().addAll(imgvw_stackpane, vbox_email, vbox_password, errormessage, hbox_buttons);
+			
+			root.addEventHandler(KeyEvent.KEY_PRESSED,  ev -> {
+		        if (ev.getCode() == KeyCode.ENTER) {
+		            btn_login.fire();
+		            ev.consume(); 
+		         }
+		     });
+			
 			root.getChildren().add(vbox);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
@@ -127,8 +135,8 @@ public class LoginScreen extends Pane {
 		
 		else
 		{
-			errormessage.setText("Login Failed");
 			errormessage.setStyle("-fx-font-color: red;");
+			errormessage.setText("Login Failed");
 		}
 		
 			
