@@ -1,49 +1,49 @@
 package domain;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import repository.GenericDaoJpa;
 import repository.GenericDao;
+import repository.GenericDaoJpa;
 
 public class B2BPortaal {
 	private GenericDao<Company> companyRepo;
-	private GenericDaoJpa<Order> orderRepo;
-	private GenericDaoJpa<OrderItem> orderItemRepo;
-	private GenericDaoJpa<Product> productRepo;
-	private GenericDaoJpa<ProductPrice> productPriceRepo;
-	private GenericDaoJpa<ProductDescription> productDescriptionRepo;
-	private GenericDaoJpa<ProductUnitOfMeasureConversion> productUnitRepo;
+	private GenericDao<Order> orderRepo;
+	private GenericDao<OrderItem> orderItemRepo;
+//	private GenericDao<Product> productRepo;
+//	private GenericDaoJpa<ProductPrice> productPriceRepo;
+//	private GenericDaoJpa<ProductDescription> productDescriptionRepo;
+//	private GenericDaoJpa<ProductUnitOfMeasureConversion> productUnitRepo;
 
-	private List<Order> orderList;
-	private List<OrderItem> orderItemList;
+	private ObservableList<Order> orderList;
+	private ObservableList<OrderItem> orderItemList;
 	private ObservableList<Company> companyList;
 
-	public B2BPortaal(GenericDao<Company> companyRepo) {
-		setOrderRepo(new GenericDaoJpa<>(Order.class));
-		setOrderItemRepo(new GenericDaoJpa<>(OrderItem.class));
-		setProductRepo(new GenericDaoJpa<>(Product.class));
-		setProductPriceRepo(new GenericDaoJpa<>(ProductPrice.class));
-		setProductDescriptionRepo(new GenericDaoJpa<>(ProductDescription.class));
-		setProductUnitRepo(new GenericDaoJpa<>(ProductUnitOfMeasureConversion.class));
+	public B2BPortaal(GenericDao<Company> companyRepo, GenericDao<Order> orderRepo, GenericDao<OrderItem> orderItemRepo) {
 		setCompanyRepo(companyRepo);
+		setOrderRepo(orderRepo);
+		setOrderItemRepo(orderItemRepo);
+//		setProductRepo(productRepo);
+//		setProductPriceRepo(new GenericDaoJpa<>(ProductPrice.class));
+//		setProductDescriptionRepo(new GenericDaoJpa<>(ProductDescription.class));
+//		setProductUnitRepo(new GenericDaoJpa<>(ProductUnitOfMeasureConversion.class));
 	}
 
-	public void setOrderRepo(GenericDaoJpa<Order> o) {
+	public void setOrderRepo(GenericDao<Order> o) {
 		orderRepo = o;
 	}
 
-	public void setOrderItemRepo(GenericDaoJpa<OrderItem> oi) {
+	public void setOrderItemRepo(GenericDao<OrderItem> oi) {
 		orderItemRepo = oi;
 	}
 
-	public void setProductRepo(GenericDaoJpa<Product> p) {
+	/*
+	public void setProductRepo(GenericDao<Product> p) {
 		productRepo = p;
 	}
-
+	
 	public void setProductPriceRepo(GenericDaoJpa<ProductPrice> pp) {
 		productPriceRepo = pp;
 	}
@@ -55,6 +55,7 @@ public class B2BPortaal {
 	public void setProductUnitRepo(GenericDaoJpa<ProductUnitOfMeasureConversion> pu) {
 		productUnitRepo = pu;
 	}
+	*/
 
 	public void setCompanyRepo(GenericDao<Company> mock) {
 		companyRepo = mock;
@@ -62,7 +63,7 @@ public class B2BPortaal {
 
 	public ObservableList<Order> getOrdersList() {
 		if (orderList == null) {
-			orderList = new ArrayList<Order>();
+			orderList = FXCollections.observableArrayList();
 		}
 		List<Order> ordersFromRepo = orderRepo.findAll();
 
@@ -74,7 +75,7 @@ public class B2BPortaal {
 
 	public ObservableList<OrderItem> getOrderItemsList(String orderId) {
 		if (orderItemList == null) {
-			orderItemList = new ArrayList<OrderItem>();
+			orderItemList = FXCollections.observableArrayList();
 		}
 		List<OrderItem> orderItemsFromOrder = orderItemRepo.findAll().stream()
 				.filter(oi -> oi.getOrderId() == (Integer.parseInt(orderId))).collect(Collectors.toList());

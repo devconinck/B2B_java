@@ -52,7 +52,7 @@ public class CustomerOverview extends GenericOverview<CompanyDTO> {
 	protected void setCurrent() {
 		controller.setSelectedCompany(controller.getCompany(current.vatNumber()));
 		txf_name.setText(current.name());
-		txf_customerSince.setText(current.customerStart());
+		txf_customerSince.setText(current.customerStart().toString());
 		txf_sector.setText(current.sector());
 		txf_country.setText(current.country());
 		txf_city.setText(current.city());
@@ -105,7 +105,7 @@ public class CustomerOverview extends GenericOverview<CompanyDTO> {
 		vboxDetails.add(vbox_name);
 		// Customer Since
 		VBox vbox_customerSince = new VBox(new Label("Customer since"));
-		txf_customerSince = new TextField(company.customerStart());
+		txf_customerSince = new TextField(company.customerStart().toString());
 		txf_customerSince.setEditable(false);
 		vbox_customerSince.getChildren().add(txf_customerSince);
 		vbox_customerSince.setPadding(new Insets(20, 10, 10, 10));

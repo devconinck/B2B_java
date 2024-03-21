@@ -3,6 +3,7 @@ package gui.company;
 import java.io.FileInputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -269,11 +270,18 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
             return false;
         }
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        /*
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {
             dateFormat.parse(customerStartField.getText());
         } catch (ParseException e) {
             showErrorAlert("Please enter a valid Date.");
+            return false;
+        }
+        */
+        
+        if (!customerStartField.getText().matches(Validation.DATE_REGEX)) {
+        	showErrorAlert("Please enter a valid Date.");
             return false;
         }
 
@@ -357,10 +365,8 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
                 existingCompany.getAddress().setStreet(streetField.getText());
                 existingCompany.getAddress().setNumber(addressNrField.getText());
 
-                
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                 try {
-                    existingCompany.setCustomerStart(dateFormat.parse(customerStartField.getText()));
+                    existingCompany.setCustomerStart(LocalDate.parse(customerStartField.getText()));
                 } catch (Exception e) {
                     // Not Possible
                 }
@@ -401,14 +407,8 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
                     }
                 }
 
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                Date customerStartDate;
-                try {
-                    customerStartDate = dateFormat.parse(customerStartField.getText());
-                } catch (ParseException e) {
-
-                    customerStartDate = new Date();
-                }
+                LocalDate customerStartDate;
+                customerStartDate = LocalDate.parse(customerStartField.getText());
 
                 Company tempCompany = new Company(vatField.getText(), logoUrlField.getText(), tempAddress, tempContact, nameField.getText(), sectorField.getText(), Long.parseLong(bankField.getText()), selectedOptions, customerStartDate, null, null);
                 ac.addCompany(tempCompany);
