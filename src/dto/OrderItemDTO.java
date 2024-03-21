@@ -2,29 +2,29 @@ package dto;
 
 import domain.OrderItem;
 
-public record OrderItemDTO(String Name, String Quantity, String InStock, String UnitPrice, String TotalProduct) {
+public record OrderItemDTO(String name, String quantity, String inStock, String unitPrice, String totalProduct) {
 	
 	public OrderItemDTO(OrderItem oi) {
 		this(oi.getName(), oi.getQuantity(), oi.getInStock(), oi.getUnitPrice(), oi.getTotal());
 	}
 	
 	public String getName() {
-		return Name;
+		return name;
 	}
 	
 	public String getQuantity() {
-		return Quantity;
+		return quantity;
 	}
 	
-	public String InStock() {
-		return InStock;
+	public String getInStock() {
+		return inStock;
 	}
 	
-	public String UnitPrice() {
-		return UnitPrice;
+	public String getUnitPrice() {
+		return unitPrice;
 	}
 	
-	public String TotalProduct() {
-		return TotalProduct;
+	public String getTotalProduct() {
+		return totalProduct;
 	}
 }

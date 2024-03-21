@@ -11,7 +11,8 @@ import javafx.scene.layout.Priority;
 
 public abstract class FilterController<T> extends HBox {
     
-    private final TextField filterField;
+
+	private final TextField filterField;
     private final ObservableList<T> originalList;
     private final ObservableList<T> filteredList;
 

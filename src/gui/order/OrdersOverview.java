@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-import domain.DomainController;
+import domain.Company;
 import domain.SupplierController;
 import dto.OrderDTO;
 import dto.OrderItemDTO;
@@ -13,17 +13,23 @@ import gui.GenericTableView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import util.PaymentOption;
 
 public class OrdersOverview extends GenericOverview<OrderDTO> {
 	
 	private TextField txf_name, txf_customerContact, txf_orderId, txf_street, txf_addressNr, txf_city, txf_postalcode, txf_country,
 	txf_orderStatus, txf_paymentStatus, txf_lastPayment;
+	private GenericTableView<OrderItemDTO> orderItemTable;
+	private ObservableList<OrderItemDTO> orderItems;
+	private OrdersFilterController ofc;
+	private GridPane paymentPane;
 	
-	//private ImageView imgvw_logo;
 	
 	public OrdersOverview(Map<String, String> attributes, SupplierController sc) {
 		super(FXCollections.observableArrayList(sc.getOrders().stream().map(o -> new OrderDTO(o)).collect(Collectors.toList())), attributes, sc);
@@ -46,44 +52,40 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 		txf_name.setText(current.name());
 		txf_customerContact.setText(current.name());
 		txf_orderId.setText(current.orderId());
-		txf_street.setText(current.name());
-		txf_addressNr.setText(current.name()); 
-		txf_city.setText(current.name());
-		txf_postalcode.setText(current.name());
+		txf_street.setText(current.street());
+		txf_addressNr.setText(current.addressNr()); 
+		txf_city.setText(current.city());
+		txf_postalcode.setText(current.postalCode());
+		txf_country.setText(current.country());
 		txf_orderStatus.setText(current.orderStatus());
 		txf_paymentStatus.setText(current.paymentStatus());
 		txf_lastPayment.setText(current.lastPaymentReminder());
-		/*try {
-			imgvw_logo.setImage(new Image(String.format("images/%s", current.logo())));
-		} catch (IllegalArgumentException e) {
-			System.err.println(String.format("Failed to get logo for: %s", current.name()));
-			imgvw_logo.setImage(new Image(String.format("images/%s", "delaware-logo.jpg")));
-		}*/
+	
+		orderItems = FXCollections.observableArrayList(((SupplierController) controller).getOrderItems(current.orderId()).stream().map(or -> new OrderItemDTO(or)).collect(Collectors.toList()));
+		orderItemTable.setData(orderItems);
+		
+		Company c = controller.getCurrentCompany();
+		paymentPane.getChildren().clear();
+        int row = 0;
+        int col = 0;
+        int maxColumns = 3;
+        for (PaymentOption option : PaymentOption.values()) {
+            CheckBox checkBox = new CheckBox(option.getDisplayName());
+            checkBox.setSelected(c.getPaymentOptions().contains(option));
+            paymentPane.add(checkBox, col++, row);
+            if (col >= maxColumns) {
+                col = 0;
+                row++;
+            }
+        }
 	}
 	
 	@Override
 	protected VBox createDetails(OrderDTO order) {
-		// logo, name, sector, address, contact, customerSinds
-		// TODO UC (gegevens overzicht beschikbare klanten) = naam, aantal openstaande bestellingen
-		// TODO UC (gegevens details klant) = naam, logo, adres, contactgegevens
-		// TODO UC (gegevens bestellingen klant) = order id, datum, orderbedrag, orderstatus, betalingsstatus
 		vboxDetails.clear();
 		VBox vbox_complete = new VBox();
 
 		HBox hbox_logo_name_customerContact = new HBox();
-		
-		// Logo
-		/*VBox vbox_logo = new VBox();
-		vbox_logo.setPadding(new Insets(20));
-		try {
-			imgvw_logo = new ImageView(new Image(String.format("images/%s", current.logo())));
-		} catch (IllegalArgumentException e) {
-			System.err.println(String.format("Failed to get logo for: %s", current.name()));
-			imgvw_logo = new ImageView(new Image(String.format("images/%s", "delaware-logo.jpg")));
-		}
-		imgvw_logo.setFitHeight(50);
-		imgvw_logo.setFitWidth(50);
-		vbox_logo.getChildren().add(imgvw_logo);*/
 		
 		// Name
 		VBox vbox_name = new VBox(new Label("Name"));
@@ -115,14 +117,14 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 		HBox hbox_street_addressnr = new HBox();
 		// Street
 		VBox vbox_street = new VBox(new Label("Street"));
-		txf_street = new TextField(order.name());
+		txf_street = new TextField(order.street());
 		txf_street.setEditable(false);
 		vbox_street.getChildren().add(txf_street);
 		vbox_street.setPadding(new Insets(10, 10, 10, 20));
 		vboxDetails.add(vbox_street);
 		// Number
 		VBox vbox_addressnr = new VBox(new Label("Address Nr."));
-		txf_addressNr = new TextField(order.name());
+		txf_addressNr = new TextField(order.addressNr());
 		txf_addressNr.setEditable(false);
 		vbox_addressnr.getChildren().add(txf_addressNr);
 		vbox_addressnr.setPadding(new Insets(10, 10, 10, 20));
@@ -133,21 +135,21 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 		HBox hbox_city_postalcode_country = new HBox();
 		// City
 		VBox vbox_city = new VBox(new Label("City"));
-		txf_city = new TextField(order.name());
+		txf_city = new TextField(order.city());
 		txf_city.setEditable(false);
 		vbox_city.getChildren().add(txf_city);
 		vbox_city.setPadding(new Insets(10, 10, 10, 20));
 		vboxDetails.add(vbox_city);
 		// Postalcode
 		VBox vbox_postalcode = new VBox(new Label("Postalcode"));
-		txf_postalcode = new TextField(order.name());
+		txf_postalcode = new TextField(order.postalCode());
 		txf_postalcode.setEditable(false);
 		vbox_postalcode.getChildren().add(txf_postalcode);
 		vbox_postalcode.setPadding(new Insets(10, 10, 10, 20));
 		vboxDetails.add(vbox_postalcode);
 		// Country
 		VBox vbox_country = new VBox(new Label("Country"));
-		txf_country = new TextField(order.name());
+		txf_country = new TextField(order.country());
 		txf_country.setEditable(false);
 		vbox_country.getChildren().add(txf_country);
 		vbox_country.setPadding(new Insets(10, 10, 10, 20));
@@ -179,14 +181,21 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 		vboxDetails.add(vbox_lastpayment);
 		hbox_orderstatus_paymentstatus_lastpayment.getChildren().addAll(vbox_orderstatus, vbox_paymentstatus, vbox_lastpayment);
 		
-		vbox_complete.getChildren().addAll(hbox_logo_name_customerContact, hbox_street_addressnr, hbox_city_postalcode_country, hbox_orderstatus_paymentstatus_lastpayment);
+		//Payment Options
+		Label paymentOptionsLabel = new Label("Payment Options:");
+        paymentPane = createPaymentOptionsGrid();
+        VBox paymentOptionsVBox = new VBox(5);
+        paymentOptionsVBox.getChildren().addAll(paymentOptionsLabel, paymentPane);
+        paymentOptionsVBox.setPadding(new Insets(10, 10, 10, 20));
+		
+		vbox_complete.getChildren().addAll(hbox_logo_name_customerContact, hbox_street_addressnr, hbox_city_postalcode_country, hbox_orderstatus_paymentstatus_lastpayment, paymentOptionsVBox);
 				
-		setOrderItems(vbox_complete, current.getOrderId());
+		setOrderItems(vbox_complete);
 
 		return vbox_complete;
 	}
 	
-	private void setOrderItems(VBox vbox_complete, String orderId) {
+	private void setOrderItems(VBox vbox_complete) {
 		Map<String, String> mapOrders = new TreeMap<>(Map.ofEntries(
 				Map.entry("Name", "name"),
 				Map.entry("Quantity", "quantity"),
@@ -194,17 +203,41 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 				Map.entry("Unit Price", "unitPrice"),
 				Map.entry("Total Product", "totalProduct")
 				));
-		ObservableList<OrderItemDTO> orderItems = FXCollections.observableArrayList(((SupplierController) controller).getOrderItems().stream().map(or -> new OrderItemDTO(or)).collect(Collectors.toList()));
-		GenericTableView<OrderItemDTO> orderItemTable = new GenericTableView<>(mapOrders);
+		orderItems = FXCollections.observableArrayList(((SupplierController) controller).getOrderItems(current.getOrderId()).stream().map(or -> new OrderItemDTO(or)).collect(Collectors.toList()));
+		orderItemTable = new GenericTableView<OrderItemDTO>(mapOrders);
 		orderItemTable.setData(FXCollections.observableArrayList(orderItems));
-		orderItemTable.getStylesheets().add("css/customerTable.css");
+		orderItemTable.getStylesheets().add("css/label.css");
 		vbox_complete.getChildren().add(orderItemTable);
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
-	protected VBox setFilter() {
-		return new VBox();
+	protected FilterController setFilter() {
+		return new OrdersFilterController(FXCollections.observableArrayList(
+				controller.getCurrentCompany().getOrders().stream().map(comp -> new OrderDTO(comp)).collect(Collectors.toList())));
 	}
 	
+	private GridPane createPaymentOptionsGrid() {
+        GridPane paymentPane = new GridPane();
+        paymentPane.setHgap(10);
+        paymentPane.setVgap(10);
+
+        int row = 0;
+        int col = 0;
+        int maxColumns = 3;
+
+        for (PaymentOption option : PaymentOption.values()) {
+            CheckBox checkBox = new CheckBox(option.getDisplayName());
+            paymentPane.add(checkBox, col, row);
+
+            col++;
+            if (col >= maxColumns) {
+                col = 0;
+                row++;
+            }
+        }
+
+        return paymentPane;
+    }
 	
 }

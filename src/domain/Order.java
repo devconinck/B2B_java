@@ -2,10 +2,7 @@ package domain;
 
 import java.io.Serializable;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-import domain.Product;
+import java.util.Set;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,6 +19,8 @@ import javafx.beans.property.StringProperty;
 @Table(name="order_table")
 public class Order implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
@@ -39,7 +38,7 @@ public class Order implements Serializable {
 	
 	private String orderId;
 	@OneToMany(cascade = CascadeType.ALL)
-	private List<OrderItem> orderItems; 
+	private Set<OrderItem> orderItems; 
 	private String orderReference;
 	private String orderDateTime;
 	private String lastPaymentReminder;
@@ -141,10 +140,10 @@ public class Order implements Serializable {
 		return paymentStatus;
 	}
 	
-	public List<OrderItem> getOrderItems() {
+	public Set<OrderItem> getOrderItems() {
 		return orderItems;
 	}
-	public void setOrderItems(List<OrderItem> orderItems) {
+	public void setOrderItems(Set<OrderItem> orderItems) {
 		this.orderItems = orderItems;
 	}
 	public Company getCompany() {

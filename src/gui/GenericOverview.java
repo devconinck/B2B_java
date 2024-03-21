@@ -1,6 +1,7 @@
 package gui;
 
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +40,7 @@ public abstract class GenericOverview<O> {
 		VBox vboxDetailsAndButtons = new VBox();
 
 		// Add Table
-		genericTableView.getStylesheets().add("css/customerTable.css");
+		genericTableView.getStylesheets().add("css/label.css");
 		genericTableView.setData(others);
 		genericTableView.setOnMouseClicked(event -> {
 			this.current = genericTableView.getSelectionModel().getSelectedItem();
