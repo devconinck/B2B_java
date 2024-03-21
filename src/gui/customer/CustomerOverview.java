@@ -1,12 +1,10 @@
 package gui.customer;
 
 
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-import domain.DomainController;
 import domain.SupplierController;
 import dto.CompanyDTO;
 import dto.OrderDTO;
@@ -16,7 +14,6 @@ import gui.GenericTableView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -30,12 +27,9 @@ public class CustomerOverview extends GenericOverview<CompanyDTO> {
 			txf_number, txf_email, txf_phonenr;
 	private ImageView imgvw_logo;
 	private GenericTableView<OrderDTO> orderTable;
-	private CustomerFilterController cfc;
 
-	public CustomerOverview(Map<String, String> attributes, SupplierController controller) {
-		super(FXCollections.observableArrayList(
-				controller.getCurrentCompany().getCustomers().stream().map(comp -> new CompanyDTO(comp)).collect(Collectors.toList())),
-				attributes, controller);
+	public CustomerOverview(ObservableList<CompanyDTO> list, Map<String, String> attributes, SupplierController controller) {
+		super(list, attributes, controller);
 		// TODO logica in dc voor deze super lange constructor
 		hbox_main.getStylesheets().add("css/label.css");
 	}
@@ -228,8 +222,7 @@ public class CustomerOverview extends GenericOverview<CompanyDTO> {
 	@SuppressWarnings("rawtypes")
 	@Override
 	protected FilterController setFilter() {
-		return new CustomerFilterController(FXCollections.observableArrayList(
-				controller.getCurrentCompany().getCustomers().stream().map(comp -> new CompanyDTO(comp)).collect(Collectors.toList())));
+		return new CustomerFilterController(others);
 	}
 
 }

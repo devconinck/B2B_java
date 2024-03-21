@@ -19,18 +19,20 @@ public abstract class GenericOverview<O> {
 	protected O current;
 	protected GenericTableView<O> genericTableView;
 	protected SupplierController controller;
+	protected ObservableList<O> others;
 	private static final int SIDEBAR_WIDTH = 250;
 	private static final int TOPBAR_HEIGHT = 200;
 	
 	public GenericOverview(ObservableList<O> others, Map<String, String> attributes, SupplierController controller) {
 		this.controller = controller;
+		this.others = others;
 		hbox_main = new HBox();
 		this.current = others.get(0);
 		this.genericTableView = new GenericTableView<>(attributes);
-		setClassFields(others);
+		setClassFields();
 	}
 	
-	private void setClassFields(ObservableList<O> others) {
+	private void setClassFields() {
 		hbox_main.getChildren().clear();
 		vboxDetails = new ArrayList<>();
 		VBox vboxFilterAndTable = new VBox();

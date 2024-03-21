@@ -3,11 +3,15 @@ package gui;
 import java.io.IOException;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import domain.SupplierController;
+import dto.CompanyDTO;
 import gui.customer.CustomerOverview;
 import gui.login.LoginScreen;
 import gui.order.OrdersOverview;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -83,7 +87,9 @@ public class SupplierScreenController extends BorderPane {
 			map.put("Open orders", "numberOfOpenOrders");
 			map.put("Name", "name");
 			map.put("Logo", "logo");
-			CustomerOverview co = new CustomerOverview(map, controller);
+			ObservableList<CompanyDTO> customerList = FXCollections.observableArrayList(
+					controller.getCurrentCompany().getCustomers().stream().map(comp -> new CompanyDTO(comp)).collect(Collectors.toList()));
+			CustomerOverview co = new CustomerOverview(customerList, map, controller);
 			this.mainScreen.getChildren().add(co.getHBox());
 		});
 		

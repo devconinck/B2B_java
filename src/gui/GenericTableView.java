@@ -2,6 +2,7 @@ package gui;
 
 import java.util.Map;
 
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -23,5 +24,15 @@ public class GenericTableView<T> extends TableView<T> {
 	
 	public void setData(ObservableList<T> data) {
 		setItems(data);
+		/*
+		data.addListener((ListChangeListener.Change<? extends T> change) -> {
+            while (change.next()) {
+                if (change.wasAdded() || change.wasRemoved()) {
+                    getItems().setAll(data);
+                    break;
+                }
+            }
+        });
+        */
 	}
 }
