@@ -25,9 +25,6 @@ public class DomainController {
 		
 	}
 		
-	public void close() {
-		GenericDaoJpa.closePersistency();
-	}
 	
 }
 

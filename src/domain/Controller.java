@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javafx.collections.ObservableList;
+import repository.GenericDaoJpa;
 
 public abstract class Controller implements Subject{
 	
@@ -50,5 +51,7 @@ public abstract class Controller implements Subject{
 		observers.remove(o);
 	}
 	
-
+	public void close() {
+		GenericDaoJpa.closePersistency();
+	}
 }
