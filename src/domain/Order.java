@@ -1,6 +1,7 @@
 package domain;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Set;
 
 import dto.OrderDTO;
@@ -37,7 +38,7 @@ public class Order implements Serializable {
     @OneToMany(cascade = CascadeType.ALL)
     private Set<OrderItem> orderItems;
     private String orderReference;
-    private String orderDateTime;
+    private LocalDate orderDateTime;
     private String lastPaymentReminder;
     private String netAmount;
     private String taxAmount;
@@ -50,11 +51,11 @@ public class Order implements Serializable {
     protected Order() {}
 
     // Constructor
-    public Order(String orderId, int syncId, Company company, String orderReference, String orderDateTime,
+    public Order(String orderId, int syncId, Company company, String orderReference, LocalDate orderDateTime,
             String lastPaymentReminder, String netAmount, String taxAmount, String totalAmount, String currency) {
         setOrderID(orderId);
         setName("Temp");
-        setDate(orderDateTime);
+        setDate(orderDateTime.toString());
         setOrderStatus((int) (Math.random() * 2) + 1 == 1 ? "NOT PAID" : "PAID");
         int randomPaymentStatus = (int) (Math.random() * 3) + 1;
         setPaymentStatus(randomPaymentStatus == 1 ? PaymentStatus.INVOICE_SENT
@@ -111,7 +112,7 @@ public class Order implements Serializable {
         return orderReference;
     }
 
-    public String getOrderDateTime() {
+    public LocalDate getOrderDateTime() {
         return orderDateTime;
     }
 
@@ -193,7 +194,7 @@ public class Order implements Serializable {
         this.orderReference = orderReference;
     }
 
-    public void setOrderDateTime(String orderDateTime) {
+    public void setOrderDateTime(LocalDate orderDateTime) {
         this.orderDateTime = orderDateTime;
     }
 

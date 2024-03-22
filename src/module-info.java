@@ -15,4 +15,6 @@ open module JvaFXAndPersistenceAndUnitTests {
 	requires org.mockito;
 	requires com.opencsv;
 	requires org.junit.jupiter.params;
+	
+	requires jakarta.mail;
 }

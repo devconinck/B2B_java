@@ -9,6 +9,7 @@ import domain.DomainController;
 import gui.login.LoginScreen;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import mail.SendMail;
 import util.seeding.Seed;
 
 public class StartUp extends Application {
@@ -19,6 +20,7 @@ public class StartUp extends Application {
 
 	@Override
 	public void start(Stage stage) throws IOException {
+		new SendMail();
 		if (isDevelopmentEnvironment()) {
 			initializeDevelopmentEnvironment(); // Seeden
 		}		

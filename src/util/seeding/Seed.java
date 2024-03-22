@@ -2,11 +2,13 @@ package util.seeding;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import com.opencsv.CSVReader;
@@ -15,6 +17,7 @@ import com.opencsv.exceptions.CsvValidationException;
 import domain.Company;
 import domain.Order;
 import domain.OrderItem;
+import mail.SendMail;
 import repository.AccountDao;
 import repository.AccountDaoJpa;
 import repository.GenericDao;
@@ -30,12 +33,14 @@ public class Seed {
 	// TODO order + orderItem in andere klassen
 	private String orderCSVFile = "src/CSVFiles/orderdata.csv";
 	private String orderItemCSVFile = "src/CSVFiles/orderitemdata.csv";
-	
+	private SendMail mail;
+
 	public Seed() {
 		setAccountRepo(new AccountDaoJpa());
 		setCompanyRepo(new GenericDaoJpa<Company>(Company.class));
 		setOrderRepo(new GenericDaoJpa<Order>(Order.class));
 		setOrderItemRepo(new GenericDaoJpa<OrderItem>(OrderItem.class));
+		mail = new SendMail();
 		run();
 	}
 
@@ -59,26 +64,43 @@ public class Seed {
 		new CompanySeeding(companyRepo);
 		this.companyList = companyRepo.findAll();
 		new AccountSeeding(accountRepo, companyList);
-		//addOrder();
+		// addOrder();
 		processOrderData();
-		//addOrderItem();
+		// addOrderItem();
 		processOrderItemData();
 		new CustomerSeeding(companyRepo);
+		checkIfOrdersExpire();
 	}
 
-	private void addOrder() {
-		Order order1 = new Order("2", 12, companyList.get(0), "asdf", "asdf", "asdf", "asdf", "asdf", "asdf", "asdf");
-		Order order2 = new Order("3", 12, companyList.get(1), "sdfg", "sdfg", "sdfg", "sdgf", "sdfg", "sdfg", "sdfg");
-		companyList.get(0).setOrders(Set.of(order1));
-		companyList.get(1).setOrders(Set.of(order2));
-		List<Order> li = List.of(order1, order2);
-		li.stream().forEach(o -> {
-			GenericDaoJpa.startTransaction();
-			orderRepo.insert(o);
-			GenericDaoJpa.commitTransaction();
-		});
+	/*
+	 * private void addOrder() { Order order1 = new Order("2", 12,
+	 * companyList.get(0), "asdf", "asdf", "asdf", "asdf", "asdf", "asdf", "asdf");
+	 * Order order2 = new Order("3", 12, companyList.get(1), "sdfg", "sdfg", "sdfg",
+	 * "sdgf", "sdfg", "sdfg", "sdfg");
+	 * companyList.get(0).setOrders(Set.of(order1));
+	 * companyList.get(1).setOrders(Set.of(order2)); List<Order> li =
+	 * List.of(order1, order2); li.stream().forEach(o -> {
+	 * GenericDaoJpa.startTransaction(); orderRepo.insert(o);
+	 * GenericDaoJpa.commitTransaction(); }); }
+	 */
+
+	// TODO
+	private void checkIfOrdersExpire() {
+		List<Order> orders = orderRepo.findAll();
+		System.out.printf("Total amount of orders: %s%n", orders.size());
+		List<Order> orders2 = orders.stream().filter(o -> o.getOrderDateTime().isBefore(LocalDate.now().plusDays(3))
+				&& o.getOrderDateTime().isAfter(LocalDate.now())).collect(Collectors.toList());
+		System.out.printf("Orders that expire in 3 days form now: %s%n", orders2.size());
+		for (int i = 0; i < 5; i++) {
+			Order order = orders2.get(i);
+			mail.sendMail(order.getCompany().getContact().getEmail(), companyList.get(0).getContact().getEmail(),
+					String.format("Payment due to %s", order.getOrderDateTime()),
+					String.format(
+							"You have a order that is not been payed yet.%nThis order has id: %s%nYours Sencirely %n%s",
+							order.getOrderID(), companyList.get(0).getName()));
+		}
 	}
-	
+
 	// TODO
 	private void processOrderData() {
 		try (CSVReader reader = new CSVReader(new FileReader(orderCSVFile))) {
@@ -99,22 +121,39 @@ public class Seed {
 				String taxAmount = items[6];
 				String totalAmount = items[7];
 				String currency = items[8];
-				
-				int newIndex = index % (companyList.size());
-				
 
-				orders.add(new Order(orderId, syncId, companyList.get(newIndex), orderReference, orderDateTime, lastPaymentReminder,
-						netAmount, taxAmount, totalAmount, currency));
-				companyList.get(newIndex % (companyList.size())).setOrders(orders.stream().filter(o -> o.getCompany().equals(companyList.get(newIndex % (companyList.size())))).collect(Collectors.toSet()));
+				int newIndex = index % (companyList.size());
+
+				orders.add(new Order(orderId, syncId, companyList.get(newIndex), orderReference, generateRandomDate(),
+						lastPaymentReminder, netAmount, taxAmount, totalAmount, currency));
+				companyList.get(newIndex % (companyList.size()))
+						.setOrders(orders.stream()
+								.filter(o -> o.getCompany().equals(companyList.get(newIndex % (companyList.size()))))
+								.collect(Collectors.toSet()));
 				index++;
 			}
 			GenericDaoJpa.startTransaction();
 			orderRepo.insertBatch(orders);
 			GenericDaoJpa.commitTransaction();
-			System.out.println(orderRepo.findAll().stream().filter(o -> o.getCompany().getName().equals("Fake Company Inc. 1")).collect(Collectors.toList()).size());
+			System.out.printf("Number of orders for Fake Company Inc.1 : %s%n",
+					orderRepo.findAll().stream().filter(o -> o.getCompany().getName().equals("Fake Company Inc. 1"))
+							.collect(Collectors.toList()).size());
 		} catch (IOException | CsvValidationException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static LocalDate generateRandomDate() {
+		LocalDate today = LocalDate.now();
+		LocalDate twoWeeksAgo = today.minusWeeks(2);
+		LocalDate twoWeeksAfter = today.plusWeeks(2);
+
+		long startEpochDay = twoWeeksAgo.toEpochDay();
+		long endEpochDay = twoWeeksAfter.toEpochDay();
+
+		long randomEpochDay = ThreadLocalRandom.current().nextLong(startEpochDay, endEpochDay + 1);
+
+		return LocalDate.ofEpochDay(randomEpochDay);
 	}
 
 	private void addOrderItem() {
@@ -131,7 +170,7 @@ public class Seed {
 			GenericDaoJpa.commitTransaction();
 		});
 	}
-	
+
 	private void processOrderItemData() {
 		try (CSVReader reader = new CSVReader(new FileReader(orderItemCSVFile))) {
 			String[] line;
