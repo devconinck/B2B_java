@@ -25,6 +25,7 @@ public class GenericTableView<T> extends TableView<T> {
 	public void setData(ObservableList<T> data) {
 		setFixedCellSize(24);
 		setPrefHeight((data.size() + 1) * getFixedCellSize() + 45);
+		setMaxHeight(500);
 		setItems(data);
 	}
 }
