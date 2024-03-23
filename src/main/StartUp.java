@@ -20,7 +20,6 @@ public class StartUp extends Application {
 
 	@Override
 	public void start(Stage stage) throws IOException {
-		new SendMail();
 		if (isDevelopmentEnvironment()) {
 			initializeDevelopmentEnvironment(); // Seeden
 		}		

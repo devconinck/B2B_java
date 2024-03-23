@@ -1,8 +1,6 @@
 package gui.customer;
 
-
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import domain.SupplierController;
@@ -14,22 +12,29 @@ import gui.GenericTableView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 public class CustomerOverview extends GenericOverview<CompanyDTO> {
 
 	private TextField txf_name, txf_customerSince, txf_sector, txf_country, txf_city, txf_zipcode, txf_street,
 			txf_number, txf_email, txf_phonenr;
 	private ImageView imgvw_logo;
-	private GenericTableView<OrderDTO> orderTable;
 
-	public CustomerOverview(ObservableList<CompanyDTO> list, Map<String, String> attributes, SupplierController controller) {
-		super(FXCollections.observableArrayList(controller.getCurrentCompany().getCustomers().stream().map(e -> new CompanyDTO(e)).collect(Collectors.toList())), attributes, controller);
+	public CustomerOverview(ObservableList<CompanyDTO> list, Map<String, String> attributes,
+			SupplierController controller) {
+		super(FXCollections.observableArrayList(controller.getCurrentCompany().getCustomers().stream()
+				.map(e -> new CompanyDTO(e)).collect(Collectors.toList())), attributes, controller);
 		// TODO logica in dc voor deze super lange constructor
 		hbox_main.getStylesheets().add("css/label.css");
 	}
@@ -44,16 +49,16 @@ public class CustomerOverview extends GenericOverview<CompanyDTO> {
 		throw new UnsupportedOperationException();
 	}
 
-	private String createPhoneNumber(String phoneNumber)
-	{
+	private String createPhoneNumber(String phoneNumber) {
 		return String.format("+32%s", phoneNumber);
 	}
+	
 	@Override
 	protected void setCurrent() {
 		controller.setSelectedCompany(controller.getCompany(current.vatNumber()));
 		txf_name.setText(current.name());
-		txf_customerSince.setText(current.customerStart().toString());
-		txf_sector.setText(current.sector());
+		// txf_customerSince.setText(current.customerStart().toString());
+		// txf_sector.setText(current.sector());
 		txf_country.setText(current.country());
 		txf_city.setText(current.city());
 		txf_zipcode.setText(current.zipcode());
@@ -67,9 +72,6 @@ public class CustomerOverview extends GenericOverview<CompanyDTO> {
 			System.err.println(String.format("Failed to get logo for: %s", current.name()));
 			imgvw_logo.setImage(new Image(String.format("images/%s", "no-logo.png")));
 		}
-		ObservableList<OrderDTO> orders = FXCollections.observableArrayList(
-				current.getOrders().stream().map(or -> new OrderDTO(or)).collect(Collectors.toList()));
-		orderTable.setData(orders);
 	}
 
 	@Override
@@ -77,7 +79,7 @@ public class CustomerOverview extends GenericOverview<CompanyDTO> {
 		// logo, name, sector, address, contact, customerSinds
 		// TODO UC (gegevens overzicht beschikbare klanten) = naam, aantal openstaande
 		// bestellingen
-		// TODO UC (gegevens details klant) = naam, logo, adres, contactgegevens
+		// TODO UC (gegevens details klant) = naam, logo, adres, contactgegevens -> OK
 		// TODO UC (gegevens bestellingen klant) = order id, datum, orderbedrag,
 		// orderstatus, betalingsstatus
 		vboxDetails.clear();
@@ -98,29 +100,34 @@ public class CustomerOverview extends GenericOverview<CompanyDTO> {
 		vbox_logo.getChildren().add(imgvw_logo);
 		// Name
 		VBox vbox_name = new VBox(new Label("Name"));
+		HBox.setHgrow(vbox_name, Priority.ALWAYS);
 		txf_name = new TextField(company.name());
 		txf_name.setEditable(false);
 		vbox_name.getChildren().add(txf_name);
 		vbox_name.setPadding(new Insets(20, 10, 10, 20));
 		vboxDetails.add(vbox_name);
 		// Customer Since
-		VBox vbox_customerSince = new VBox(new Label("Customer since"));
-		txf_customerSince = new TextField(company.customerStart().toString());
-		txf_customerSince.setEditable(false);
-		vbox_customerSince.getChildren().add(txf_customerSince);
-		vbox_customerSince.setPadding(new Insets(20, 10, 10, 10));
-		vboxDetails.add(vbox_customerSince);
+		// TODO moet niet volgens use case
+		/*
+		 * VBox vbox_customerSince = new VBox(new Label("Customer since"));
+		 * txf_customerSince = new TextField(company.customerStart().toString());
+		 * txf_customerSince.setEditable(false);
+		 * vbox_customerSince.getChildren().add(txf_customerSince);
+		 * vbox_customerSince.setPadding(new Insets(20, 10, 10, 10));
+		 * vboxDetails.add(vbox_customerSince);
+		 */
 
-		hbox_logo_name_customerSince.getChildren().addAll(vbox_logo, vbox_name, vbox_customerSince);
+		hbox_logo_name_customerSince.getChildren().addAll(vbox_logo, vbox_name/* , vbox_customerSince */);
 
 		// Sector
-		VBox vbox_sector = new VBox(new Label("Sector"));
-		txf_sector = new TextField(String.format("%s", company.sector()));
-		txf_sector.setEditable(false);
-		;
-		vbox_sector.getChildren().add(txf_sector);
-		vbox_sector.setPadding(new Insets(10, 10, 10, 20));
-		vboxDetails.add(vbox_sector);
+		// TODO moet niet volgens UC
+		/*
+		 * VBox vbox_sector = new VBox(new Label("Sector")); txf_sector = new
+		 * TextField(String.format("%s", company.sector()));
+		 * txf_sector.setEditable(false); vbox_sector.getChildren().add(txf_sector);
+		 * vbox_sector.setPadding(new Insets(10, 10, 10, 20));
+		 * vboxDetails.add(vbox_sector);
+		 */
 
 		// Address
 		VBox vbox_address_complete = new VBox();
@@ -193,30 +200,21 @@ public class CustomerOverview extends GenericOverview<CompanyDTO> {
 		vboxDetails.add(vbox_phonenr);
 		hbox_email_phonenr.getChildren().addAll(vbox_email, vbox_phonenr);
 		vbox_email_phonenr.getChildren().add(hbox_email_phonenr);
+		
+		// Button to open orders from selected company
+		HBox hbox_btn = new HBox();
+		Button btn_orders = new Button("Show Orders");
+		btn_orders.setOnMouseClicked(event -> {
+			new CustomerOrdersOverview(current);
+		});
+		HBox.setHgrow(hbox_btn, Priority.ALWAYS);
+		hbox_btn.setAlignment(Pos.CENTER);
+		hbox_btn.getChildren().add(btn_orders);
 
-		vbox_complete.getChildren().addAll(hbox_logo_name_customerSince, vbox_sector, vbox_address_complete,
-				vbox_email_phonenr);
-
-		setOrders(vbox_complete);
+		vbox_complete.getChildren().addAll(hbox_logo_name_customerSince/* , vbox_sector */, vbox_address_complete,
+				vbox_email_phonenr, hbox_btn);
 
 		return vbox_complete;
-	}
-
-	private void setOrders(VBox vbox_complete) {
-		// TODO UC (gegevens bestellingen klant) = order id, datum, orderbedrag,
-		// orderstatus, betalingsstatus
-		Map<String, String> mapOrders = new TreeMap<>(Map.ofEntries(
-				Map.entry("Order ID", "orderId"),
-				Map.entry("Date", "date"),
-				Map.entry("Price", "orderAmount"),
-				Map.entry("Order Status", "orderStatus"),
-				Map.entry("Payment Status", "paymentStatus")
-				));
-		ObservableList<OrderDTO> orders = FXCollections.observableArrayList(
-				current.getOrders().stream().map(or -> new OrderDTO(or)).collect(Collectors.toList()));
-		orderTable = new GenericTableView<>(mapOrders);
-		orderTable.setData(orders);
-		vbox_complete.getChildren().add(orderTable);
 	}
 
 	@SuppressWarnings("rawtypes")

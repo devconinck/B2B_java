@@ -69,7 +69,7 @@ public class Seed {
 		// addOrderItem();
 		processOrderItemData();
 		new CustomerSeeding(companyRepo);
-		checkIfOrdersExpire();
+		//checkIfOrdersExpire();
 	}
 
 	/*
