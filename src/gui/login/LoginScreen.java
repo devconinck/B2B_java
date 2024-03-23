@@ -128,6 +128,11 @@ public class LoginScreen extends Pane {
 			Scene tempScene = new Scene(new SupplierScreenController((SupplierController) controller));
 			primaryStage.setScene(tempScene);
 			
+			primaryStage.setMaximized(true);
+			//primaryStage.setResizable(false);
+			primaryStage.setMinHeight(820);
+			primaryStage.setMinWidth(1460);
+			
 			//WERKT NIET => MAAR: logOut werkt hiermee wel omdat het niet full screen is 
 			//primaryStage.setMaximized(true);
 			//primaryStage.setResizable(false);
