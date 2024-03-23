@@ -10,6 +10,7 @@ import gui.login.LoginScreen;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import mail.SendMail;
+import util.PaymentReminder;
 import util.seeding.Seed;
 
 public class StartUp extends Application {
@@ -23,7 +24,8 @@ public class StartUp extends Application {
 		if (isDevelopmentEnvironment()) {
 			initializeDevelopmentEnvironment(); // Seeden
 		}		
-		// DomainController dc = new DomainController();
+		new PaymentReminder();
+		
 		new LoginScreen();
 	}
 

@@ -20,4 +20,6 @@ public class Validation {
 	public static final String COMPANY_VAT_REGEX = "[A-Z]{2}[0-9A-Za-z]{1,30}";
 	
 	public static final String DATE_REGEX = "\\b(19|20)\\d\\d-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])\\b";
+	
+	public static final int PAYMENT_PERIOD = 14;
 }
