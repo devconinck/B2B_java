@@ -9,6 +9,8 @@ import domain.Order;
 import gui.GenericTableView;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import util.PaymentStatus;
 
@@ -36,7 +38,8 @@ public class ProcessOrderController extends VBox {
 		columns.put("Payment Status", "paymentStatus");
 		GenericTableView<Order> tableView = new GenericTableView<>(columns);
 		tableView.setData(order);
-				
+		tableView.setMinWidth(380);
+
 		Button proccessButton = new Button("Process Payment");
 	    proccessButton.setOnMouseClicked(event -> {
 	        order.stream()

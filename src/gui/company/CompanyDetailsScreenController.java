@@ -281,7 +281,7 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
         */
         
         if (!customerStartField.getText().matches(Validation.DATE_REGEX)) {
-        	showErrorAlert("Please enter a valid Date.");
+        	showErrorAlert("Please enter a valid Date. \nUse the following format: yyyy-MM-dd");
             return false;
         }
 
