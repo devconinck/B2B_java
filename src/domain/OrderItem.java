@@ -45,16 +45,17 @@ public class OrderItem implements Serializable {
 	private String netAmount;
 	
 	
-	public OrderItem(int orderId, int orderItemId, int syncId, String productId, String quantity, String unitOfMeasureId, String netPrice, String netAmount) {
-		setName("Temp");
+	public OrderItem(int orderId, int orderItemId, int syncId, Product product, String quantity, String unitOfMeasureId, String netPrice, String netAmount) {
+		setProduct(product);
+		setName(product.getProductId());
 		setQ(quantity);
-		setInStock("Temp");
+		setInStock(product.getProductAvailability());
 		setUnitPrice(netPrice);
 		setTotal(netAmount);
 		setOrderId(orderId);
 		setOrderItemId(orderItemId);
 		setSyncId(syncId);
-		setProductId(productId);
+		//setProductId(productId);
 		setQuantity(quantity);
 		setUnitOfMeasureId(unitOfMeasureId);
 		setNetPrice(netPrice);
@@ -127,6 +128,9 @@ public class OrderItem implements Serializable {
 	
 	public Product getProduct() {
 		return product;
+	}
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 	public int getOrderId() {
 		return orderId;

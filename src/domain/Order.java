@@ -55,7 +55,7 @@ public class Order implements Serializable {
     public Order(String orderId, int syncId, Company company, String orderReference, LocalDate orderDateTime,
             String lastPaymentReminder, String netAmount, String taxAmount, String totalAmount, String currency) {
         setOrderID(orderId);
-        setName("Temp");
+        setName(company.getName());
         setDate(orderDateTime.toString());
         int randomOrderStatus = (int) (Math.random() * 6) + 1;
         setOrderStatus(randomOrderStatus == 1 ? OrderStatus.PLACED : randomOrderStatus == 2 ? OrderStatus.PROCESSED : randomOrderStatus == 3 ? OrderStatus.SHIPPED
