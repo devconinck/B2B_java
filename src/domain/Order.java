@@ -16,6 +16,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import javafx.beans.property.SimpleStringProperty;
+import util.OrderStatus;
 import util.PaymentStatus;
 
 @Entity
@@ -32,7 +33,7 @@ public class Order implements Serializable {
     private SimpleStringProperty orderID = new SimpleStringProperty();
     private SimpleStringProperty name = new SimpleStringProperty();
     private SimpleStringProperty date = new SimpleStringProperty();
-    private SimpleStringProperty orderStatus = new SimpleStringProperty();
+    private OrderStatus orderStatus;
     private PaymentStatus paymentStatus;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -56,7 +57,9 @@ public class Order implements Serializable {
         setOrderID(orderId);
         setName("Temp");
         setDate(orderDateTime.toString());
-        setOrderStatus((int) (Math.random() * 2) + 1 == 1 ? "NOT PAID" : "PAID");
+        int randomOrderStatus = (int) (Math.random() * 6) + 1;
+        setOrderStatus(randomOrderStatus == 1 ? OrderStatus.PLACED : randomOrderStatus == 2 ? OrderStatus.PROCESSED : randomOrderStatus == 3 ? OrderStatus.SHIPPED
+        		: randomOrderStatus == 4 ? OrderStatus.OUT_FOR_DELIVERY : randomOrderStatus == 5 ? OrderStatus.DELIVERD : OrderStatus.COMPLETED);
         int randomPaymentStatus = (int) (Math.random() * 3) + 1;
         setPaymentStatus(randomPaymentStatus == 1 ? PaymentStatus.INVOICE_SENT
                 : randomPaymentStatus == 2 ? PaymentStatus.PAID : PaymentStatus.UNPROCESSED);
@@ -91,8 +94,8 @@ public class Order implements Serializable {
     }
 
     @Access(AccessType.PROPERTY)
-    public String getOrderStatus() {
-        return orderStatus.get();
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
     }
 
     @Access(AccessType.PROPERTY)
@@ -150,7 +153,7 @@ public class Order implements Serializable {
     }
 
     public SimpleStringProperty orderStatusProperty() {
-        return orderStatus;
+        return new SimpleStringProperty(orderStatus.toString());
     }
 
     public SimpleStringProperty paymentStatusProperty() {
@@ -170,8 +173,12 @@ public class Order implements Serializable {
         this.date.set(date);
     }
 
+    public void setOrderStatus(OrderStatus orderStatus) {
+    	this.orderStatus = orderStatus;
+    }
+    
     public void setOrderStatus(String orderStatus) {
-        this.orderStatus.set(orderStatus);
+        this.orderStatus = OrderStatus.valueOf(orderStatus);
     }
     
     public void setPaymentStatus(PaymentStatus paymentStatus) {

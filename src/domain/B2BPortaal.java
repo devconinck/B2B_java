@@ -108,5 +108,6 @@ public class B2BPortaal {
 		GenericDaoJpa.startTransaction();
 		orderRepo.update(order);
 		GenericDaoJpa.commitTransaction();
+		System.out.println("test3");
 	}
 }

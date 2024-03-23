@@ -2,6 +2,7 @@ package domain;
 
 import java.util.stream.Collectors;
 
+import dto.OrderDTO;
 import javafx.collections.ObservableList;
 
 public class SupplierController extends Controller{
@@ -34,8 +35,6 @@ public class SupplierController extends Controller{
 		return company;
 	}
 	
-	
-	
 	public Order getOrder(String orderId) {
 		for(Order o : portaal.getOrdersList()) {
 			if(o.getOrderID().equals(orderId))
@@ -44,8 +43,6 @@ public class SupplierController extends Controller{
 		return null;
 	}
 	
-	
-
 	public ObservableList<Order> getOrders() {
 		return portaal.getOrdersList();
 	}
@@ -53,8 +50,6 @@ public class SupplierController extends Controller{
 	public ObservableList<OrderItem> getOrderItems(String orderId) {
 		return portaal.getOrderItemsList(orderId);
 	}
-	
-	
 	
 	// TODO mag o.update(company) weg????
 	@Override
@@ -65,5 +60,10 @@ public class SupplierController extends Controller{
 	@Override
 	public ObservableList<Company> getCompanyList() {
 		throw new UnsupportedOperationException();
+	}
+	
+	public void updateOrder() {
+		portaal.updateOrder(currentOrder);
+		System.out.println("test2");
 	}
 }
