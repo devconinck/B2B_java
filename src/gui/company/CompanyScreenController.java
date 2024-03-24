@@ -25,7 +25,7 @@ public class CompanyScreenController extends TableView<Company> implements Obser
     @FXML
     private TableColumn<Company, String> isActiveCol;
     @FXML
-    private TableColumn<Company, Integer> amountOfCustCol;
+    private TableColumn<Company, Integer> amountOfCustomersCol;
 
     private final AdminController ac;
     private final CompanyFilterController filter;
@@ -54,7 +54,7 @@ public class CompanyScreenController extends TableView<Company> implements Obser
     private void loadCompanies() {
         nameCol.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
         sectorCol.setCellValueFactory(cellData -> cellData.getValue().getSectorProperty());
-        //amountOfCustCol.setCellValueFactory(cellData -> cellData.getValue().getAmountOfCustomers());
+        amountOfCustomersCol.setCellValueFactory(cellData -> cellData.getValue().getAmountOfCustomers().asObject());
         addressCol.setCellValueFactory(cellData -> cellData.getValue().getAddressProperty());
         
         isActiveCol.setCellValueFactory(cellData -> {
