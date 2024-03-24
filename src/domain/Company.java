@@ -23,6 +23,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import util.PaymentOption;
@@ -104,7 +105,6 @@ public class Company implements Serializable {
 	}
 
 	// Getters
-
 	public String getVatNumber() {
 		return VatNumber;
 	}
@@ -154,6 +154,10 @@ public class Company implements Serializable {
 	}
 
 	// Property gettters:
+	public SimpleIntegerProperty getAmountOfCustomers() {
+		return new SimpleIntegerProperty(customers.size());
+	}
+	
 	public SimpleStringProperty getNameProperty() {
 		return name;
 	}
