@@ -215,23 +215,18 @@ public class Seed {
 				int orderItemId = Integer.parseInt(items[1]);
 				int syncId = Integer.parseInt(items[2]);
 				String productId = items[3];
-				System.out.println("test" + productId);
 				String quantity = items[4];
 				String unitOfMeasureId = items[5];
 				String netPrice = items[6];
 				String netAmount = items[7];
-				System.out.println("voor p");
-				System.out.println(productList.size());
+				
 				Product product = productList.stream().filter(p -> p.getProductId().equals(productId)).findAny().orElse(null);
 				
 				orderItems.add(new OrderItem(orderId, orderItemId, syncId, product, quantity, unitOfMeasureId,
 						netPrice, netAmount));
 			}
-			System.out.println(orderItems.size());
 			GenericDaoJpa.startTransaction();
-			System.out.println("test1");
 			orderItemRepo.insertBatch(orderItems);
-			System.out.println("test2");
 			GenericDaoJpa.commitTransaction();
 		} catch (IOException | CsvValidationException e) {
 			e.printStackTrace();
