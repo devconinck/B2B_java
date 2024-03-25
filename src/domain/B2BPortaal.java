@@ -1,6 +1,8 @@
 package domain;
 
+import java.util.Collections;
 import java.util.List;
+
 import java.util.stream.Collectors;
 
 import javafx.collections.FXCollections;
@@ -12,7 +14,7 @@ public class B2BPortaal {
 	private GenericDao<Company> companyRepo;
 	private GenericDao<Order> orderRepo;
 	private GenericDao<OrderItem> orderItemRepo;
-//	private GenericDao<Product> productRepo;
+	private GenericDao<Product> productRepo;
 //	private GenericDaoJpa<ProductPrice> productPriceRepo;
 //	private GenericDaoJpa<ProductDescription> productDescriptionRepo;
 //	private GenericDaoJpa<ProductUnitOfMeasureConversion> productUnitRepo;
@@ -21,11 +23,11 @@ public class B2BPortaal {
 	private ObservableList<OrderItem> orderItemList;
 	private ObservableList<Company> companyList;
 
-	public B2BPortaal(GenericDao<Company> companyRepo, GenericDao<Order> orderRepo, GenericDao<OrderItem> orderItemRepo) {
+	public B2BPortaal(GenericDao<Company> companyRepo, GenericDao<Order> orderRepo, GenericDao<OrderItem> orderItemRepo, GenericDao<Product> productRepo) {
 		setCompanyRepo(companyRepo);
 		setOrderRepo(orderRepo);
 		setOrderItemRepo(orderItemRepo);
-//		setProductRepo(productRepo);
+		setProductRepo(productRepo);
 //		setProductPriceRepo(new GenericDaoJpa<>(ProductPrice.class));
 //		setProductDescriptionRepo(new GenericDaoJpa<>(ProductDescription.class));
 //		setProductUnitRepo(new GenericDaoJpa<>(ProductUnitOfMeasureConversion.class));
@@ -39,11 +41,11 @@ public class B2BPortaal {
 		orderItemRepo = oi;
 	}
 
-	/*
 	public void setProductRepo(GenericDao<Product> p) {
 		productRepo = p;
 	}
 	
+	/*
 	public void setProductPriceRepo(GenericDaoJpa<ProductPrice> pp) {
 		productPriceRepo = pp;
 	}
@@ -65,7 +67,7 @@ public class B2BPortaal {
 		if (orderList == null) {
 			orderList = FXCollections.observableArrayList();
 		}
-		List<Order> ordersFromRepo = orderRepo.findAll();
+		List<Order> ordersFromRepo = orderRepo.findAll().stream().sorted().collect(Collectors.toList());
 
 		orderList.clear();
 		orderList.addAll(ordersFromRepo);

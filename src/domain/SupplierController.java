@@ -1,8 +1,12 @@
 package domain;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
+import dto.OrderDTO;
 import javafx.collections.ObservableList;
+import util.OrderStatus;
+import util.PaymentOption;
 
 public class SupplierController extends Controller{
 	
@@ -34,8 +38,6 @@ public class SupplierController extends Controller{
 		return company;
 	}
 	
-	
-	
 	public Order getOrder(String orderId) {
 		for(Order o : portaal.getOrdersList()) {
 			if(o.getOrderID().equals(orderId))
@@ -44,8 +46,6 @@ public class SupplierController extends Controller{
 		return null;
 	}
 	
-	
-
 	public ObservableList<Order> getOrders() {
 		return portaal.getOrdersList();
 	}
@@ -53,8 +53,6 @@ public class SupplierController extends Controller{
 	public ObservableList<OrderItem> getOrderItems(String orderId) {
 		return portaal.getOrderItemsList(orderId);
 	}
-	
-	
 	
 	// TODO mag o.update(company) weg????
 	@Override
@@ -65,5 +63,18 @@ public class SupplierController extends Controller{
 	@Override
 	public ObservableList<Company> getCompanyList() {
 		throw new UnsupportedOperationException();
+	}
+	
+	public void updateCompany(List<PaymentOption> options) {
+		Company c = getCurrentCompany();
+		c.setPaymentOptions(options);
+		portaal.updateCompany(c);
+	}
+	
+	public void updateOrder(String orderId, String orderStatus, String paymentStatus) {
+		Order o = getOrder(orderId);
+		o.setOrderStatus(orderStatus.toUpperCase().replace(' ', '_'));
+		o.setPaymentStatus(paymentStatus.toUpperCase().replace(' ', '_'));
+		portaal.updateOrder(o);
 	}
 }

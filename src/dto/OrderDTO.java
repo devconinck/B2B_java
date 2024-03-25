@@ -4,10 +4,11 @@ import java.util.Set;
 
 import domain.Order;
 import domain.OrderItem;
+import util.OrderStatus;
 import util.PaymentOption;
 import util.PaymentStatus;
 
-public record OrderDTO(String name, String orderId, String date, String orderAmount, String orderStatus, PaymentStatus paymentStatus, String lastPaymentReminder, 
+public record OrderDTO(String name, String orderId, String date, String orderAmount, OrderStatus orderStatus, PaymentStatus paymentStatus, String lastPaymentReminder, 
 		String street, String addressNr, String city, String postalCode, String country, Set<OrderItem> orderItems) {
 
 	public OrderDTO(Order o) {
@@ -36,7 +37,7 @@ public record OrderDTO(String name, String orderId, String date, String orderAmo
 		return orderAmount;
 	}
 	
-	public String getOrderStatus() {
+	public OrderStatus getOrderStatus() {
 		return orderStatus;
 	}
 	
@@ -52,9 +53,9 @@ public record OrderDTO(String name, String orderId, String date, String orderAmo
 		return street;
 	}
 	
-	/*public String getAddressNr() {
+	public String getAddressNr() {
 		return addressNr;
-	}*/
+	}
 	
 	public String getCity() {
 		return city;

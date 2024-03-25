@@ -2,6 +2,7 @@ package domain;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.Set;
 
 import dto.OrderDTO;
@@ -16,12 +17,13 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import javafx.beans.property.SimpleStringProperty;
+import util.OrderStatus;
 import util.PaymentStatus;
 
 @Entity
 @Table(name = "order_table")
 @Access(AccessType.FIELD)
-public class Order implements Serializable {
+public class Order implements Serializable, Comparable<Order>{
 
     private static final long serialVersionUID = 1L;
 
@@ -32,7 +34,7 @@ public class Order implements Serializable {
     private SimpleStringProperty orderID = new SimpleStringProperty();
     private SimpleStringProperty name = new SimpleStringProperty();
     private SimpleStringProperty date = new SimpleStringProperty();
-    private SimpleStringProperty orderStatus = new SimpleStringProperty();
+    private OrderStatus orderStatus;
     private PaymentStatus paymentStatus;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -54,12 +56,10 @@ public class Order implements Serializable {
     public Order(String orderId, int syncId, Company company, String orderReference, LocalDate orderDateTime,
             String lastPaymentReminder, String netAmount, String taxAmount, String totalAmount, String currency) {
         setOrderID(orderId);
-        setName("Temp");
+        setName(company.getName());
         setDate(orderDateTime.toString());
-        setOrderStatus((int) (Math.random() * 2) + 1 == 1 ? "NOT PAID" : "PAID");
-        int randomPaymentStatus = (int) (Math.random() * 3) + 1;
-        setPaymentStatus(randomPaymentStatus == 1 ? PaymentStatus.INVOICE_SENT
-                : randomPaymentStatus == 2 ? PaymentStatus.PAID : PaymentStatus.UNPROCESSED);
+        setOrderStatus(OrderStatus.values()[((int) (Math.random() * OrderStatus.values().length) + 1) - 1]);
+        setPaymentStatus(PaymentStatus.values()[((int) (Math.random() * PaymentStatus.values().length) + 1) - 1]);
         setCompany(company);
         setOrderReference(orderReference);
         setOrderDateTime(orderDateTime);
@@ -70,9 +70,10 @@ public class Order implements Serializable {
         setCurrency(currency);
     }
     
-    public Order(OrderDTO orderdto) {
-    	setOrderID(orderdto.orderId());
+    public Order(OrderDTO order) {
+    	setOrderID(order.orderId());
     }
+
 
     // Getters
     @Access(AccessType.PROPERTY)
@@ -91,8 +92,8 @@ public class Order implements Serializable {
     }
 
     @Access(AccessType.PROPERTY)
-    public String getOrderStatus() {
-        return orderStatus.get();
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
     }
 
     @Access(AccessType.PROPERTY)
@@ -149,14 +150,6 @@ public class Order implements Serializable {
         return date;
     }
 
-    public SimpleStringProperty orderStatusProperty() {
-        return orderStatus;
-    }
-
-    public SimpleStringProperty paymentStatusProperty() {
-        return new SimpleStringProperty(paymentStatus.toString());
-    }
-
     // Setters
     public void setOrderID(String orderId) {
         this.orderID.set(orderId);
@@ -170,8 +163,12 @@ public class Order implements Serializable {
         this.date.set(date);
     }
 
+    public void setOrderStatus(OrderStatus orderStatus) {
+    	this.orderStatus = orderStatus;
+    }
+    
     public void setOrderStatus(String orderStatus) {
-        this.orderStatus.set(orderStatus);
+        this.orderStatus = OrderStatus.valueOf(orderStatus);
     }
     
     public void setPaymentStatus(PaymentStatus paymentStatus) {
@@ -216,5 +213,33 @@ public class Order implements Serializable {
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(date, orderID);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Order other = (Order) obj;
+		return Objects.equals(date, other.date) && Objects.equals(orderID, other.orderID);
+	}
+	
+	@Override
+	public int compareTo(Order otherOrder) {
+		int dateComparison = this.getDate().compareTo(otherOrder.getDate());
+		if (dateComparison == 0) {
+		     // Als de datums gelijk zijn, sorteer op orderId
+		     return Integer.parseInt(this.getOrderID()) - Integer.parseInt(otherOrder.getOrderID());
+		}
+		// Sorteer op datum
+		return dateComparison;
     }
 }

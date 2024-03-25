@@ -5,7 +5,7 @@ import domain.OrderItem;
 public record OrderItemDTO(String name, String quantity, String inStock, String unitPrice, String totalProduct) {
 	
 	public OrderItemDTO(OrderItem oi) {
-		this(oi.getName(), oi.getQuantity(), oi.getInStock(), oi.getUnitPrice(), oi.getTotal());
+		this(oi.getProduct().getProductId(), oi.getQuantity(), oi.getProduct().getProductAvailability(), oi.getUnitPrice(), oi.getTotal());
 	}
 	
 	public String getName() {

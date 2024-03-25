@@ -5,6 +5,7 @@ import java.util.List;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.Query;
 
 public class GenericDaoJpa<T> implements GenericDao<T> {
     private static final String PU_NAME = "delaware";

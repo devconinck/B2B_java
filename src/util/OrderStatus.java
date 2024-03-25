@@ -5,7 +5,7 @@ public enum OrderStatus {
     PROCESSED("Processed"),
     SHIPPED("Shipped"),
     OUT_FOR_DELIVERY("Out for delivery"),
-    DELIVERD("Delivered"),
+    DELIVERED("Delivered"),
     COMPLETED("Completed");
 
     private final String value;
