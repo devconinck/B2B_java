@@ -48,8 +48,5 @@ public abstract class Controller implements Subject{
 	public void removeObserver(Observer o) {
 		observers.remove(o);
 	}
-	
-	public void close() {
-		GenericDaoJpa.closePersistency();
-	}
+
 }

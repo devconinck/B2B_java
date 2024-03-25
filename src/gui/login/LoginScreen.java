@@ -24,6 +24,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import repository.GenericDao;
+import repository.GenericDaoJpa;
 
 public class LoginScreen extends Pane {
 	
@@ -46,6 +48,11 @@ public class LoginScreen extends Pane {
 	private void setup() {
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("SDP2_G02");
+        primaryStage.setOnCloseRequest(event -> {
+            GenericDaoJpa.closePersistency();
+            System.out.println("Closed persistence");
+        });
+        
 		addElements();
 		scene.getStylesheets().add(getClass().getResource("/css/login.css").toExternalForm());
 	}
