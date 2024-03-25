@@ -53,7 +53,7 @@ public class Company implements Serializable {
 	@ManyToMany
 	@JoinTable(name = "company_known_companies", joinColumns = @JoinColumn(name = "company_id"), inverseJoinColumns = @JoinColumn(name = "known_company_id"))
 	private Set<Company> customers;
-	@OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "fromCompany", cascade = CascadeType.ALL)
 	private Set<Order> orders;
 	private LocalDate customerStart;
 

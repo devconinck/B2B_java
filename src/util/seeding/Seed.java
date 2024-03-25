@@ -3,6 +3,7 @@ package util.seeding;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -104,7 +105,7 @@ public class Seed {
 		System.out.printf("Orders that expire in 3 days form now: %s%n", orders2.size());
 		for (int i = 0; i < 5; i++) {
 			Order order = orders2.get(i);
-			mail.sendMail(order.getCompany().getContact().getEmail(), companyList.get(0).getContact().getEmail(),
+			mail.sendMail(order.getToCompany().getContact().getEmail(), companyList.get(0).getContact().getEmail(),
 					String.format("Payment due to %s", order.getOrderDateTime()),
 					String.format(
 							"You have a order that is not been payed yet.%nThis order has id: %s%nYours Sencirely %n%s",
@@ -124,7 +125,6 @@ public class Seed {
 				String orderId = items[0];
 				int syncId = Integer.parseInt(items[1]);
 				String orderReference = items[3];
-				String orderDateTime = items[4];
 				LocalDateTime dateTime = LocalDateTime.now();
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 				String lastPaymentReminder = dateTime.format(formatter);
@@ -135,11 +135,11 @@ public class Seed {
 
 				int newIndex = index % (companyList.size());
 
-				orders.add(new Order(orderId, syncId, companyList.get(newIndex), orderReference, generateRandomDate(),
+				orders.add(new Order(orderId, syncId, companyList.get(newIndex), getRandomCompany(), orderReference, generateRandomDate(),
 						lastPaymentReminder, netAmount, taxAmount, totalAmount, currency));
 				companyList.get(newIndex % (companyList.size()))
 						.setOrders(orders.stream()
-								.filter(o -> o.getCompany().equals(companyList.get(newIndex % (companyList.size()))))
+								.filter(o -> o.getFromCompany().equals(companyList.get(newIndex % (companyList.size()))))
 								.collect(Collectors.toSet()));
 				index++;
 			}
@@ -147,7 +147,7 @@ public class Seed {
 			orderRepo.insertBatch(orders);
 			GenericDaoJpa.commitTransaction();
 			System.out.printf("Number of orders for Fake Company Inc.1 : %s%n",
-					orderRepo.findAll().stream().filter(o -> o.getCompany().getName().equals("Fake Company Inc. 1"))
+					orderRepo.findAll().stream().filter(o -> o.getFromCompany().getName().equals("Fake Company Inc. 1"))
 							.collect(Collectors.toList()).size());
 		} catch (IOException | CsvValidationException e) {
 			e.printStackTrace();
@@ -165,6 +165,12 @@ public class Seed {
 		long randomEpochDay = ThreadLocalRandom.current().nextLong(startEpochDay, endEpochDay + 1);
 
 		return LocalDate.ofEpochDay(randomEpochDay);
+	}
+	
+	private Company getRandomCompany() {
+		SecureRandom random = new SecureRandom();
+		int rand = random.nextInt(0, companyList.size());
+		return companyList.get(rand);
 	}
 
 	/*private void addOrderItem() {

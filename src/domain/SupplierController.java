@@ -3,9 +3,7 @@ package domain;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import dto.OrderDTO;
 import javafx.collections.ObservableList;
-import util.OrderStatus;
 import util.PaymentOption;
 
 public class SupplierController extends Controller{

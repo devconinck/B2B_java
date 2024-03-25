@@ -14,7 +14,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import javafx.beans.property.SimpleStringProperty;
 import util.OrderStatus;
@@ -23,6 +26,9 @@ import util.PaymentStatus;
 @Entity
 @Table(name = "order_table")
 @Access(AccessType.FIELD)
+@NamedQueries({
+	@NamedQuery(name = "Order.orderMadeToCompany", query = "SELECT o FROM Order o WHERE o.toCompany = :company"),
+})
 public class Order implements Serializable, Comparable<Order>{
 
     private static final long serialVersionUID = 1L;
@@ -47,21 +53,24 @@ public class Order implements Serializable, Comparable<Order>{
     private String totalAmount;
     private String currency;
     @ManyToOne
-    private Company company;
+    private Company fromCompany;
+    @OneToOne
+    private Company toCompany;
+    
     
 
     // Default constructor JPA
     protected Order() {}
 
     // Constructor
-    public Order(String orderId, int syncId, Company company, String orderReference, LocalDate orderDateTime,
+    public Order(String orderId, int syncId, Company fromCompany, Company toCompany, String orderReference, LocalDate orderDateTime,
             String lastPaymentReminder, String netAmount, String taxAmount, String totalAmount, String currency) {
         setOrderID(orderId);
-        setName(company.getName());
+        setName(fromCompany.getName());
         setDate(orderDateTime.toString());
         setOrderStatus(OrderStatus.values()[((int) (Math.random() * OrderStatus.values().length) + 1) - 1]);
         setPaymentStatus(PaymentStatus.values()[((int) (Math.random() * PaymentStatus.values().length) + 1) - 1]);
-        setCompany(company);
+        setFromCompany(fromCompany);
         setOrderReference(orderReference);
         setOrderDateTime(orderDateTime);
         setLastPaymentReminder(lastPaymentReminder);
@@ -69,9 +78,10 @@ public class Order implements Serializable, Comparable<Order>{
         setTaxAmount(taxAmount);
         setTotalAmount(totalAmount);
         setCurrency(currency);
+        setToCompany(toCompany);
     }
-    
-    public Order(OrderDTO order) {
+
+	public Order(OrderDTO order) {
     	setOrderID(order.orderId());
     }
 
@@ -106,8 +116,12 @@ public class Order implements Serializable, Comparable<Order>{
         return orderItems;
     }
 
-    public Company getCompany() {
-        return company;
+    public Company getFromCompany() {
+        return fromCompany;
+    }
+    
+    public Company getToCompany() {
+    	return toCompany;
     }
 
     public String getOrderReference() {
@@ -184,9 +198,13 @@ public class Order implements Serializable, Comparable<Order>{
         this.orderItems = orderItems;
     }
 
-    public void setCompany(Company company) {
-        this.company = company;
+    public void setFromCompany(Company company) {
+        this.fromCompany = company;
     }
+    
+    private void setToCompany(Company toCompany) {
+		this.toCompany = toCompany;		
+	}
 
     public void setOrderReference(String orderReference) {
         this.orderReference = orderReference;

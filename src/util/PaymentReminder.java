@@ -29,7 +29,7 @@ public class PaymentReminder {
 	        
 	        if (currentDate.isEqual(paymentDueDate.minusDays(3)) && 
 	        		(!order.getPaymentStatus().equals(PaymentStatus.PAID))) {
-	            Company tempComp = order.getCompany();
+	            Company tempComp = order.getFromCompany();
 
 	            mail.sendMail(tempComp.getContact().getEmail(), sender,
 						String.format("Payment due to %s", paymentDueDate),
