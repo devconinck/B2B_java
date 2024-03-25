@@ -48,6 +48,10 @@ public class SupplierController extends Controller{
 		return portaal.getOrderItemsList(orderId);
 	}
 	
+	public ObservableList<Order> getOrdersToCompany() {
+		return portaal.getOrdersToCompany(company);
+	}
+	
 	// TODO mag o.update(company) weg????
 	@Override
 	protected void notifyObservers() {

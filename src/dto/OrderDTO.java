@@ -12,9 +12,9 @@ public record OrderDTO(String name, String orderId, String date, String orderAmo
 		String street, String addressNr, String city, String postalCode, String country, Set<OrderItem> orderItems) {
 
 	public OrderDTO(Order o) {
-		this(o.getToCompany().getName(), o.getOrderID(), o.getDate(), o.getTotalAmount(), o.getOrderStatus(), o.getPaymentStatus(), o.getLastPaymentReminder(), 
-				o.getToCompany().getAddress().getStreet(), o.getToCompany().getAddress().getNumber(), o.getToCompany().getAddress().getCity(), 
-				o.getToCompany().getAddress().getZipCode(), o.getToCompany().getAddress().getCountry(), o.getOrderItems());
+		this(o.getFromCompany().getName(), o.getOrderID(), o.getDate(), o.getTotalAmount(), o.getOrderStatus(), o.getPaymentStatus(), o.getLastPaymentReminder(), 
+				o.getFromCompany().getAddress().getStreet(), o.getFromCompany().getAddress().getNumber(), o.getFromCompany().getAddress().getCity(), 
+				o.getFromCompany().getAddress().getZipCode(), o.getFromCompany().getAddress().getCountry(), o.getOrderItems());
 	}
 	
 	public Set<OrderItem> getOrderItems() {

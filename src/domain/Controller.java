@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javafx.collections.ObservableList;
 import repository.GenericDaoJpa;
+import repository.OrderDaoJpa;
 
 public abstract class Controller implements Subject{
 	
@@ -14,7 +15,7 @@ public abstract class Controller implements Subject{
 	
 	public Controller() {
 		this.observers = new HashSet<>();
-		this.portaal = new B2BPortaal(new GenericDaoJpa<Company>(Company.class), new GenericDaoJpa<Order>(Order.class), new GenericDaoJpa<OrderItem>(OrderItem.class), new GenericDaoJpa<Product>(Product.class));
+		this.portaal = new B2BPortaal(new GenericDaoJpa<Company>(Company.class), new OrderDaoJpa(), new GenericDaoJpa<OrderItem>(OrderItem.class));
 	}
 	
 	public Company getCompany(String vat) {

@@ -7,55 +7,30 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import repository.GenericDao;
 import repository.GenericDaoJpa;
+import repository.OrderDao;
 
 public class B2BPortaal {
 	private GenericDao<Company> companyRepo;
-	private GenericDao<Order> orderRepo;
+	private OrderDao orderRepo;
 	private GenericDao<OrderItem> orderItemRepo;
-	private GenericDao<Product> productRepo;
-//	private GenericDaoJpa<ProductPrice> productPriceRepo;
-//	private GenericDaoJpa<ProductDescription> productDescriptionRepo;
-//	private GenericDaoJpa<ProductUnitOfMeasureConversion> productUnitRepo;
 
 	private ObservableList<Order> orderList;
 	private ObservableList<OrderItem> orderItemList;
 	private ObservableList<Company> companyList;
 
-	public B2BPortaal(GenericDao<Company> companyRepo, GenericDao<Order> orderRepo, GenericDao<OrderItem> orderItemRepo, GenericDao<Product> productRepo) {
+	public B2BPortaal(GenericDao<Company> companyRepo, OrderDao orderRepo, GenericDao<OrderItem> orderItemRepo) {
 		setCompanyRepo(companyRepo);
 		setOrderRepo(orderRepo);
 		setOrderItemRepo(orderItemRepo);
-		setProductRepo(productRepo);
-//		setProductPriceRepo(new GenericDaoJpa<>(ProductPrice.class));
-//		setProductDescriptionRepo(new GenericDaoJpa<>(ProductDescription.class));
-//		setProductUnitRepo(new GenericDaoJpa<>(ProductUnitOfMeasureConversion.class));
 	}
 
-	public void setOrderRepo(GenericDao<Order> o) {
+	public void setOrderRepo(OrderDao o) {
 		orderRepo = o;
 	}
 
 	public void setOrderItemRepo(GenericDao<OrderItem> oi) {
 		orderItemRepo = oi;
 	}
-
-	public void setProductRepo(GenericDao<Product> p) {
-		productRepo = p;
-	}
-	
-	/*
-	public void setProductPriceRepo(GenericDaoJpa<ProductPrice> pp) {
-		productPriceRepo = pp;
-	}
-
-	public void setProductDescriptionRepo(GenericDaoJpa<ProductDescription> pd) {
-		productDescriptionRepo = pd;
-	}
-
-	public void setProductUnitRepo(GenericDaoJpa<ProductUnitOfMeasureConversion> pu) {
-		productUnitRepo = pu;
-	}
-	*/
 
 	public void setCompanyRepo(GenericDao<Company> mock) {
 		companyRepo = mock;
@@ -71,6 +46,10 @@ public class B2BPortaal {
 		orderList.addAll(ordersFromRepo);
 
 		return FXCollections.observableArrayList(orderList);
+	}
+	
+	public ObservableList<Order> getOrdersToCompany(Company company) {
+		return FXCollections.observableArrayList(orderRepo.getOrdersMadeToCompany(company));
 	}
 
 	public ObservableList<OrderItem> getOrderItemsList(String orderId) {

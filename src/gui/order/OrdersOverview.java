@@ -44,11 +44,10 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 	private GenericTableView<OrderItemDTO> orderItemTable;
 	private ObservableList<OrderItemDTO> orderItems;
 	private List<PaymentOption> paymentOptionsList = new ArrayList<>();
-	private GridPane paymentPane;
 
 	
 	public OrdersOverview(Map<String, String> attributes, SupplierController sc) {
-		super(FXCollections.observableArrayList(sc.getCurrentCompany().getOrders().stream().map(o -> new OrderDTO(o)).collect(Collectors.toList())), attributes, sc);
+		super(FXCollections.observableArrayList(sc.getOrdersToCompany().stream().map(o -> new OrderDTO(o)).collect(Collectors.toList())), attributes, sc);
 		// TODO om te laten zien dat de scrollbar ook css heeft, werkt niet?
 		hbox_main.getStylesheets().add("css/label.css");
 	}

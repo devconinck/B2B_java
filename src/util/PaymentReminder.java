@@ -9,13 +9,14 @@ import domain.OrderItem;
 import domain.Product;
 import mail.SendMail;
 import repository.GenericDaoJpa;
+import repository.OrderDaoJpa;
 
 public class PaymentReminder {
 	private B2BPortaal portaal;
 	private SendMail mail;
 	
 	public PaymentReminder() {
-		this.portaal = new B2BPortaal(new GenericDaoJpa<Company>(Company.class), new GenericDaoJpa<Order>(Order.class), new GenericDaoJpa<OrderItem>(OrderItem.class), new GenericDaoJpa<Product>(Product.class));
+		this.portaal = new B2BPortaal(new GenericDaoJpa<Company>(Company.class), new OrderDaoJpa(), new GenericDaoJpa<OrderItem>(OrderItem.class));
 		this.mail = new SendMail();
 		sendPaymentReminders();
 	}

@@ -50,7 +50,7 @@ public class OrderItem implements Serializable {
         setUnitOfMeasureId(unitOfMeasureId);
     }
 
-    protected OrderItem() {}
+    protected OrderItem() {};
 
     // Getters
     @Access(AccessType.PROPERTY)
