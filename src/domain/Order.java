@@ -48,6 +48,7 @@ public class Order implements Serializable, Comparable<Order>{
     private String currency;
     @ManyToOne
     private Company company;
+    
 
     // Default constructor JPA
     protected Order() {}

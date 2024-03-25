@@ -7,20 +7,25 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 
 public abstract class FilterController<T> extends HBox {
     
 
 	private final TextField filterField;
-    private final ObservableList<T> originalList;
-    private final ObservableList<T> copyOriginal;
+    protected ObservableList<T> originalList;
+    protected ObservableList<T> copyOriginal;
+    protected VBox vbox;
 
     public FilterController(ObservableList<T> originalList) {
         this.originalList = originalList;
         this.copyOriginal = FXCollections.observableArrayList(originalList);
+        this.vbox = new VBox();
+        HBox.setHgrow(vbox, Priority.ALWAYS);
         
         filterField = new TextField();
         filterField.setPromptText("Search by company name");
+        vbox.getChildren().add(filterField);
         
         HBox.setHgrow(filterField, Priority.ALWAYS);
         
@@ -32,7 +37,7 @@ public abstract class FilterController<T> extends HBox {
             }
         });
         
-        getChildren().add(filterField);
+        getChildren().add(vbox);
     }
     
     public String getSearchText() {

@@ -1,182 +1,152 @@
 package domain;
 
 import java.io.Serializable;
-
 import java.math.BigDecimal;
 
+import jakarta.persistence.Access;
+import jakarta.persistence.AccessType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.Transient;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 
 @Entity
+@Access(AccessType.FIELD)
 public class OrderItem implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-	
-	@Transient
-	private final SimpleStringProperty name = new SimpleStringProperty();
-	@Transient
-	private final SimpleStringProperty q = new SimpleStringProperty();
-	@Transient
-	private final SimpleStringProperty inStock = new SimpleStringProperty();
-	@Transient
-	private final SimpleStringProperty unitPrice = new SimpleStringProperty();
-	@Transient
-	private final SimpleStringProperty total = new SimpleStringProperty();
-	
-	private int orderId;
-	@OneToOne
-	private Product product;
-	private int orderItemId;
-	private int syncId;
-	private String productId;
-	private String quantity;
-	private String unitOfMeasureId;
-	private String netPrice;
-	private String netAmount;
-	
-	
-	public OrderItem(int orderId, int orderItemId, int syncId, Product product, String quantity, String unitOfMeasureId, String netPrice, String netAmount) {
-		setProduct(product);
-		setName(product.getProductId());
-		setQ(quantity);
-		setInStock(product.getProductAvailability());
-		setUnitPrice(netPrice);
-		setTotal(netAmount);
-		setOrderId(orderId);
-		setOrderItemId(orderItemId);
-		setSyncId(syncId);
-		setQuantity(quantity);
-		setUnitOfMeasureId(unitOfMeasureId);
-		setNetPrice(netPrice);
-		setNetAmount(netAmount);
-	}
-	
-	protected OrderItem() {
-		
-	}
-	
-	private void setName(String name) {
-		this.name.set(name);
-	}
-	
-	public String getName() {
-		return name.get();
-	}
+    private static final long serialVersionUID = 1L;
 
-	public StringProperty nameProperty() {
-		return name;
-	}
-	
-	private void setQ(String quantity) {
-		this.q.set(quantity);
-	}
-	
-	public String getQ() {
-		return q.get();
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-	public StringProperty qProperty() {
-		return q;
-	}
-	
-	private void setInStock(String inStock) {
-		this.inStock.set(inStock);
-	}
-	
-	public String getInStock() {
-		return inStock.get();
-	}
+    private SimpleStringProperty name = new SimpleStringProperty();
+    private SimpleIntegerProperty quantity = new SimpleIntegerProperty();
+    private SimpleStringProperty inStock = new SimpleStringProperty();
+    private BigDecimal unitPrice;
+    private BigDecimal total;
 
-	public StringProperty inStockProperty() {
-		return inStock;
-	}
-	
-	private void setUnitPrice(String unitPrice) {
-		this.unitPrice.set(unitPrice);
-	}
-	
-	public String getUnitPrice() {
-		return unitPrice.get();
-	}
+    private int orderId;
+    private int orderItemId;
+    private int syncId;
+    private String unitOfMeasureId;
 
-	public StringProperty unitPriceProperty() {
-		return unitPrice;
-	}
-	
-	private void setTotal(String total) {
-		this.total.set(total);
-	}
-	
-	public String getTotal() {
-		return total.get();
-	}
+    @OneToOne
+    private Product product;
 
-	public StringProperty totalProperty() {
-		return total;
-	}
-	
-	public Product getProduct() {
-		return product;
-	}
-	public void setProduct(Product product) {
-		this.product = product;
-	}
-	public int getOrderId() {
-		return orderId;
-	}
-	public void setOrderId(int orderId) {
-		this.orderId = orderId;
-	}
-	public int getOrderItemId() {
-		return orderItemId;
-	}
-	public void setOrderItemId(int orderItemId) {
-		this.orderItemId = orderItemId;
-	}
-	public int getSyncId() {
-		return syncId;
-	}
-	public void setSyncId(int syncId) {
-		this.syncId = syncId;
-	}
-	public String getProductId() {
-		return productId;
-	}
-	public void setProductId(String productId) {
-		this.productId = productId;
-	}
-	public String getQuantity() {
-		return quantity;
-	}
-	public void setQuantity(String quantity) {
-		this.quantity = quantity;
-	}
-	public String getUnitOfMeasureId() {
-		return unitOfMeasureId;
-	}
-	public void setUnitOfMeasureId(String unitOfMeasureId) {
-		this.unitOfMeasureId = unitOfMeasureId;
-	}
-	public String getNetPrice() {
-		return netPrice;
-	}
-	public void setNetPrice(String netPrice) {
-		this.netPrice = netPrice;
-	}
-	public String getNetAmount() {
-		return netAmount;
-	}
-	public void setNetAmount(String netAmount) {
-		this.netAmount = netAmount;
-	}
+    public OrderItem(int orderId, int orderItemId, int syncId, Product product, int quantity, String unitOfMeasureId, BigDecimal unitPrice, BigDecimal total) {
+        setProduct(product);
+        setName(product.getProductId());
+        setQuantity(quantity);
+        setInStock(product.getProductAvailability());
+        setUnitPrice(unitPrice);
+        setTotal(total);
+        setOrderId(orderId);
+        setOrderItemId(orderItemId);
+        setSyncId(syncId);
+        setUnitOfMeasureId(unitOfMeasureId);
+    }
+
+    protected OrderItem() {}
+
+    // Getters
+    @Access(AccessType.PROPERTY)
+    public String getName() {
+        return name.get();
+    }
+
+    @Access(AccessType.PROPERTY)
+    public int getQuantity() {
+        return quantity.get();
+    }
+
+    @Access(AccessType.PROPERTY)
+    public String getInStock() {
+        return inStock.get();
+    }
+
+    public BigDecimal getUnitPrice() {
+        return unitPrice;
+    }
+
+    public BigDecimal getTotal() {
+        return total;
+    }
+
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public int getOrderItemId() {
+        return orderItemId;
+    }
+
+    public int getSyncId() {
+        return syncId;
+    }
+
+    public String getUnitOfMeasureId() {
+        return unitOfMeasureId;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    // Setters
+    public void setName(String name) {
+        this.name.set(name);
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity.set(quantity);
+    }
+
+    public void setInStock(String inStock) {
+        this.inStock.set(inStock);
+    }
+
+    public void setUnitPrice(BigDecimal unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
+    public void setTotal(BigDecimal total) {
+        this.total = total;
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
+
+    public void setOrderItemId(int orderItemId) {
+        this.orderItemId = orderItemId;
+    }
+
+    public void setSyncId(int syncId) {
+        this.syncId = syncId;
+    }
+
+    public void setUnitOfMeasureId(String unitOfMeasureId) {
+        this.unitOfMeasureId = unitOfMeasureId;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    // Property getters
+    public SimpleStringProperty nameProperty() {
+        return name;
+    }
+
+    public SimpleIntegerProperty quantityProperty() {
+        return quantity;
+    }
+
+    public SimpleStringProperty inStockProperty() {
+        return inStock;
+    }
 }

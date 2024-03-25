@@ -2,6 +2,7 @@ package util.seeding;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -193,7 +194,6 @@ public class Seed {
 				String unitOfMeasureId = items[2];
 				String productCategoryId = items[3];
 				String productAvailability = items[4];
-
 				productList.add(new Product(productId, syncId, unitOfMeasureId, productCategoryId, productAvailability));
 			}
 			GenericDaoJpa.startTransaction();
@@ -215,10 +215,10 @@ public class Seed {
 				int orderItemId = Integer.parseInt(items[1]);
 				int syncId = Integer.parseInt(items[2]);
 				String productId = items[3];
-				String quantity = items[4];
+				int quantity = Integer.valueOf(items[4].replace(".", "")) / 1000;
 				String unitOfMeasureId = items[5];
-				String netPrice = items[6];
-				String netAmount = items[7];
+				BigDecimal netPrice = BigDecimal.valueOf( Double.valueOf(items[6].replace(".", "")) / 1000);
+				BigDecimal netAmount = BigDecimal.valueOf( Double.valueOf(items[7].replace(".", "")) / 100);
 				
 				Product product = productList.stream().filter(p -> p.getProductId().equals(productId)).findAny().orElse(null);
 				

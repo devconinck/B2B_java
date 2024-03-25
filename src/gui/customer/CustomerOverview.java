@@ -5,10 +5,8 @@ import java.util.stream.Collectors;
 
 import domain.SupplierController;
 import dto.CompanyDTO;
-import dto.OrderDTO;
 import gui.FilterController;
 import gui.GenericOverview;
-import gui.GenericTableView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -18,12 +16,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 
 public class CustomerOverview extends GenericOverview<CompanyDTO> {
 

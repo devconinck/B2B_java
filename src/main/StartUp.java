@@ -24,7 +24,7 @@ public class StartUp extends Application {
 		if (isDevelopmentEnvironment()) {
 			initializeDevelopmentEnvironment(); // Seeden
 		}		
-		new PaymentReminder();
+		// new PaymentReminder();
 		
 		new LoginScreen();
 	}

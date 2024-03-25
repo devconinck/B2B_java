@@ -45,11 +45,7 @@ public class SupplierController extends Controller{
 		}
 		return null;
 	}
-	
-	public ObservableList<Order> getOrders() {
-		return portaal.getOrdersList();
-	}
-	
+
 	public ObservableList<OrderItem> getOrderItems(String orderId) {
 		return portaal.getOrderItemsList(orderId);
 	}

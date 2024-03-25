@@ -1,13 +1,13 @@
 package gui.order;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-import domain.Company;
-import domain.Order;
 import domain.SupplierController;
 import dto.OrderDTO;
 import dto.OrderItemDTO;
@@ -20,7 +20,6 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -41,6 +40,7 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 	private ObservableList<String> orderStatusOptions, paymentStatusOptions;
 	
 	private TextField txf_name, txf_customerContact, txf_orderId, txf_street, txf_addressNr, txf_city, txf_postalcode, txf_country, txf_lastPayment;
+	private Label lbl_price;
 	private GenericTableView<OrderItemDTO> orderItemTable;
 	private ObservableList<OrderItemDTO> orderItems;
 	private List<PaymentOption> paymentOptionsList = new ArrayList<>();
@@ -48,7 +48,7 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 
 	
 	public OrdersOverview(Map<String, String> attributes, SupplierController sc) {
-		super(FXCollections.observableArrayList(sc.getOrders().stream().map(o -> new OrderDTO(o)).collect(Collectors.toList())), attributes, sc);
+		super(FXCollections.observableArrayList(sc.getCurrentCompany().getOrders().stream().map(o -> new OrderDTO(o)).collect(Collectors.toList())), attributes, sc);
 		// TODO om te laten zien dat de scrollbar ook css heeft, werkt niet?
 		hbox_main.getStylesheets().add("css/label.css");
 	}
@@ -86,20 +86,13 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 		
         //Save Button
         saveBtn.setOnMouseClicked(event -> {
-        	for(PaymentOption option : PaymentOption.values()) {
-        		CheckBox checkBox = new CheckBox(option.getDisplayName());
-        		if(checkBox.isSelected()) {
-        			paymentOptionsList.add(option);
-        		}
-        	}
-        	for(PaymentOption option : paymentOptionsList) {
-        		System.out.println(option);
-        	}
         	controller.updateOrder(current.orderId(), comboBox_OrderStatus.getValue(), comboBox_PaymentStatus.getValue());
         	controller.updateCompany(paymentOptionsList);
-        	genericTableView.setData(FXCollections.observableArrayList(controller.getOrders().stream().map(o -> new OrderDTO(o)).collect(Collectors.toList())));
+        	genericTableView.setData(FXCollections.observableArrayList(controller.getCurrentCompany().getOrders().stream().map(o -> new OrderDTO(o)).collect(Collectors.toList())));
         	genericTableView.refresh();
         });
+        
+        lbl_price.setText(getTotalOrderPrice());
 	}
 	
 	@Override
@@ -209,25 +202,25 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 		vboxDetails.add(vbox_lastpayment);
 		hbox_orderstatus_paymentstatus_lastpayment.getChildren().addAll(vbox_orderstatus, vbox_paymentstatus, vbox_lastpayment);
 		
-		HBox hbox_paymentOptions_saveBtn = new HBox();
-		//Payment Options
-		Label paymentOptionsLabel = new Label("Payment Options:");
-        paymentPane = createPaymentOptionsGrid();
-        VBox paymentOptionsVBox = new VBox(5);
-        paymentOptionsVBox.getChildren().addAll(paymentOptionsLabel, paymentPane);
-        paymentOptionsVBox.setPadding(new Insets(10, 10, 10, 20));
-        addPaymentOptions();
+		HBox hbox_saveBtn = new HBox();
         //Save Button
         VBox saveBtnVBox = new VBox();
         saveBtn = new Button("Save changes");
         saveBtnVBox.getChildren().add(saveBtn);
         saveBtnVBox.setAlignment(Pos.CENTER);
         saveBtnVBox.setPadding(new Insets(10, 10, 10, 20));
-        hbox_paymentOptions_saveBtn.getChildren().addAll(paymentOptionsVBox, saveBtnVBox);
+        hbox_saveBtn.getChildren().addAll(saveBtnVBox);
 		
-		vbox_complete.getChildren().addAll(hbox_logo_name_customerContact, hbox_street_addressnr, hbox_city_postalcode_country, hbox_orderstatus_paymentstatus_lastpayment, hbox_paymentOptions_saveBtn);
+		vbox_complete.getChildren().addAll(hbox_logo_name_customerContact, hbox_street_addressnr, hbox_city_postalcode_country, hbox_orderstatus_paymentstatus_lastpayment, hbox_saveBtn);
 				
 		setOrderItems(vbox_complete);
+		
+		VBox vbox_totalprice = new VBox();
+		lbl_price = new Label();
+		lbl_price.setText(getTotalOrderPrice());
+		vbox_totalprice.getChildren().add(lbl_price);
+		
+		vbox_complete.getChildren().add(vbox_totalprice);
 
 		return vbox_complete;
 	}
@@ -240,10 +233,11 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 				Map.entry("Unit Price", "unitPrice"),
 				Map.entry("Total Product", "totalProduct")
 				));
-		orderItems = FXCollections.observableArrayList(((SupplierController) controller).getOrderItems(current.getOrderId()).stream().map(or -> new OrderItemDTO(or)).collect(Collectors.toList()));
+		orderItems = FXCollections.observableArrayList(((SupplierController) controller).getCurrentOrder().getOrderItems().stream().map(or -> new OrderItemDTO(or)).collect(Collectors.toList()));
 		orderItemTable = new GenericTableView<OrderItemDTO>(mapOrders);
-		orderItemTable.setData(FXCollections.observableArrayList(orderItems));
+		orderItemTable.setData(orderItems);
 		orderItemTable.getStylesheets().add("css/label.css");
+		orderItemTable.setMinHeight(200);
 		vbox_complete.getChildren().add(orderItemTable);
 	}
 
@@ -252,28 +246,6 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 	protected FilterController setFilter() {
 		return new OrdersFilterController(others);
 	}
-	
-	private GridPane createPaymentOptionsGrid() {
-        GridPane paymentPane = new GridPane();
-        paymentPane.setHgap(10);
-        paymentPane.setVgap(10);
-
-        int row = 0;
-        int col = 0;
-        int maxColumns = 3;
-
-        for (PaymentOption option : PaymentOption.values()) {
-            CheckBox checkBox = new CheckBox(option.getDisplayName());
-            paymentPane.add(checkBox, col, row);
-
-            col++;
-            if (col >= maxColumns) {
-                col = 0;
-                row++;
-            }
-        }
-        return paymentPane;
-    }
 	
 	private void addOrderStatusOptions() {
 		orderStatusOptions = FXCollections.observableArrayList();
@@ -287,20 +259,14 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 			paymentStatusOptions.add(option.getValue());
 	}
 	
-	private void addPaymentOptions() {
-		Company c = controller.getCurrentCompany();
-		paymentPane.getChildren().clear();
-		int row = 0;
-        int col = 0;
-        int maxColumns = 3;
-		for (PaymentOption option : PaymentOption.values()) {
-            CheckBox checkBox = new CheckBox(option.getDisplayName());
-            checkBox.setSelected(c.getPaymentOptions().contains(option));
-            paymentPane.add(checkBox, col++, row);
-            if (col >= maxColumns) {
-                col = 0;
-                row++;
-            }
-        }
+	private String getTotalOrderPrice() {
+		DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+		String formattedTotalPrice = decimalFormat.format(
+		    controller.getOrderItems(current.orderId()).stream()
+		        .map(or -> or.getUnitPrice().multiply(BigDecimal.valueOf(or.getQuantity())))
+		        .map(BigDecimal::doubleValue)
+		        .collect(Collectors.summarizingDouble(Double::doubleValue)).getSum()
+		);
+		return String.format("Total price: %s €", formattedTotalPrice);
 	}
 }

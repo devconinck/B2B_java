@@ -1,8 +1,10 @@
 package dto;
 
+import java.math.BigDecimal;
+
 import domain.OrderItem;
 
-public record OrderItemDTO(String name, String quantity, String inStock, String unitPrice, String totalProduct) {
+public record OrderItemDTO(String name, int quantity, String inStock, BigDecimal unitPrice, BigDecimal totalProduct) {
 	
 	public OrderItemDTO(OrderItem oi) {
 		this(oi.getProduct().getProductId(), oi.getQuantity(), oi.getProduct().getProductAvailability(), oi.getUnitPrice(), oi.getTotal());
@@ -12,7 +14,7 @@ public record OrderItemDTO(String name, String quantity, String inStock, String 
 		return name;
 	}
 	
-	public String getQuantity() {
+	public int getQuantity() {
 		return quantity;
 	}
 	
@@ -21,10 +23,10 @@ public record OrderItemDTO(String name, String quantity, String inStock, String 
 	}
 	
 	public String getUnitPrice() {
-		return unitPrice;
+		return unitPrice.toPlainString();
 	}
 	
 	public String getTotalProduct() {
-		return totalProduct;
+		return totalProduct.toPlainString();
 	}
 }

@@ -31,7 +31,7 @@ public class CustomerOrdersOverview {
 				current.getOrders().stream().map(or -> new OrderDTO(or)).collect(Collectors.toList()));
 		primaryStage = new Stage();
 		root = new StackPane();
-		scene = new Scene(root, 550, 500);
+		scene = new Scene(root, 550, 750);
 		setup();
 		primaryStage.show();
 		scene.getStylesheets().add("css/label.css");
