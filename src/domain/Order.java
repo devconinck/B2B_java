@@ -2,6 +2,7 @@ package domain;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.Set;
 
 import dto.OrderDTO;
@@ -22,7 +23,7 @@ import util.PaymentStatus;
 @Entity
 @Table(name = "order_table")
 @Access(AccessType.FIELD)
-public class Order implements Serializable {
+public class Order implements Serializable, Comparable<Order>{
 
     private static final long serialVersionUID = 1L;
 
@@ -57,12 +58,8 @@ public class Order implements Serializable {
         setOrderID(orderId);
         setName(company.getName());
         setDate(orderDateTime.toString());
-        int randomOrderStatus = (int) (Math.random() * 6) + 1;
-        setOrderStatus(randomOrderStatus == 1 ? OrderStatus.PLACED : randomOrderStatus == 2 ? OrderStatus.PROCESSED : randomOrderStatus == 3 ? OrderStatus.SHIPPED
-        		: randomOrderStatus == 4 ? OrderStatus.OUT_FOR_DELIVERY : randomOrderStatus == 5 ? OrderStatus.DELIVERD : OrderStatus.COMPLETED);
-        int randomPaymentStatus = (int) (Math.random() * 3) + 1;
-        setPaymentStatus(randomPaymentStatus == 1 ? PaymentStatus.INVOICE_SENT
-                : randomPaymentStatus == 2 ? PaymentStatus.PAID : PaymentStatus.UNPROCESSED);
+        setOrderStatus(OrderStatus.values()[((int) (Math.random() * OrderStatus.values().length) + 1) - 1]);
+        setPaymentStatus(PaymentStatus.values()[((int) (Math.random() * PaymentStatus.values().length) + 1) - 1]);
         setCompany(company);
         setOrderReference(orderReference);
         setOrderDateTime(orderDateTime);
@@ -73,9 +70,10 @@ public class Order implements Serializable {
         setCurrency(currency);
     }
     
-    public Order(OrderDTO orderdto) {
-    	setOrderID(orderdto.orderId());
+    public Order(OrderDTO order) {
+    	setOrderID(order.orderId());
     }
+
 
     // Getters
     @Access(AccessType.PROPERTY)
@@ -152,14 +150,6 @@ public class Order implements Serializable {
         return date;
     }
 
-    public SimpleStringProperty orderStatusProperty() {
-        return new SimpleStringProperty(orderStatus.toString());
-    }
-
-    public SimpleStringProperty paymentStatusProperty() {
-        return new SimpleStringProperty(paymentStatus.toString());
-    }
-
     // Setters
     public void setOrderID(String orderId) {
         this.orderID.set(orderId);
@@ -223,5 +213,33 @@ public class Order implements Serializable {
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(date, orderID);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Order other = (Order) obj;
+		return Objects.equals(date, other.date) && Objects.equals(orderID, other.orderID);
+	}
+	
+	@Override
+	public int compareTo(Order otherOrder) {
+		int dateComparison = this.getDate().compareTo(otherOrder.getDate());
+		if (dateComparison == 0) {
+		     // Als de datums gelijk zijn, sorteer op orderId
+		     return Integer.parseInt(this.getOrderID()) - Integer.parseInt(otherOrder.getOrderID());
+		}
+		// Sorteer op datum
+		return dateComparison;
     }
 }

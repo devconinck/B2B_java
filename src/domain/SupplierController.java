@@ -1,9 +1,12 @@
 package domain;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import dto.OrderDTO;
 import javafx.collections.ObservableList;
+import util.OrderStatus;
+import util.PaymentOption;
 
 public class SupplierController extends Controller{
 	
@@ -62,8 +65,16 @@ public class SupplierController extends Controller{
 		throw new UnsupportedOperationException();
 	}
 	
-	public void updateOrder() {
-		portaal.updateOrder(currentOrder);
-		System.out.println("test2");
+	public void updateCompany(List<PaymentOption> options) {
+		Company c = getCurrentCompany();
+		c.setPaymentOptions(options);
+		portaal.updateCompany(c);
+	}
+	
+	public void updateOrder(String orderId, String orderStatus, String paymentStatus) {
+		Order o = getOrder(orderId);
+		o.setOrderStatus(orderStatus.toUpperCase().replace(' ', '_'));
+		o.setPaymentStatus(paymentStatus.toUpperCase().replace(' ', '_'));
+		portaal.updateOrder(o);
 	}
 }

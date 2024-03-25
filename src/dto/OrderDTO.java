@@ -53,9 +53,9 @@ public record OrderDTO(String name, String orderId, String date, String orderAmo
 		return street;
 	}
 	
-	/*public String getAddressNr() {
+	public String getAddressNr() {
 		return addressNr;
-	}*/
+	}
 	
 	public String getCity() {
 		return city;

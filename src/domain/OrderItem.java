@@ -55,7 +55,6 @@ public class OrderItem implements Serializable {
 		setOrderId(orderId);
 		setOrderItemId(orderItemId);
 		setSyncId(syncId);
-		//setProductId(productId);
 		setQuantity(quantity);
 		setUnitOfMeasureId(unitOfMeasureId);
 		setNetPrice(netPrice);

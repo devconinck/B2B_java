@@ -1,10 +1,13 @@
 package gui.order;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import domain.Company;
+import domain.Order;
 import domain.SupplierController;
 import dto.OrderDTO;
 import dto.OrderItemDTO;
@@ -40,15 +43,16 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 	private TextField txf_name, txf_customerContact, txf_orderId, txf_street, txf_addressNr, txf_city, txf_postalcode, txf_country, txf_lastPayment;
 	private GenericTableView<OrderItemDTO> orderItemTable;
 	private ObservableList<OrderItemDTO> orderItems;
+	private List<PaymentOption> paymentOptionsList = new ArrayList<>();
 	private GridPane paymentPane;
-	
+
 	
 	public OrdersOverview(Map<String, String> attributes, SupplierController sc) {
 		super(FXCollections.observableArrayList(sc.getOrders().stream().map(o -> new OrderDTO(o)).collect(Collectors.toList())), attributes, sc);
 		// TODO om te laten zien dat de scrollbar ook css heeft, werkt niet?
 		hbox_main.getStylesheets().add("css/label.css");
 	}
-	
+
 	@Override
 	protected void saveEntity() {
 		throw new UnsupportedOperationException();
@@ -60,7 +64,8 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 	}
 	
 	@Override
-	protected void setCurrent() {	
+	protected void setCurrent() {
+		//OrderDetails Screen
 		txf_name.setText(current.name());
 		txf_customerContact.setText(current.name());
 		txf_orderId.setText(current.orderId());
@@ -75,26 +80,25 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 		comboBox_OrderStatus.setItems(orderStatusOptions);
 		comboBox_PaymentStatus.setItems(paymentStatusOptions);
 	
+		//OrderItems Table
 		orderItems = FXCollections.observableArrayList(((SupplierController) controller).getOrderItems(current.orderId()).stream().map(or -> new OrderItemDTO(or)).collect(Collectors.toList()));
 		orderItemTable.setData(orderItems);
 		
-		Company c = controller.getCurrentCompany();
-		paymentPane.getChildren().clear();
-        int row = 0;
-        int col = 0;
-        int maxColumns = 3;
-        for (PaymentOption option : PaymentOption.values()) {
-            CheckBox checkBox = new CheckBox(option.getDisplayName());
-            checkBox.setSelected(c.getPaymentOptions().contains(option));
-            paymentPane.add(checkBox, col++, row);
-            if (col >= maxColumns) {
-                col = 0;
-                row++;
-            }
-        }
-        
+        //Save Button
         saveBtn.setOnMouseClicked(event -> {
-        	controller.updateOrder();
+        	for(PaymentOption option : PaymentOption.values()) {
+        		CheckBox checkBox = new CheckBox(option.getDisplayName());
+        		if(checkBox.isSelected()) {
+        			paymentOptionsList.add(option);
+        		}
+        	}
+        	for(PaymentOption option : paymentOptionsList) {
+        		System.out.println(option);
+        	}
+        	controller.updateOrder(current.orderId(), comboBox_OrderStatus.getValue(), comboBox_PaymentStatus.getValue());
+        	controller.updateCompany(paymentOptionsList);
+        	genericTableView.setData(FXCollections.observableArrayList(controller.getOrders().stream().map(o -> new OrderDTO(o)).collect(Collectors.toList())));
+        	genericTableView.refresh();
         });
 	}
 	
@@ -212,6 +216,7 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
         VBox paymentOptionsVBox = new VBox(5);
         paymentOptionsVBox.getChildren().addAll(paymentOptionsLabel, paymentPane);
         paymentOptionsVBox.setPadding(new Insets(10, 10, 10, 20));
+        addPaymentOptions();
         //Save Button
         VBox saveBtnVBox = new VBox();
         saveBtn = new Button("Save changes");
@@ -280,5 +285,22 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 		paymentStatusOptions = FXCollections.observableArrayList();
 		for(PaymentStatus option : PaymentStatus.values())
 			paymentStatusOptions.add(option.getValue());
+	}
+	
+	private void addPaymentOptions() {
+		Company c = controller.getCurrentCompany();
+		paymentPane.getChildren().clear();
+		int row = 0;
+        int col = 0;
+        int maxColumns = 3;
+		for (PaymentOption option : PaymentOption.values()) {
+            CheckBox checkBox = new CheckBox(option.getDisplayName());
+            checkBox.setSelected(c.getPaymentOptions().contains(option));
+            paymentPane.add(checkBox, col++, row);
+            if (col >= maxColumns) {
+                col = 0;
+                row++;
+            }
+        }
 	}
 }

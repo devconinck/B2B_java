@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.Collections;
 import java.util.List;
 
 import java.util.stream.Collectors;
@@ -66,7 +67,7 @@ public class B2BPortaal {
 		if (orderList == null) {
 			orderList = FXCollections.observableArrayList();
 		}
-		List<Order> ordersFromRepo = orderRepo.findAll();
+		List<Order> ordersFromRepo = orderRepo.findAll().stream().sorted().collect(Collectors.toList());
 
 		orderList.clear();
 		orderList.addAll(ordersFromRepo);
@@ -109,6 +110,5 @@ public class B2BPortaal {
 		GenericDaoJpa.startTransaction();
 		orderRepo.update(order);
 		GenericDaoJpa.commitTransaction();
-		System.out.println("test3");
 	}
 }
