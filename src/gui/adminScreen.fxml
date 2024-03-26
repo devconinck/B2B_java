@@ -6,7 +6,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
@@ -15,7 +14,7 @@
 
 <fx:root prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../css/styles.css" type="BorderPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <left>
-      <VBox prefWidth="256.0" styleClass="vbox" stylesheets="@../css/styles.css" BorderPane.alignment="CENTER">
+      <VBox fx:id="vbox_links" prefWidth="256.0" styleClass="vbox" stylesheets="@../css/styles.css" BorderPane.alignment="CENTER">
          <children>
             <ImageView fitHeight="113.0" fitWidth="226.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -24,7 +23,7 @@
                <VBox.margin>
                   <Insets left="10.0" top="10.0" />
                </VBox.margin></ImageView>
-            <Button fx:id="companiesButton" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" stylesheets="@../css/styles.css" text="Companies" textFill="WHITE" VBox.vgrow="ALWAYS">
+            <Button fx:id="companiesButton" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" styleClass="link" stylesheets="@../css/styles.css" text="Companies" textFill="WHITE" VBox.vgrow="ALWAYS">
                <font>
                   <Font size="14.0" />
                </font>
@@ -45,7 +44,7 @@
                   <Insets top="20.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="updateButton" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" stylesheets="@../css/styles.css" text="Update requests" textFill="WHITE" VBox.vgrow="ALWAYS">
+            <Button fx:id="updateButton" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" styleClass="link" stylesheets="@../css/styles.css" text="Update requests" textFill="WHITE" VBox.vgrow="ALWAYS">
                <font>
                   <Font size="14.0" />
                </font>
@@ -66,7 +65,7 @@
                   <Insets />
                </VBox.margin>
             </Button>
-            <Button fx:id="processButton" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" stylesheets="@../css/styles.css" text="Process Payments" textFill="WHITE" VBox.vgrow="ALWAYS">
+            <Button fx:id="processButton" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" styleClass="link" stylesheets="@../css/styles.css" text="Process Payments" textFill="WHITE" VBox.vgrow="ALWAYS">
                <font>
                   <Font size="14.0" />
                </font>
@@ -88,12 +87,12 @@
                </VBox.margin>
             </Button>
             <Region VBox.vgrow="ALWAYS" />
-            <Button fx:id="logOutButton" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="10.0" mnemonicParsing="false" stylesheets="@../css/styles.css" text="Log out" textFill="WHITE">
+            <Button fx:id="logOutButton" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="10.0" mnemonicParsing="false" prefHeight="48.0" stylesheets="@../css/styles.css" text="Log out" textAlignment="CENTER" textFill="WHITE">
                <font>
-                  <Font size="14.0" />
+                  <Font size="18.0" />
                </font>
                <padding>
-                  <Insets bottom="20.0" left="35.0" right="35.0" top="20.0" />
+                  <Insets bottom="50.0" left="30.0" right="30.0" top="20.0" />
                </padding>
                <VBox.margin>
                   <Insets bottom="35.0" left="35.0" />
@@ -110,19 +109,19 @@
          <top>
             <HBox fx:id="title" alignment="BOTTOM_LEFT" styleClass="hbox" stylesheets="@../css/styles.css" BorderPane.alignment="CENTER">
                <children>
-                  <Label fx:id="titleLabel" alignment="CENTER" prefHeight="59.0" prefWidth="121.0" text="Welcome">
+                  <Label fx:id="titleLabel" alignment="CENTER" prefHeight="59.0" text="Welcome">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
                </children>
                <padding>
-                  <Insets left="30.0" top="35.0" />
+                  <Insets left="35.0" top="35.0" />
                </padding>
             </HBox>
          </top>
          <center>
-            <AnchorPane fx:id="mainScreen" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+            <BorderPane fx:id="mainScreen" minHeight="300.0" minWidth="300.0" BorderPane.alignment="TOP_LEFT" />
          </center>
       </BorderPane>
    </center>

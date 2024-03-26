@@ -33,21 +33,21 @@
     -fx-border-color: transparent;
     -fx-padding: 2 2 2 2px;
 }
-.table-row-cell: hover {
+.table-row-cell:hover {
     -fx-background-color: #EC4842;
 }
-.table-row-cell: odd{
+.table-row-cell:odd{
     -fx-background-color: #EFEDED;
     -fx-background-insets: 0, 0 0 1 0;
     -fx-padding: 0.0em;
 }
-.table-row-cell: even{
+.table-row-cell:even{
     -fx-background-color: white;
     -fx-background-insets: 0, 0 0 1 0;
     -fx-padding: 0.0em;
 }
 
-.table-row-cell: selected{
+.table-row-cell:selected{
     -fx-background-color: #EC4842;
     -fx-text-background-color: #ffffff;
 }

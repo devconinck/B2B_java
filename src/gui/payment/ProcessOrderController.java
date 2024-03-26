@@ -1,4 +1,5 @@
 package gui.payment;
+import java.util.Map;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,20 +11,24 @@ import domain.Order;
 import gui.GenericTableView;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.TableView;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.GridPane;
 import util.PaymentStatus;
 
-public class ProcessOrderController extends VBox {
-	private AdminController controller;
+public class ProcessOrderController extends GridPane {
+	private AdminController ac;
 	private ObservableList<Order> orders;
 
     private GenericTableView<Order> tableView;
-
-    public ProcessOrderController(AdminController controller) {
-        this.controller = controller;
-        this.orders = controller.getOrders();
+    public ProcessOrderController(AdminController ac) {
+        this.ac = ac;
+        this.orders = ac.getOrders();
         buildGui();
     }
+
 
     private void buildGui() {
         Map<String, String> columns = new TreeMap<>();
@@ -34,12 +39,31 @@ public class ProcessOrderController extends VBox {
 
         tableView = new GenericTableView<>(columns);
         tableView.setData(orders);
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tableView.setMinWidth(380);
+        
+        tableView.setStyle("-fx-padding: 20 35 10 35");
+        
+        // Apply CSS styling to the table
+        
 
         Button processButton = new Button("Process Payment");
+        processButton.getStyleClass().add("custom-button");
         processButton.setOnMouseClicked(event -> processPayments());
 
-        this.getChildren().addAll(tableView, processButton);
+        HBox buttonContainer = new HBox(processButton);
+        buttonContainer.setStyle("-fx-padding: 15 10 10 35");
+        
+        
+        VBox v = new VBox();
+        v.setMinSize(600, 400);
+        v.getChildren().addAll(tableView, buttonContainer);
+        this.add(v, 0, 0);
+        GridPane.setHgrow(v, Priority.ALWAYS);
+        GridPane.setVgrow(v, Priority.ALWAYS);
+        VBox.setVgrow(tableView, Priority.ALWAYS);
+        
+        
     }
 
     private void processPayments() {

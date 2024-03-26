@@ -24,6 +24,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import util.PaymentOption;
 import util.Validation;
@@ -63,8 +64,6 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
     }
 
     private void buildGui() {
-        Label headerLabel = new Label("Company Details:");
-        headerLabel.setStyle("-fx-font-size: 30px;");
 
         // Labels
         Label paymentOptionsLabel = new Label("Payment Options:");
@@ -97,61 +96,69 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
         logoUrlField = new TextField();
 
         logoImageView = new ImageView();
-        logoImageView.setFitHeight(100);
+        logoImageView.setFitHeight(60);
         logoImageView.setPreserveRatio(true);
-
-        HBox generalBox = new HBox(10); 
-        generalBox.getChildren().addAll(createField(nameLabel, nameField), createField(sectorLabel, sectorField),
-                createField(customerStartLabel, customerStartField));
-
-        vatField.setMaxWidth(470);
-
+        
+        GridPane gp = new GridPane();
+        gp.setPadding(new Insets(10));
+        gp.setHgap(8);
+        gp.setVgap(8);
+        VBox.setVgrow(gp, Priority.ALWAYS);
+        
+        //0
+        Label headerLabel = new Label("Company Details:");
+        headerLabel.setStyle("-fx-font-size: 30px;");
+        gp.add(headerLabel, 0, 0); 
+        GridPane.setColumnSpan(headerLabel, 3);
+        //1
+        gp.add(createField(nameLabel, nameField), 0, 1);   gp.add(createField(sectorLabel, sectorField), 1, 1);   gp.add(createField(customerStartLabel, customerStartField), 2, 1);
+        //2
+        VBox vat = createField(vatLabel, vatField);
+        gp.add(vat, 0, 2); GridPane.setColumnSpan(vat, 3);
+        //3
         Label addressLabel = new Label("Address:");
         addressLabel.setStyle("-fx-font-size: 20px;");
-
-        streetField.setPrefWidth(310);
-
-        HBox addressBox1 = new HBox(10);
-        addressBox1.getChildren().addAll(createField(streetLabel, streetField),
-                createField(addressNrLabel, addressNrField));
-
-        HBox addressBox2 = new HBox(10);
-        addressBox2.getChildren().addAll(createField(cityLabel, cityField), createField(postalcodeLabel, postalcodeField),
-                createField(countryLabel, countryField));
-
+        gp.add(addressLabel, 0, 3);
+        //4
+        VBox street = createField(streetLabel, streetField);
+        gp.add(street, 0, 4); GridPane.setColumnSpan(street, 2); gp.add(createField(addressNrLabel, addressNrField), 2, 4);
+        //5
+        gp.add(createField(cityLabel, cityField), 0, 5);   gp.add(createField(postalcodeLabel, postalcodeField), 1, 5);   gp.add(createField(countryLabel, countryField), 2, 5);
+        //6
         Label contactLabel = new Label("Contact:");
         contactLabel.setStyle("-fx-font-size: 20px;");
-
-        HBox contactBox = new HBox(10);
-        contactBox.getChildren().addAll(createField(phoneLabel, phoneField), createField(emailLabel, emailField));
-
+        gp.add(contactLabel, 0, 6);
+        GridPane.setColumnSpan(contactLabel, 3);
+        //7
+        VBox email = createField(emailLabel, emailField);
+        gp.add(createField(phoneLabel, phoneField), 0, 7);    gp.add(email, 1, 7);
+        GridPane.setColumnSpan(email, 2);
+        //8
         Label paymentLabel = new Label("Payment:");
         paymentLabel.setStyle("-fx-font-size: 20px;");
-
+        gp.add(paymentLabel, 0, 8);
+        GridPane.setColumnSpan(paymentLabel, 3);
+        //9: gridpane paymentPane + Label paymentOptionsLabel = VBox PaymentoptionsVBox
+        gp.add(createField(bankLabel, bankField), 0, 9);
         paymentPane = createPaymentOptionsGrid();
-
-        VBox paymentOptionsVBox = new VBox(5);
+        VBox paymentOptionsVBox = new VBox();
         paymentOptionsVBox.getChildren().addAll(paymentOptionsLabel, paymentPane);
-
-        HBox paymentBox = new HBox(10);
-        paymentBox.getChildren().addAll(createField(bankLabel, bankField), paymentOptionsVBox);
-
+        gp.add(paymentOptionsVBox, 1, 9);
+        GridPane.setColumnSpan(paymentOptionsVBox, 2);
+        //10
         Label logoLabel = new Label("Logo:");
         logoLabel.setStyle("-fx-font-size: 20px;");
-
+        gp.add(logoLabel, 0, 10);
+        //11
         Label logoUrlLabel = new Label("Logo url:");
+        gp.add(logoImageView, 0, 11);
+        gp.add(createField(logoUrlLabel, logoUrlField), 1, 11);
 
-        logoUrlField.setMaxWidth(470);
+        GridPane.setHgrow(gp, Priority.ALWAYS);
+        
+        this.getChildren().addAll(gp);
 
-        VBox logoBox = new VBox(10);
-        logoBox.getChildren().addAll(logoImageView, createField(logoUrlLabel, logoUrlField));
 
-        VBox mainVBox = new VBox(3);
-        mainVBox.getChildren().addAll(headerLabel, generalBox, createField(vatLabel, vatField), addressLabel,
-                addressBox1, addressBox2, contactLabel, contactBox, paymentLabel, paymentBox, logoLabel, logoBox);
-
-        VBox.setMargin(this, new Insets(0, 0, 0, 50));
-        this.getChildren().addAll(mainVBox);
     }
 
     private GridPane createPaymentOptionsGrid() {

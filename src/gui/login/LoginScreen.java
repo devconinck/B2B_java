@@ -126,7 +126,7 @@ public class LoginScreen extends Pane {
 			// WERKT NIET
 			primaryStage.setMaximized(true);
 			//primaryStage.setResizable(false);
-			primaryStage.setMinHeight(820);
+			primaryStage.setMinHeight(920);
 			primaryStage.setMinWidth(1260);
 
 		}

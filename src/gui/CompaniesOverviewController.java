@@ -1,60 +1,97 @@
 package gui;
 
+import java.io.IOException;
+import java.util.Map;
+import java.util.TreeMap;
+
 import domain.AdminController;
+import domain.Order;
 import gui.company.CompanyDetailsScreenController;
 import gui.company.CompanyFilterController;
 import gui.company.CompanyScreenController;
 import gui.company.ControlScreenController;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableView;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 
 public class CompaniesOverviewController extends GridPane {
-    private CompanyScreenController companies;
-    private CompanyDetailsScreenController companyDetails;
-    private ControlScreenController controls;
-    private CompanyFilterController filter;
 
-    public CompaniesOverviewController(AdminController adminController) {
-        this.filter = new CompanyFilterController(adminController.getCompanyList());
-        this.companyDetails = new CompanyDetailsScreenController(adminController);
-        this.controls = new ControlScreenController();
-        this.companies = new CompanyScreenController(adminController.getCompanyList(), adminController.getSelectedCompanyProperty());
-        
-        // Set up event handlers
+	private CompanyScreenController companies;
+	private CompanyDetailsScreenController companyDetails;
+	private ControlScreenController controls;
+	private CompanyFilterController filter;
+
+	public CompaniesOverviewController(AdminController ac) {
+		this.filter = new CompanyFilterController(ac.getCompanyList());
+		this.companyDetails = new CompanyDetailsScreenController(ac);
+		this.controls = new ControlScreenController(companyDetails);
+		this.companies = new CompanyScreenController(ac.getCompanyList(), ac.getSelectedCompanyProperty());
+         // Set up event handlers
         controls.getSaveButton().setOnAction(e -> companyDetails.persistCompany());
         controls.getClearButton().setOnAction(e -> companyDetails.clearAllFields());
         controls.getInactiveButton().setOnAction(e -> companyDetails.toggleIsActive());
-        
-        buildGui();
-    }
+		buildGui();
+	}
 
-    private void buildGui() {
-        Button createCompany = new Button();
-        createCompany.setText("Create Company");
-        createCompany.setOnMouseClicked(e -> companyDetails.clearAllFields());
+	private void buildGui() {
+		
 
-        HBox hBox1 = new HBox();
-        HBox.setHgrow(filter, Priority.ALWAYS);
-        HBox.setHgrow(hBox1, Priority.ALWAYS);
-        hBox1.getChildren().addAll(filter, createCompany);
+		//linkerdeel scherm
+		//filter + create company
+		HBox filter_create = new HBox();
+		filter_create.getStyleClass().add("button-container");
+		HBox.setHgrow(filter, Priority.ALWAYS);
+		Button createCompany = new Button();
+		createCompany.setText("Create Company");
+		createCompany.setOnMouseClicked(e -> companyDetails.clearAllFields());
+		filter_create.getChildren().addAll(filter, createCompany);
+		//list van companies
+		VBox vLinks = new VBox();
+		VBox.setVgrow(companies, Priority.ALWAYS);
+		companies.setMinWidth(380);
+		vLinks.setPadding(new Insets(20));
+		vLinks.setMinSize(600, 400);
+		vLinks.getChildren().addAll(filter_create, companies);
+		companies.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+		companies.setMinWidth(400);
+		this.add(vLinks, 0, 0);
+		this.getStylesheets().add("styles.css");
+		companies.getStylesheets().add("/css/label/css");
 
-        VBox vBox1 = new VBox();
-        VBox.setVgrow(companies, Priority.ALWAYS);
-        vBox1.setPadding(new Insets(20));
-        this.add(vBox1, 0, 0);
-        vBox1.getChildren().addAll(hBox1, companies);
+		companies.getStyleClass().add("custom-table-view");
+		vLinks.setAlignment(Pos.TOP_CENTER);
+		GridPane.setHgrow(vLinks, Priority.ALWAYS);
+		GridPane.setVgrow(vLinks, Priority.ALWAYS);
+		
 
-        VBox vBox2 = new VBox();
-        vBox2.setAlignment(Pos.CENTER);
-        vBox2.setPadding(new Insets(20));
-        this.add(vBox2, 1, 0);
-        vBox2.getChildren().addAll(companyDetails, controls);
-    }
+
+		VBox vRechts = new VBox();
+		vRechts.setAlignment(Pos.TOP_CENTER);		
+		vRechts.setPadding(new Insets(10));
+		vRechts.setMinSize(400, 600);
+		vRechts.getChildren().addAll(companyDetails, controls);
+		this.add(vRechts, 3, 0);
+		VBox.setVgrow(vRechts, Priority.ALWAYS);
+		GridPane.setHgrow(vRechts, Priority.ALWAYS);
+		GridPane.setVgrow(vRechts, Priority.ALWAYS);
+	
+
+		
+
+		
+		  
+		 
+	}
+
 
     public CompanyScreenController getCompanies() {
         return companies;

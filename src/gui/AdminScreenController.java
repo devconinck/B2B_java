@@ -33,8 +33,8 @@ public class AdminScreenController extends BorderPane {
     private Label titleLabel;
     
     @FXML
-    private AnchorPane mainScreen;
-
+    private BorderPane mainScreen;
+    
     public AdminScreenController(AdminController controller) {
         this.controller = controller;
         buildGui();
@@ -68,6 +68,12 @@ public class AdminScreenController extends BorderPane {
             this.mainScreen.getChildren().add(processScreen);
         });
 		
+		companiesButton.setOnMouseClicked(e -> {
+			CompaniesOverviewController companiesScreen = new CompaniesOverviewController(controller);
+			titleLabel.setText("Companies");
+			this.mainScreen.getChildren().clear();
+			this.mainScreen.getChildren().add(companiesScreen);
+		});
 		
         updateButton.setOnMouseClicked(e -> { 
         	ProfileUpdateScreenController updateScreen = new ProfileUpdateScreenController(controller);

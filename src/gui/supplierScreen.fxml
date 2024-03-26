@@ -15,14 +15,14 @@
 
 <fx:root prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../css/styles.css" type="BorderPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <left>
-      <VBox prefWidth="256.0" styleClass="vbox" stylesheets="@../css/styles.css" BorderPane.alignment="CENTER">
+      <VBox fx:id="vbox_links" prefWidth="256.0" styleClass="vbox" stylesheets="@../css/styles.css" BorderPane.alignment="CENTER">
          <children>
             <ImageView fitHeight="113.0" fitWidth="226.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Delaware-logo.svg.png" />
                      </image>
                   </ImageView>
-            <Button fx:id="ordersButton" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" stylesheets="@../css/styles.css" text="Orders" textFill="WHITE" VBox.vgrow="ALWAYS">
+            <Button fx:id="ordersButton" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" styleClass="link" stylesheets="@../css/styles.css" text="Orders" textFill="WHITE" VBox.vgrow="ALWAYS">
                <font>
                   <Font size="14.0" />
                </font>
@@ -40,7 +40,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="customersButton" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" stylesheets="@../css/styles.css" text="Customers" textFill="WHITE" VBox.vgrow="ALWAYS">
+            <Button fx:id="customersButton" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" styleClass="link" stylesheets="@../css/styles.css" text="Customers" textFill="WHITE" VBox.vgrow="ALWAYS">
                <font>
                   <Font size="14.0" />
                </font>
@@ -93,7 +93,7 @@
                      </padding>
                   </Label>
                   <Region HBox.hgrow="ALWAYS" />
-                  <Label alignment="CENTER" fx:id="lbl_name_login" prefHeight="59.0" text="Company name">
+                  <Label fx:id="lbl_name_login" alignment="CENTER" prefHeight="59.0" text="Company name">
                      <font>
                         <Font size="24.0" />
                      </font>
