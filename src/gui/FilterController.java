@@ -33,14 +33,15 @@ public abstract class FilterController<T> extends HBox {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 // Call the filter method whenever the text changes
-                getFilteredList(originalList);
+            	runAllFilters();
+                //getFilteredList(originalList);
             }
         });
         
         getChildren().add(vbox);
     }
-    
-    public String getSearchText() {
+
+	public String getSearchText() {
     	return filterField.getText().toLowerCase().trim();
     }
     
@@ -55,4 +56,6 @@ public abstract class FilterController<T> extends HBox {
         }
         return originalList;
     }
+    
+    protected abstract void runAllFilters();
 }

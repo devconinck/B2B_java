@@ -20,4 +20,10 @@ public class CompanyFilterController extends FilterController<Company> {
 							.collect(Collectors.toList()));
 	}
 
+	@Override
+	protected void runAllFilters() {
+		ObservableList<Company> newList = Filter(copyOriginal);
+		originalList.setAll(newList);
+	}
+
 }

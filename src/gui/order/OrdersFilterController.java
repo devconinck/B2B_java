@@ -2,6 +2,7 @@ package gui.order;
 
 import java.util.stream.Collectors;
 
+import dto.CompanyDTO;
 import dto.OrderDTO;
 import gui.FilterController;
 import javafx.collections.FXCollections;
@@ -17,5 +18,11 @@ public class OrdersFilterController extends FilterController<OrderDTO>{
 	public ObservableList<OrderDTO> Filter(ObservableList<OrderDTO> list) {
 		return FXCollections.observableArrayList(list.stream().filter(c -> c.getName().toLowerCase().contains(super.getSearchText()))
 				.collect(Collectors.toList()));
+	}
+
+	@Override
+	protected void runAllFilters() {
+		ObservableList<OrderDTO> newList = Filter(copyOriginal);
+		originalList.setAll(newList);
 	}
 }

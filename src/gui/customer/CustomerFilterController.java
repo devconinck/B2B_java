@@ -1,5 +1,6 @@
 package gui.customer;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import dto.CompanyDTO;
@@ -16,6 +17,12 @@ public class CustomerFilterController extends FilterController<CompanyDTO>{
 	@Override
 	public ObservableList<CompanyDTO> Filter(ObservableList<CompanyDTO> list) {
 		return FXCollections.observableArrayList(list.stream().filter(c -> c.getName().toLowerCase().contains(super.getSearchText())).collect(Collectors.toList()));
+	}
+
+	@Override
+	protected void runAllFilters() {
+		ObservableList<CompanyDTO> newList = Filter(copyOriginal);
+		originalList.setAll(newList);
 	}
 
 }
