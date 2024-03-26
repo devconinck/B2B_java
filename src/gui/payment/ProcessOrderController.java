@@ -15,6 +15,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.layout.GridPane;
 import util.PaymentStatus;
 
@@ -76,7 +77,7 @@ public class ProcessOrderController extends GridPane {
                 batchOrders.add(o);
             });
     	
-    	controller.batchUpdateOrders(batchOrders);
+    	ac.batchUpdateOrders(batchOrders);
     	
         for (Order updatedOrder : batchOrders) {
             int index = orders.indexOf(updatedOrder);

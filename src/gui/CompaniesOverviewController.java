@@ -33,9 +33,10 @@ public class CompaniesOverviewController extends GridPane {
 	public CompaniesOverviewController(AdminController ac) {
 		this.filter = new CompanyFilterController(ac.getCompanyList());
 		this.companyDetails = new CompanyDetailsScreenController(ac);
-		this.controls = new ControlScreenController(companyDetails);
+		this.controls = new ControlScreenController();
 		this.companies = new CompanyScreenController(ac.getCompanyList(), ac.getSelectedCompanyProperty());
-         // Set up event handlers
+         
+		// Set up event handlers
         controls.getSaveButton().setOnAction(e -> companyDetails.persistCompany());
         controls.getClearButton().setOnAction(e -> companyDetails.clearAllFields());
         controls.getInactiveButton().setOnAction(e -> companyDetails.toggleIsActive());
@@ -65,14 +66,12 @@ public class CompaniesOverviewController extends GridPane {
 		companies.setMinWidth(400);
 		this.add(vLinks, 0, 0);
 		this.getStylesheets().add("styles.css");
-		companies.getStylesheets().add("/css/label/css");
+		companies.getStylesheets().add("/css/label.css");
 
 		companies.getStyleClass().add("custom-table-view");
 		vLinks.setAlignment(Pos.TOP_CENTER);
 		GridPane.setHgrow(vLinks, Priority.ALWAYS);
 		GridPane.setVgrow(vLinks, Priority.ALWAYS);
-		
-
 
 		VBox vRechts = new VBox();
 		vRechts.setAlignment(Pos.TOP_CENTER);		
@@ -83,13 +82,6 @@ public class CompaniesOverviewController extends GridPane {
 		VBox.setVgrow(vRechts, Priority.ALWAYS);
 		GridPane.setHgrow(vRechts, Priority.ALWAYS);
 		GridPane.setVgrow(vRechts, Priority.ALWAYS);
-	
-
-		
-
-		
-		  
-		 
 	}
 
 

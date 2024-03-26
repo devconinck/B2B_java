@@ -53,35 +53,27 @@ public class AdminScreenController extends BorderPane {
         }
 
         this.logOutButton.setOnMouseClicked(e -> logOut());
-        
+ 
         companiesButton.setOnMouseClicked(e -> {
-            CompaniesOverviewController companiesScreen = new CompaniesOverviewController(controller);
-            titleLabel.setText("Companies");
-            this.mainScreen.getChildren().clear();
-            this.mainScreen.getChildren().add(companiesScreen);
+        	CompaniesOverviewController companiesScreen = new CompaniesOverviewController(controller);
+        	titleLabel.setText("Companies");
+        	this.mainScreen.getChildren().clear();
+        	this.mainScreen.setCenter(companiesScreen);
         });
-		
+        
+        updateButton.setOnMouseClicked(e -> { 
+        	ProfileUpdateScreenController updateScreen = new ProfileUpdateScreenController(controller);
+        	titleLabel.setText("Update Requests");
+        	this.mainScreen.getChildren().clear();
+        	this.mainScreen.setCenter(updateScreen); 
+        });
+        
         processButton.setOnMouseClicked(e -> {
             ProcessOrderController processScreen = new ProcessOrderController(controller);
             titleLabel.setText("Process Orders");
             this.mainScreen.getChildren().clear();
-            this.mainScreen.getChildren().add(processScreen);
+        	this.mainScreen.setCenter(processScreen);
         });
-		
-		companiesButton.setOnMouseClicked(e -> {
-			CompaniesOverviewController companiesScreen = new CompaniesOverviewController(controller);
-			titleLabel.setText("Companies");
-			this.mainScreen.getChildren().clear();
-			this.mainScreen.getChildren().add(companiesScreen);
-		});
-		
-        updateButton.setOnMouseClicked(e -> { 
-        	ProfileUpdateScreenController updateScreen = new ProfileUpdateScreenController(controller);
-	        titleLabel.setText("Update Requests");
-	        this.mainScreen.getChildren().clear();
-	        this.mainScreen.getChildren().add(updateScreen); 
-        });
-        
     }
    
     // ???
