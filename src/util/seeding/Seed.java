@@ -75,42 +75,10 @@ public class Seed {
 		new CompanySeeding(companyRepo);
 		this.companyList = companyRepo.findAll();
 		new AccountSeeding(accountRepo, companyList);
-		// addOrder();
 		processOrderData();
-		// addOrderItem();
 		processProductData();
 		processOrderItemData();
 		new CustomerSeeding(companyRepo);
-		//checkIfOrdersExpire();
-	}
-
-	/*
-	 * private void addOrder() { Order order1 = new Order("2", 12,
-	 * companyList.get(0), "asdf", "asdf", "asdf", "asdf", "asdf", "asdf", "asdf");
-	 * Order order2 = new Order("3", 12, companyList.get(1), "sdfg", "sdfg", "sdfg",
-	 * "sdgf", "sdfg", "sdfg", "sdfg");
-	 * companyList.get(0).setOrders(Set.of(order1));
-	 * companyList.get(1).setOrders(Set.of(order2)); List<Order> li =
-	 * List.of(order1, order2); li.stream().forEach(o -> {
-	 * GenericDaoJpa.startTransaction(); orderRepo.insert(o);
-	 * GenericDaoJpa.commitTransaction(); }); }
-	 */
-
-	// TODO
-	private void checkIfOrdersExpire() {
-		List<Order> orders = orderRepo.findAll();
-		System.out.printf("Total amount of orders: %s%n", orders.size());
-		List<Order> orders2 = orders.stream().filter(o -> o.getOrderDateTime().isBefore(LocalDate.now().plusDays(3))
-				&& o.getOrderDateTime().isAfter(LocalDate.now())).collect(Collectors.toList());
-		System.out.printf("Orders that expire in 3 days form now: %s%n", orders2.size());
-		for (int i = 0; i < 5; i++) {
-			Order order = orders2.get(i);
-			mail.sendMail(order.getToCompany().getContact().getEmail(), companyList.get(0).getContact().getEmail(),
-					String.format("Payment due to %s", order.getOrderDateTime()),
-					String.format(
-							"You have a order that is not been payed yet.%nThis order has id: %s%nYours Sencirely %n%s",
-							order.getOrderID(), companyList.get(0).getName()));
-		}
 	}
 
 	// TODO
@@ -172,21 +140,6 @@ public class Seed {
 		int rand = random.nextInt(0, companyList.size());
 		return companyList.get(rand);
 	}
-
-	/*private void addOrderItem() {
-		OrderItem orderItem1 = new OrderItem(2, 10, 1757, "S200101", "1.500.000", "HUR", "700.000", "105.000.000");
-		OrderItem orderItem2 = new OrderItem(3, 30, 1757, "P100403", "30.000", "EA", "14.110.500", "42.331.500");
-		OrderItem orderItem3 = new OrderItem(3, 20, 1757, "P100403", "20.000", "EA", "12.270.000", "24.540.000");
-		OrderItem orderItem4 = new OrderItem(3, 10, 1757, "P100403", "10.000", "EA", "17.250.000", "17.250.000");
-		OrderItem orderItem5 = new OrderItem(2, 10, 1757, "S200102", "2.500.000", "HUR", "1.000.000", "250.000.000");
-
-		List<OrderItem> li = List.of(orderItem1, orderItem2, orderItem3, orderItem4, orderItem5);
-		li.stream().forEach(o -> {
-			GenericDaoJpa.startTransaction();
-			orderItemRepo.insert(o);
-			GenericDaoJpa.commitTransaction();
-		});
-	}*/
 	
 	private void processProductData() {
 		try (CSVReader reader = new CSVReader(new FileReader(productCSVFile))) {

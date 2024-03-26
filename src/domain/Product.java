@@ -17,12 +17,6 @@ public class Product implements Serializable {
 	private long id;
 	
 	private String productId;
-	@OneToOne
-	private ProductPrice productPrice;
-	@OneToOne
-	private ProductDescription productDescription;
-	@OneToOne
-	private ProductUnitOfMeasureConversion productUnitOfMeasureConversion;
 	private int syncId;
 	private String productUnitOfMeasureId;
 	private String productCategoryId;
@@ -36,21 +30,7 @@ public class Product implements Serializable {
 		setProductAvailability(productAvailability);
 	}
 	
-	protected Product() {
-		
-	}
-	
-	public ProductPrice getProductPrice() {
-		return productPrice;
-	}
-	
-	public ProductDescription getProductDescription() {
-		return productDescription;
-	}
-	
-	public ProductUnitOfMeasureConversion getProductUnitOfMeasureConversion() {
-		return productUnitOfMeasureConversion;
-	}
+	protected Product() {};
 	
 	public String getProductId() {
 		return productId;

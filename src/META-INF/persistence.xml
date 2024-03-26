@@ -17,9 +17,6 @@
     <class>domain.Order</class>
     <class>domain.OrderItem</class>
     <class>domain.Product</class>
-    <class>domain.ProductPrice</class>
-    <class>domain.ProductDescription</class>
-    <class>domain.ProductUnitOfMeasureConversion</class>
     <class>domain.Customer</class>
     <properties>
 	  <!-- KIES DE JUISTE DATABANK-->
