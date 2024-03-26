@@ -11,19 +11,21 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import util.OrderStatus;
 import util.PaymentStatus;
 
 public class CustomerOrderFilterController extends FilterController<OrderDTO>{
 	
-	private GridPane paymentPane;
 	private Set<String> allowedPaymentOptions;
+	private Set<String> allowedOrderOptions;
 
 	public CustomerOrderFilterController(ObservableList<OrderDTO> originalList) {
 		super(originalList);
-		this.paymentPane = new GridPane();
 		this.allowedPaymentOptions = new HashSet<>();
-		Label lbl_paymentoptions = new Label("Payment Options");
-		vbox.getChildren().addAll(lbl_paymentoptions, createPaymentOptionsGrid());
+		this.allowedOrderOptions = new HashSet<>();
+		
+		vbox.getChildren().addAll(createPaymentOptionsGrid(), createOrderOptionsGrid());
 	}
 
 	@Override
@@ -31,7 +33,8 @@ public class CustomerOrderFilterController extends FilterController<OrderDTO>{
 		return FXCollections.observableArrayList(list.stream().filter(c -> c.orderId().startsWith(super.getSearchText())).collect(Collectors.toList()));
 	}
 	
-	private GridPane createPaymentOptionsGrid() {
+	private VBox createPaymentOptionsGrid() {
+		GridPane paymentPane = new GridPane();
         paymentPane.setHgap(10);
         paymentPane.setVgap(10);
 
@@ -51,8 +54,41 @@ public class CustomerOrderFilterController extends FilterController<OrderDTO>{
                 row++;
             }
         }
+        
+        Label lbl_paymentoptions = new Label("Payment Options");
+        VBox vbox_label_pane = new VBox();
+        vbox_label_pane.getChildren().addAll(lbl_paymentoptions, paymentPane);
 
-        return paymentPane;
+        return vbox_label_pane;
+    }
+	
+	private VBox createOrderOptionsGrid() {
+		GridPane orderPane = new GridPane();
+		orderPane.setHgap(10);
+		orderPane.setVgap(10);
+
+        int row = 0;
+        int col = 0;
+        int maxColumns = 3;
+
+        for (OrderStatus option : OrderStatus.values()) {
+            CheckBox checkBox = new CheckBox(option.getValue());
+            orderPane.add(checkBox, col, row);
+            
+            checkBox.setOnAction(event -> filterOrderStatus(checkBox));
+
+            col++;
+            if (col >= maxColumns) {
+                col = 0;
+                row++;
+            }
+        }
+        
+        Label lbl_paymentoptions = new Label("Payment Options");
+        VBox vbox_label_pane = new VBox();
+        vbox_label_pane.getChildren().addAll(lbl_paymentoptions, orderPane);
+
+        return vbox_label_pane;
     }
 	
 	private void filterPaymentStatus(CheckBox checkBox) {
@@ -60,6 +96,15 @@ public class CustomerOrderFilterController extends FilterController<OrderDTO>{
 			allowedPaymentOptions.add(checkBox.getText());
 		} else {
 			allowedPaymentOptions.remove(checkBox.getText());
+		}
+		runAllFilters();
+	}
+	
+	private void filterOrderStatus(CheckBox checkBox) {
+		if (checkBox.isSelected()) {
+			allowedOrderOptions.add(checkBox.getText());
+		} else {
+			allowedOrderOptions.remove(checkBox.getText());
 		}
 		runAllFilters();
 	}
@@ -78,6 +123,16 @@ public class CustomerOrderFilterController extends FilterController<OrderDTO>{
 				);
 		// OrderId
 		newList = Filter(newList);
+		// OrderOptions
+		newList = FXCollections.observableArrayList(
+				newList.stream()
+				.filter(o -> {
+					if(allowedOrderOptions.isEmpty()) 
+						return true; 
+					return allowedOrderOptions.contains(o.orderStatus().getValue());
+				})
+				.collect(Collectors.toList())
+				);
 		originalList.setAll(newList);
 	}
 

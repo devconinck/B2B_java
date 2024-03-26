@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 
 public class CustomerOrdersOverview {
 	
-	private StackPane root;
+	private VBox root;
 	private Stage primaryStage;
 	private Scene scene;
 	
@@ -30,7 +30,7 @@ public class CustomerOrdersOverview {
 		this.orders = FXCollections.observableArrayList(
 				current.getOrders().stream().map(or -> new OrderDTO(or)).collect(Collectors.toList()));
 		primaryStage = new Stage();
-		root = new StackPane();
+		root = new VBox();
 		scene = new Scene(root, 550, 750);
 		setup();
 		primaryStage.show();
