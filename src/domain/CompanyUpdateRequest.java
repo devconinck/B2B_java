@@ -13,7 +13,8 @@ public class CompanyUpdateRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String vatNumber;
+    private String oldVatNumber;
+    private String newVatNumber;
 
     private LocalDate requestDate;
     private String newName;
@@ -40,10 +41,11 @@ public class CompanyUpdateRequest {
     	
     }
 
-	public CompanyUpdateRequest(String vatNumber, LocalDate requestDate, String newName, String newSector,
+	public CompanyUpdateRequest(String oldVatNumber, String newVatNumber, LocalDate requestDate, String newName, String newSector,
 			Long newBankAccountNr, LocalDate newCustomerStart, Account supplierAccount, Account customerAccount,
 			Address newAddress, Contact newContact, List<PaymentOption> newPaymentOptions, String newLogo) {
-		this.vatNumber = vatNumber;
+		this.oldVatNumber = oldVatNumber;
+		this.newVatNumber = newVatNumber;
 		this.requestDate = requestDate;
 		this.newName = newName;
 		this.newSector = newSector;
@@ -57,12 +59,16 @@ public class CompanyUpdateRequest {
 		this.newLogo = newLogo;
 	}
 
-	public Long getId() {
-		return id;
+	public String getOldVatNumber() {
+		return oldVatNumber;
 	}
 
-	public String getVatNumber() {
-		return vatNumber;
+	public String getNewVatNumber() {
+		return newVatNumber;
+	}
+
+	public Long getId() {
+		return id;
 	}
 
 	public LocalDate getRequestDate() {

@@ -12,7 +12,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Separator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -52,7 +51,7 @@ public class ProfileUpdateScreenController extends VBox {
         TableColumn<CompanyUpdateRequest, String> vatNumberColumn = new TableColumn<>("VAT Number");
         vatNumberColumn.setCellValueFactory(data -> {
             CompanyUpdateRequest request = data.getValue();
-            return new SimpleStringProperty(request.getVatNumber());
+            return new SimpleStringProperty(request.getOldVatNumber());
         });
         TableColumn<CompanyUpdateRequest, LocalDate> requestDateColumn = new TableColumn<>("Request Date");
         requestDateColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getRequestDate()));
@@ -264,11 +263,11 @@ public class ProfileUpdateScreenController extends VBox {
     }
 
     private void displayCompanyUpdateRequestDetails(CompanyUpdateRequest request) {
-        Company company = adminController.getCompany(request.getVatNumber());
+        Company company = adminController.getCompany(request.getOldVatNumber());
 
         requestDateField.setText(request.getRequestDate().toString());
 
-        oldVatNumberField.setText(request.getVatNumber());
+        oldVatNumberField.setText(request.getOldVatNumber());
         oldNameField.setText(company.getName());
         oldSectorField.setText(company.getSector());
         oldBankAccountNrField.setText(String.valueOf(company.getBankAccountNr()));
@@ -283,7 +282,7 @@ public class ProfileUpdateScreenController extends VBox {
         oldLogoField.setText(company.getLogo());
         
         
-        newVatNumberField.setText(request.getVatNumber());
+        newVatNumberField.setText(request.getNewVatNumber());
         newNameField.setText(request.getNewName());
         newSectorField.setText(request.getNewSector());
         newBankAccountNrField.setText(String.valueOf(request.getNewBankAccountNr()));
@@ -325,8 +324,9 @@ public class ProfileUpdateScreenController extends VBox {
     private void acceptUpdateRequest() {
         CompanyUpdateRequest selectedUpdateRequest = tableView.getSelectionModel().getSelectedItem();
         if (selectedUpdateRequest != null) {
-            Company company = adminController.getCompany(selectedUpdateRequest.getVatNumber());
+            Company company = adminController.getCompany(selectedUpdateRequest.getOldVatNumber());
             if (company != null) {
+            	company.setVatNumber(selectedUpdateRequest.getNewVatNumber());
                 company.setName(selectedUpdateRequest.getNewName());
                 company.setSector(selectedUpdateRequest.getNewSector());
                 company.setBankAccountNr(selectedUpdateRequest.getNewBankAccountNr());
