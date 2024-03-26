@@ -6,14 +6,13 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../css/styles.css" type="BorderPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../css/styles.css" type="BorderPane" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <left>
       <VBox fx:id="vbox_links" prefWidth="256.0" styleClass="vbox" stylesheets="@../css/styles.css" BorderPane.alignment="CENTER">
          <children>
@@ -108,7 +107,7 @@
             </HBox>
          </top>
          <center>
-            <AnchorPane fx:id="mainScreen" prefHeight="800.0" prefWidth="800.0" BorderPane.alignment="CENTER" />
+            <HBox fx:id="mainScreen" prefHeight="800.0" prefWidth="800.0" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
    </center>

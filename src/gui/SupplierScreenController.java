@@ -7,9 +7,11 @@ import java.util.stream.Collectors;
 
 import domain.SupplierController;
 import dto.CompanyDTO;
-import gui.customer.CustomerOverview;
+import gui.customer.CustomerDetailsOverview;
+import gui.customer.CustomerTableAndFilterOverview;
 import gui.login.LoginScreen;
-import gui.order.OrdersOverview;
+import gui.order.OrderDetailsOverview;
+import gui.order.OrderTableAndFilterOverview;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -17,14 +19,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-public class SupplierScreenController extends BorderPane {
+public class SupplierScreenController extends BorderPane{
 	
-	private SupplierController controller;
+private SupplierController controller;
 	
 	@FXML
 	private Label lbl_name_login;
@@ -38,9 +40,9 @@ public class SupplierScreenController extends BorderPane {
     private Button logOutButton;
 
     @FXML
-    private AnchorPane mainScreen;
+    private HBox mainScreen;
     
-    public SupplierScreenController(SupplierController controller) {
+    public SupplierScreenController(SupplierController controller){
     	this.controller = controller;
     	buildGui();
     }
@@ -63,27 +65,50 @@ public class SupplierScreenController extends BorderPane {
 		
 		ordersButton.setOnMouseClicked(e -> {
 			this.mainScreen.getChildren().clear();
-			Map<String, String> map = new TreeMap<>();
-			map.put("Order ID", "orderId");
-			map.put("Name Customer", "name");
-			map.put("Date", "date");
-			map.put("Order Status", "orderStatus");
-			map.put("Payment Status", "paymentStatus");
-			OrdersOverview oo = new OrdersOverview(map, controller);
-			this.mainScreen.getChildren().add(oo.getHBox());
+			this.mainScreen.getChildren().addAll(orderTableAndFilter().getHBox(), orderDetails().getHBox());
 		});
 		
-		customersButton.setOnMouseClicked(e -> {
-			this.mainScreen.getChildren().clear();
-			Map<String, String> map = new TreeMap<>();
-			map.put("Open orders", "numberOfOpenOrders");
-			map.put("Name", "name");
-			ObservableList<CompanyDTO> customerList = FXCollections.observableArrayList(
-					controller.getCurrentCompany().getCustomers().stream().map(comp -> new CompanyDTO(comp)).collect(Collectors.toList()));
-			CustomerOverview co = new CustomerOverview(customerList, map, controller);
-			this.mainScreen.getChildren().add(co.getHBox());
+		customersButton.setOnMouseClicked(event -> {
+			this.mainScreen.getChildren().clear();			
+			this.mainScreen.getChildren().addAll(customerTableAndFilter().getHBox(), customerDetails().getHBox());
 		});
 		
+    }
+    
+    private OrderDetailsOverview orderDetails() {
+    	OrderDetailsOverview orderDetails = new OrderDetailsOverview(controller.getCurrentOrderDTO(), controller);
+    	controller.addPropertyChangeListenerOrder(orderDetails);
+    	return orderDetails;
+    }
+    
+    private OrderTableAndFilterOverview orderTableAndFilter() {
+    	Map<String, String> map = new TreeMap<>();
+		map.put("Order ID", "orderId");
+		map.put("Name Customer", "name");
+		map.put("Date", "date");
+		map.put("Order Status", "orderStatus");
+		map.put("Payment Status", "paymentStatus");
+		OrderTableAndFilterOverview orderTableAndFilter = new OrderTableAndFilterOverview(controller.getOrdersToCompanyDTO(), map, controller);
+		controller.addPropertyChangeListenerOrder(orderTableAndFilter);
+		return orderTableAndFilter;
+    }
+    
+    private CustomerDetailsOverview customerDetails() {
+    	CustomerDetailsOverview customerDetailsOverview = new CustomerDetailsOverview(controller.getCurrentCompanyDTO());
+    	controller.addPropertyChangeListener(customerDetailsOverview);
+    	return customerDetailsOverview;
+    }
+    
+    private CustomerTableAndFilterOverview customerTableAndFilter() {
+		Map<String, String> map = new TreeMap<>();
+		map.put("Open orders", "numberOfOpenOrders");
+		map.put("Name", "name");
+		return new CustomerTableAndFilterOverview(allCustomersDTO(), map, controller);
+    }
+    
+    private ObservableList<CompanyDTO> allCustomersDTO() {
+    	return FXCollections.observableArrayList(controller.getCurrentCompanyDTO().customers().stream()
+				.map(e -> new CompanyDTO(e)).collect(Collectors.toList()));
     }
     
     private void logOut() {

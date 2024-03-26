@@ -1,12 +1,11 @@
 package gui.customer;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 import dto.CompanyDTO;
+import gui.FilterController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import gui.FilterController;
 
 public class CustomerFilterController extends FilterController<CompanyDTO>{
 
