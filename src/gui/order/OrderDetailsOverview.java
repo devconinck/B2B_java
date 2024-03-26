@@ -65,11 +65,9 @@ public class OrderDetailsOverview extends GenericDetailsOverview<OrderDTO> imple
 		txf_lastPayment.setText(current.lastPaymentReminder());
 		comboBox_OrderStatus.setItems(orderStatusOptions);
 		comboBox_PaymentStatus.setItems(paymentStatusOptions);
-		
-		System.out.println(current.orderItems());
 	
 		//OrderItems Table
-		orderItems = FXCollections.observableArrayList(current.orderItems().stream().map(or -> new OrderItemDTO(or)).collect(Collectors.toList()));
+		orderItems = FXCollections.observableArrayList(controller.getOrder(current.orderId()).getOrderItems().stream().map(or -> new OrderItemDTO(or)).collect(Collectors.toList()));
 		orderItemTable.setData(orderItems);
 		
         //Save Button

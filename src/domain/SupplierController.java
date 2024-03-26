@@ -53,6 +53,7 @@ public class SupplierController extends Controller{
 	}
 	
 	public Order getOrder(String orderId) {
+		System.out.println(portaal.getOrdersList());
 		for(Order o : portaal.getOrdersList()) {
 			if(o.getOrderID().equals(orderId))
 				return o;
