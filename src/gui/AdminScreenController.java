@@ -65,8 +65,7 @@ public class AdminScreenController extends BorderPane {
         });
 
         processButton.setOnMouseClicked(e -> {
-            ProcessOrderController processScreen = new ProcessOrderController(controller.getOrders());
-            controller.addObserver(processScreen);
+            ProcessOrderController processScreen = new ProcessOrderController(controller);
             titleLabel.setText("Process Orders");
             this.mainScreen.getChildren().clear();
             this.mainScreen.getChildren().add(processScreen);

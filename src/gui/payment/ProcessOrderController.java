@@ -3,21 +3,19 @@ package gui.payment;
 import java.util.Map;
 import java.util.TreeMap;
 
-import domain.Company;
-import domain.Observer;
+import domain.AdminController;
 import domain.Order;
 import gui.GenericTableView;
-import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import util.PaymentStatus;
 
-public class ProcessOrderController extends VBox implements Observer {
-    private ObservableList<Order> orders;
+public class ProcessOrderController extends VBox {
+    private AdminController adminController;
     private GenericTableView<Order> tableView;
 
-    public ProcessOrderController(ObservableList<Order> orders) {
-        this.orders = orders;
+    public ProcessOrderController(AdminController adminController) {
+        this.adminController = adminController;
         buildGui();
     }
 
@@ -29,7 +27,7 @@ public class ProcessOrderController extends VBox implements Observer {
         columns.put("Payment Status", "paymentStatus");
 
         tableView = new GenericTableView<>(columns);
-        tableView.setData(orders);
+        tableView.setData(adminController.getOrders());
         tableView.setMinWidth(380);
 
         Button processButton = new Button("Process Payment");
@@ -39,18 +37,12 @@ public class ProcessOrderController extends VBox implements Observer {
     }
 
     private void processPayments() {
-        orders.stream()
+        adminController.getOrders().stream()
             .filter(o -> o.getPaymentStatus().equals(PaymentStatus.INVOICE_SENT))
-            .forEach(o -> o.setPaymentStatus(PaymentStatus.PAID));
-    }
-
-    @Override
-    public void update(Order order) {
+            .forEach(o -> {
+                o.setPaymentStatus(PaymentStatus.PAID);
+                adminController.updateOrder(o);
+            });
         tableView.refresh();
-    }
-
-    @Override
-    public void update(Company company) {
-        // Not needed in this class
     }
 }
