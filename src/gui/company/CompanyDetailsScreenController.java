@@ -1,20 +1,18 @@
 package gui.company;
 
 import java.io.FileInputStream;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import domain.Address;
+import domain.AdminController;
 import domain.Company;
 import domain.Contact;
-import domain.AdminController;
 import domain.Observer;
 import domain.Order;
-import javafx.beans.property.SimpleBooleanProperty;
+import dto.CompanyDTO;
+import javafx.beans.property.ObjectProperty;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -48,14 +46,19 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
     private ImageView logoImageView;
     private GridPane paymentPane;
 
-    public SimpleBooleanProperty isActive;
+    private ObjectProperty<Company> selectedCompanyProperty;
+    private AdminController adminController;
 
-    private AdminController ac;
-
-    public CompanyDetailsScreenController(AdminController ac) {
-        this.ac = ac;
-        this.ac.addObserver(this);
-
+    public CompanyDetailsScreenController(AdminController adminController) {
+        this.selectedCompanyProperty = adminController.getSelectedCompanyProperty();
+        this.adminController = adminController;
+        this.selectedCompanyProperty.addListener((obs, oldValue, newValue) -> {
+            if (newValue != null) {
+                loadCompany(new CompanyDTO(newValue));
+            } else {
+                clearAllFields();
+            }
+        });
         buildGui();
     }
 
@@ -180,47 +183,40 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
         return vbox;
     }
 
-    public void loadCompany(String vat) {
-        Company c = ac.getCompany(vat);
+    public void loadCompany(CompanyDTO companyDTO) {
+        nameField.setText(companyDTO.getName());
+        vatField.setText(companyDTO.getVatNumber());
+        sectorField.setText(companyDTO.getSector());
+        streetField.setText(companyDTO.getStreet());
+        addressNrField.setText(companyDTO.getNumber());
+        cityField.setText(companyDTO.getCity());
+        postalcodeField.setText(companyDTO.getZipcode());
+        countryField.setText(companyDTO.getCountry());
+        bankField.setText(String.valueOf(companyDTO.getBankAccountNr()));
+        phoneField.setText(companyDTO.getPhoneNumber());
+        emailField.setText(companyDTO.getEmail());
+        customerStartField.setText(companyDTO.getCustomerStart().toString());
+        logoUrlField.setText(companyDTO.getLogo());
 
-        this.nameField.setText(c.getName());
-        this.vatField.setText(c.getVatNumber());
-        this.sectorField.setText(c.getSector());
-        this.streetField.setText(c.getAddress().getStreet());
-        this.addressNrField.setText(c.getAddress().getNumber());
-        this.cityField.setText(c.getAddress().getCity());
-        this.postalcodeField.setText(c.getAddress().getZipCode());
-        this.countryField.setText(c.getAddress().getCountry());
-        this.bankField.setText(Long.toString(c.getBankAccountNr()));
-        this.phoneField.setText(c.getContact().getPhoneNumber());
-        this.emailField.setText(c.getContact().getEmail());
-
-        this.isActive = c.getIsActiveProperty();
-
-        this.customerStartField.setText(c.getCustomerStart().toString());
-
-        this.logoUrlField.setText(c.getLogo());
         try {
-            if (c.getLogo().isBlank()) throw new Exception();
-
-            this.logoImageView.setImage(new Image(c.getLogo()));
+            if (companyDTO.getLogo().isBlank()) throw new Exception();
+            logoImageView.setImage(new Image(companyDTO.getLogo()));
         } catch (Exception e1) {
             try {
-                this.logoImageView.setImage(new Image(new FileInputStream("src/images/no-logo.png")));
+                logoImageView.setImage(new Image(new FileInputStream("src/images/no-logo.png")));
             } catch (Exception e) {
                 // Do nothing
             }
         }
 
         paymentPane.getChildren().clear();
-        
         int row = 0;
         int col = 0;
         int maxColumns = 3;
 
         for (PaymentOption option : PaymentOption.values()) {
             CheckBox checkBox = new CheckBox(option.getDisplayName());
-            checkBox.setSelected(c.getPaymentOptions().contains(option));
+            checkBox.setSelected(companyDTO.getPaymentOptions().contains(option));
             paymentPane.add(checkBox, col++, row);
             if (col >= maxColumns) {
                 col = 0;
@@ -294,12 +290,14 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
             showErrorAlert("Please enter a valid house number.");
             return false;
         }
-
+        
+        /*
         if (!bankField.getText().matches(Validation.IBAN_REGEX)) {
             showErrorAlert("Please enter a valid bank account number.");
             return false;
         }
-
+		*/
+        
         if (!phoneField.getText().matches(Validation.PHONE_NUMBER_REGEX)) {
             showErrorAlert("Please enter a valid mobile number.");
             return false;
@@ -348,7 +346,7 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
     public void persistCompany() {
         if (isInputValid()) {
             String vatNumber = vatField.getText();
-            Company existingCompany = ac.getCompany(vatNumber);
+            Company existingCompany = adminController.getCompany(vatNumber);
 
             if (existingCompany != null) {
                 // Update existing company
@@ -358,7 +356,6 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
                 existingCompany.setBankAccountNr(Long.parseLong(bankField.getText()));
                 existingCompany.getContact().setPhoneNumber(phoneField.getText());
                 existingCompany.getContact().setEmail(emailField.getText());
-
                 existingCompany.getAddress().setCountry(countryField.getText());
                 existingCompany.getAddress().setCity(cityField.getText());
                 existingCompany.getAddress().setZipCode(postalcodeField.getText());
@@ -389,7 +386,7 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
                 }
                 existingCompany.setPaymentOptions(selectedOptions);
 
-                ac.updateCompany(existingCompany);
+                adminController.updateCompany(existingCompany);
             } else {
                 // Insert new company
                 Address tempAddress = new Address(countryField.getText(), cityField.getText(), postalcodeField.getText(), streetField.getText(), addressNrField.getText());
@@ -411,7 +408,7 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
                 customerStartDate = LocalDate.parse(customerStartField.getText());
 
                 Company tempCompany = new Company(vatField.getText(), logoUrlField.getText(), tempAddress, tempContact, nameField.getText(), sectorField.getText(), Long.parseLong(bankField.getText()), selectedOptions, customerStartDate, null, null);
-                ac.addCompany(tempCompany);
+                adminController.addCompany(tempCompany);
             }
 
             showInfoAlert("Company saved", "The company has been saved");
@@ -419,19 +416,20 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
     }
 
 	public void toggleIsActive() {
-		Company currentComp = ac.getSelectedCompany();
+		Company currentComp = adminController.getSelectedCompany();
 		currentComp.toggleIsActive();
-		ac.updateCompany(currentComp);
+		adminController.updateCompany(currentComp);
 	}
-    
+
     @Override
-    public void update(Order c) {
-    	// overbodig
+    public void update(Order order) {
+        // Not needed in this class
     }
 
-	@Override
-	public void update(Company c) {
-		loadCompany(c.getVatNumber());
-
-	}
+    @Override
+    public void update(Company company) {
+        if (company.getVatNumber().equals(selectedCompanyProperty.get().getVatNumber())) {
+            loadCompany(new CompanyDTO(company));
+        }
+    }
 }
