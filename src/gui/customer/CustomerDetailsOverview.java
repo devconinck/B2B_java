@@ -22,8 +22,8 @@ public class CustomerDetailsOverview extends GenericDetailsOverview<CompanyDTO> 
 	private TextField txf_name, txf_country, txf_city, txf_zipcode, txf_street, txf_number, txf_email, txf_phonenr;
 	private ImageView imgvw_logo;
 
-	public CustomerDetailsOverview(CompanyDTO current) {
-		super(current);
+	public CustomerDetailsOverview() {
+		super();
 		hbox_main.getStylesheets().add("css/label.css");
 	}
 

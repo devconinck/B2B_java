@@ -76,7 +76,7 @@ private SupplierController controller;
     }
     
     private OrderDetailsOverview orderDetails() {
-    	OrderDetailsOverview orderDetails = new OrderDetailsOverview(controller.getCurrentOrderDTO(), controller);
+    	OrderDetailsOverview orderDetails = new OrderDetailsOverview(controller);
     	controller.addPropertyChangeListenerOrder(orderDetails);
     	return orderDetails;
     }
@@ -94,7 +94,7 @@ private SupplierController controller;
     }
     
     private CustomerDetailsOverview customerDetails() {
-    	CustomerDetailsOverview customerDetailsOverview = new CustomerDetailsOverview(controller.getCurrentCompanyDTO());
+    	CustomerDetailsOverview customerDetailsOverview = new CustomerDetailsOverview();
     	controller.addPropertyChangeListener(customerDetailsOverview);
     	return customerDetailsOverview;
     }

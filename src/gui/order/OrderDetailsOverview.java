@@ -44,8 +44,8 @@ public class OrderDetailsOverview extends GenericDetailsOverview<OrderDTO> imple
 	
 	private SupplierController controller;
 
-	public OrderDetailsOverview(OrderDTO current, SupplierController controller) {
-		super(current);
+	public OrderDetailsOverview(SupplierController controller) {
+		super();
 		this.controller = controller;
 		hbox_main.getStylesheets().add("css/label.css");
 	}

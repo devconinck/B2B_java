@@ -19,8 +19,7 @@ public abstract class GenericDetailsOverview<O> {
 	protected List<VBox> vboxDetails;
 	protected O current;
 	
-	public GenericDetailsOverview(O current) {
-		this.current = current;
+	public GenericDetailsOverview() {
 		hbox_main = new HBox();
 		setClassFields();
 	}
