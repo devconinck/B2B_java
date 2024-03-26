@@ -1,57 +1,56 @@
 package gui.payment;
 
-
 import java.util.Map;
 import java.util.TreeMap;
 
-import domain.AdminController;
+import domain.Company;
+import domain.Observer;
 import domain.Order;
 import gui.GenericTableView;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import util.PaymentStatus;
 
-public class ProcessOrderController extends VBox {
-	// Haal alle orders op in tableView orderid/naam/status
-	// Knop "Process Payment"
-		// Haal alle orders op met status INVOICE_SENT (index 1)
-		// Wijzig status naar PAID (index 2)
-	// Refreshen tableView
-	
-	private AdminController ac;
-	
-	public ProcessOrderController(AdminController ac) {		
-		this.ac = ac;
-		buildGui();
-	}
-	
-	private void buildGui() {
-		ObservableList<Order> order = ac.getOrders();
-		
-		Map<String, String> columns = new TreeMap<>();
-		columns.put("Order ID", "orderID");
-		columns.put("Name Customer", "name");
-		columns.put("Date", "date");
-		columns.put("Payment Status", "paymentStatus");
-		GenericTableView<Order> tableView = new GenericTableView<>(columns);
-		tableView.setData(order);
-		tableView.setMinWidth(380);
+public class ProcessOrderController extends VBox implements Observer {
+    private ObservableList<Order> orders;
+    private GenericTableView<Order> tableView;
 
-		Button proccessButton = new Button("Process Payment");
-	    proccessButton.setOnMouseClicked(event -> {
-	        order.stream()
-	                .filter(o -> o.getPaymentStatus().equals(PaymentStatus.INVOICE_SENT))
-	                .forEach(o -> {
-	                	o.setPaymentStatus(PaymentStatus.PAID);
-	                	ac.updateOrder(o);
-	                });
-	        tableView.refresh();
-	    });
-	    
-		this.getChildren().addAll(tableView, proccessButton);
-	}
+    public ProcessOrderController(ObservableList<Order> orders) {
+        this.orders = orders;
+        buildGui();
+    }
 
+    private void buildGui() {
+        Map<String, String> columns = new TreeMap<>();
+        columns.put("Order ID", "orderID");
+        columns.put("Name Customer", "name");
+        columns.put("Date", "date");
+        columns.put("Payment Status", "paymentStatus");
+
+        tableView = new GenericTableView<>(columns);
+        tableView.setData(orders);
+        tableView.setMinWidth(380);
+
+        Button processButton = new Button("Process Payment");
+        processButton.setOnMouseClicked(event -> processPayments());
+
+        this.getChildren().addAll(tableView, processButton);
+    }
+
+    private void processPayments() {
+        orders.stream()
+            .filter(o -> o.getPaymentStatus().equals(PaymentStatus.INVOICE_SENT))
+            .forEach(o -> o.setPaymentStatus(PaymentStatus.PAID));
+    }
+
+    @Override
+    public void update(Order order) {
+        tableView.refresh();
+    }
+
+    @Override
+    public void update(Company company) {
+        // Not needed in this class
+    }
 }

@@ -1,41 +1,32 @@
 package gui.company;
 
 import java.io.IOException;
+
 import domain.Company;
-import domain.AdminController;
 import domain.Observer;
 import domain.Order;
-import gui.FilterController;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
+public class CompanyScreenController extends TableView<Company> implements Observer {
+    @FXML private TableColumn<Company, String> nameCol;
+    @FXML private TableColumn<Company, String> sectorCol;
+    @FXML private TableColumn<Company, String> addressCol;
+    @FXML private TableColumn<Company, String> isActiveCol;
+    @FXML private TableColumn<Company, Integer> amountOfCustomersCol;
 
-public class CompanyScreenController extends TableView<Company> implements Observer{
+    private final ObservableList<Company> companyList;
+    private final ObjectProperty<Company> selectedCompanyProperty;
 
-    @FXML
-    private TableColumn<Company, String> nameCol;
-    @FXML
-    private TableColumn<Company, String> sectorCol;
-    @FXML
-    private TableColumn<Company, String> addressCol;
-    @FXML
-    private TableColumn<Company, String> isActiveCol;
-    @FXML
-    private TableColumn<Company, Integer> amountOfCustomersCol;
-
-    private final AdminController ac;
-    private final CompanyFilterController filter;
-    private ControlScreenController controls;
-
-    public CompanyScreenController(AdminController ac, CompanyFilterController filter, ControlScreenController controls) {
-        this.ac = ac;
-        this.filter = filter;
-        this.controls = controls;
-        this.ac.addObserver(this);
+    public CompanyScreenController(ObservableList<Company> companyList, ObjectProperty<Company> selectedCompanyProperty) {
+        this.companyList = companyList;
+        this.selectedCompanyProperty = selectedCompanyProperty;
         buildGui();
         loadCompanies();
     }
@@ -56,37 +47,39 @@ public class CompanyScreenController extends TableView<Company> implements Obser
         sectorCol.setCellValueFactory(cellData -> cellData.getValue().getSectorProperty());
         amountOfCustomersCol.setCellValueFactory(cellData -> cellData.getValue().getAmountOfCustomers().asObject());
         addressCol.setCellValueFactory(cellData -> cellData.getValue().getAddressProperty());
-        
         isActiveCol.setCellValueFactory(cellData -> {
-            SimpleStringProperty text = new SimpleStringProperty();
-            text.bind(Bindings.when(cellData.getValue().getIsActiveProperty())
-                    .then("Active")
-                    .otherwise("Inactive"));
-            return text;
+            Company company = cellData.getValue();
+            SimpleBooleanProperty isActiveProperty = new SimpleBooleanProperty(company.getIsActive());
+            isActiveProperty.addListener((observable, oldValue, newValue) -> {
+                if (newValue != null) {
+                    company.setIsActive(newValue);
+                }
+            });
+            return Bindings.createStringBinding(() -> isActiveProperty.get() ? "Active" : "Inactive", isActiveProperty);
         });
 
-        this.setItems(filter.getFilteredList(ac.getCompanyList()));
-        this.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 1) {
-                Company selectedCompany = this.getSelectionModel().getSelectedItem();
-                if (selectedCompany != null) {
-                    ac.setSelectedCompany(selectedCompany);
-                    controls.createButtons();
-                }
+        this.setItems(companyList);
+
+        this.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                selectedCompanyProperty.set(newValue);
+            }
+        });
+
+        selectedCompanyProperty.addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                this.getSelectionModel().select(newValue);
             }
         });
     }
-    
-    // Deze oplossing werkt maar is het een goeie oplossing?
-    // Wisselt ook pas als je naar andere company gaat
+
     @Override
-    public void update(Company c) {
-    	// this.refresh();
+    public void update(Company company) {
+        refresh();
     }
 
-	@Override
-	public void update(Order c) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void update(Order order) {
+        // Not needed in this class
+    }
 }
