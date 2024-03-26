@@ -12,49 +12,9 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Program Files/JavaFX17/javafx-sdk-17/lib/javafx.base.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/Program Files/JavaFX17/javafx-sdk-17/lib/javafx.controls.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/Program Files/JavaFX17/javafx-sdk-17/lib/javafx.fxml.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/Program Files/JavaFX17/javafx-sdk-17/lib/javafx.graphics.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/Program Files/JavaFX17/javafx-sdk-17/lib/javafx.media.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/Program Files/JavaFX17/javafx-sdk-17/lib/javafx.swing.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/Program Files/JavaFX17/javafx-sdk-17/lib/javafx.web.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/Program Files/JavaFX17/javafx-sdk-17/lib/javafx-swt.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Arno/OneDrive - Hogeschool Gent/Bureaublad/School/Opgenomen/SDP 2/Jars/commons-lang3-3.14.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Arno/OneDrive - Hogeschool Gent/Bureaublad/School/Opgenomen/SDP 2/Jars/eclipselink-4.0.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Arno/OneDrive - Hogeschool Gent/Bureaublad/School/Opgenomen/SDP 2/Jars/mysql-connector-j-8.3.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Arno/OneDrive - Hogeschool Gent/Bureaublad/School/Opgenomen/SDP 2/Jars/eclipselink-4.0.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Arno/OneDrive - Hogeschool Gent/Bureaublad/School/Opgenomen/SDP 2/Jars/commons-lang3-3.14.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Arno/OneDrive - Hogeschool Gent/Bureaublad/School/Opgenomen/SDP 2/Jars/Mockito/angus-mail-2.0.3.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
@@ -111,6 +71,46 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/Arno/OneDrive - Hogeschool Gent/Bureaublad/School/Opgenomen/SDP 2/Jars/Mockito/opencsv-5.9.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Program Files/JavaFX17/javafx-sdk-17/lib/javafx.base.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Program Files/JavaFX17/javafx-sdk-17/lib/javafx.controls.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Program Files/JavaFX17/javafx-sdk-17/lib/javafx.fxml.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Program Files/JavaFX17/javafx-sdk-17/lib/javafx.graphics.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Program Files/JavaFX17/javafx-sdk-17/lib/javafx.media.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Program Files/JavaFX17/javafx-sdk-17/lib/javafx.swing.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Program Files/JavaFX17/javafx-sdk-17/lib/javafx.web.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Program Files/JavaFX17/javafx-sdk-17/lib/javafx-swt.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>

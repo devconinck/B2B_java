@@ -4,6 +4,7 @@ import java.io.IOException;
 import domain.AdminController;
 import gui.login.LoginScreen;
 import gui.payment.ProcessOrderController;
+import gui.profile.ProfileUpdateScreenController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -68,15 +69,13 @@ public class AdminScreenController extends BorderPane {
         });
 		
 		
-		//logica om update requests scherm te tonen
-		/*
-		 * updateButton.setOnMouseClicked(e -> { this.controller.clearObservers();
-		 * UpdateOverviewController updateScreen = new
-		 * UpdateOverviewScreenController((AdminController) controller);
-		 * titleLabel.setText("Update Requests");
-		 * this.mainScreen.getChildren().clear();
-		 * this.mainScreen.getChildren().add(updateScreen); });
-		 */
+        updateButton.setOnMouseClicked(e -> { 
+        	ProfileUpdateScreenController updateScreen = new ProfileUpdateScreenController(controller);
+	        titleLabel.setText("Update Requests");
+	        this.mainScreen.getChildren().clear();
+	        this.mainScreen.getChildren().add(updateScreen); 
+        });
+        
     }
    
     // ???
