@@ -1,5 +1,7 @@
 package dto;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Set;
 
 import domain.Order;
@@ -8,11 +10,11 @@ import util.OrderStatus;
 import util.PaymentOption;
 import util.PaymentStatus;
 
-public record OrderDTO(String name, String orderId, String date, String orderAmount, OrderStatus orderStatus, PaymentStatus paymentStatus, String lastPaymentReminder, 
+public record OrderDTO(String name, String orderId, LocalDate date, String orderAmount, OrderStatus orderStatus, PaymentStatus paymentStatus, String lastPaymentReminder, 
 		String street, String addressNr, String city, String postalCode, String country, Set<OrderItem> orderItems) {
 
 	public OrderDTO(Order o) {
-		this(o.getFromCompany().getName(), o.getOrderID(), o.getDate(), o.getTotalAmount(), o.getOrderStatus(), o.getPaymentStatus(), o.getLastPaymentReminder(), 
+		this(o.getFromCompany().getName(), o.getOrderID(), o.getOrderDateTime(), o.getTotalAmount(), o.getOrderStatus(), o.getPaymentStatus(), o.getLastPaymentReminder(), 
 				o.getFromCompany().getAddress().getStreet(), o.getFromCompany().getAddress().getNumber(), o.getFromCompany().getAddress().getCity(), 
 				o.getFromCompany().getAddress().getZipCode(), o.getFromCompany().getAddress().getCountry(), o.getOrderItems());
 	}
@@ -30,7 +32,8 @@ public record OrderDTO(String name, String orderId, String date, String orderAmo
 	}
 	
 	public String getDate() {
-		return date;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		return date.format(formatter);
 	}
 	
 	public String getOrderAmount() {
