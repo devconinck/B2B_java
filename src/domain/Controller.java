@@ -15,7 +15,7 @@ public abstract class Controller implements Subject{
 	
 	public Controller() {
 		this.observers = new HashSet<>();
-		this.portaal = new B2BPortaal(new GenericDaoJpa<Company>(Company.class), new OrderDaoJpa(), new GenericDaoJpa<OrderItem>(OrderItem.class));
+		this.portaal = new B2BPortaal(new GenericDaoJpa<Company>(Company.class), new OrderDaoJpa(), new GenericDaoJpa<OrderItem>(OrderItem.class), new GenericDaoJpa<CompanyUpdateRequest>(CompanyUpdateRequest.class));
 	}
 	
 	public Company getCompany(String vat) {

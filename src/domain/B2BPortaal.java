@@ -13,15 +13,29 @@ public class B2BPortaal {
 	private GenericDao<Company> companyRepo;
 	private OrderDao orderRepo;
 	private GenericDao<OrderItem> orderItemRepo;
+	private GenericDao<CompanyUpdateRequest> companyUpdateRequestRepo;
 
 	private ObservableList<Order> orderList;
 	private ObservableList<OrderItem> orderItemList;
 	private ObservableList<Company> companyList;
+	private ObservableList<CompanyUpdateRequest> companyUpdateRequestList;
 
-	public B2BPortaal(GenericDao<Company> companyRepo, OrderDao orderRepo, GenericDao<OrderItem> orderItemRepo) {
+	public B2BPortaal(GenericDao<Company> companyRepo, OrderDao orderRepo, GenericDao<OrderItem> orderItemRepo, GenericDao<CompanyUpdateRequest> companyUpdateRequestRepo) {
 		setCompanyRepo(companyRepo);
 		setOrderRepo(orderRepo);
 		setOrderItemRepo(orderItemRepo);
+		setCompanyUpdateRequest(companyUpdateRequestRepo);
+	}
+	
+	public void setCompanyUpdateRequest(GenericDao<CompanyUpdateRequest> o) {
+		companyUpdateRequestRepo = o;
+	}
+	
+	public ObservableList<CompanyUpdateRequest> getCompanyUpdateRequestList() {
+		if (companyUpdateRequestList == null || companyUpdateRequestList.isEmpty()) {
+			companyUpdateRequestList = FXCollections.observableArrayList(companyUpdateRequestRepo.findAll());
+		}
+		return companyUpdateRequestList;
 	}
 
 	public void setOrderRepo(OrderDao o) {
@@ -37,7 +51,7 @@ public class B2BPortaal {
 	}
 
 	public ObservableList<Order> getOrdersList() {
-		if (orderList == null) {
+		if (orderList == null || orderList.isEmpty()) {
 			orderList = FXCollections.observableArrayList(orderRepo.findAll());
 		}
 		return orderList;
@@ -48,7 +62,7 @@ public class B2BPortaal {
 	}
 
 	public ObservableList<OrderItem> getOrderItemsList(String orderId) {
-		if (orderItemList == null) {
+		if (orderItemList == null || orderItemList.isEmpty()) {
 			orderItemList = FXCollections.observableArrayList();
 		}
 		List<OrderItem> orderItemsFromOrder = orderItemRepo.findAll().stream()
@@ -60,7 +74,7 @@ public class B2BPortaal {
 	}
 
 	public ObservableList<Company> getCompanyList() {
-		if (companyList == null) {
+		if (companyList == null || companyList.isEmpty()) {
 			companyList = FXCollections.observableArrayList(companyRepo.findAll());
 		}
 		return companyList;
@@ -90,5 +104,11 @@ public class B2BPortaal {
 	        orderRepo.update(order);
 	    }
 	    GenericDaoJpa.commitTransaction();
+	}
+	
+	public void deleteUpdateRequest(CompanyUpdateRequest request) {
+        GenericDaoJpa.startTransaction();
+        companyUpdateRequestRepo.delete(request);
+        GenericDaoJpa.commitTransaction();
 	}
 }

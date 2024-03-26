@@ -4,6 +4,7 @@ import java.util.List;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import repository.GenericDaoJpa;
 
@@ -66,5 +67,13 @@ public class AdminController extends Controller {
     
 	public void batchUpdateOrders(List<Order> orders) {
 		portaal.batchUpdateOrders(orders);
+	}
+	
+	public void deleteUpdateRequest(CompanyUpdateRequest request) {
+        portaal.deleteUpdateRequest(request);
+	}
+	
+	public ObservableList<CompanyUpdateRequest> getCompanyUpdateRequestList() {
+		return portaal.getCompanyUpdateRequestList();
 	}
 }
