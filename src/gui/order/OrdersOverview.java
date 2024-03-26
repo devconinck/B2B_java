@@ -94,7 +94,7 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 	}
 	
 	@Override
-	protected VBox createDetails(OrderDTO order) {
+	protected VBox createDetails() {
 		vboxDetails.clear();
 		VBox vbox_complete = new VBox();
 
@@ -102,7 +102,7 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 		
 		// Name
 		VBox vbox_name = new VBox(new Label("Name"));
-		txf_name = new TextField(order.name());
+		txf_name = new TextField();
 		txf_name.setEditable(false);
 		vbox_name.getChildren().add(txf_name);
 		vbox_name.setPadding(new Insets(20, 10, 10, 20));
@@ -110,7 +110,7 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 		
 		// Customer Contact
 		VBox vbox_customerContact = new VBox(new Label("Customer Contact"));
-		txf_customerContact = new TextField(order.name());
+		txf_customerContact = new TextField();
 		txf_customerContact.setEditable(false);
 		vbox_customerContact.getChildren().add(txf_customerContact);
 		vbox_customerContact.setPadding(new Insets(20, 10, 10, 20));
@@ -118,7 +118,7 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 
 		// Order id
 		VBox vbox_orderId = new VBox(new Label("Order ID"));
-		txf_orderId = new TextField(String.format("%s", order.orderId()));
+		txf_orderId = new TextField();
 		txf_orderId.setEditable(false);;
 		vbox_orderId.getChildren().add(txf_orderId);
 		vbox_orderId.setPadding(new Insets(20, 10, 10, 20));
@@ -130,14 +130,14 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 		HBox hbox_street_addressnr = new HBox();
 		// Street
 		VBox vbox_street = new VBox(new Label("Street"));
-		txf_street = new TextField(order.street());
+		txf_street = new TextField();
 		txf_street.setEditable(false);
 		vbox_street.getChildren().add(txf_street);
 		vbox_street.setPadding(new Insets(10, 10, 10, 20));
 		vboxDetails.add(vbox_street);
 		// Number
 		VBox vbox_addressnr = new VBox(new Label("Address Nr."));
-		txf_addressNr = new TextField(order.addressNr());
+		txf_addressNr = new TextField();
 		txf_addressNr.setEditable(false);
 		vbox_addressnr.getChildren().add(txf_addressNr);
 		vbox_addressnr.setPadding(new Insets(10, 10, 10, 20));
@@ -148,21 +148,21 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 		HBox hbox_city_postalcode_country = new HBox();
 		// City
 		VBox vbox_city = new VBox(new Label("City"));
-		txf_city = new TextField(order.city());
+		txf_city = new TextField();
 		txf_city.setEditable(false);
 		vbox_city.getChildren().add(txf_city);
 		vbox_city.setPadding(new Insets(10, 10, 10, 20));
 		vboxDetails.add(vbox_city);
 		// Postalcode
 		VBox vbox_postalcode = new VBox(new Label("Postalcode"));
-		txf_postalcode = new TextField(order.postalCode());
+		txf_postalcode = new TextField();
 		txf_postalcode.setEditable(false);
 		vbox_postalcode.getChildren().add(txf_postalcode);
 		vbox_postalcode.setPadding(new Insets(10, 10, 10, 20));
 		vboxDetails.add(vbox_postalcode);
 		// Country
 		VBox vbox_country = new VBox(new Label("Country"));
-		txf_country = new TextField(order.country());
+		txf_country = new TextField();
 		txf_country.setEditable(false);
 		vbox_country.getChildren().add(txf_country);
 		vbox_country.setPadding(new Insets(10, 10, 10, 20));
@@ -174,7 +174,7 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 		// Order Status
 		VBox vbox_orderstatus = new VBox(new Label("Order Status"));
 		comboBox_OrderStatus = new ComboBox<String>();
-		comboBox_OrderStatus.setValue(order.orderStatus().getValue());
+		// TODO comboBox_OrderStatus.setValue();
 		addOrderStatusOptions();
 		comboBox_OrderStatus.setItems(orderStatusOptions);
 		comboBox_OrderStatus.setEditable(false);
@@ -184,7 +184,7 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 		// Payment Status
 		VBox vbox_paymentstatus = new VBox(new Label("Payment Status"));
 		comboBox_PaymentStatus = new ComboBox<String>();
-		comboBox_PaymentStatus.setValue(order.paymentStatus().getValue());;
+		// TODO comboBox_PaymentStatus.setValue(order.paymentStatus().getValue());;
 		addPaymentStatusOptions();
 		comboBox_PaymentStatus.setItems(paymentStatusOptions);
 		comboBox_PaymentStatus.setEditable(false);
@@ -193,7 +193,7 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 		//vboxDetails.add(vbox_paymentstatus);
 		// Last Payment
 		VBox vbox_lastpayment = new VBox(new Label("Last Payment Update"));
-		txf_lastPayment = new TextField(order.paymentStatus().toString());
+		txf_lastPayment = new TextField();
 		txf_lastPayment.setEditable(false);
 		vbox_lastpayment.getChildren().add(txf_lastPayment);
 		vbox_lastpayment.setPadding(new Insets(10, 10, 10, 20));
@@ -215,8 +215,9 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 		
 		VBox vbox_totalprice = new VBox();
 		lbl_price = new Label();
-		lbl_price.setText("0");
+		lbl_price.setText(String.format("Total price: %s €", 0.00));
 		vbox_totalprice.getChildren().add(lbl_price);
+		vbox_totalprice.setPadding(new Insets(0, 0, 0, 20));
 		
 		vbox_complete.getChildren().add(vbox_totalprice);
 

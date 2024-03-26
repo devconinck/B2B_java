@@ -28,7 +28,7 @@ public abstract class GenericOverview<O> {
 		this.controller = controller;
 		this.others = others;
 		hbox_main = new HBox();
-		this.current = others.get(0);
+		//this.current = others.get(0);
 		this.genericTableView = new GenericTableView<>(attributes);
 		setClassFields();
 	}
@@ -55,7 +55,7 @@ public abstract class GenericOverview<O> {
 		//genericTableView.setPrefHeight(visualBounds.getHeight() - TOPBAR_HEIGHT);
 
 		// Details and Buttons
-		VBox details = createDetails(others.get(0));
+		VBox details = createDetails();
 		//Buttons buttons = new Buttons(Arrays.asList("Save", "Remove", "Clear"));
 		//HBox hbox_buttons = buttons.getButtonfield();
 		//buttons.getButtons().get(0).setOnMouseClicked(event -> saveEntity());
@@ -77,7 +77,7 @@ public abstract class GenericOverview<O> {
 				.forEach(field -> ((TextInputControl) field).clear());
 	}
 	
-	protected abstract VBox createDetails(O entityClass);
+	protected abstract VBox createDetails();
 	
 	protected abstract void saveEntity();
 	
