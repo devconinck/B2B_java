@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import domain.B2BPortaal;
 import domain.Company;
+import domain.CompanyUpdateRequest;
 import domain.Order;
 import domain.OrderItem;
 import domain.Product;
@@ -16,7 +17,7 @@ public class PaymentReminder {
 	private SendMail mail;
 	
 	public PaymentReminder() {
-		this.portaal = new B2BPortaal(new GenericDaoJpa<Company>(Company.class), new OrderDaoJpa(), new GenericDaoJpa<OrderItem>(OrderItem.class));
+		this.portaal = new B2BPortaal(new GenericDaoJpa<Company>(Company.class), new OrderDaoJpa(), new GenericDaoJpa<OrderItem>(OrderItem.class), new GenericDaoJpa<CompanyUpdateRequest>(CompanyUpdateRequest.class));
 		this.mail = new SendMail();
 		sendPaymentReminders();
 	}
