@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
@@ -34,6 +35,7 @@ public class Seed {
 	private GenericDaoJpa<Product> productRepo;
 	private List<Company> companyList = new ArrayList<>();
 	private List<Product> productList = new ArrayList<>();
+	private List<OrderItem> orderItems = new ArrayList<>();
 
 	// TODO order + orderItem in andere klassen
 	private String orderCSVFile = "src/CSVFiles/orderdata.csv";
@@ -75,9 +77,10 @@ public class Seed {
 		new CompanySeeding(companyRepo);
 		this.companyList = companyRepo.findAll();
 		new AccountSeeding(accountRepo, companyList);
-		processOrderData();
+		//new ProductSeeding(productRepo);
 		processProductData();
 		processOrderItemData();
+		processOrderData();
 		new CustomerSeeding(companyRepo);
 	}
 
@@ -104,7 +107,7 @@ public class Seed {
 				int newIndex = index % (companyList.size());
 
 				orders.add(new Order(orderId, syncId, companyList.get(newIndex), getRandomCompany(), orderReference, generateRandomDate(),
-						lastPaymentReminder, netAmount, taxAmount, totalAmount, currency));
+						lastPaymentReminder, netAmount, taxAmount, totalAmount, currency, getOrderItems(orderId)));
 				companyList.get(newIndex % (companyList.size()))
 						.setOrders(orders.stream()
 								.filter(o -> o.getFromCompany().equals(companyList.get(newIndex % (companyList.size()))))
@@ -141,6 +144,15 @@ public class Seed {
 		return companyList.get(rand);
 	}
 	
+	private Set<OrderItem> getOrderItems(String orderId) {
+		Set<OrderItem> list = new HashSet<>();
+		for(OrderItem item : orderItems) {
+			if(item.getOrderId() == Integer.parseInt(orderId))
+				list.add(item);
+		}
+		return list;
+	}
+	
 	private void processProductData() {
 		try (CSVReader reader = new CSVReader(new FileReader(productCSVFile))) {
 			String[] line;
@@ -167,7 +179,7 @@ public class Seed {
 		try (CSVReader reader = new CSVReader(new FileReader(orderItemCSVFile))) {
 			String[] line;
 			reader.readNext();
-			List<OrderItem> orderItems = new ArrayList<>();
+			orderItems = new ArrayList<>();
 			while ((line = reader.readNext()) != null && !line[0].equals(";;;;;;;;;")) {
 				String[] items = line[0].split(";", -1);
 				int orderId = Integer.parseInt(items[0]);

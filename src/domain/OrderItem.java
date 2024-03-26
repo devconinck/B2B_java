@@ -9,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -33,6 +34,9 @@ public class OrderItem implements Serializable {
     private int orderItemId;
     private int syncId;
     private String unitOfMeasureId;
+    
+    @ManyToOne
+    private Order fromOrder;
 
     @OneToOne
     private Product product;
@@ -53,12 +57,22 @@ public class OrderItem implements Serializable {
     protected OrderItem() {};
 
     // Getters
+    
+    
     @Access(AccessType.PROPERTY)
     public String getName() {
         return name.get();
     }
 
-    @Access(AccessType.PROPERTY)
+    public Order getFromOrder() {
+		return fromOrder;
+	}
+
+	public void setFromOrder(Order fromOrder) {
+		this.fromOrder = fromOrder;
+	}
+
+	@Access(AccessType.PROPERTY)
     public int getQuantity() {
         return quantity.get();
     }

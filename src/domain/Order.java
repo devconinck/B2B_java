@@ -43,7 +43,7 @@ public class Order implements Serializable, Comparable<Order>{
     private OrderStatus orderStatus;
     private PaymentStatus paymentStatus;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "fromOrder", cascade = CascadeType.ALL)
     private Set<OrderItem> orderItems;
     private String orderReference;
     private LocalDate orderDateTime;
@@ -57,14 +57,13 @@ public class Order implements Serializable, Comparable<Order>{
     @OneToOne
     private Company toCompany;
     
-    
 
     // Default constructor JPA
     protected Order() {}
 
     // Constructor
     public Order(String orderId, int syncId, Company fromCompany, Company toCompany, String orderReference, LocalDate orderDateTime,
-            String lastPaymentReminder, String netAmount, String taxAmount, String totalAmount, String currency) {
+            String lastPaymentReminder, String netAmount, String taxAmount, String totalAmount, String currency, Set<OrderItem> orderItems) {
         setOrderID(orderId);
         setName(fromCompany.getName());
         setDate(orderDateTime.toString());
@@ -79,6 +78,7 @@ public class Order implements Serializable, Comparable<Order>{
         setTotalAmount(totalAmount);
         setCurrency(currency);
         setToCompany(toCompany);
+        setOrderItems(orderItems);
     }
 
 	public Order(OrderDTO order) {

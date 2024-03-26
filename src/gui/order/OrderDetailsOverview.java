@@ -67,7 +67,7 @@ public class OrderDetailsOverview extends GenericDetailsOverview<OrderDTO> imple
 		comboBox_PaymentStatus.setItems(paymentStatusOptions);
 	
 		//OrderItems Table
-		orderItems = FXCollections.observableArrayList(controller.getOrderItems(current.orderId()).stream().map(or -> new OrderItemDTO(or)).collect(Collectors.toList()));
+		orderItems = FXCollections.observableArrayList(current.orderItems().stream().map(or -> new OrderItemDTO(or)).collect(Collectors.toList()));
 		orderItemTable.setData(orderItems);
 		
         //Save Button
@@ -213,9 +213,9 @@ public class OrderDetailsOverview extends GenericDetailsOverview<OrderDTO> imple
 				Map.entry("Unit Price", "unitPrice"),
 				Map.entry("Total Product", "totalProduct")
 				));
-		orderItems = FXCollections.observableArrayList(current.orderItems().stream().map(or -> new OrderItemDTO(or)).collect(Collectors.toList()));
+		//orderItems = FXCollections.observableArrayList(current.orderItems().stream().map(or -> new OrderItemDTO(or)).collect(Collectors.toList()));
 		orderItemTable = new GenericTableView<OrderItemDTO>(mapOrders);
-		orderItemTable.setData(orderItems);
+		//orderItemTable.setData(orderItems);
 		orderItemTable.getStylesheets().add("css/label.css");
 		orderItemTable.setMinHeight(200);
 		vbox_complete.getChildren().add(orderItemTable);
