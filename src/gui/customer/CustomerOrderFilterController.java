@@ -92,7 +92,7 @@ public class CustomerOrderFilterController extends FilterController<OrderDTO>{
             }
         }
         
-        Label lbl_paymentoptions = new Label("Payment Options");
+        Label lbl_paymentoptions = new Label("Order Options");
         VBox vbox_label_pane = new VBox();
         vbox_label_pane.getChildren().addAll(lbl_paymentoptions, orderPane);
 
@@ -149,9 +149,10 @@ public class CustomerOrderFilterController extends FilterController<OrderDTO>{
 	
 	@Override
 	protected void runAllFilters() {
+		ObservableList<OrderDTO> newList = FXCollections.observableArrayList(copyOriginal);
 		// PaymentOptions
-		ObservableList<OrderDTO> newList = FXCollections.observableArrayList(
-				copyOriginal.stream()
+		newList = FXCollections.observableArrayList(
+				newList.stream()
 				.filter(o -> {
 					if(allowedPaymentOptions.isEmpty()) 
 						return true; 

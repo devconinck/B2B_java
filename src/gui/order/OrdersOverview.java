@@ -87,8 +87,7 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
         saveBtn.setOnMouseClicked(event -> {
         	controller.updateOrder(current.orderId(), comboBox_OrderStatus.getValue(), comboBox_PaymentStatus.getValue());
         	controller.updateCompany(paymentOptionsList);
-        	genericTableView.setData(FXCollections.observableArrayList(controller.getCurrentCompany().getOrders().stream().map(o -> new OrderDTO(o)).collect(Collectors.toList())));
-        	genericTableView.refresh();
+        	genericTableView.setData(FXCollections.observableArrayList(controller.getOrdersToCompany().stream().map(o -> new OrderDTO(o)).collect(Collectors.toList())));
         });
         
         lbl_price.setText(getTotalOrderPrice());
@@ -216,7 +215,7 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 		
 		VBox vbox_totalprice = new VBox();
 		lbl_price = new Label();
-		lbl_price.setText(getTotalOrderPrice());
+		lbl_price.setText("0");
 		vbox_totalprice.getChildren().add(lbl_price);
 		
 		vbox_complete.getChildren().add(vbox_totalprice);
