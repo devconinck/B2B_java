@@ -1,8 +1,13 @@
 package domain;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import dto.CompanyDTO;
+import dto.OrderDTO;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import util.PaymentOption;
 
@@ -11,12 +16,14 @@ public class SupplierController extends Controller{
 	private Company company;
 	private Order currentOrder;
 	
+	private PropertyChangeSupport supportOrder;
 
 	public SupplierController(Company company) {
 		super();
 		setCompany(company);
 		selectedCompany = portaal.getCompanyList().get(0);
 		this.currentOrder = company.getOrders().stream().collect(Collectors.toList()).get(0);
+		supportOrder = new PropertyChangeSupport(this);
 	}
 
 	private void setCompany(Company company) {
@@ -24,7 +31,7 @@ public class SupplierController extends Controller{
 	}
 	
 	public void setCurrentOrder(Order o) {
-		this.currentOrder = o;
+		supportOrder.firePropertyChange("currentOrder", this.currentOrder, o);
 		notifyObservers();
 	}
 	
@@ -32,8 +39,17 @@ public class SupplierController extends Controller{
 		return currentOrder;
 	}
 	
+	public OrderDTO getCurrentOrderDTO() {
+		return new OrderDTO(currentOrder);
+	}
+	
+	// TODO
 	public Company getCurrentCompany() {
 		return company;
+	}
+	
+	public CompanyDTO getCurrentCompanyDTO() {
+		return new CompanyDTO(company);
 	}
 	
 	public Order getOrder(String orderId) {
@@ -50,6 +66,10 @@ public class SupplierController extends Controller{
 	
 	public ObservableList<Order> getOrdersToCompany() {
 		return portaal.getOrdersToCompany(company);
+	}
+	
+	public ObservableList<OrderDTO> getOrdersToCompanyDTO() {
+		return FXCollections.observableArrayList(getOrdersToCompany().stream().map(o -> new OrderDTO(o)).collect(Collectors.toList()));
 	}
 	
 	// TODO mag o.update(company) weg????
@@ -74,5 +94,14 @@ public class SupplierController extends Controller{
 		o.setOrderStatus(orderStatus.toUpperCase().replace(' ', '_'));
 		o.setPaymentStatus(paymentStatus.toUpperCase().replace(' ', '_'));
 		portaal.updateOrder(o);
+		setCurrentOrder(o);
 	}
+	
+	public void addPropertyChangeListenerOrder(PropertyChangeListener pcl) {
+		supportOrder.addPropertyChangeListener(pcl);
+    }
+
+    public void removePropertyChangeListenerOrder(PropertyChangeListener pcl) {
+    	supportOrder.removePropertyChangeListener(pcl);
+    }
 }

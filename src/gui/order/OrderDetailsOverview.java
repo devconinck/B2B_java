@@ -1,18 +1,18 @@
 package gui.order;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+import domain.Order;
 import domain.SupplierController;
 import dto.OrderDTO;
 import dto.OrderItemDTO;
-import gui.FilterController;
-import gui.GenericOverview;
+import gui.GenericDetailsOverview;
 import gui.GenericTableView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,15 +23,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import util.OrderStatus;
-import util.PaymentOption;
 import util.PaymentStatus;
 
-public class OrdersOverview extends GenericOverview<OrderDTO> {
-	
+public class OrderDetailsOverview extends GenericDetailsOverview<OrderDTO> implements PropertyChangeListener {
+
 	@FXML
 	private Button saveBtn;
 	
@@ -43,29 +41,19 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 	private Label lbl_price;
 	private GenericTableView<OrderItemDTO> orderItemTable;
 	private ObservableList<OrderItemDTO> orderItems;
-
 	
-	public OrdersOverview(Map<String, String> attributes, SupplierController sc) {
-		super(FXCollections.observableArrayList(sc.getOrdersToCompany().stream().map(o -> new OrderDTO(o)).collect(Collectors.toList())), attributes, sc);
-		// TODO om te laten zien dat de scrollbar ook css heeft, werkt niet?
+	private SupplierController controller;
+
+	public OrderDetailsOverview(OrderDTO current, SupplierController controller) {
+		super(current);
+		this.controller = controller;
 		hbox_main.getStylesheets().add("css/label.css");
 	}
 
-	@Override
-	protected void saveEntity() {
-		throw new UnsupportedOperationException();
-	}
-	
-	@Override
-	protected void removeEntity() {
-		throw new UnsupportedOperationException();
-	}
-	
-	@Override
 	protected void setCurrent() {
 		//OrderDetails Screen
 		txf_name.setText(current.name());
-		txf_customerContact.setText(current.name());
+		txf_customerContact.setText(current.fromCompany().getContact().getEmail());
 		txf_orderId.setText(current.orderId());
 		txf_street.setText(current.street());
 		txf_addressNr.setText(current.addressNr()); 
@@ -77,20 +65,21 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 		txf_lastPayment.setText(current.lastPaymentReminder());
 		comboBox_OrderStatus.setItems(orderStatusOptions);
 		comboBox_PaymentStatus.setItems(paymentStatusOptions);
+		
+		System.out.println(current.orderItems());
 	
 		//OrderItems Table
-		orderItems = FXCollections.observableArrayList(((SupplierController) controller).getOrderItems(current.orderId()).stream().map(or -> new OrderItemDTO(or)).collect(Collectors.toList()));
+		orderItems = FXCollections.observableArrayList(current.orderItems().stream().map(or -> new OrderItemDTO(or)).collect(Collectors.toList()));
 		orderItemTable.setData(orderItems);
 		
         //Save Button
         saveBtn.setOnMouseClicked(event -> {
         	controller.updateOrder(current.orderId(), comboBox_OrderStatus.getValue(), comboBox_PaymentStatus.getValue());
-        	genericTableView.setData(FXCollections.observableArrayList(controller.getOrdersToCompany().stream().map(o -> new OrderDTO(o)).collect(Collectors.toList())));
         });
         
         lbl_price.setText(getTotalOrderPrice());
 	}
-	
+
 	@Override
 	protected VBox createDetails() {
 		vboxDetails.clear();
@@ -107,7 +96,7 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 		vboxDetails.add(vbox_name);
 		
 		// Customer Contact
-		VBox vbox_customerContact = new VBox(new Label("Customer Contact"));
+		VBox vbox_customerContact = new VBox(new Label("Customer email"));
 		txf_customerContact = new TextField();
 		txf_customerContact.setEditable(false);
 		vbox_customerContact.getChildren().add(txf_customerContact);
@@ -172,23 +161,19 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 		// Order Status
 		VBox vbox_orderstatus = new VBox(new Label("Order Status"));
 		comboBox_OrderStatus = new ComboBox<String>();
-		// TODO comboBox_OrderStatus.setValue();
 		addOrderStatusOptions();
 		comboBox_OrderStatus.setItems(orderStatusOptions);
 		comboBox_OrderStatus.setEditable(false);
 		vbox_orderstatus.getChildren().add(comboBox_OrderStatus);
 		vbox_orderstatus.setPadding(new Insets(10, 15, 10, 20));
-		//vboxDetails.add(vbox_orderstatus);
 		// Payment Status
 		VBox vbox_paymentstatus = new VBox(new Label("Payment Status"));
 		comboBox_PaymentStatus = new ComboBox<String>();
-		// TODO comboBox_PaymentStatus.setValue(order.paymentStatus().getValue());;
 		addPaymentStatusOptions();
 		comboBox_PaymentStatus.setItems(paymentStatusOptions);
 		comboBox_PaymentStatus.setEditable(false);
 		vbox_paymentstatus.getChildren().add(comboBox_PaymentStatus);
 		vbox_paymentstatus.setPadding(new Insets(10, 15, 10, 20));
-		//vboxDetails.add(vbox_paymentstatus);
 		// Last Payment
 		VBox vbox_lastpayment = new VBox(new Label("Last Payment Update"));
 		txf_lastPayment = new TextField();
@@ -230,18 +215,12 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 				Map.entry("Unit Price", "unitPrice"),
 				Map.entry("Total Product", "totalProduct")
 				));
-		orderItems = FXCollections.observableArrayList(((SupplierController) controller).getCurrentOrder().getOrderItems().stream().map(or -> new OrderItemDTO(or)).collect(Collectors.toList()));
+		orderItems = FXCollections.observableArrayList(current.orderItems().stream().map(or -> new OrderItemDTO(or)).collect(Collectors.toList()));
 		orderItemTable = new GenericTableView<OrderItemDTO>(mapOrders);
 		orderItemTable.setData(orderItems);
 		orderItemTable.getStylesheets().add("css/label.css");
 		orderItemTable.setMinHeight(200);
 		vbox_complete.getChildren().add(orderItemTable);
-	}
-
-	@SuppressWarnings("rawtypes")
-	@Override
-	protected FilterController setFilter() {
-		return new OrdersFilterController(others);
 	}
 	
 	private void addOrderStatusOptions() {
@@ -259,11 +238,18 @@ public class OrdersOverview extends GenericOverview<OrderDTO> {
 	private String getTotalOrderPrice() {
 		DecimalFormat decimalFormat = new DecimalFormat("#0.00");
 		String formattedTotalPrice = decimalFormat.format(
-		    controller.getOrderItems(current.orderId()).stream()
+		    current.orderItems().stream()
 		        .map(or -> or.getUnitPrice().multiply(BigDecimal.valueOf(or.getQuantity())))
 		        .map(BigDecimal::doubleValue)
 		        .collect(Collectors.summarizingDouble(Double::doubleValue)).getSum()
 		);
 		return String.format("Total price: %s €", formattedTotalPrice);
 	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		super.current = new OrderDTO((Order) evt.getNewValue());
+		this.setCurrent();
+	}
+
 }

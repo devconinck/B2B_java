@@ -1,14 +1,11 @@
 package gui.customer;
 
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
-import domain.SupplierController;
+import domain.Company;
 import dto.CompanyDTO;
-import gui.FilterController;
-import gui.GenericOverview;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import gui.GenericDetailsOverview;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -20,37 +17,18 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
-public class CustomerOverview extends GenericOverview<CompanyDTO> {
+public class CustomerDetailsOverview extends GenericDetailsOverview<CompanyDTO> implements PropertyChangeListener {
 
-	private TextField txf_name, txf_country, txf_city, txf_zipcode, txf_street,
-			txf_number, txf_email, txf_phonenr;
+	private TextField txf_name, txf_country, txf_city, txf_zipcode, txf_street, txf_number, txf_email, txf_phonenr;
 	private ImageView imgvw_logo;
 
-	public CustomerOverview(ObservableList<CompanyDTO> list, Map<String, String> attributes,
-			SupplierController controller) {
-		super(FXCollections.observableArrayList(controller.getCurrentCompany().getCustomers().stream()
-				.map(e -> new CompanyDTO(e)).collect(Collectors.toList())), attributes, controller);
-		// TODO logica in dc voor deze super lange constructor
+	public CustomerDetailsOverview(CompanyDTO current) {
+		super(current);
 		hbox_main.getStylesheets().add("css/label.css");
 	}
 
-	@Override
-	protected void saveEntity() {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	protected void removeEntity() {
-		throw new UnsupportedOperationException();
-	}
-
-	private String createPhoneNumber(String phoneNumber) {
-		return String.format("+32%s", phoneNumber);
-	}
-	
-	@Override
+	// @Override
 	protected void setCurrent() {
-		controller.setSelectedCompany(controller.getCompany(current.vatNumber()));
 		txf_name.setText(current.name());
 		txf_country.setText(current.country());
 		txf_city.setText(current.city());
@@ -162,7 +140,7 @@ public class CustomerOverview extends GenericOverview<CompanyDTO> {
 		vboxDetails.add(vbox_phonenr);
 		hbox_email_phonenr.getChildren().addAll(vbox_email, vbox_phonenr);
 		vbox_email_phonenr.getChildren().add(hbox_email_phonenr);
-		
+
 		// Button to open orders from selected company
 		HBox hbox_btn = new HBox();
 		Button btn_orders = new Button("Show Orders");
@@ -173,16 +151,20 @@ public class CustomerOverview extends GenericOverview<CompanyDTO> {
 		hbox_btn.setAlignment(Pos.CENTER);
 		hbox_btn.getChildren().add(btn_orders);
 
-		vbox_complete.getChildren().addAll(hbox_logo_name_customerSince, vbox_address_complete,
-				vbox_email_phonenr, hbox_btn);
+		vbox_complete.getChildren().addAll(hbox_logo_name_customerSince, vbox_address_complete, vbox_email_phonenr,
+				hbox_btn);
 
 		return vbox_complete;
 	}
 
-	@SuppressWarnings("rawtypes")
+	private String createPhoneNumber(String phoneNumber) {
+		return String.format("+32%s", phoneNumber);
+	}
+
 	@Override
-	protected FilterController setFilter() {
-		return new CustomerFilterController(others);
+	public void propertyChange(PropertyChangeEvent evt) {
+		current = new CompanyDTO((Company) evt.getNewValue());
+		this.setCurrent();
 	}
 
 }

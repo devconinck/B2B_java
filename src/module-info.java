@@ -17,4 +17,5 @@ open module JvaFXAndPersistenceAndUnitTests {
 	requires org.junit.jupiter.params;
 	
 	requires jakarta.mail;
+	requires java.desktop;
 }

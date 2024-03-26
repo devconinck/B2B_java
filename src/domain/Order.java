@@ -83,6 +83,20 @@ public class Order implements Serializable, Comparable<Order>{
 
 	public Order(OrderDTO order) {
     	setOrderID(order.orderId());
+    	setName(order.fromCompany().getName());
+        setDate(order.date().toString());
+        setOrderStatus(order.orderStatus());
+        setPaymentStatus(order.paymentStatus());
+        setFromCompany(order.fromCompany());
+        setOrderReference(order.orderReference());
+        setOrderDateTime(order.date());
+        setLastPaymentReminder(order.lastPaymentReminder());
+        setNetAmount(order.netAmount());
+        setTaxAmount(order.taxAmount());
+        setTotalAmount(order.totalAmount());
+        setCurrency(order.currency());
+        setToCompany(order.toCompany());
+        setOrderItems(order.orderItems());
     }
 
 

@@ -4,7 +4,7 @@ import domain.AdminController;
 import domain.Controller;
 import domain.SupplierController;
 import gui.AdminScreenController;
-import gui.SupplierScreenController;
+import gui.customer.SupplierScreenController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
