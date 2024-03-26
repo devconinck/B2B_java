@@ -1,13 +1,10 @@
 package gui;
 
 import domain.AdminController;
-import domain.Company;
 import gui.company.CompanyDetailsScreenController;
 import gui.company.CompanyFilterController;
 import gui.company.CompanyScreenController;
 import gui.company.ControlScreenController;
-import javafx.beans.property.ObjectProperty;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -22,11 +19,11 @@ public class CompaniesOverviewController extends GridPane {
     private ControlScreenController controls;
     private CompanyFilterController filter;
 
-    public CompaniesOverviewController(ObservableList<Company> companyList, ObjectProperty<Company> selectedCompanyProperty, AdminController adminController) {
-        this.filter = new CompanyFilterController(companyList);
-        this.companyDetails = new CompanyDetailsScreenController(adminController, selectedCompanyProperty);
+    public CompaniesOverviewController(AdminController adminController) {
+        this.filter = new CompanyFilterController(adminController.getCompanyList());
+        this.companyDetails = new CompanyDetailsScreenController(adminController);
         this.controls = new ControlScreenController();
-        this.companies = new CompanyScreenController(companyList, selectedCompanyProperty);
+        this.companies = new CompanyScreenController(adminController.getCompanyList(), adminController.getSelectedCompanyProperty());
         
         // Set up event handlers
         controls.getSaveButton().setOnAction(e -> companyDetails.persistCompany());

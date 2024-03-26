@@ -13,8 +13,6 @@ import domain.Observer;
 import domain.Order;
 import dto.CompanyDTO;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -51,8 +49,8 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
     private ObjectProperty<Company> selectedCompanyProperty;
     private AdminController adminController;
 
-    public CompanyDetailsScreenController(AdminController adminController, ObjectProperty<Company> selectedCompanyProperty) {
-        this.selectedCompanyProperty = selectedCompanyProperty;
+    public CompanyDetailsScreenController(AdminController adminController) {
+        this.selectedCompanyProperty = adminController.getSelectedCompanyProperty();
         this.adminController = adminController;
         this.selectedCompanyProperty.addListener((obs, oldValue, newValue) -> {
             if (newValue != null) {

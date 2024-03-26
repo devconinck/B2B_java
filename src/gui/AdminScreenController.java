@@ -52,18 +52,14 @@ public class AdminScreenController extends BorderPane {
         }
 
         this.logOutButton.setOnMouseClicked(e -> logOut());
-
+        
         companiesButton.setOnMouseClicked(e -> {
-            CompaniesOverviewController companiesScreen = new CompaniesOverviewController(
-                controller.getCompanyList(),
-                controller.getSelectedCompanyProperty(),
-                controller
-            );
+            CompaniesOverviewController companiesScreen = new CompaniesOverviewController(controller);
             titleLabel.setText("Companies");
             this.mainScreen.getChildren().clear();
             this.mainScreen.getChildren().add(companiesScreen);
         });
-
+		
         processButton.setOnMouseClicked(e -> {
             ProcessOrderController processScreen = new ProcessOrderController(controller);
             titleLabel.setText("Process Orders");

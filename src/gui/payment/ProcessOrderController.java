@@ -1,21 +1,27 @@
 package gui.payment;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 import domain.AdminController;
 import domain.Order;
 import gui.GenericTableView;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import util.PaymentStatus;
 
 public class ProcessOrderController extends VBox {
-    private AdminController adminController;
+	private AdminController controller;
+	private ObservableList<Order> orders;
+
     private GenericTableView<Order> tableView;
 
-    public ProcessOrderController(AdminController adminController) {
-        this.adminController = adminController;
+    public ProcessOrderController(AdminController controller) {
+        this.controller = controller;
+        this.orders = controller.getOrders();
         buildGui();
     }
 
@@ -27,7 +33,7 @@ public class ProcessOrderController extends VBox {
         columns.put("Payment Status", "paymentStatus");
 
         tableView = new GenericTableView<>(columns);
-        tableView.setData(adminController.getOrders());
+        tableView.setData(orders);
         tableView.setMinWidth(380);
 
         Button processButton = new Button("Process Payment");
@@ -37,12 +43,22 @@ public class ProcessOrderController extends VBox {
     }
 
     private void processPayments() {
-        adminController.getOrders().stream()
+    	List<Order> batchOrders = new ArrayList<>();
+    	
+    	orders.stream()
             .filter(o -> o.getPaymentStatus().equals(PaymentStatus.INVOICE_SENT))
             .forEach(o -> {
                 o.setPaymentStatus(PaymentStatus.PAID);
-                adminController.updateOrder(o);
+                batchOrders.add(o);
             });
-        tableView.refresh();
+    	
+    	controller.batchUpdateOrders(batchOrders);
+    	
+        for (Order updatedOrder : batchOrders) {
+            int index = orders.indexOf(updatedOrder);
+            if (index >= 0) {
+                orders.set(index, updatedOrder);
+            }
+        }
     }
 }

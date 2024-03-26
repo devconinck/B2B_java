@@ -38,14 +38,9 @@ public class B2BPortaal {
 
 	public ObservableList<Order> getOrdersList() {
 		if (orderList == null) {
-			orderList = FXCollections.observableArrayList();
+			orderList = FXCollections.observableArrayList(orderRepo.findAll());
 		}
-		List<Order> ordersFromRepo = orderRepo.findAll().stream().sorted().collect(Collectors.toList());
-
-		orderList.clear();
-		orderList.addAll(ordersFromRepo);
-
-		return FXCollections.observableArrayList(orderList);
+		return orderList;
 	}
 	
 	public ObservableList<Order> getOrdersToCompany(Company company) {
@@ -87,5 +82,13 @@ public class B2BPortaal {
 		GenericDaoJpa.startTransaction();
 		orderRepo.update(order);
 		GenericDaoJpa.commitTransaction();
+	}
+	
+	public void batchUpdateOrders(List<Order> orders) {
+	    GenericDaoJpa.startTransaction();
+	    for (Order order : orders) {
+	        orderRepo.update(order);
+	    }
+	    GenericDaoJpa.commitTransaction();
 	}
 }
