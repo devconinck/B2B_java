@@ -26,6 +26,7 @@ public class AdminController extends Controller {
 
     public void addCompany(Company company) {
         portaal.addCompany(company);
+        portaal.getCompanyList().add(company);
         notifyObservers(company);
     }
 
