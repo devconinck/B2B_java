@@ -8,7 +8,7 @@ public class Validation {
 	public static final String PHONE_NUMBER_REGEX = "^(\\+\\d{1,3}( )?)?((\\(\\d{1,3}\\))|\\d{1,3})[- .]?\\d{3,4}[- .]?\\d{4}$";
 	
 	// Source: https://stackoverflow.com/questions/62659073/regex-for-house-number
-	public static final String HOUSE_NUMBER_REGEX = "^[1-9]\\d*(?: ?(?:[a-z]|[/-] ?\\d+[a-z]?))?$";
+	public static final String HOUSE_NUMBER_REGEX = "^[1-9]\\d*(?:[a-zA-Z]+)?$";
 	
 	public static final String IBAN_REGEX = "^([A-Z]{2}[ \\-]?[0-9]{2})(?=(?:[ \\-]?[A-Z0-9]){9,30}$)((?:[ \\-]?[A-Z0-9]{3,5}){2,7})([ \\-]?[A-Z0-9]{1,3})?$";
 	

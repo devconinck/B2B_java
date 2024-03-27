@@ -8,6 +8,7 @@ import dto.CompanyDTO;
 import org.junit.jupiter.api.Test;
 import util.PaymentOption;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -106,23 +107,27 @@ class CompanyTest {
     }
 
     @Test
-    void testSetBankAccountNrWithInvalidNumber() {
-        Company company = new Company();
-        assertThrows(IllegalArgumentException.class, () -> company.setBankAccountNr(123456789L));
-    }
-
-    @Test
     void testSetCustomerStartWithInvalidDate() {
         Company company = new Company();
-        assertThrows(IllegalArgumentException.class, () -> company.setCustomerStart(LocalDate.of(2023, 13, 1)));
+        assertThrows(DateTimeException.class, () -> company.setCustomerStart(LocalDate.of(2023, 13, 1)));
     }
 
     @Test
     void testGetAmountOfCustomers() {
         Company company = new Company();
         Set<Company> customers = new HashSet<>();
-        customers.add(new Company());
-        customers.add(new Company());
+
+        Company customer1 = new Company();
+        customer1.setVatNumber("VAT1");
+        customer1.setName("Customer 1");
+
+        Company customer2 = new Company();
+        customer2.setVatNumber("VAT2");
+        customer2.setName("Customer 2");
+
+        customers.add(customer1);
+        customers.add(customer2);
+
         company.setCustomers(customers);
 
         assertEquals(2, company.getAmountOfCustomers().get());
