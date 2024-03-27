@@ -79,9 +79,9 @@ public class LoginScreen extends Pane {
 			
 			TextField txf_email = new TextField();
 			txf_email.setPromptText("example.first@icloud.com");
-			txf_email.setText("Charles.leclerc@icloud.com");
+	
 			PasswordField pwf_password = new PasswordField();
-			pwf_password.setText("Test123!");
+	
 			
 			VBox vbox_email = new VBox();
 			vbox_email.getChildren().addAll(lbl_email, txf_email);
