@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import repository.AccountDao;
 import repository.GenericDao;
 import repository.GenericDaoJpa;
 import repository.OrderDao;
@@ -14,17 +15,27 @@ public class B2BPortaal {
 	private OrderDao orderRepo;
 	private GenericDao<OrderItem> orderItemRepo;
 	private GenericDao<CompanyUpdateRequest> companyUpdateRequestRepo;
+	private AccountDao accountRepo;
 
 	private ObservableList<Order> orderList;
 	private ObservableList<OrderItem> orderItemList;
 	private ObservableList<Company> companyList;
 	private ObservableList<CompanyUpdateRequest> companyUpdateRequestList;
 
-	public B2BPortaal(GenericDao<Company> companyRepo, OrderDao orderRepo, GenericDao<OrderItem> orderItemRepo, GenericDao<CompanyUpdateRequest> companyUpdateRequestRepo) {
+	public B2BPortaal(GenericDao<Company> companyRepo, OrderDao orderRepo, GenericDao<OrderItem> orderItemRepo, GenericDao<CompanyUpdateRequest> companyUpdateRequestRepo, AccountDao accountRepo) {
 		setCompanyRepo(companyRepo);
 		setOrderRepo(orderRepo);
 		setOrderItemRepo(orderItemRepo);
 		setCompanyUpdateRequest(companyUpdateRequestRepo);
+		setAccountRepo(accountRepo);
+	}
+	
+	public void setAccountRepo(AccountDao o) {
+		accountRepo = o;
+	}
+	
+	public List<Account> getAccountByCompany(Company company) {
+		return accountRepo.getAccountByCompany(company);
 	}
 	
 	public void setCompanyUpdateRequest(GenericDao<CompanyUpdateRequest> o) {
@@ -92,6 +103,12 @@ public class B2BPortaal {
 		GenericDaoJpa.commitTransaction();
 	}
 	
+	public void updateAccount(Account account) {
+		GenericDaoJpa.startTransaction();
+		accountRepo.update(account);
+		GenericDaoJpa.commitTransaction();
+	}
+	
 	public void updateOrder(Order order) {
 		GenericDaoJpa.startTransaction();
 		orderRepo.update(order);
@@ -111,4 +128,5 @@ public class B2BPortaal {
         companyUpdateRequestRepo.delete(request);
         GenericDaoJpa.commitTransaction();
 	}
+	
 }

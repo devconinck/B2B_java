@@ -70,10 +70,19 @@ public class AdminController extends Controller {
 	}
 	
 	public void deleteUpdateRequest(CompanyUpdateRequest request) {
+		portaal.getCompanyUpdateRequestList().remove(request);
         portaal.deleteUpdateRequest(request);
 	}
 	
 	public ObservableList<CompanyUpdateRequest> getCompanyUpdateRequestList() {
 		return portaal.getCompanyUpdateRequestList();
+	}
+	
+	public List<Account> getAccounts(Company company) {
+		return portaal.getAccountByCompany(company);
+	}
+	
+	public void updateAccount(Account account) {
+		portaal.updateAccount(account);
 	}
 }

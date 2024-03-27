@@ -22,8 +22,10 @@ public class CompanyUpdateRequest {
     private Long newBankAccountNr;
 	private LocalDate newCustomerStart;
 	
-	private Account supplierAccount;
-	private Account customerAccount;
+    private String newSupplierEmail;
+    private String newSupplierPassword;
+    private String newCustomerEmail;
+    private String newCustomerPassword;
     
 	@Embedded
 	private Address newAddress;
@@ -41,9 +43,10 @@ public class CompanyUpdateRequest {
     	
     }
 
-	public CompanyUpdateRequest(String oldVatNumber, String newVatNumber, LocalDate requestDate, String newName, String newSector,
-			Long newBankAccountNr, LocalDate newCustomerStart, Account supplierAccount, Account customerAccount,
-			Address newAddress, Contact newContact, List<PaymentOption> newPaymentOptions, String newLogo) {
+    public CompanyUpdateRequest(String oldVatNumber, String newVatNumber, LocalDate requestDate, String newName, String newSector,
+            Long newBankAccountNr, LocalDate newCustomerStart, String newSupplierEmail, String newSupplierPassword,
+            String newCustomerEmail, String newCustomerPassword, Address newAddress, Contact newContact,
+            List<PaymentOption> newPaymentOptions, String newLogo) {
 		this.oldVatNumber = oldVatNumber;
 		this.newVatNumber = newVatNumber;
 		this.requestDate = requestDate;
@@ -51,8 +54,10 @@ public class CompanyUpdateRequest {
 		this.newSector = newSector;
 		this.newBankAccountNr = newBankAccountNr;
 		this.newCustomerStart = newCustomerStart;
-		this.supplierAccount = supplierAccount;
-		this.customerAccount = customerAccount;
+        this.newSupplierEmail = newSupplierEmail;
+        this.newSupplierPassword = newSupplierPassword;
+        this.newCustomerEmail = newCustomerEmail;
+        this.newCustomerPassword = newCustomerPassword;
 		this.newAddress = newAddress;
 		this.newContact = newContact;
 		this.newPaymentOptions = newPaymentOptions;
@@ -91,14 +96,22 @@ public class CompanyUpdateRequest {
 		return newCustomerStart;
 	}
 
-	public Account getSupplierAccount() {
-		return supplierAccount;
-	}
+    public String getSupplierEmail() {
+        return newSupplierEmail;
+    }
 
-	public Account getCustomerAccount() {
-		return customerAccount;
-	}
+    public String getSupplierPassword() {
+        return newSupplierPassword;
+    }
 
+    public String getCustomerEmail() {
+        return newCustomerEmail;
+    }
+
+    public String getCustomerPassword() {
+        return newCustomerPassword;
+    }
+	
 	public Address getNewAddress() {
 		return newAddress;
 	}

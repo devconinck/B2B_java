@@ -22,6 +22,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
@@ -55,6 +56,7 @@ public class Company implements Serializable {
 	private Set<Company> customers;
 	@OneToMany(mappedBy = "fromCompany", cascade = CascadeType.ALL)
 	private Set<Order> orders;
+		
 	private LocalDate customerStart;
 
 	private SimpleStringProperty name = new SimpleStringProperty();
@@ -92,19 +94,11 @@ public class Company implements Serializable {
 				company.customers());
 	}
 
-	public void setCustomers(Set<Company> customers) {
-		this.customers = customers;
-	}
-
+	// Getters
 	public Set<Company> getCustomers() {
 		return customers;
 	}
-
-	public void setOrders(Set<Order> orders) {
-		this.orders = orders;
-	}
-
-	// Getters
+		
 	public String getVatNumber() {
 		return VatNumber;
 	}
@@ -174,12 +168,16 @@ public class Company implements Serializable {
 		return isActive;
 	}
 
-	/*
-	 * TODO public SimpleIntegerProperty getAmountOfCustomers() { return new
-	 * SimpleIntegerProperty(customers.size()); }
-	 */
 
 	// Setters
+	public void setCustomers(Set<Company> customers) {
+		this.customers = customers;
+	}
+
+	public void setOrders(Set<Order> orders) {
+		this.orders = orders;
+	}
+		
 	public void setVatNumber(String vatNumber) {
 		this.VatNumber = vatNumber;
 	}

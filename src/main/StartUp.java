@@ -14,7 +14,6 @@ import util.PaymentReminder;
 import util.seeding.Seed;
 
 public class StartUp extends Application {
-
 	public static void main(String[] args) throws Exception {
 		launch(args);
 	}

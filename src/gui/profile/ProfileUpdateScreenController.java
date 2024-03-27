@@ -1,10 +1,14 @@
 package gui.profile;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import domain.Account;
+import domain.Address;
 import domain.AdminController;
 import domain.Company;
 import domain.CompanyUpdateRequest;
+import domain.Contact;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Insets;
@@ -31,22 +35,33 @@ public class ProfileUpdateScreenController extends VBox {
     private TextField newPhoneField, newEmailField;
     private TextField oldLogoField, newLogoField;
     private TextField oldVatNumberField, newVatNumberField;
+    private TextField oldSupplierEmailField, newSupplierEmailField;
+    private TextField oldSupplierPasswordField, newSupplierPasswordField;
+    private TextField oldCustomerEmailField, newCustomerEmailField;
+    private TextField oldCustomerPasswordField, newCustomerPasswordField;
+    
     private GridPane oldPaymentOptionsPane, newPaymentOptionsPane;
     private Button acceptButton, denyButton;
     
     private AdminController adminController;
+    private Account oldSupplierAccount;
+    private Account oldCustomerAccount;
 
     public ProfileUpdateScreenController(AdminController adminController) {
         this.adminController = adminController;
         buildGui();
-        tableView.setFixedCellSize(24);
-        tableView.setMaxHeight(300);
-        tableView.getItems().addAll(adminController.getCompanyUpdateRequestList());
-        tableView.setPrefHeight((tableView.getItems().size() + 1) * tableView.getFixedCellSize() + 45);
     }
 
     public void buildGui() {
         tableView = new TableView<>();
+        tableView.setFixedCellSize(24);
+        tableView.setMaxHeight(300);
+        tableView.getItems().addAll(adminController.getCompanyUpdateRequestList());
+        
+        double calculatedHeight = (tableView.getItems().size() + 1) * tableView.getFixedCellSize() + 45;
+        double minHeight = Math.max(calculatedHeight, 100);
+        tableView.setMinHeight(minHeight);
+        tableView.setPrefHeight(calculatedHeight);
 
         TableColumn<CompanyUpdateRequest, String> vatNumberColumn = new TableColumn<>("VAT Number");
         vatNumberColumn.setCellValueFactory(data -> {
@@ -56,6 +71,16 @@ public class ProfileUpdateScreenController extends VBox {
         TableColumn<CompanyUpdateRequest, LocalDate> requestDateColumn = new TableColumn<>("Request Date");
         requestDateColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getRequestDate()));
         tableView.getColumns().addAll(vatNumberColumn, requestDateColumn);
+
+        
+        oldSupplierEmailField = new TextField();
+        newSupplierEmailField = new TextField();
+        oldSupplierPasswordField = new TextField();
+        newSupplierPasswordField = new TextField();
+        oldCustomerEmailField = new TextField();
+        newCustomerEmailField = new TextField();
+        oldCustomerPasswordField = new TextField();
+        newCustomerPasswordField = new TextField();
 
         oldVatNumberField = new TextField();
         newVatNumberField = new TextField();
@@ -86,6 +111,15 @@ public class ProfileUpdateScreenController extends VBox {
         newLogoField = new TextField();
 
         // Set fields to be uneditable
+        oldSupplierEmailField.setEditable(false);
+        newSupplierEmailField.setEditable(false);
+        oldSupplierPasswordField.setEditable(false);
+        newSupplierPasswordField.setEditable(false);
+        oldCustomerEmailField.setEditable(false);
+        newCustomerEmailField.setEditable(false);
+        oldCustomerPasswordField.setEditable(false);
+        newCustomerPasswordField.setEditable(false);
+
         oldVatNumberField.setEditable(false);
         newVatNumberField.setEditable(false);
         requestDateField.setEditable(false);
@@ -118,9 +152,8 @@ public class ProfileUpdateScreenController extends VBox {
         newPaymentOptionsPane = createPaymentOptionsGrid();
 
         acceptButton = new Button("Accept");
-        acceptButton.setOnAction(e -> acceptUpdateRequest());
         denyButton = new Button("Deny");
-        denyButton.setOnAction(e -> denyUpdateRequest());
+
 
         GridPane detailsGrid = new GridPane();
         detailsGrid.setHgap(10);
@@ -157,6 +190,7 @@ public class ProfileUpdateScreenController extends VBox {
         detailsGrid.add(new Label("New Customer Start:"), 2, row);
         detailsGrid.add(newCustomerStartField, 3, row);
         row++;
+        
 
         GridPane oldAddressGrid = new GridPane();
         oldAddressGrid.setHgap(10);
@@ -201,6 +235,38 @@ public class ProfileUpdateScreenController extends VBox {
         newContactGrid.add(newPhoneField, 1, 0);
         newContactGrid.add(new Label("Email:"), 0, 1);
         newContactGrid.add(newEmailField, 1, 1);
+        
+        GridPane oldSupplierGrid = new GridPane();
+        oldSupplierGrid.setHgap(10);
+        oldSupplierGrid.setVgap(5);
+        oldSupplierGrid.add(new Label("Email:"), 0, 0);
+        oldSupplierGrid.add(oldSupplierEmailField, 1, 0);
+        oldSupplierGrid.add(new Label("Password:"), 0, 1);
+        oldSupplierGrid.add(oldSupplierPasswordField, 1, 1);
+        
+        GridPane newSupplierGrid = new GridPane();
+        newSupplierGrid.setHgap(10);
+        newSupplierGrid.setVgap(5);
+        newSupplierGrid.add(new Label("Email:"), 0, 0);
+        newSupplierGrid.add(newSupplierEmailField, 1, 0);
+        newSupplierGrid.add(new Label("Password:"), 0, 1);
+        newSupplierGrid.add(newSupplierPasswordField, 1, 1);
+        
+        GridPane oldCustomerGrid = new GridPane();
+        oldCustomerGrid.setHgap(10);
+        oldCustomerGrid.setVgap(5);
+        oldCustomerGrid.add(new Label("Email:"), 0, 0);
+        oldCustomerGrid.add(oldCustomerEmailField, 1, 0);
+        oldCustomerGrid.add(new Label("Password:"), 0, 1);
+        oldCustomerGrid.add(oldCustomerPasswordField, 1, 1);
+        
+        GridPane newCustomerGrid = new GridPane();
+        newCustomerGrid.setHgap(10);
+        newCustomerGrid.setVgap(5);
+        newCustomerGrid.add(new Label("Email:"), 0, 0);
+        newCustomerGrid.add(newCustomerEmailField, 1, 0);
+        newCustomerGrid.add(new Label("Password:"), 0, 1);
+        newCustomerGrid.add(newCustomerPasswordField, 1, 1);
 
         TitledPane oldAddressPane = new TitledPane("Old Address", oldAddressGrid);
         TitledPane newAddressPane = new TitledPane("New Address", newAddressGrid);
@@ -208,6 +274,10 @@ public class ProfileUpdateScreenController extends VBox {
         TitledPane newContactPane = new TitledPane("New Contact", newContactGrid);
         TitledPane oldPaymentOptionsPane = new TitledPane("Old Payment Options", this.oldPaymentOptionsPane);
         TitledPane newPaymentOptionsPane = new TitledPane("New Payment Options", this.newPaymentOptionsPane);
+        TitledPane oldSupplierAccountPane = new TitledPane("Old Supplier Account", oldSupplierGrid);
+        TitledPane newSupplierAccountPane = new TitledPane("New Supplier Account", newSupplierGrid);
+        TitledPane oldCustomerAccountPane = new TitledPane("Old Customer Account", oldCustomerGrid);
+        TitledPane newCustomerAccountPane = new TitledPane("New Customer Account", newCustomerGrid);
 
         detailsGrid.add(oldAddressPane, 0, row, 2, 1);
         detailsGrid.add(newAddressPane, 2, row, 2, 1);
@@ -217,6 +287,12 @@ public class ProfileUpdateScreenController extends VBox {
         row++;
         detailsGrid.add(oldPaymentOptionsPane, 0, row, 2, 1);
         detailsGrid.add(newPaymentOptionsPane, 2, row, 2, 1);
+        row++;
+        detailsGrid.add(oldSupplierAccountPane, 0, row, 2, 1);
+        detailsGrid.add(newSupplierAccountPane, 2, row, 2, 1);
+        row++;
+        detailsGrid.add(oldCustomerAccountPane, 0, row, 2, 1);
+        detailsGrid.add(newCustomerAccountPane, 2, row, 2, 1);
         row++;
         detailsGrid.add(new Label("Old Logo:"), 0, row);
         detailsGrid.add(oldLogoField, 1, row);
@@ -234,6 +310,8 @@ public class ProfileUpdateScreenController extends VBox {
         tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 displayCompanyUpdateRequestDetails(newSelection);
+                acceptButton.setOnAction(e -> acceptUpdateRequest());
+                denyButton.setOnAction(e -> denyUpdateRequest());
             }
         });
     }
@@ -267,34 +345,51 @@ public class ProfileUpdateScreenController extends VBox {
 
         requestDateField.setText(request.getRequestDate().toString());
 
+        List<Account> accounts = adminController.getAccounts(company);
+        
+        Address oldAddress = company.getAddress();
+        Contact oldContact = company.getContact();
+        oldSupplierAccount = accounts.stream().filter(a -> a.getRole().equals(util.Role.Supplier)).findFirst().get();
+        oldCustomerAccount = accounts.stream().filter(a -> a.getRole().equals(util.Role.Customer)).findFirst().get();
         oldVatNumberField.setText(request.getOldVatNumber());
         oldNameField.setText(company.getName());
         oldSectorField.setText(company.getSector());
         oldBankAccountNrField.setText(String.valueOf(company.getBankAccountNr()));
         oldCustomerStartField.setText(company.getCustomerStart().toString());
-        oldStreetField.setText(company.getAddress().getStreet());
-        oldAddressNrField.setText(company.getAddress().getNumber());
-        oldCityField.setText(company.getAddress().getCity());
-        oldPostalcodeField.setText(company.getAddress().getZipCode());
-        oldCountryField.setText(company.getAddress().getCity());
-        oldPhoneField.setText(company.getContact().getPhoneNumber());
-        oldEmailField.setText(company.getContact().getEmail());
+        oldStreetField.setText(oldAddress.getStreet());
+        oldAddressNrField.setText(oldAddress.getNumber());
+        oldCityField.setText(oldAddress.getCity());
+        oldPostalcodeField.setText(oldAddress.getZipCode());
+        oldCountryField.setText(oldAddress.getCity());
+        oldPhoneField.setText(oldContact.getPhoneNumber());
+        oldEmailField.setText(oldContact.getEmail());
         oldLogoField.setText(company.getLogo());
+        oldSupplierEmailField.setText(oldSupplierAccount.getEmail());
+        oldSupplierPasswordField.setText(oldSupplierAccount.getPassword());
+        oldCustomerEmailField.setText(oldCustomerAccount.getEmail());
+        oldCustomerPasswordField.setText(oldCustomerAccount.getPassword());
         
         
+        
+        Address newAddress = request.getNewAddress();
+        Contact newContact = request.getNewContact();
         newVatNumberField.setText(request.getNewVatNumber());
         newNameField.setText(request.getNewName());
         newSectorField.setText(request.getNewSector());
         newBankAccountNrField.setText(String.valueOf(request.getNewBankAccountNr()));
         newCustomerStartField.setText(request.getNewCustomerStart().toString());
-        newStreetField.setText(request.getNewAddress().getStreet());
-        newAddressNrField.setText(request.getNewAddress().getNumber());
-        newCityField.setText(request.getNewAddress().getCity());
-        newPostalcodeField.setText(request.getNewAddress().getZipCode());
-        newCountryField.setText(request.getNewAddress().getCity());
-        newPhoneField.setText(request.getNewContact().getPhoneNumber());
-        newEmailField.setText(request.getNewContact().getEmail());
+        newStreetField.setText(newAddress.getStreet());
+        newAddressNrField.setText(newAddress.getNumber());
+        newCityField.setText(newAddress.getCity());
+        newPostalcodeField.setText(newAddress.getZipCode());
+        newCountryField.setText(newAddress.getCity());
+        newPhoneField.setText(newContact.getPhoneNumber());
+        newEmailField.setText(newContact.getEmail());
         newLogoField.setText(request.getNewLogo());
+        newSupplierEmailField.setText(request.getSupplierEmail());
+        newSupplierPasswordField.setText(request.getSupplierPassword());
+        newCustomerEmailField.setText(request.getCustomerEmail());
+        newCustomerPasswordField.setText(request.getCustomerPassword());
 
         oldPaymentOptionsPane.getChildren().clear();
         newPaymentOptionsPane.getChildren().clear();
@@ -335,6 +430,16 @@ public class ProfileUpdateScreenController extends VBox {
                 company.setContact(selectedUpdateRequest.getNewContact());
                 company.setPaymentOptions(selectedUpdateRequest.getNewPaymentOptions());
                 company.setLogo(selectedUpdateRequest.getNewLogo());
+                
+                
+                oldSupplierAccount.setEmail(selectedUpdateRequest.getSupplierEmail());
+                oldSupplierAccount.setPassword(selectedUpdateRequest.getSupplierPassword());
+                adminController.updateAccount(oldSupplierAccount);
+                
+                oldCustomerAccount.setEmail(selectedUpdateRequest.getCustomerEmail());
+                oldCustomerAccount.setPassword(selectedUpdateRequest.getCustomerPassword());
+                adminController.updateAccount(oldCustomerAccount);
+
                 adminController.updateCompany(company);
             }
             adminController.deleteUpdateRequest(selectedUpdateRequest);
