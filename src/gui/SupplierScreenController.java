@@ -42,8 +42,14 @@ private SupplierController controller;
     @FXML
     private HBox mainScreen;
     
+    @FXML
+    private Label lbl_title;
+    
+    private String name;
+    
     public SupplierScreenController(SupplierController controller){
     	this.controller = controller;
+    	 name = controller.getCurrentCompany().getName();
     	buildGui();
     }
     
@@ -58,17 +64,20 @@ private SupplierController controller;
 			System.out.println(e.getMessage());
 		}
 		
-		lbl_name_login.setText(String.format("Logged in as: %s", controller.getCurrentCompany().getName()));
+		lbl_name_login.setText(String.format("Logged in as: %s", name));
 		lbl_name_login.setFont(new Font(20));
 
 		this.logOutButton.setOnMouseClicked(e -> logOut());
 		
 		ordersButton.setOnMouseClicked(e -> {
+			lbl_title.setText("Orders");
 			this.mainScreen.getChildren().clear();
 			this.mainScreen.getChildren().addAll(orderTableAndFilter().getHBox(), orderDetails().getHBox());
 		});
 		
 		customersButton.setOnMouseClicked(event -> {
+			lbl_title.setText("Customers");
+
 			this.mainScreen.getChildren().clear();			
 			this.mainScreen.getChildren().addAll(customerTableAndFilter().getHBox(), customerDetails().getHBox());
 		});

@@ -11,13 +11,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class CustomerOrdersOverview {
 	
-	private VBox root;
+	private GridPane root;
 	private Stage primaryStage;
 	private Scene scene;
 	
@@ -30,8 +31,10 @@ public class CustomerOrdersOverview {
 		this.orders = FXCollections.observableArrayList(
 				current.getOrders().stream().map(or -> new OrderDTO(or)).collect(Collectors.toList()));
 		primaryStage = new Stage();
-		root = new VBox();
+		root = new GridPane();
 		scene = new Scene(root, 550, 750);
+		primaryStage.setMinHeight(600);
+		primaryStage.setMinWidth(670);
 		setup();
 		primaryStage.show();
 		scene.getStylesheets().add("css/label.css");
@@ -56,10 +59,13 @@ public class CustomerOrdersOverview {
 				Map.entry("Order Status", "orderStatus"),
 				Map.entry("Payment Status", "paymentStatus")));
 		orderTable = new GenericTableView<>(mapOrders);
-		orderTable.setMaxHeight(400);
+		root.add(filter, 0, 0);
+		root.add(orderTable, 0, 1);
 		orderTable.setData(orders);
+	    GridPane.setHgrow(orderTable, Priority.ALWAYS);
+	    GridPane.setVgrow(orderTable, Priority.ALWAYS);
+	    GridPane.setHgrow(filter, Priority.ALWAYS);
 		
-		root.getChildren().addAll(filter, orderTable);
 	}
 
 }

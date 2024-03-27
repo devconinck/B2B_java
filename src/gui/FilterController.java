@@ -21,6 +21,7 @@ public abstract class FilterController<T> extends HBox {
         this.originalList = originalList;
         this.copyOriginal = FXCollections.observableArrayList(originalList);
         this.vbox = new VBox();
+        this.setStyle("-fx-padding: 20");
         HBox.setHgrow(vbox, Priority.ALWAYS);
         
         filterField = new TextField();

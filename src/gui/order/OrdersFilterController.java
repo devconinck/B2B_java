@@ -131,6 +131,7 @@ public class OrdersFilterController extends FilterController<OrderDTO>{
 		
 		HBox bothDates = new HBox();
 		bothDates.getChildren().addAll(fromDate, untilDate, reset);
+		bothDates.setSpacing(10);
 		
 		Label lbl_date = new Label("Date range");
         VBox vbox_label_datepicker = new VBox();
