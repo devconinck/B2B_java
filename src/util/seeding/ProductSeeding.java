@@ -2,6 +2,8 @@ package util.seeding;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
@@ -13,6 +15,7 @@ import repository.GenericDaoJpa;
 public class ProductSeeding {
 	
 	private GenericDao<Product> productRepo;
+	private List<Product> productList = new ArrayList<>();
 	private String productCSVFile = "src/CSVFiles/productdata.csv";
 	
 	public ProductSeeding(GenericDao<Product> productRepo) {
@@ -24,7 +27,6 @@ public class ProductSeeding {
 		try (CSVReader reader = new CSVReader(new FileReader(productCSVFile))) {
 			String[] line;
 			reader.readNext();
-			//List<Product> products = new ArrayList<>();
 			while ((line = reader.readNext()) != null && !line[0].equals(";;;;;;;;;")) {
 				String[] items = line[0].split(";", -1);
 				String productId = items[0];
@@ -40,5 +42,9 @@ public class ProductSeeding {
 		} catch (IOException | CsvValidationException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public List<Product> getProductList() {
+		return productList;
 	}
 }
