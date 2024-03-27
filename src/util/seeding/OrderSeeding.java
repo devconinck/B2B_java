@@ -25,14 +25,18 @@ import repository.GenericDaoJpa;
 public class OrderSeeding {
 	
 	private GenericDao<Order> orderRepo;
+	private GenericDao<OrderItem> orderItemRepo;
 	private List<Company> companyList;
 	private List<OrderItem> orderItems;
+	private List<Order> orderlist;
 	private String orderCSVFile = "src/CSVFiles/orderdata.csv";
 	
-	public OrderSeeding(GenericDao<Order> orderRepo, List<Company> companyList, List<OrderItem> orderItems) {
+	public OrderSeeding(GenericDao<Order> orderRepo, List<Company> companyList, GenericDao<OrderItem> orderItemRepo) {
 		this.orderRepo = orderRepo;
 		this.companyList = companyList;
-		this.orderItems = orderItems;
+		this.orderItemRepo = orderItemRepo;
+		this.orderItems = orderItemRepo.findAll();
+		this.orderlist = new ArrayList<>();
 		seeding();
 	}
 	
@@ -40,7 +44,6 @@ public class OrderSeeding {
 		try (CSVReader reader = new CSVReader(new FileReader(orderCSVFile))) {
 			String[] line;
 			reader.readNext();
-			List<Order> orders = new ArrayList<>();
 			int index = 0;
 			while ((line = reader.readNext()) != null && !line[0].equals(";;;;;;;;;")) {
 				String[] items = line[0].split(";", -1);
@@ -57,20 +60,36 @@ public class OrderSeeding {
 
 				int newIndex = index % (companyList.size());
 
-				orders.add(new Order(orderId, syncId, companyList.get(newIndex), getRandomCompany(), orderReference, generateRandomDate(),
+				orderlist.add(new Order(orderId, syncId, companyList.get(newIndex), getRandomCompany(), orderReference, generateRandomDate(),
 						lastPaymentReminder, netAmount, taxAmount, totalAmount, currency, getOrderItems(orderId)));
 				companyList.get(newIndex % (companyList.size()))
-						.setOrders(orders.stream()
+						.setOrders(orderlist.stream()
 								.filter(o -> o.getFromCompany().equals(companyList.get(newIndex % (companyList.size()))))
 								.collect(Collectors.toSet()));
 				index++;
 			}
 			GenericDaoJpa.startTransaction();
-			orderRepo.insertBatch(orders);
+			orderRepo.insertBatch(orderlist);
 			GenericDaoJpa.commitTransaction();
+			
+			setOrderItems();
 		} catch (IOException | CsvValidationException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void setOrderItems() {
+		orderItems.forEach(o -> o.setFromOrder(getRandomOrder()));
+		
+		GenericDaoJpa.startTransaction();
+		orderItems.stream().forEach(c -> orderItemRepo.update(c));
+		GenericDaoJpa.commitTransaction();
+	}
+	
+	private Order getRandomOrder() {
+		SecureRandom random = new SecureRandom();
+		int rand = random.nextInt(0, orderlist.size());
+		return orderlist.get(rand);
 	}
 	
 	private Company getRandomCompany() {

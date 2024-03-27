@@ -41,7 +41,7 @@ public class OrderItem implements Serializable {
     @OneToOne
     private Product product;
 
-    public OrderItem(int orderId, int orderItemId, int syncId, Product product, int quantity, String unitOfMeasureId, BigDecimal unitPrice, BigDecimal total) {
+    public OrderItem(int orderId, int orderItemId, int syncId, Product product, int quantity, String unitOfMeasureId, BigDecimal unitPrice, BigDecimal total, Order fromOrder) {
         setProduct(product);
         setName(product.getProductId());
         setQuantity(quantity);
@@ -52,6 +52,7 @@ public class OrderItem implements Serializable {
         setOrderItemId(orderItemId);
         setSyncId(syncId);
         setUnitOfMeasureId(unitOfMeasureId);
+        setFromOrder(fromOrder);
     }
 
     public OrderItem() {};

@@ -14,7 +14,7 @@ public class OrderItemTest {
     @Test
     void testOrderItemConstructor() {
         Product product = new Product("P001", 1, "UOM001", "CAT001", "Available");
-        OrderItem orderItem = new OrderItem(1, 1, 1, product, 5, "UOM001", BigDecimal.valueOf(10.0), BigDecimal.valueOf(50.0));
+        OrderItem orderItem = new OrderItem(1, 1, 1, product, 5, "UOM001", BigDecimal.valueOf(10.0), BigDecimal.valueOf(50.0), null);
         assertEquals("P001", orderItem.getName());
         assertEquals(5, orderItem.getQuantity());
         assertEquals("Available", orderItem.getInStock());

@@ -278,11 +278,11 @@ class B2BPortaalTest {
     
     private List<OrderItem> createOrderItems() {
     	return List.of(
-    			new OrderItem(123, 456, 789, new Product("sdp567", 1700, "pallets", "Toys", "STOCK"), 1, "EURO", BigDecimal.valueOf(15.6), BigDecimal.valueOf(456.56)),
-    			new OrderItem(132, 456, 789, new Product("sdp567", 1700, "pallets", "Toys", "STOCK"), 1, "EURO", BigDecimal.valueOf(15.6), BigDecimal.valueOf(456.56)),
-    			new OrderItem(123, 456, 789, new Product("sdp567", 1700, "pallets", "Toys", "STOCK"), 1, "EURO", BigDecimal.valueOf(15.6), BigDecimal.valueOf(456.56)),
-    			new OrderItem(132, 456, 789, new Product("sdp567", 1700, "pallets", "Toys", "STOCK"), 1, "EURO", BigDecimal.valueOf(15.6), BigDecimal.valueOf(456.56)),
-    			new OrderItem(321, 456, 789, new Product("sdp567", 1700, "pallets", "Toys", "STOCK"), 1, "EURO", BigDecimal.valueOf(15.6), BigDecimal.valueOf(456.56))
+    			new OrderItem(123, 456, 789, new Product("sdp567", 1700, "pallets", "Toys", "STOCK"), 1, "EURO", BigDecimal.valueOf(15.6), BigDecimal.valueOf(456.56), null),
+    			new OrderItem(132, 456, 789, new Product("sdp567", 1700, "pallets", "Toys", "STOCK"), 1, "EURO", BigDecimal.valueOf(15.6), BigDecimal.valueOf(456.56), null),
+    			new OrderItem(123, 456, 789, new Product("sdp567", 1700, "pallets", "Toys", "STOCK"), 1, "EURO", BigDecimal.valueOf(15.6), BigDecimal.valueOf(456.56), null),
+    			new OrderItem(132, 456, 789, new Product("sdp567", 1700, "pallets", "Toys", "STOCK"), 1, "EURO", BigDecimal.valueOf(15.6), BigDecimal.valueOf(456.56), null),
+    			new OrderItem(321, 456, 789, new Product("sdp567", 1700, "pallets", "Toys", "STOCK"), 1, "EURO", BigDecimal.valueOf(15.6), BigDecimal.valueOf(456.56), null)
     			);
     }
     

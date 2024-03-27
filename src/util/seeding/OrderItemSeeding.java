@@ -3,12 +3,14 @@ package util.seeding;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
+import domain.Company;
 import domain.OrderItem;
 import domain.Product;
 import repository.GenericDao;
@@ -46,7 +48,7 @@ public class OrderItemSeeding {
 				Product product = productList.stream().filter(p -> p.getProductId().equals(productId)).findAny().orElse(null);
 				
 				orderItems.add(new OrderItem(orderId, orderItemId, syncId, product, quantity, unitOfMeasureId,
-						netPrice, netAmount));
+						netPrice, netAmount, null));
 			}
 			GenericDaoJpa.startTransaction();
 			orderItemRepo.insertBatch(orderItems);
