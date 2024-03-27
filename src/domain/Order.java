@@ -59,7 +59,7 @@ public class Order implements Serializable, Comparable<Order>{
     
 
     // Default constructor JPA
-    protected Order() {}
+    public Order() {}
 
     // Constructor
     public Order(String orderId, int syncId, Company fromCompany, Company toCompany, String orderReference, LocalDate orderDateTime,
@@ -216,7 +216,7 @@ public class Order implements Serializable, Comparable<Order>{
         this.fromCompany = company;
     }
     
-    private void setToCompany(Company toCompany) {
+    public void setToCompany(Company toCompany) {
 		this.toCompany = toCompany;		
 	}
 

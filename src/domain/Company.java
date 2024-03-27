@@ -7,247 +7,250 @@ import java.util.Objects;
 import java.util.Set;
 
 import dto.CompanyDTO;
-import jakarta.persistence.Access;
-import jakarta.persistence.AccessType;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import util.PaymentOption;
+import util.Validation;
 
 @Entity
 @Access(AccessType.FIELD)
 public class Company implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-	private String VatNumber;
-	private String logo; // URL Nr Afbeelding
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    private String vatNumber;
+    private String logo;
 
-	@Embedded
-	private Address address;
+    @Embedded
+    private Address address;
 
-	@Embedded
-	private Contact contact;
+    @Embedded
+    private Contact contact;
 
-	// Niet volledig tevreden met het resultaat
-	// Maar goed genoeg voorlopig
-	@ElementCollection
-	@Enumerated(EnumType.STRING)
-	private List<PaymentOption> paymentOptions;
-	@ManyToMany
-	@JoinTable(name = "company_known_companies", joinColumns = @JoinColumn(name = "company_id"), inverseJoinColumns = @JoinColumn(name = "known_company_id"))
-	private Set<Company> customers;
-	@OneToMany(mappedBy = "fromCompany", cascade = CascadeType.ALL)
-	private Set<Order> orders;
-		
-	private LocalDate customerStart;
+    @ElementCollection
+    @Enumerated(EnumType.STRING)
+    private List<PaymentOption> paymentOptions;
 
-	private SimpleStringProperty name = new SimpleStringProperty();
-	private SimpleStringProperty sector = new SimpleStringProperty();
-	private SimpleLongProperty bankAccountNr = new SimpleLongProperty();
-	private SimpleBooleanProperty isActive = new SimpleBooleanProperty(true);
-	@Transient
-	private SimpleStringProperty addressProperty = new SimpleStringProperty();
+    @ManyToMany
+    @JoinTable(name = "company_known_companies", joinColumns = @JoinColumn(name = "company_id"), inverseJoinColumns = @JoinColumn(name = "known_company_id"))
+    private Set<Company> customers;
 
-	// Default constructor JPA
-	protected Company() {
-	};
+    @OneToMany(mappedBy = "fromCompany", cascade = CascadeType.ALL)
+    private Set<Order> orders;
 
-	// Constructors
-	public Company(String vatNumber, String logo, Address address, Contact contact, String name, String sector,
-			Long bankAccountNr, List<PaymentOption> paymentOptions, LocalDate customerStart, Set<Order> orders,
-			Set<Company> customers) {
-		setVatNumber(vatNumber);
-		setLogo(logo);
-		setAddress(address);
-		setContact(contact);
-		setName(name);
-		setSector(sector);
-		setBankAccountNr(bankAccountNr);
-		setPaymentOptions(paymentOptions);
-		setCustomerStart(customerStart);
-		setOrders(orders);
-		// isActive = true; overbodig doordat Initiele toestand bij attributen reeds
-		setCustomers(customers);
-		updateAddressProperty();
-	}
+    private LocalDate customerStart;
 
-	public Company(CompanyDTO company) {
-		this(company.vatNumber(), company.logo(),
-				new Address(company.country(), company.city(), company.zipcode(), company.street(), company.number()),
-				new Contact(company.phoneNumber(), company.email()), company.name(), company.sector(),
-				company.bankAccountNr(), company.paymentOptions(), company.customerStart(), company.orders(),
-				company.customers());
-	}
+    private SimpleStringProperty name = new SimpleStringProperty();
+    private SimpleStringProperty sector = new SimpleStringProperty();
+    private SimpleLongProperty bankAccountNr = new SimpleLongProperty();
+    private SimpleBooleanProperty isActive = new SimpleBooleanProperty(true);
 
-	// Getters
-	public Set<Company> getCustomers() {
-		return customers;
-	}
-		
-	public String getVatNumber() {
-		return VatNumber;
-	}
+    @Transient
+    private SimpleStringProperty addressProperty = new SimpleStringProperty();
 
-	public String getLogo() {
-		return logo;
-	}
+    //Voor testen
+    public Company() {
+    }
 
-	public Address getAddress() {
-		return address;
-	}
+    // Constructors
+    public Company(String vatNumber, String logo, Address address, Contact contact, String name, String sector,
+                   Long bankAccountNr, List<PaymentOption> paymentOptions, LocalDate customerStart, Set<Order> orders,
+                   Set<Company> customers) {
+        setVatNumber(vatNumber);
+        setLogo(logo);
+        setAddress(address);
+        setContact(contact);
+        setName(name);
+        setSector(sector);
+        setBankAccountNr(bankAccountNr);
+        setPaymentOptions(paymentOptions);
+        setCustomerStart(customerStart);
+        setOrders(orders);
+        setCustomers(customers);
+        updateAddressProperty();
+    }
 
-	private String getAddressString() {
-		return address != null ? address.toString() : "No address found.";
-	}
+    public Company(CompanyDTO company) {
+        this(company.vatNumber(), company.logo(),
+                new Address(company.country(), company.city(), company.zipcode(), company.street(), company.number()),
+                new Contact(company.phoneNumber(), company.email()), company.name(), company.sector(),
+                company.bankAccountNr(), company.paymentOptions(), company.customerStart(), company.orders(),
+                company.customers());
+    }
 
-	public Contact getContact() {
-		return contact;
-	}
+    // Getters and setters
 
-	@Access(AccessType.PROPERTY)
-	public String getName() {
-		return name.get();
-	}
+    public Set<Company> getCustomers() {
+        return customers;
+    }
 
-	@Access(AccessType.PROPERTY)
-	public String getSector() {
-		return sector.get();
-	}
+    public void setCustomers(Set<Company> customers) {
+        this.customers = customers;
+    }
 
-	@Access(AccessType.PROPERTY)
-	public Long getBankAccountNr() {
-		return bankAccountNr.get();
-	}
+    public String getVatNumber() {
+        return vatNumber;
+    }
 
-	@Access(AccessType.PROPERTY)
-	public boolean getIsActive() {
-		return isActive.get();
-	}
+    public void setVatNumber(String vatNumber) {
+        if (vatNumber == null || !vatNumber.matches(Validation.VAT_REGEX)) {
+            throw new IllegalArgumentException("Invalid VAT number");
+        }
+        this.vatNumber = vatNumber;
+    }
 
-	public List<PaymentOption> getPaymentOptions() {
-		return paymentOptions;
-	}
+    public String getLogo() {
+        return logo;
+    }
 
-	public LocalDate getCustomerStart() {
-		return customerStart;
-	}
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
 
-	// Property gettters:
-	public SimpleIntegerProperty getAmountOfCustomers() {
-		return new SimpleIntegerProperty(customers.size());
-	}
-	
-	public SimpleStringProperty getNameProperty() {
-		return name;
-	}
+    public Address getAddress() {
+        return address;
+    }
 
-	public SimpleStringProperty getSectorProperty() {
-		return sector;
-	}
+    public void setAddress(Address address) {
+        this.address = address;
+    }
 
-	public SimpleStringProperty getAddressProperty() {
-		addressProperty.set(getAddressString());
-		return addressProperty;
-	}
-	
-	public void updateAddressProperty() {
-		this.addressProperty.set(getAddressString());
-	}
+    public Contact getContact() {
+        return contact;
+    }
 
-	public SimpleBooleanProperty getIsActiveProperty() {
-		return isActive;
-	}
+    public void setContact(Contact contact) {
+        this.contact = contact;
+    }
 
-	// Setters
-	public void setCustomers(Set<Company> customers) {
-		this.customers = customers;
-	}
+    @Access(AccessType.PROPERTY)
+    public String getName() {
+        return name.get();
+    }
 
-	public void setOrders(Set<Order> orders) {
-		this.orders = orders;
-	}
-		
-	public void setVatNumber(String vatNumber) {
-		this.VatNumber = vatNumber;
-	}
+    public void setName(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be null or empty");
+        }
+        this.name.set(name.trim());
+    }
 
-	public void setIsActive(boolean isActive) {
-		this.isActive.set(isActive);
-	}
+    @Access(AccessType.PROPERTY)
+    public String getSector() {
+        return sector.get();
+    }
 
-	public void setLogo(String logo) {
-		this.logo = logo;
-	}
+    public void setSector(String sector) {
+        if (sector == null || sector.trim().isEmpty()) {
+            throw new IllegalArgumentException("Sector cannot be null or empty");
+        }
+        this.sector.set(sector.trim());
+    }
 
-	public void setAddress(Address address) {
-		this.address = address;
-	}
+    @Access(AccessType.PROPERTY)
+    public Long getBankAccountNr() {
+        return bankAccountNr.get();
+    }
 
-	public void setContact(Contact contact) {
-		this.contact = contact;
-	}
+    public void setBankAccountNr(Long bankAccountNr) {
+        if (bankAccountNr == null || !String.valueOf(bankAccountNr).matches(Validation.COMPANY_BANK_ACCOUNT)) {
+            throw new IllegalArgumentException("Invalid bank account number");
+        }
+        this.bankAccountNr.set(bankAccountNr);
+    }
 
-	public void setName(String name) {
-		this.name.set(name);
-	}
+    @Access(AccessType.PROPERTY)
+    public boolean getIsActive() {
+        return isActive.get();
+    }
 
-	public void setSector(String sector) {
-		this.sector.set(sector);
-	}
+    public void setIsActive(boolean isActive) {
+        this.isActive.set(isActive);
+    }
 
-	public void setBankAccountNr(Long bankAccountNr) {
-		this.bankAccountNr.set(bankAccountNr);
-	}
+    public List<PaymentOption> getPaymentOptions() {
+        return paymentOptions;
+    }
 
-	public void setPaymentOptions(List<PaymentOption> paymentOptions) {
-		this.paymentOptions = paymentOptions;
-	}
+    public void setPaymentOptions(List<PaymentOption> paymentOptions) {
+        this.paymentOptions = paymentOptions;
+    }
 
-	public void setCustomerStart(LocalDate customerStart) {
-		this.customerStart = customerStart;
-	}
+    public LocalDate getCustomerStart() {
+        return customerStart;
+    }
 
-	public void toggleIsActive() {
-		isActive.set(!isActive.get());
-	}
+    public void setCustomerStart(LocalDate customerStart) {
+        if (customerStart == null || !customerStart.toString().matches(Validation.DATE_REGEX)) {
+            throw new IllegalArgumentException("Invalid customer start date");
+        }
+        this.customerStart = customerStart;
+    }
 
-	// Noodzakelijk voor JPA
+    public Set<Order> getOrders() {
+        return orders;
+    }
 
-	public int hashCode() {
-		return Objects.hash(VatNumber);
-	}
+    public void setOrders(Set<Order> orders) {
+        this.orders = orders;
+    }
 
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Company other = (Company) obj;
-		return VatNumber == other.VatNumber;
-	}
+    // Property getters
 
-	public Set<Order> getOrders() {
-		return orders;
-	}
+    public SimpleIntegerProperty getAmountOfCustomers() {
+        return new SimpleIntegerProperty(customers.size());
+    }
 
+    public SimpleStringProperty getNameProperty() {
+        return name;
+    }
+
+    public SimpleStringProperty getSectorProperty() {
+        return sector;
+    }
+
+    public SimpleStringProperty getAddressProperty() {
+        addressProperty.set(getAddressString());
+        return addressProperty;
+    }
+
+    public void updateAddressProperty() {
+        this.addressProperty.set(getAddressString());
+    }
+
+    public SimpleBooleanProperty getIsActiveProperty() {
+        return isActive;
+    }
+
+    // Utility methods
+
+    private String getAddressString() {
+        return address != null ? address.toString() : "No address found.";
+    }
+
+    public void toggleIsActive() {
+        isActive.set(!isActive.get());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(vatNumber);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Company other = (Company) obj;
+        return Objects.equals(vatNumber, other.vatNumber);
+    }
 }

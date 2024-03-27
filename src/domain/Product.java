@@ -30,7 +30,7 @@ public class Product implements Serializable {
 		setProductAvailability(productAvailability);
 	}
 	
-	protected Product() {};
+	public Product() {};
 	
 	public String getProductId() {
 		return productId;

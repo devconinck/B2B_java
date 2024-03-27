@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 import util.Validation;
 
 @Embeddable
-// QUERIES TOEVOEGEN
 public class Contact implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -17,7 +16,7 @@ public class Contact implements Serializable {
 	private String email;
 
 	// Default constructor JPA
-	protected Contact() {
+	public Contact() {
 
 	}
 
