@@ -129,4 +129,17 @@ public class B2BPortaal {
         GenericDaoJpa.commitTransaction();
 	}
 	
+	// Setters for Mockito
+	public void setOrderList(ObservableList<Order> orders) {
+		this.orderList = orders;
+	}
+
+	public void setOrderItemList(ObservableList<OrderItem> orderItems) {
+		this.orderItemList = orderItems;
+	}
+
+	public void setCompanyList(ObservableList<Company> companyList) {
+		this.companyList = companyList;
+	}
+	
 }
