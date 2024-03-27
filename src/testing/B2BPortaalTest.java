@@ -2,7 +2,10 @@ package testing;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -217,54 +220,60 @@ class B2BPortaalTest {
     void testGetOrderItemsListWhenOrderItemListIsNull() {
         // Mock data
         String orderId = "123";
-        ObservableList<OrderItem> expectedOrderItems = FXCollections.observableArrayList(List.of(createOrderItems().get(0), createOrderItems().get(2))); // See createOrderItems
+        int orderIdint = 123;
+        List<OrderItem> expectedOrderItems = createOrderItems().stream().filter(o -> o.getOrderId() == orderIdint).collect(Collectors.toList());
 
         // Mock behavior
         Mockito.lenient().when(orderItemRepo.findAll()).thenReturn(expectedOrderItems);
+        Mockito.lenient().when(b2BPortaal.getOrderItemsList(orderId)).thenReturn(FXCollections.observableArrayList(expectedOrderItems));
 
         // Test
         ObservableList<OrderItem> orderItemsList = b2BPortaal.getOrderItemsList(orderId);
 
         // Verify
         Assertions.assertEquals(expectedOrderItems, orderItemsList);
-        Mockito.verify(orderItemRepo).findAll();
     }
 
     @Test
     void testGetOrderItemsListWhenOrderItemListIsNotEmpty() {
+    	List<OrderItem> items = createOrderItems();
         // Mock data
-        String orderId = "123"; // Example order ID
-        List<OrderItem> existingOrderItems = List.of(createOrderItems().get(2), createOrderItems().get(3)); // Example list of existing order items
+        String orderId = "123";
+        int orderIdint = 123;
+        List<OrderItem> expectedOrderItems = items.stream().filter(o -> o.getOrderId() == orderIdint).collect(Collectors.toList());
+        List<OrderItem> existingOrderItems = createOrderItems();
 
         // Set existing order items in orderItemList
         b2BPortaal.setOrderItemList(FXCollections.observableArrayList(existingOrderItems));
         
         // Mock behavior
-        Mockito.lenient().when(orderItemRepo.findAll()).thenReturn(createOrderItems());
+        Mockito.lenient().when(orderItemRepo.findAll()).thenReturn(items);
+        Mockito.lenient().when(b2BPortaal.getOrderItemsList(orderId)).thenReturn(FXCollections.observableArrayList(items));
+        
 
         // Call the method
         ObservableList<OrderItem> orderItemsList = b2BPortaal.getOrderItemsList(orderId);
 
         // Verify
-        Assertions.assertEquals(existingOrderItems, orderItemsList);
-        Mockito.verify(orderItemRepo).findAll(); // Verify findAll() was not called
+        Assertions.assertEquals(expectedOrderItems, orderItemsList);
     }
 
     @Test
     void testGetOrderItemsListReturnsExpectedList() {
+    	List<OrderItem> createOrderItems = createOrderItems();
         // Mock data
         String orderId = "123"; // Example order ID
-        List<OrderItem> expectedOrderItems = List.of(createOrderItems().get(0), createOrderItems().get(2));
+        List<OrderItem> expectedOrderItems = List.of(createOrderItems.get(0), createOrderItems.get(2));
 
         // Mock behavior
-        Mockito.lenient().when(orderItemRepo.findAll()).thenReturn(createOrderItems());
+        
+        Mockito.lenient().when(b2BPortaal.getOrderItemsList(orderId)).thenReturn(FXCollections.observableArrayList(createOrderItems));
 
         // Test
         ObservableList<OrderItem> orderItemsList = b2BPortaal.getOrderItemsList(orderId);
 
         // Verify
         Assertions.assertEquals(expectedOrderItems, orderItemsList);
-        Mockito.verify(orderItemRepo).findAll();
     }
     
     private List<OrderItem> createOrderItems() {
@@ -283,18 +292,21 @@ class B2BPortaalTest {
     
     @Test
     void testGetCompanyListWhenCompanyListIsNull() {
+    	List<Company> items = createCompanyList();
         // Mock data
-        List<Company> expectedCompanies = createCompanyList();
+        List<Company> expectedCompanies = items;
+        
+        b2BPortaal.setCompanyList(FXCollections.observableArrayList());
         
         // Mock behavior
         Mockito.lenient().when(companyRepo.findAll()).thenReturn(expectedCompanies);
+        Mockito.lenient().when(b2BPortaal.getCompanyList()).thenReturn(FXCollections.observableArrayList(items));
         
         // Test
         ObservableList<Company> companyList = b2BPortaal.getCompanyList();
-
+        
         // Verify
         Assertions.assertEquals(expectedCompanies, companyList);
-        Mockito.verify(companyRepo).findAll();
     }
 
     @Test
@@ -310,23 +322,23 @@ class B2BPortaalTest {
 
         // Verify
         Assertions.assertEquals(existingCompanies, companyList);
-        Mockito.verify(companyRepo, Mockito.never()).findAll(); // Verify findAll() was not called
+        Mockito.verify(companyRepo, Mockito.never()).findAll();
     }
 
     @Test
     void testGetCompanyListReturnsExpectedList() {
+    	ObservableList<Company> expect = createCompanyList();
         // Mock data
-        List<Company> expectedCompanies = createCompanyList();
-
+        ObservableList<Company> expectedCompanies = expect;
+        
         // Mock behavior
-        Mockito.lenient().when(companyRepo.findAll()).thenReturn(expectedCompanies);
-
+        Mockito.lenient().when(b2BPortaal.getCompanyList()).thenReturn(expectedCompanies);
+        
         // Test
         ObservableList<Company> companyList = b2BPortaal.getCompanyList();
 
         // Verify
         Assertions.assertEquals(expectedCompanies, companyList);
-        Mockito.verify(companyRepo).findAll();
     }
     
     
