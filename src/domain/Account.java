@@ -10,13 +10,19 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToOne;
 import util.Role;
 import util.Validation;
 
 @Entity
-@NamedQueries({ @NamedQuery(name = "Account.getByEmail", query = "SELECT a FROM Account a WHERE :email = a.email"), })
+@NamedQueries(
+			   { 
+				@NamedQuery(name = "Account.getByEmail", query = "SELECT a FROM Account a WHERE :email = a.email"), 
+				@NamedQuery(name = "Account.getByCompany", query = "SELECT a FROM Account a WHERE :company = a.company")
+			   })
 public class Account implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -24,6 +30,10 @@ public class Account implements Serializable {
 	private long id;
 	private String email;
 	private String password;
+
+	
+	@OneToOne(optional = false)
+	@JoinColumn(name = "company_id")
 	private Company company;
 	private Role role;
 	
@@ -43,13 +53,13 @@ public class Account implements Serializable {
 		
 	}
 
-	private void setEmail(String email) {
+	public void setEmail(String email) {
 		if (!patternMatches(email, EMAIL_REGEX))
 			throw new IllegalArgumentException(String.format("The email: %s , is not a valid email", email));
 		this.email = email;
 	}
 
-	private void setPassword(String password) {
+	public void setPassword(String password) {
 		// if (!patternMatches(password, Validation.PASSWORD_REGEX))
 		// throw new IllegalArgumentException(String.format("The password for %s is not
 		// strong enough", email));
@@ -59,6 +69,10 @@ public class Account implements Serializable {
 	private static boolean patternMatches(String string, String regexPattern) {
 		return Pattern.compile(regexPattern).matcher(string).matches();
 	}
+	
+	public String getEmail() {
+		return email;
+	};
 
 	public String getPassword() {
 		return password;

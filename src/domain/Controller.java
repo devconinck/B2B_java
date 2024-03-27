@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javafx.collections.ObservableList;
+import repository.AccountDaoJpa;
 import repository.GenericDaoJpa;
 import repository.OrderDaoJpa;
 
@@ -19,8 +20,7 @@ public abstract class Controller implements Subject{
 	
 	public Controller() {
 		this.observers = new HashSet<>();
-		this.portaal = new B2BPortaal(new GenericDaoJpa<Company>(Company.class), new OrderDaoJpa(), new GenericDaoJpa<OrderItem>(OrderItem.class));
-		support = new PropertyChangeSupport(this);
+		this.portaal = new B2BPortaal(new GenericDaoJpa<Company>(Company.class), new OrderDaoJpa(), new GenericDaoJpa<OrderItem>(OrderItem.class), new GenericDaoJpa<CompanyUpdateRequest>(CompanyUpdateRequest.class), new AccountDaoJpa());
 	}
 	
 	public Company getCompany(String vat) {

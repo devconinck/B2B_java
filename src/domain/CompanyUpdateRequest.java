@@ -1,13 +1,10 @@
 package domain;
 
 import java.time.LocalDate;
+import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import util.PaymentOption;
 
 @Entity
 @Table(name = "company_update_requests")
@@ -16,81 +13,119 @@ public class CompanyUpdateRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "company_id")
-    private Long companyId;
+    private String oldVatNumber;
+    private String newVatNumber;
 
-    @Column(name = "request_date")
     private LocalDate requestDate;
-    
-    @Column(name = "new_name")
     private String newName;
-
-    @Column(name = "new_email")
-    private String newEmail;
-
-    @Column(name = "new_phone")
-    private String newPhone;
+    private String newSector;
+    private Long newBankAccountNr;
+	private LocalDate newCustomerStart;
+	
+    private String newSupplierEmail;
+    private String newSupplierPassword;
+    private String newCustomerEmail;
+    private String newCustomerPassword;
     
+	@Embedded
+	private Address newAddress;
 
-    // Default constructor (required by JPA)
-    public CompanyUpdateRequest() {
-    }
-
-    // Constructor with all fields
-    public CompanyUpdateRequest(Long companyId, String newName, String newEmail, String newPhone) {
-        this.companyId = companyId;
-        this.newName = newName;
-        this.newEmail = newEmail;
-        this.newPhone = newPhone;
-    }
-
-    // Getters and Setters
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(Long companyId) {
-        this.companyId = companyId;
-    }
-
-    public String getNewName() {
-        return newName;
-    }
-
-    public void setNewName(String newName) {
-        this.newName = newName;
-    }
-
-    public String getNewEmail() {
-        return newEmail;
-    }
-
-    public void setNewEmail(String newEmail) {
-        this.newEmail = newEmail;
-    }
-
-    public String getNewPhone() {
-        return newPhone;
-    }
-
-    public void setNewPhone(String newPhone) {
-        this.newPhone = newPhone;
-    }
+	@Embedded
+	private Contact newContact;
+	
+	@ElementCollection
+	@Enumerated(EnumType.STRING)
+	private List<PaymentOption> newPaymentOptions;
+	
+    private String newLogo;
     
-    public LocalDate getRequestDate() {
-        return requestDate;
+    protected CompanyUpdateRequest() {
+    	
     }
 
-    public void setRequestDate(LocalDate requestDate) {
-        this.requestDate = requestDate;
+    public CompanyUpdateRequest(String oldVatNumber, String newVatNumber, LocalDate requestDate, String newName, String newSector,
+            Long newBankAccountNr, LocalDate newCustomerStart, String newSupplierEmail, String newSupplierPassword,
+            String newCustomerEmail, String newCustomerPassword, Address newAddress, Contact newContact,
+            List<PaymentOption> newPaymentOptions, String newLogo) {
+		this.oldVatNumber = oldVatNumber;
+		this.newVatNumber = newVatNumber;
+		this.requestDate = requestDate;
+		this.newName = newName;
+		this.newSector = newSector;
+		this.newBankAccountNr = newBankAccountNr;
+		this.newCustomerStart = newCustomerStart;
+        this.newSupplierEmail = newSupplierEmail;
+        this.newSupplierPassword = newSupplierPassword;
+        this.newCustomerEmail = newCustomerEmail;
+        this.newCustomerPassword = newCustomerPassword;
+		this.newAddress = newAddress;
+		this.newContact = newContact;
+		this.newPaymentOptions = newPaymentOptions;
+		this.newLogo = newLogo;
+	}
+
+	public String getOldVatNumber() {
+		return oldVatNumber;
+	}
+
+	public String getNewVatNumber() {
+		return newVatNumber;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public LocalDate getRequestDate() {
+		return requestDate;
+	}
+
+	public String getNewName() {
+		return newName;
+	}
+
+	public String getNewSector() {
+		return newSector;
+	}
+
+	public Long getNewBankAccountNr() {
+		return newBankAccountNr;
+	}
+
+	public LocalDate getNewCustomerStart() {
+		return newCustomerStart;
+	}
+
+    public String getSupplierEmail() {
+        return newSupplierEmail;
     }
+
+    public String getSupplierPassword() {
+        return newSupplierPassword;
+    }
+
+    public String getCustomerEmail() {
+        return newCustomerEmail;
+    }
+
+    public String getCustomerPassword() {
+        return newCustomerPassword;
+    }
+	
+	public Address getNewAddress() {
+		return newAddress;
+	}
+
+	public Contact getNewContact() {
+		return newContact;
+	}
+
+	public List<PaymentOption> getNewPaymentOptions() {
+		return newPaymentOptions;
+	}
+
+	public String getNewLogo() {
+		return newLogo;
+	}
+	
 }

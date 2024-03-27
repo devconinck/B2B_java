@@ -1,6 +1,9 @@
 package repository;
 
+import java.util.List;
+
 import domain.Account;
+import domain.Company;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.NoResultException;
 
@@ -26,4 +29,12 @@ public class AccountDaoJpa extends GenericDaoJpa<Account> implements AccountDao 
 		em.getTransaction().commit();
 	}
 
+	@Override
+	public List<Account> getAccountByCompany(Company company) throws EntityNotFoundException {
+		try {
+			return em.createNamedQuery("Account.getByCompany", Account.class).setParameter("company", company).getResultList();
+		} catch (NoResultException ex) {
+			throw new EntityNotFoundException();
+		}
+	}
 }
