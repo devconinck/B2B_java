@@ -79,10 +79,8 @@ public class LoginScreen extends Pane {
 			
 			TextField txf_email = new TextField();
 			txf_email.setPromptText("example.first@icloud.com");
-			//TODO make life easier
 			txf_email.setText("Charles.leclerc@icloud.com");
 			PasswordField pwf_password = new PasswordField();
-			//TODO make life easier
 			pwf_password.setText("Test123!");
 			
 			VBox vbox_email = new VBox();
@@ -123,9 +121,7 @@ public class LoginScreen extends Pane {
 			Scene tempScene = new Scene(new AdminScreenController((AdminController) controller));
 			primaryStage.setScene(tempScene);
 			
-			// WERKT NIET
 			primaryStage.setMaximized(true);
-			//primaryStage.setResizable(false);
 			primaryStage.setMinHeight(920);
 			primaryStage.setMinWidth(1260);
 
@@ -136,13 +132,9 @@ public class LoginScreen extends Pane {
 			primaryStage.setScene(tempScene);
 			
 			primaryStage.setMaximized(true);
-			//primaryStage.setResizable(false);
 			primaryStage.setMinHeight(820);
 			primaryStage.setMinWidth(1460);
 			
-			//WERKT NIET => MAAR: logOut werkt hiermee wel omdat het niet full screen is 
-			//primaryStage.setMaximized(true);
-			//primaryStage.setResizable(false);
 		}
 		
 		else

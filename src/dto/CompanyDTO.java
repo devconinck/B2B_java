@@ -11,7 +11,7 @@ import util.PaymentOption;
 public record CompanyDTO(String vatNumber, String logo, Set<Order> orders, String country, String city,
 		String zipcode, String street, String number, String phoneNumber, String email, List<PaymentOption> paymentOptions, LocalDate customerStart,
 		String name, String sector, long bankAccountNr, boolean isActive, int numberOfOpenOrders, Set<Company> customers) {
-	// Date does not work in Record, must be String?
+
 	public CompanyDTO(Company c) {
 		this(c.getVatNumber(), c.getLogo(), c.getOrders(), c.getAddress().getCountry(), c.getAddress().getCity(),
 				c.getAddress().getZipCode(), c.getAddress().getStreet(), c.getAddress().getNumber(), c.getContact().getPhoneNumber(), c.getContact().getEmail(),

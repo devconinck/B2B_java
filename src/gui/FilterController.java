@@ -34,7 +34,6 @@ public abstract class FilterController<T> extends HBox {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 // Call the filter method whenever the text changes
             	runAllFilters();
-                //getFilteredList(originalList);
             }
         });
         

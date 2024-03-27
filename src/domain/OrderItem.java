@@ -57,8 +57,6 @@ public class OrderItem implements Serializable {
     protected OrderItem() {};
 
     // Getters
-    
-    
     @Access(AccessType.PROPERTY)
     public String getName() {
         return name.get();

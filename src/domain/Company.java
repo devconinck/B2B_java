@@ -174,11 +174,6 @@ public class Company implements Serializable {
 		return isActive;
 	}
 
-	/*
-	 * TODO public SimpleIntegerProperty getAmountOfCustomers() { return new
-	 * SimpleIntegerProperty(customers.size()); }
-	 */
-
 	// Setters
 	public void setVatNumber(String vatNumber) {
 		this.VatNumber = vatNumber;

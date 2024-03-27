@@ -76,7 +76,6 @@ public class AdminScreenController extends BorderPane {
         });
     }
    
-    // ???
     private void logOut() {
         Stage currentStage = new Stage();
         LoginScreen login = new LoginScreen();
