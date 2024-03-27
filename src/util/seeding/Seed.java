@@ -7,11 +7,11 @@ import domain.Company;
 import domain.Order;
 import domain.OrderItem;
 import domain.Product;
-import mail.SendMail;
 import repository.AccountDao;
 import repository.AccountDaoJpa;
 import repository.GenericDao;
 import repository.GenericDaoJpa;
+import util.SendMail;
 
 public class Seed {
 	private AccountDao accountRepo;

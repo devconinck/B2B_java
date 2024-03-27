@@ -8,7 +8,6 @@ import domain.CompanyUpdateRequest;
 import domain.Order;
 import domain.OrderItem;
 import domain.Product;
-import mail.SendMail;
 import repository.AccountDaoJpa;
 import repository.GenericDaoJpa;
 import repository.OrderDaoJpa;
