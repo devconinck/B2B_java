@@ -19,6 +19,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -27,11 +28,15 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import util.OrderStatus;
 import util.PaymentStatus;
+import util.SendMail;
+import util.Validation;
 
 public class OrderDetailsOverview extends GenericDetailsOverview<OrderDTO> implements PropertyChangeListener {
 
 	@FXML
 	private Button saveBtn;
+	
+	private Button sendEmailBtn;
 	
 	@FXML
 	private ComboBox<String> comboBox_OrderStatus, comboBox_PaymentStatus;
@@ -73,6 +78,33 @@ public class OrderDetailsOverview extends GenericDetailsOverview<OrderDTO> imple
         //Save Button
         saveBtn.setOnMouseClicked(event -> {
         	controller.updateOrder(current.orderId(), comboBox_OrderStatus.getValue(), comboBox_PaymentStatus.getValue());
+        });
+        
+        //Send Email button
+        sendEmailBtn.setOnMouseClicked(event -> {
+        	if (current.getPaymentStatus().equals(PaymentStatus.PAID) || current.getPaymentStatus().equals(PaymentStatus.UNPROCESSED)) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Warning");
+                alert.setHeaderText(null);
+                alert.setContentText("No invoice has been sent or the order was already payed.");
+                alert.showAndWait();
+        	} else {
+                String fromEmail = "sdpgroep@gmail.com";
+                String toEmail = current.fromCompany().getContact().getEmail();
+                String subject = String.format("Payment due to %s", current.getOrderDate().plusDays(Validation.PAYMENT_PERIOD));
+                String content = String.format(
+                    "You have an order that has not been paid yet.%nThis order has id: %s%nYours Sincerely,%n%s",
+                    current.orderId(), current.fromCompany().getName());
+                
+                SendMail mail = new SendMail();
+                mail.sendMail(toEmail, fromEmail, subject, content);
+                
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Email Sent");
+                alert.setHeaderText(null);
+                alert.setContentText("Email sent successfully. It will arrive in the next minute.");
+                alert.showAndWait();
+        	}
         });
         
         lbl_price.setText(getTotalOrderPrice());
@@ -189,8 +221,19 @@ public class OrderDetailsOverview extends GenericDetailsOverview<OrderDTO> imple
         saveBtnVBox.setAlignment(Pos.CENTER);
         saveBtnVBox.setPadding(new Insets(10, 10, 10, 20));
         hbox_saveBtn.getChildren().addAll(saveBtnVBox);
+        
+        HBox hbox_sendEmailBtn = new HBox();
+        VBox sendEmailBtnVBox = new VBox();
+        sendEmailBtn = new Button("Send Payment Reminder");
+        sendEmailBtnVBox.getChildren().add(sendEmailBtn);
+        sendEmailBtnVBox.setAlignment(Pos.CENTER);
+        sendEmailBtnVBox.setPadding(new Insets(10, 10, 10, 20));
+        hbox_sendEmailBtn.getChildren().add(sendEmailBtnVBox);
+        
+        HBox hbox_save_email = new HBox();
+        hbox_save_email.getChildren().addAll(hbox_saveBtn, hbox_sendEmailBtn);
 		
-		vbox_complete.getChildren().addAll(hbox_logo_name_customerContact, hbox_street_addressnr, hbox_city_postalcode_country, hbox_orderstatus_paymentstatus_lastpayment, hbox_saveBtn);
+		vbox_complete.getChildren().addAll(hbox_logo_name_customerContact, hbox_street_addressnr, hbox_city_postalcode_country, hbox_orderstatus_paymentstatus_lastpayment, hbox_save_email);
 				
 		setOrderItems(vbox_complete);
 		

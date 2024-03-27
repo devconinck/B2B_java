@@ -40,6 +40,10 @@ public record OrderDTO(String name, String orderId, LocalDate date, String order
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 		return date.format(formatter);
 	}
+	
+	public LocalDate getOrderDate() {
+		return date;
+	}
 
 	public String getOrderAmount() {
 		return orderAmount;
