@@ -12,16 +12,26 @@ import gui.customer.CustomerTableAndFilterOverview;
 import gui.login.LoginScreen;
 import gui.order.OrderDetailsOverview;
 import gui.order.OrderTableAndFilterOverview;
+import gui.payment.ProcessOrderController;
+import gui.profile.ProfileUpdateScreenController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class SupplierScreenController extends BorderPane{
@@ -51,6 +61,7 @@ private SupplierController controller;
     	this.controller = controller;
     	 name = controller.getCurrentCompany().getName();
     	buildGui();
+    	loadWelcome();
     }
     
     private void buildGui() {
@@ -130,5 +141,81 @@ private SupplierController controller;
         Stage stage = (Stage) this.getScene().getWindow();
         stage.close();
     }
+    private void loadWelcome() {
+    	lbl_title.setText("");
+		GridPane gp = new GridPane();
+		Text welcome = new Text(String.format("Welcome, %s", name));
+		welcome.setFont(new Font(30));
+		Text subTitle = new Text("You're in charge. Let's get to work.");
+		
+		gp.add(welcome, 0, 0);
+		gp.add(subTitle, 0, 1);
+
+		HBox box1 = createBox("/icons/orders_black.png", "Orders", "Review and manage orders.");
+	    gp.add(box1, 0, 3);
+	    box1.setOnMouseClicked(e -> {
+			lbl_title.setText("Orders");
+			this.mainScreen.getChildren().clear();
+			this.mainScreen.getChildren().addAll(orderTableAndFilter().getHBox(), orderDetails().getHBox());
+        });
+	    HBox box2 = createBox("/icons/customers_black.png", "Customers", "Monitor orders per customer.");
+	    gp.add(box2, 0, 4);
+	    box2.setOnMouseClicked(e -> { 
+			lbl_title.setText("Customers");
+
+			this.mainScreen.getChildren().clear();			
+			this.mainScreen.getChildren().addAll(customerTableAndFilter().getHBox(), customerDetails().getHBox());
+	        });
+
+	    GridPane.setHgrow(box1, Priority.ALWAYS);
+	    GridPane.setHgrow(box2, Priority.ALWAYS);
+
+	    //GridPane.setVgrow(box1, Priority.ALWAYS);
+	    //GridPane.setVgrow(box2, Priority.ALWAYS);
+	    //GridPane.setVgrow(box3, Priority.ALWAYS);
+	    
+	    gp.setVgap(20);
+	    
+	
+	    //gp.setMaxSize(600, 600);
+		
+		this.mainScreen.getChildren().addAll(gp);
+		this.mainScreen.setPadding(new Insets(35));
+		
+	}
+    
+    private HBox createBox(String url, String t, String d) {
+		Image img = new Image(getClass().getResourceAsStream(url));
+		ImageView icon = new ImageView(img);
+	    icon.setFitWidth(50); // Set the width of the icon
+	    icon.setFitHeight(50); // Set the height of the icon
+
+
+	        // Create a VBox to hold the text content
+	   VBox textContent = new VBox();
+	    textContent.setSpacing(10);
+
+	        // Create a label for the title
+	        Text title = new Text(t);
+	        title.setFont(Font.font("Arial", FontWeight.BOLD, 20)); // Set the font and weight
+
+	        // Create a label for the description
+	        Text description = new Text(d);
+	        description.setFont(Font.font("Arial", 14));
+	        description.setStyle("-fx-font-color: darkgrey");
+
+	        // Add the labels to the VBox
+	        textContent.getChildren().addAll(title, description);
+
+	        // Add the icon and text content to a HBox
+	        HBox content = new HBox(icon, textContent);
+	        content.setSpacing(10);
+	        HBox.setHgrow(textContent, Priority.ALWAYS);
+	        content.setStyle("-fx-border-width: 2px; -fx-border-color: darkgrey; -fx-border-radius: 2em;   -fx-cursor: hand;");
+	        content.setPadding(new Insets(15));
+	        
+	        return content;
+    }
+
 
 }
