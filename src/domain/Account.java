@@ -36,8 +36,6 @@ public class Account implements Serializable {
 	@JoinColumn(name = "company_id")
 	private Company company;
 	private Role role;
-	
-	private static final String EMAIL_REGEX = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
 
 	protected Account() {};
 
@@ -54,15 +52,14 @@ public class Account implements Serializable {
 	}
 
 	public void setEmail(String email) {
-		if (!patternMatches(email, EMAIL_REGEX))
+		if (!patternMatches(email, Validation.ACCOUNT_EMAIL_REGEX))
 			throw new IllegalArgumentException(String.format("The email: %s , is not a valid email", email));
 		this.email = email;
 	}
 
 	public void setPassword(String password) {
-		// if (!patternMatches(password, Validation.PASSWORD_REGEX))
-		// throw new IllegalArgumentException(String.format("The password for %s is not
-		// strong enough", email));
+		if (!patternMatches(password, Validation.PASSWORD_REGEX))
+			throw new IllegalArgumentException(String.format("The password for %s is not strong enough", email));
 		this.password = LoginController.encryptPassword(password);
 	}
 
