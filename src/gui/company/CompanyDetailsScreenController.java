@@ -199,7 +199,7 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
         cityField.setText(companyDTO.getCity());
         postalcodeField.setText(companyDTO.getZipcode());
         countryField.setText(companyDTO.getCountry());
-        bankField.setText(String.valueOf(companyDTO.getBankAccountNr()));
+        bankField.setText(String.format("BE%s", String.valueOf(companyDTO.getBankAccountNr())));
         phoneField.setText(companyDTO.getPhoneNumber());
         emailField.setText(companyDTO.getEmail());
         customerStartField.setText(companyDTO.getCustomerStart().toString());
@@ -272,23 +272,13 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
             showErrorAlert("Please fill in all required fields.");
             return false;
         }
-
-        /*
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            dateFormat.parse(customerStartField.getText());
-        } catch (ParseException e) {
-            showErrorAlert("Please enter a valid Date.");
-            return false;
-        }
-        */
         
         if (!customerStartField.getText().matches(Validation.DATE_REGEX)) {
         	showErrorAlert("Please enter a valid Date. \nUse the following format: yyyy-MM-dd");
             return false;
         }
 
-        if (!vatField.getText().matches(Validation.VAT_REGEX)) {
+        if (!vatField.getText().matches(Validation.COMPANY_VAT_REGEX)) {
             showErrorAlert("Please enter a valid VAT Number.");
             return false;
         }
@@ -298,12 +288,11 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
             return false;
         }
         
-        /*
-        if (!bankField.getText().matches(Validation.IBAN_REGEX)) {
+        
+        if (!bankField.getText().matches(Validation.COMPANY_VAT_REGEX)) {
             showErrorAlert("Please enter a valid bank account number.");
             return false;
         }
-		*/
         
         if (!phoneField.getText().matches(Validation.PHONE_NUMBER_REGEX)) {
             showErrorAlert("Please enter a valid mobile number.");
@@ -360,7 +349,7 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
                 existingCompany.setName(nameField.getText());
                 existingCompany.setVatNumber(vatNumber);
                 existingCompany.setSector(sectorField.getText());
-                existingCompany.setBankAccountNr(Long.parseLong(bankField.getText()));
+                existingCompany.setBankAccountNr(Long.parseLong(bankField.getText().substring(2)));
                 existingCompany.getContact().setPhoneNumber(phoneField.getText());
                 existingCompany.getContact().setEmail(emailField.getText());
                 existingCompany.getAddress().setCountry(countryField.getText());
