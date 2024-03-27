@@ -22,7 +22,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.Transient;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
@@ -63,6 +63,8 @@ public class Company implements Serializable {
 	private SimpleStringProperty sector = new SimpleStringProperty();
 	private SimpleLongProperty bankAccountNr = new SimpleLongProperty();
 	private SimpleBooleanProperty isActive = new SimpleBooleanProperty(true);
+	@Transient
+	private SimpleStringProperty addressProperty = new SimpleStringProperty();
 
 	// Default constructor JPA
 	protected Company() {
@@ -84,6 +86,7 @@ public class Company implements Serializable {
 		setOrders(orders);
 		// isActive = true; overbodig doordat Initiele toestand bij attributen reeds
 		setCustomers(customers);
+		updateAddressProperty();
 	}
 
 	public Company(CompanyDTO company) {
@@ -111,7 +114,7 @@ public class Company implements Serializable {
 		return address;
 	}
 
-	public String getAddressString() {
+	private String getAddressString() {
 		return address != null ? address.toString() : "No address found.";
 	}
 
@@ -161,7 +164,12 @@ public class Company implements Serializable {
 	}
 
 	public SimpleStringProperty getAddressProperty() {
-		return new SimpleStringProperty(getAddressString());
+		addressProperty.set(getAddressString());
+		return addressProperty;
+	}
+	
+	public void updateAddressProperty() {
+		this.addressProperty.set(getAddressString());
 	}
 
 	public SimpleBooleanProperty getIsActiveProperty() {

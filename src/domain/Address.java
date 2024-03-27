@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import jakarta.persistence.*;
+import javafx.beans.property.SimpleStringProperty;
 
 @Embeddable
 // Queries toevoegen
@@ -97,7 +98,5 @@ public class Address implements Serializable {
 	public String toString() {
 		return street + ", " + number + ", " + zipCode + ", " + city + ", " + country;
 
-	}
-	
-	
+	}	
 }

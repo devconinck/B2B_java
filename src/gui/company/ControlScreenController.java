@@ -1,5 +1,6 @@
 package gui.company;
 
+import domain.AdminController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -9,8 +10,11 @@ public class ControlScreenController extends HBox {
     private Button clearButton;
     private Button saveButton;
     private Button inactiveButton;
+    
+    private AdminController ac;
 
-    public ControlScreenController() {
+    public ControlScreenController(AdminController ac) {
+    	this.ac = ac;
         buildGui();
     }
 
@@ -38,7 +42,12 @@ public class ControlScreenController extends HBox {
         return inactiveButton;
     }
 
-    public void updateInactiveButtonText(boolean isActive) {
-        inactiveButton.setText(isActive ? "Active" : "Inactive");
+    public void updateButtonText() {
+    	try {
+    		inactiveButton.setText(ac.getSelectedCompanyProperty().get().getIsActive() ? "Inactive" : "Active");
+    	} catch (Exception e) {
+    		// Do nothing
+    	}
+    	
     }
 }

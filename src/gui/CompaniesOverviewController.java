@@ -1,26 +1,17 @@
 package gui;
 
-import java.io.IOException;
-import java.util.Map;
-import java.util.TreeMap;
-
 import domain.AdminController;
-import domain.Order;
 import gui.company.CompanyDetailsScreenController;
 import gui.company.CompanyFilterController;
 import gui.company.CompanyScreenController;
 import gui.company.ControlScreenController;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 
 public class CompaniesOverviewController extends GridPane {
@@ -32,14 +23,17 @@ public class CompaniesOverviewController extends GridPane {
 
 	public CompaniesOverviewController(AdminController ac) {
 		this.filter = new CompanyFilterController(ac.getCompanyList());
-		this.companyDetails = new CompanyDetailsScreenController(ac);
-		this.controls = new ControlScreenController();
+		this.controls = new ControlScreenController(ac);
+		this.companyDetails = new CompanyDetailsScreenController(ac, controls);
 		this.companies = new CompanyScreenController(ac.getCompanyList(), ac.getSelectedCompanyProperty());
          
 		// Set up event handlers
         controls.getSaveButton().setOnAction(e -> companyDetails.persistCompany());
         controls.getClearButton().setOnAction(e -> companyDetails.clearAllFields());
-        controls.getInactiveButton().setOnAction(e -> companyDetails.toggleIsActive());
+        controls.getInactiveButton().setOnAction(e -> {
+        	companyDetails.toggleIsActive();
+        	controls.updateButtonText();
+        });
 		buildGui();
 	}
 

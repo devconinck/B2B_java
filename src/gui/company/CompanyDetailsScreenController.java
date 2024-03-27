@@ -50,12 +50,13 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
     private ObjectProperty<Company> selectedCompanyProperty;
     private AdminController adminController;
 
-    public CompanyDetailsScreenController(AdminController adminController) {
+    public CompanyDetailsScreenController(AdminController adminController, ControlScreenController controlSreen) {
         this.selectedCompanyProperty = adminController.getSelectedCompanyProperty();
         this.adminController = adminController;
         this.selectedCompanyProperty.addListener((obs, oldValue, newValue) -> {
             if (newValue != null) {
                 loadCompany(new CompanyDTO(newValue));
+                controlSreen.updateButtonText();
             } else {
                 clearAllFields();
             }
@@ -357,6 +358,8 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
                 existingCompany.getAddress().setZipCode(postalcodeField.getText());
                 existingCompany.getAddress().setStreet(streetField.getText());
                 existingCompany.getAddress().setNumber(addressNrField.getText());
+                
+                existingCompany.updateAddressProperty();
 
                 try {
                     existingCompany.setCustomerStart(LocalDate.parse(customerStartField.getText()));
@@ -412,7 +415,7 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
     }
 
 	public void toggleIsActive() {
-		Company currentComp = adminController.getSelectedCompany();
+		Company currentComp = adminController.getSelectedCompanyProperty().get();
 		currentComp.toggleIsActive();
 		adminController.updateCompany(currentComp);
 	}

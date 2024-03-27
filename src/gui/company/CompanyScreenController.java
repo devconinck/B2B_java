@@ -11,6 +11,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
@@ -18,7 +19,7 @@ public class CompanyScreenController extends TableView<Company> implements Obser
     @FXML private TableColumn<Company, String> nameCol;
     @FXML private TableColumn<Company, String> sectorCol;
     @FXML private TableColumn<Company, String> addressCol;
-    @FXML private TableColumn<Company, String> isActiveCol;
+    @FXML private TableColumn<Company, Boolean> isActiveCol;
     @FXML private TableColumn<Company, Integer> amountOfCustomersCol;
 
     private final ObservableList<Company> companyList;
@@ -47,16 +48,19 @@ public class CompanyScreenController extends TableView<Company> implements Obser
         sectorCol.setCellValueFactory(cellData -> cellData.getValue().getSectorProperty());
         amountOfCustomersCol.setCellValueFactory(cellData -> cellData.getValue().getAmountOfCustomers().asObject());
         addressCol.setCellValueFactory(cellData -> cellData.getValue().getAddressProperty());
-        isActiveCol.setCellValueFactory(cellData -> {
-            Company company = cellData.getValue();
-            SimpleBooleanProperty isActiveProperty = new SimpleBooleanProperty(company.getIsActive());
-            isActiveProperty.addListener((observable, oldValue, newValue) -> {
-                if (newValue != null) {
-                    company.setIsActive(newValue);
+        isActiveCol.setCellValueFactory(cellData -> cellData.getValue().getIsActiveProperty());
+        isActiveCol.setCellFactory(column -> new TableCell<Company, Boolean>() {
+            @Override
+            protected void updateItem(Boolean item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item ? "Active" : "Inactive");
                 }
-            });
-            return Bindings.createStringBinding(() -> isActiveProperty.get() ? "Active" : "Inactive", isActiveProperty);
+            }
         });
+
 
         this.setItems(companyList);
 
