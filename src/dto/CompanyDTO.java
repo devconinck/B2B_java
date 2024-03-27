@@ -3,9 +3,11 @@ package dto;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import domain.Company;
 import domain.Order;
+import util.OrderStatus;
 import util.PaymentOption;
 
 public record CompanyDTO(String vatNumber, String logo, Set<Order> orders, String country, String city,
@@ -16,7 +18,11 @@ public record CompanyDTO(String vatNumber, String logo, Set<Order> orders, Strin
 		this(c.getVatNumber(), c.getLogo(), c.getOrders(), c.getAddress().getCountry(), c.getAddress().getCity(),
 				c.getAddress().getZipCode(), c.getAddress().getStreet(), c.getAddress().getNumber(), c.getContact().getPhoneNumber(), c.getContact().getEmail(),
 				c.getPaymentOptions(), c.getCustomerStart(), c.getName(), c.getSector(), c.getBankAccountNr(),
-				c.getIsActiveProperty().get(), c.getOrders().size(), c.getCustomers());
+				c.getIsActiveProperty().get(), numberOfOpenOrders(c), c.getCustomers());
+	}
+	
+	private static int numberOfOpenOrders(Company company) {
+		return company.getOrders().stream().filter(o -> !o.getOrderStatus().equals(OrderStatus.COMPLETED)).collect(Collectors.toList()).size();
 	}
 
 	// Needed for TableView
