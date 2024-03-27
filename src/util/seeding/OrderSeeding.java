@@ -68,9 +68,6 @@ public class OrderSeeding {
 			GenericDaoJpa.startTransaction();
 			orderRepo.insertBatch(orders);
 			GenericDaoJpa.commitTransaction();
-			System.out.printf("Number of orders for Fake Company Inc.1 : %s%n",
-					orderRepo.findAll().stream().filter(o -> o.getFromCompany().getName().equals("Fake Company Inc. 1"))
-							.collect(Collectors.toList()).size());
 		} catch (IOException | CsvValidationException e) {
 			e.printStackTrace();
 		}
