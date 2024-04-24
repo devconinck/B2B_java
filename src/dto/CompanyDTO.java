@@ -7,18 +7,19 @@ import java.util.stream.Collectors;
 
 import domain.Company;
 import domain.Order;
+import domain.Product;
 import util.OrderStatus;
 import util.PaymentOption;
 
 public record CompanyDTO(String vatNumber, String logo, Set<Order> orders, String country, String city,
 		String zipcode, String street, String number, String phoneNumber, String email, List<PaymentOption> paymentOptions, LocalDate customerStart,
-		String name, String sector, long bankAccountNr, boolean isActive, int numberOfOpenOrders, Set<Company> customers) {
+		String name, String sector, long bankAccountNr, boolean isActive, int numberOfOpenOrders, Set<Company> customers, Set<Product> products) {
 
 	public CompanyDTO(Company c) {
 		this(c.getVatNumber(), c.getLogo(), c.getOrders(), c.getAddress().getCountry(), c.getAddress().getCity(),
 				c.getAddress().getZipCode(), c.getAddress().getStreet(), c.getAddress().getNumber(), c.getContact().getPhoneNumber(), c.getContact().getEmail(),
 				c.getPaymentOptions(), c.getCustomerStart(), c.getName(), c.getSector(), c.getBankAccountNr(),
-				c.getIsActiveProperty().get(), numberOfOpenOrders(c), c.getCustomers());
+				c.getIsActiveProperty().get(), numberOfOpenOrders(c), c.getCustomers(), c.getProducts());
 	}
 	
 	private static int numberOfOpenOrders(Company company) {

@@ -20,12 +20,12 @@
     <class>domain.Customer</class>
     <properties>
 	  <!-- KIES DE JUISTE DATABANK-->
-      <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://vichogent.be:40058/SDP2_2324_DB_G02?serverTimezone=UTC"/>
-      <property name="jakarta.persistence.jdbc.user" value="SDP2-2324-G02"/> 
+      <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/delawaredb?serverTimezone=UTC"/>
+      <property name="jakarta.persistence.jdbc.user" value="root"/> 
       <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
       <!-- VUL JOUW WACHTWOORD IN-->
-      <property name="jakarta.persistence.jdbc.password" value="Wijzijn69hetbestegroepje123binnenhetvak6969SDP!"/>  
-      <property name="jakarta.persistence.schema-generation.database.action" value="none"/>
+      <property name="jakarta.persistence.jdbc.password" value=""/>  
+      <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
     </properties>
   </persistence-unit>
 </persistence>

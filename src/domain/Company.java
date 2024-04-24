@@ -42,6 +42,9 @@ public class Company implements Serializable {
 
     @OneToMany(mappedBy = "fromCompany", cascade = CascadeType.ALL)
     private Set<Order> orders;
+    
+    @OneToMany(mappedBy = "fromCompany", cascade = CascadeType.ALL)
+    private Set<Product> products;
 
     private LocalDate customerStart;
 
@@ -60,7 +63,7 @@ public class Company implements Serializable {
     // Constructors
     public Company(String vatNumber, String logo, Address address, Contact contact, String name, String sector,
                    Long bankAccountNr, List<PaymentOption> paymentOptions, LocalDate customerStart, Set<Order> orders,
-                   Set<Company> customers) {
+                   Set<Company> customers, Set<Product> products) {
         setVatNumber(vatNumber);
         setLogo(logo);
         setAddress(address);
@@ -80,10 +83,14 @@ public class Company implements Serializable {
                 new Address(company.country(), company.city(), company.zipcode(), company.street(), company.number()),
                 new Contact(company.phoneNumber(), company.email()), company.name(), company.sector(),
                 company.bankAccountNr(), company.paymentOptions(), company.customerStart(), company.orders(),
-                company.customers());
+                company.customers(), company.products());
     }
 
     // Getters and setters
+    
+    public Set<Product> getProducts() {
+        return products;
+    }
 
     public Set<Company> getCustomers() {
         return customers;
@@ -198,6 +205,10 @@ public class Company implements Serializable {
 
     public void setOrders(Set<Order> orders) {
         this.orders = orders;
+    }
+    
+    public void setProducts(Set<Product> products) {
+        this.products = products;
     }
 
     // Property getters

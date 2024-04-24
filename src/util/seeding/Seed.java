@@ -59,7 +59,7 @@ public class Seed {
 		new CompanySeeding(companyRepo);
 		this.companyList = companyRepo.findAll();
 		new AccountSeeding(accountRepo, companyList);
-		productList = new ProductSeeding(productRepo).getProductList();
+		productList = new ProductSeeding(productRepo, companyRepo).getProductList();
 		orderItems = new OrderItemSeeding(orderItemRepo, orderItems, productList).getOrderItemsList();
 		new OrderSeeding(orderRepo, companyList, orderItemRepo);
 		new CustomerSeeding(companyRepo);

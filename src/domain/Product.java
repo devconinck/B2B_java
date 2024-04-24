@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -22,15 +23,27 @@ public class Product implements Serializable {
 	private String productCategoryId;
 	private String productAvailability;
 	
-	public Product(String productId, int syncId, String productUnitOfMeasureId, String productCategoryId, String productAvailability) {
+	@ManyToOne
+    private Company fromCompany;
+	
+	public Product(String productId, int syncId, String productUnitOfMeasureId, String productCategoryId, String productAvailability, Company fromCompany) {
 		setProductId(productId);
 		setSyncId(syncId);
 		setProductUnitOfMeasureId(productUnitOfMeasureId);
 		setProductCategoryId(productCategoryId);
 		setProductAvailability(productAvailability);
+		setCompany(fromCompany);
 	}
 	
 	public Product() {};
+	
+	public Company getFromCompany() {
+		return fromCompany;
+	}
+	
+	public void setCompany(Company fromCompany) {
+		this.fromCompany = fromCompany;
+	}
 	
 	public String getProductId() {
 		return productId;
