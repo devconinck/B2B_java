@@ -22,17 +22,21 @@ public class Product implements Serializable {
 	private String productUnitOfMeasureId;
 	private String productCategoryId;
 	private String productAvailability;
+	private String name;
+	private String description;
 	
 	@ManyToOne
     private Company fromCompany;
 	
-	public Product(String productId, int syncId, String productUnitOfMeasureId, String productCategoryId, String productAvailability, Company fromCompany) {
+	public Product(String productId, int syncId, String productUnitOfMeasureId, String productCategoryId, String productAvailability, Company fromCompany, String name, String description) {
 		setProductId(productId);
 		setSyncId(syncId);
 		setProductUnitOfMeasureId(productUnitOfMeasureId);
 		setProductCategoryId(productCategoryId);
 		setProductAvailability(productAvailability);
 		setCompany(fromCompany);
+		this.name = name;
+		this.description = description;
 	}
 	
 	public Product() {};

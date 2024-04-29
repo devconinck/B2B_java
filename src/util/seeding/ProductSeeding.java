@@ -20,7 +20,7 @@ public class ProductSeeding {
 	private GenericDao<Product> productRepo;
 	private GenericDao<Company> companyRepo;
 	private List<Product> productList = new ArrayList<>();
-	private String productCSVFile = "src/CSVFiles/productdata.csv";
+	private String productCSVFile = "src/CSVFiles/test_seed.csv";
 	
 	public ProductSeeding(GenericDao<Product> productRepo, GenericDao<Company> companyRepo) {
 		this.productRepo = productRepo;
@@ -54,11 +54,13 @@ public class ProductSeeding {
 			while ((line = reader.readNext()) != null && !line[0].equals(";;;;;;;;;")) {
 				String[] items = line[0].split(";", -1);
 				String productId = items[0];
-				int syncId = Integer.parseInt(items[1]);
-				String unitOfMeasureId = items[2];
-				String productCategoryId = items[3];
-				String productAvailability = items[4];
-				productList.add(new Product(productId, syncId, unitOfMeasureId, productCategoryId, productAvailability, companies.get(index%numberOfCompanies)));
+				String name = items[1];
+				String description = items[2];
+				int syncId = Integer.parseInt(items[3]);
+				String unitOfMeasureId = items[4];
+				String productCategoryId = items[5];
+				String productAvailability = items[6];
+				productList.add(new Product(productId, syncId, unitOfMeasureId, productCategoryId, productAvailability, companies.get(index%numberOfCompanies), name, description));
 				index++;
 			}
 			
