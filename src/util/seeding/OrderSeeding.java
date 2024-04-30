@@ -40,6 +40,10 @@ public class OrderSeeding {
 		seeding();
 	}
 	
+	private String parseAmount(String value) {
+	    return value.replaceAll("\\.", "");
+	}
+	
 	private void seeding() {
 		try (CSVReader reader = new CSVReader(new FileReader(orderCSVFile))) {
 			String[] line;
@@ -53,9 +57,9 @@ public class OrderSeeding {
 				LocalDateTime dateTime = LocalDateTime.now();
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 				String lastPaymentReminder = dateTime.format(formatter);
-				String netAmount = items[5];
-				String taxAmount = items[6];
-				String totalAmount = items[7];
+				String netAmount = parseAmount(items[5]);
+				String taxAmount = parseAmount(items[6]);
+				String totalAmount = parseAmount(items[7]);
 				String currency = items[8];
 
 				int newIndex = index % (companyList.size());
