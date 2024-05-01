@@ -48,9 +48,9 @@ public class Order implements Serializable, Comparable<Order>{
     private String orderReference;
     private LocalDate orderDateTime;
     private String lastPaymentReminder;
-    private String netAmount;
-    private String taxAmount;
-    private String totalAmount;
+    private double netAmount;
+    private double taxAmount;
+    private double totalAmount;
     private String currency;
     @ManyToOne
     private Company fromCompany;
@@ -63,7 +63,7 @@ public class Order implements Serializable, Comparable<Order>{
 
     // Constructor
     public Order(String orderId, int syncId, Company fromCompany, Company toCompany, String orderReference, LocalDate orderDateTime,
-            String lastPaymentReminder, String netAmount, String taxAmount, String totalAmount, String currency, Set<OrderItem> orderItems) {
+            String lastPaymentReminder, double netAmount, double taxAmount, double totalAmount, String currency, Set<OrderItem> orderItems) {
         setOrderID(orderId);
         setName(fromCompany.getName());
         setDate(orderDateTime.toString());
@@ -150,15 +150,15 @@ public class Order implements Serializable, Comparable<Order>{
         return lastPaymentReminder;
     }
 
-    public String getNetAmount() {
+    public double getNetAmount() {
         return netAmount;
     }
 
-    public String getTaxAmount() {
+    public double getTaxAmount() {
         return taxAmount;
     }
 
-    public String getTotalAmount() {
+    public double getTotalAmount() {
         return totalAmount;
     }
 
@@ -232,15 +232,15 @@ public class Order implements Serializable, Comparable<Order>{
         this.lastPaymentReminder = lastPaymentReminder;
     }
 
-    public void setNetAmount(String netAmount) {
+    public void setNetAmount(double netAmount) {
         this.netAmount = netAmount;
     }
 
-    public void setTaxAmount(String taxAmount) {
+    public void setTaxAmount(double taxAmount) {
         this.taxAmount = taxAmount;
     }
 
-    public void setTotalAmount(String totalAmount) {
+    public void setTotalAmount(double totalAmount) {
         this.totalAmount = totalAmount;
     }
 

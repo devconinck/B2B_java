@@ -43,6 +43,18 @@ public class OrderSeeding {
 	private String parseAmount(String value) {
 	    return value.replaceAll("\\.", "");
 	}
+	private Double parseDoubleOrNull(String value) {
+	    if (value == null || value.isEmpty()) {
+	        return 0.0;
+	    }
+	    
+	    try {
+	    	// Geen idee waarom sommige waarden negatief
+	        return Math.abs(Double.parseDouble(parseAmount(value)));
+	    } catch (NumberFormatException e) {
+	        return 0.0;
+	    }
+	}
 	
 	private void seeding() {
 		try (CSVReader reader = new CSVReader(new FileReader(orderCSVFile))) {
@@ -57,9 +69,11 @@ public class OrderSeeding {
 				LocalDateTime dateTime = LocalDateTime.now();
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 				String lastPaymentReminder = dateTime.format(formatter);
-				String netAmount = parseAmount(items[5]);
-				String taxAmount = parseAmount(items[6]);
-				String totalAmount = parseAmount(items[7]);
+				Double netAmount = parseDoubleOrNull(items[5]);
+				Double taxAmount = parseDoubleOrNull(items[6]);
+				Double totalAmount = parseDoubleOrNull(items[7]);
+
+
 				String currency = items[8];
 
 				int newIndex = index % (companyList.size());
