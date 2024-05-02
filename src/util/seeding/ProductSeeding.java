@@ -60,7 +60,8 @@ public class ProductSeeding {
 				String unitOfMeasureId = items[4];
 				String productCategoryId = items[5];
 				String productAvailability = items[6];
-				productList.add(new Product(productId, syncId, unitOfMeasureId, productCategoryId, productAvailability, companies.get(index%numberOfCompanies), name, description));
+				int price = Integer.parseInt(items[7]);
+				productList.add(new Product(productId, syncId, unitOfMeasureId, productCategoryId, productAvailability, companies.get(index%numberOfCompanies), name, description, price));
 				index++;
 			}
 			

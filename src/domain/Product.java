@@ -24,11 +24,12 @@ public class Product implements Serializable {
 	private String productAvailability;
 	private String name;
 	private String description;
+	private int price;
 	
 	@ManyToOne
     private Company fromCompany;
 	
-	public Product(String productId, int syncId, String productUnitOfMeasureId, String productCategoryId, String productAvailability, Company fromCompany, String name, String description) {
+	public Product(String productId, int syncId, String productUnitOfMeasureId, String productCategoryId, String productAvailability, Company fromCompany, String name, String description, int price) {
 		setProductId(productId);
 		setSyncId(syncId);
 		setProductUnitOfMeasureId(productUnitOfMeasureId);
@@ -37,6 +38,7 @@ public class Product implements Serializable {
 		setCompany(fromCompany);
 		this.name = name;
 		this.description = description;
+		this.price = price;
 	}
 	
 	public Product() {};
