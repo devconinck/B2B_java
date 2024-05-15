@@ -25,7 +25,7 @@ public class Notification implements Serializable {
 	private NotificationStatus notificationStatus;
 
 	@ManyToOne
-	@JoinColumn(name = "companyId")
+	@JoinColumn(name = "COMPANYID")
 	private Company company;
 
 	// Voor testen
