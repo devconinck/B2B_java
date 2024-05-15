@@ -10,35 +10,44 @@ import util.NotificationType;
 
 @Entity
 public class Notification implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    
-    @Enumerated(EnumType.STRING)
-    private NotificationType notificationType;
-    private LocalDate date;
-    private String text;
-    private String orderID;
-    @Enumerated(EnumType.STRING)
-    private NotificationStatus notificationStatus;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
 
-	//Voor testen
-    protected Notification() {
-    }
+	@Enumerated(EnumType.STRING)
+	private NotificationType notificationType;
+	private LocalDate date;
+	private String text;
+	private String orderID;
+	@Enumerated(EnumType.STRING)
+	private NotificationStatus notificationStatus;
+
+	@ManyToOne
+	@JoinColumn(name = "companyId")
+	private Company company;
+
+	// Voor testen
+	protected Notification() {
+	}
 
 	public Notification(NotificationType notificationType, LocalDate date, String text, String orderID,
-			NotificationStatus notificationStatus) {
+			NotificationStatus notificationStatus, Company company) {
 		this.notificationType = notificationType;
 		this.date = date;
 		this.text = text;
 		this.orderID = orderID;
 		this.notificationStatus = notificationStatus;
+		this.company = company;
 	}
 
 	public NotificationType getNotificationType() {
 		return notificationType;
+	}
+
+	public Company getCompany() {
+		return company;
 	}
 
 	public LocalDate getDate() {
@@ -59,7 +68,7 @@ public class Notification implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(date, notificationType, orderID);
+		return Objects.hash(company, date, notificationType, orderID);
 	}
 
 	@Override
@@ -71,7 +80,7 @@ public class Notification implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Notification other = (Notification) obj;
-		return Objects.equals(date, other.date) && notificationType == other.notificationType
-				&& Objects.equals(orderID, other.orderID);
+		return Objects.equals(company, other.company) && Objects.equals(date, other.date)
+				&& notificationType == other.notificationType && Objects.equals(orderID, other.orderID);
 	}
 }

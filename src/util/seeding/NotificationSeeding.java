@@ -13,6 +13,8 @@ import repository.GenericDaoJpa;
 import util.NotificationStatus;
 import util.NotificationType;
 
+
+// OVERBODIG EIG
 public class NotificationSeeding {
 	
 	private GenericDao<Notification> notificationRepo;
@@ -20,7 +22,7 @@ public class NotificationSeeding {
 	
 	public NotificationSeeding(GenericDao<Notification> notificationRepo) {
 		this.notificationRepo = notificationRepo;
-		seeding();
+		// seeding();
 	}
 
 	private void seeding() {
