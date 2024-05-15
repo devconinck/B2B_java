@@ -13,6 +13,7 @@
       <class>domain.Address</class>
       <class>domain.Company</class>
       <class>domain.Contact</class>
+      <class>domain.Notification</class>
       <class>domain.CompanyUpdateRequest</class>
     <class>domain.Order</class>
     <class>domain.OrderItem</class>

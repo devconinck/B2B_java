@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import domain.Company;
+import domain.Notification;
 import domain.Order;
 import domain.OrderItem;
 import domain.Product;
@@ -19,6 +20,7 @@ public class Seed {
 	private GenericDaoJpa<Order> orderRepo;
 	private GenericDaoJpa<OrderItem> orderItemRepo;
 	private GenericDaoJpa<Product> productRepo;
+	private GenericDaoJpa<Notification> notificationRepo;
 	private List<Company> companyList = new ArrayList<>();
 	private List<Product> productList = new ArrayList<>();
 	private List<OrderItem> orderItems = new ArrayList<>();
@@ -27,12 +29,17 @@ public class Seed {
 
 	public Seed() {
 		setAccountRepo(new AccountDaoJpa());
+		setNotificationRepo(new GenericDaoJpa<Notification>(Notification.class));
 		setCompanyRepo(new GenericDaoJpa<Company>(Company.class));
 		setOrderRepo(new GenericDaoJpa<Order>(Order.class));
 		setOrderItemRepo(new GenericDaoJpa<OrderItem>(OrderItem.class));
 		setProductRepo(new GenericDaoJpa<Product>(Product.class));
 		mail = new SendMail();
 		run();
+	}
+	
+	private void setNotificationRepo(GenericDaoJpa<Notification> mock) {
+		this.notificationRepo = mock;
 	}
 
 	private void setOrderRepo(GenericDaoJpa<Order> mock) {
@@ -56,6 +63,7 @@ public class Seed {
 	}
 
 	private void run() {
+		new NotificationSeeding(notificationRepo);
 		new CompanySeeding(companyRepo);
 		this.companyList = companyRepo.findAll();
 		new AccountSeeding(accountRepo, companyList);
