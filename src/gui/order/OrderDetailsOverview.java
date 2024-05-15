@@ -4,11 +4,14 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+import domain.Notification;
 import domain.Order;
+import domain.Product;
 import domain.SupplierController;
 import dto.OrderDTO;
 import dto.OrderItemDTO;
@@ -26,13 +29,18 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import repository.GenericDao;
+import repository.GenericDaoJpa;
+import util.NotificationStatus;
+import util.NotificationType;
 import util.OrderStatus;
 import util.PaymentStatus;
 import util.SendMail;
 import util.Validation;
 
 public class OrderDetailsOverview extends GenericDetailsOverview<OrderDTO> implements PropertyChangeListener {
-
+	private GenericDao<Notification> notificationRepo;
+	
 	@FXML
 	private Button saveBtn;
 	
@@ -51,6 +59,7 @@ public class OrderDetailsOverview extends GenericDetailsOverview<OrderDTO> imple
 
 	public OrderDetailsOverview(SupplierController controller) {
 		super();
+		notificationRepo = new GenericDaoJpa<Notification>(Notification.class);
 		this.controller = controller;
 		hbox_main.getStylesheets().add("css/label.css");
 	}
@@ -89,6 +98,20 @@ public class OrderDetailsOverview extends GenericDetailsOverview<OrderDTO> imple
                 alert.setContentText("No invoice has been sent or the order was already payed.");
                 alert.showAndWait();
         	} else {
+        		try {
+        			// Kan opgekuist worden maar wordt normaal toch niet meer gecontroleerd
+        	        GenericDaoJpa.startTransaction();
+        	        notificationRepo.insert(new Notification(NotificationType.PAYMENT_REQUEST, LocalDate.now(), String.format("Payment request for order #%s", current.orderId()), current.orderId(), NotificationStatus.NEW, current.fromCompany()));
+        	        GenericDaoJpa.commitTransaction();
+        		} catch (Exception e) {
+        			Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("ERROR");
+                    alert.setHeaderText(null);
+                    alert.setContentText(e.getMessage());
+                    alert.showAndWait();
+        		}
+
+    	        
                 String fromEmail = "sdpgroep@gmail.com";
                 String toEmail = current.fromCompany().getContact().getEmail();
                 String subject = String.format("Payment due to %s", current.getOrderDate().plusDays(Validation.PAYMENT_PERIOD));
