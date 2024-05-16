@@ -19,12 +19,13 @@ import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import javafx.beans.property.SimpleStringProperty;
 import util.OrderStatus;
 import util.PaymentStatus;
 
 @Entity
-@Table(name = "order_table")
+@Table(name = "order_table", uniqueConstraints = @UniqueConstraint(columnNames = "ORDERID"))
 @Access(AccessType.FIELD)
 @NamedQueries({
 	@NamedQuery(name = "Order.orderMadeToCompany", query = "SELECT o FROM Order o WHERE o.toCompany = :company"),
