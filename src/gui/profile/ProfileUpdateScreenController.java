@@ -431,13 +431,21 @@ public class ProfileUpdateScreenController extends VBox {
                 company.setPaymentOptions(selectedUpdateRequest.getNewPaymentOptions());
                 company.setLogo(selectedUpdateRequest.getNewLogo());
                 
-                
-                oldSupplierAccount.setEmail(selectedUpdateRequest.getSupplierEmail());
-                oldSupplierAccount.setPassword(selectedUpdateRequest.getSupplierPassword());
+                if (selectedUpdateRequest.getSupplierEmail() != null) {
+                    oldSupplierAccount.setEmail(selectedUpdateRequest.getSupplierEmail());
+                }
+                if (selectedUpdateRequest.getSupplierPassword() != null) {
+                    oldSupplierAccount.setPassword(selectedUpdateRequest.getSupplierPassword());
+                }
                 adminController.updateAccount(oldSupplierAccount);
                 
-                oldCustomerAccount.setEmail(selectedUpdateRequest.getCustomerEmail());
-                oldCustomerAccount.setPassword(selectedUpdateRequest.getCustomerPassword());
+                if (selectedUpdateRequest.getCustomerEmail() != null) {
+                    oldCustomerAccount.setEmail(selectedUpdateRequest.getCustomerEmail());
+                }
+                if (selectedUpdateRequest.getCustomerPassword() != null) {
+                    oldCustomerAccount.setPassword(selectedUpdateRequest.getCustomerPassword());
+                }
+                
                 adminController.updateAccount(oldCustomerAccount);
 
                 adminController.updateCompany(company);

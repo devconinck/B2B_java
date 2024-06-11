@@ -290,10 +290,6 @@ public class CompanyDetailsScreenController extends VBox implements Observer {
         }
         
         
-        if (!bankField.getText().matches(Validation.COMPANY_VAT_REGEX)) {
-            showErrorAlert("Please enter a valid bank account number.");
-            return false;
-        }
         
         if (!phoneField.getText().matches(Validation.PHONE_NUMBER_REGEX)) {
             showErrorAlert("Please enter a valid mobile number.");
