@@ -19,6 +19,7 @@ import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.persistence.UniqueConstraint;
 import javafx.beans.property.SimpleStringProperty;
 import util.OrderStatus;
@@ -38,10 +39,15 @@ public class Order implements Serializable, Comparable<Order>{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Transient
     private SimpleStringProperty orderID = new SimpleStringProperty();
+    @Transient
     private SimpleStringProperty name = new SimpleStringProperty();
+    @Transient
     private SimpleStringProperty date = new SimpleStringProperty();
+    @Transient
     private OrderStatus orderStatus;
+    @Transient
     private PaymentStatus paymentStatus;
 
     @OneToMany(mappedBy = "fromOrder", cascade = CascadeType.ALL)

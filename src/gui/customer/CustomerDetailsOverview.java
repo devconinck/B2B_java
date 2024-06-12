@@ -145,7 +145,8 @@ public class CustomerDetailsOverview extends GenericDetailsOverview<CompanyDTO> 
 		HBox hbox_btn = new HBox();
 		Button btn_orders = new Button("Show Orders");
 		btn_orders.setOnMouseClicked(event -> {
-			new CustomerOrdersOverview(current);
+			if (current != null)
+				new CustomerOrdersOverview(current);
 		});
 		HBox.setHgrow(hbox_btn, Priority.ALWAYS);
 		hbox_btn.setAlignment(Pos.CENTER);

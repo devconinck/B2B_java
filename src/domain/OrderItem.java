@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Transient;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -24,8 +25,11 @@ public class OrderItem implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Transient
     private SimpleStringProperty name = new SimpleStringProperty();
+    @Transient
     private SimpleIntegerProperty quantity = new SimpleIntegerProperty();
+    @Transient
     private SimpleStringProperty inStock = new SimpleStringProperty();
     private BigDecimal unitPrice;
     private BigDecimal total;

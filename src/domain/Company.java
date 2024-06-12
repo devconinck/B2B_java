@@ -48,11 +48,14 @@ public class Company implements Serializable {
 
     private LocalDate customerStart;
 
+    @Transient
     private SimpleStringProperty name = new SimpleStringProperty();
+    @Transient
     private SimpleStringProperty sector = new SimpleStringProperty();
+    @Transient
     private SimpleLongProperty bankAccountNr = new SimpleLongProperty();
+    @Transient
     private SimpleBooleanProperty isActive = new SimpleBooleanProperty(true);
-
     @Transient
     private SimpleStringProperty addressProperty = new SimpleStringProperty();
 
