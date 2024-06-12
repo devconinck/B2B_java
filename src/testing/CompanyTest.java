@@ -4,6 +4,7 @@ import domain.Address;
 import domain.Company;
 import domain.Contact;
 import domain.Order;
+import domain.Product;
 import dto.CompanyDTO;
 import org.junit.jupiter.api.Test;
 import util.PaymentOption;
@@ -28,9 +29,10 @@ class CompanyTest {
         LocalDate customerStart = LocalDate.of(2023, 1, 1);
         Set<Order> orders = new HashSet<>();
         Set<Company> customers = new HashSet<>();
+        Set<Product> products = new HashSet<>();
 
         Company company = new Company("US1234567890", "logo.png", address, contact, "Acme Inc.", "Technology",
-                1234567890L, paymentOptions, customerStart, orders, customers);
+                1234567890L, paymentOptions, customerStart, orders, customers, products);
 
         assertEquals("US1234567890", company.getVatNumber());
         assertEquals("logo.png", company.getLogo());
@@ -43,16 +45,18 @@ class CompanyTest {
         assertEquals(customerStart, company.getCustomerStart());
         assertEquals(orders, company.getOrders());
         assertEquals(customers, company.getCustomers());
+        assertEquals(products, company.getProducts());
     }
 
     @Test
     void testConstructorWithCompanyDTO() {
         Set<Order> orders = new HashSet<>();
         Set<Company> customers = new HashSet<>();
+        Set<Product> products = new HashSet<>();        
         
         Company company = new Company("US1234567890", "logo.png", new Address("USA", "New York", "10001", "Broadway", "123"),
                 new Contact("+1 (123) 456-7890", "john@example.com"), "Acme Inc.", "Technology", 1234567890L,
-                List.of(PaymentOption.BANK_TRANSFER), LocalDate.of(2023, 1, 1), orders, customers);
+                List.of(PaymentOption.BANK_TRANSFER), LocalDate.of(2023, 1, 1), orders, customers, products);
 
         CompanyDTO companyDTO = new CompanyDTO(company);
 
@@ -74,6 +78,7 @@ class CompanyTest {
         assertTrue(companyDTO.isActive());
         assertEquals(0, companyDTO.numberOfOpenOrders());
         assertEquals(customers, companyDTO.customers());
+        assertEquals(products, companyDTO.products());
     }
 
     @Test

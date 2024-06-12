@@ -23,7 +23,7 @@ class AccountTest {
 		Company validCompany = new Company("US123456789", "company_logo_1.png",
 				new Address("United States", "New York", "10001", "Broadway", "123"),
 				new Contact("123456789", "email1@example.com"), "Fake Company Inc. 1", "Technology", 9876543210L,
-				List.of(PaymentOption.CREDIT_CARD, PaymentOption.PAYPAL), LocalDate.now(), null, null);
+				List.of(PaymentOption.CREDIT_CARD, PaymentOption.PAYPAL), LocalDate.now(), null, null, null);
 		Assertions.assertDoesNotThrow(() -> new Account("valid.email@icloud.com", password, validCompany, Role.Supplier));
 	}
 	
@@ -33,7 +33,7 @@ class AccountTest {
 		Company validCompany = new Company("US123456789", "company_logo_1.png",
 				new Address("United States", "New York", "10001", "Broadway", "123"),
 				new Contact("123456789", "email1@example.com"), "Fake Company Inc. 1", "Technology", 9876543210L,
-				List.of(PaymentOption.CREDIT_CARD, PaymentOption.PAYPAL), LocalDate.now(), null, null);
+				List.of(PaymentOption.CREDIT_CARD, PaymentOption.PAYPAL), LocalDate.now(), null, null, null);
         Assertions.assertThrows(IllegalArgumentException.class , () -> new Account("valid.email@icloud.com", password, validCompany, Role.Supplier));
     }
 	
@@ -43,7 +43,7 @@ class AccountTest {
 		Company validCompany = new Company("US123456789", "company_logo_1.png",
 				new Address("United States", "New York", "10001", "Broadway", "123"),
 				new Contact("123456789", "email1@example.com"), "Fake Company Inc. 1", "Technology", 9876543210L,
-				List.of(PaymentOption.CREDIT_CARD, PaymentOption.PAYPAL), LocalDate.now(), null, null);
+				List.of(PaymentOption.CREDIT_CARD, PaymentOption.PAYPAL), LocalDate.now(), null, null, null);
         Assertions.assertThrows(IllegalArgumentException.class , () -> new Account(email, "1234", validCompany, Role.Supplier));
     }
 	
@@ -53,7 +53,7 @@ class AccountTest {
 		Company validCompany = new Company("US123456789", "company_logo_1.png",
 				new Address("United States", "New York", "10001", "Broadway", "123"),
 				new Contact("123456789", "email1@example.com"), "Fake Company Inc. 1", "Technology", 9876543210L,
-				List.of(PaymentOption.CREDIT_CARD, PaymentOption.PAYPAL), LocalDate.now(), null, null);
+				List.of(PaymentOption.CREDIT_CARD, PaymentOption.PAYPAL), LocalDate.now(), null, null, null);
 		Assertions.assertDoesNotThrow(() -> new Account(email, "1234", validCompany, Role.Supplier));
 	}
 	

@@ -76,6 +76,7 @@ public class Company implements Serializable {
         setOrders(orders);
         setCustomers(customers);
         updateAddressProperty();
+        setProducts(products);
     }
 
     public Company(CompanyDTO company) {

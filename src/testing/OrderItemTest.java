@@ -3,17 +3,36 @@ package testing;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
+import domain.Address;
+import domain.Company;
+import domain.Contact;
+import domain.Order;
 import domain.OrderItem;
 import domain.Product;
+import util.PaymentOption;
 
 public class OrderItemTest {
+	
+	private Company createCompany() {
+		Set<Order> orders = new HashSet<>();
+        Set<Company> customers = new HashSet<>();
+        Set<Product> products = new HashSet<>();        
+        
+        return new Company("US1234567890", "logo.png", new Address("USA", "New York", "10001", "Broadway", "123"),
+                new Contact("+1 (123) 456-7890", "john@example.com"), "Acme Inc.", "Technology", 1234567890L,
+                List.of(PaymentOption.BANK_TRANSFER), LocalDate.of(2023, 1, 1), orders, customers, products);
+	}
 
     @Test
     void testOrderItemConstructor() {
-        Product product = new Product("P001", 1, "UOM001", "CAT001", "Available");
+        Product product = new Product("P001", 1, "UOM001", "CAT001", "Available", createCompany(), "naam", "descriptiontest", 200);
         OrderItem orderItem = new OrderItem(1, 1, 1, product, 5, "UOM001", BigDecimal.valueOf(10.0), BigDecimal.valueOf(50.0), null);
         assertEquals("P001", orderItem.getName());
         assertEquals(5, orderItem.getQuantity());
@@ -93,7 +112,7 @@ public class OrderItemTest {
     @Test
     void testSetProduct() {
         OrderItem orderItem = new OrderItem();
-        Product product = new Product("P002", 2, "UOM002", "CAT002", "Out of Stock");
+        Product product = new Product("P001", 1, "UOM001", "CAT001", "Available", createCompany(), "naam", "descriptiontest", 200);
         orderItem.setProduct(product);
         assertEquals(product, orderItem.getProduct());
     }

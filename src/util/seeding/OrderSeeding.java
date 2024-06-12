@@ -90,12 +90,13 @@ public class OrderSeeding {
 			orderRepo.insertBatch(orderlist);
 			GenericDaoJpa.commitTransaction();
 			
-			setOrderItems();
+			//setOrderItems();
 		} catch (IOException | CsvValidationException e) {
 			e.printStackTrace();
 		}
 	}
 	
+	/*
 	private void setOrderItems() {
 		orderItems.forEach(o -> o.setFromOrder(getRandomOrder()));
 		
@@ -103,6 +104,7 @@ public class OrderSeeding {
 		orderItems.stream().forEach(c -> orderItemRepo.update(c));
 		GenericDaoJpa.commitTransaction();
 	}
+	*/
 	
 	private Order getRandomOrder() {
 		SecureRandom random = new SecureRandom();

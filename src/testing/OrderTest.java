@@ -25,7 +25,7 @@ public class OrderTest {
         Set<OrderItem> orderItems = new HashSet<>();
         LocalDate orderDate = LocalDate.of(2023, 6, 10);
 
-        Order order = new Order("O001", 1, fromCompany, toCompany, "REF001", orderDate, "Reminder", "100.00", "10.00", "110.00", "USD", orderItems);
+        Order order = new Order("O001", 1, fromCompany, toCompany, "REF001", orderDate, "Reminder", 100.00, 10.00, 110.00, "USD", orderItems);
         assertEquals("O001", order.getOrderID());
         assertEquals(fromCompany.getName(), order.getName());
         assertEquals(orderDate.toString(), order.getDate());
@@ -35,9 +35,9 @@ public class OrderTest {
         assertEquals("REF001", order.getOrderReference());
         assertEquals(orderDate, order.getOrderDateTime());
         assertEquals("Reminder", order.getLastPaymentReminder());
-        assertEquals("100.00", order.getNetAmount());
-        assertEquals("10.00", order.getTaxAmount());
-        assertEquals("110.00", order.getTotalAmount());
+        assertEquals(100.00, order.getNetAmount());
+        assertEquals(10.00, order.getTaxAmount());
+        assertEquals(110.00, order.getTotalAmount());
         assertEquals("USD", order.getCurrency());
         assertEquals(toCompany, order.getToCompany());
         assertEquals(orderItems, order.getOrderItems());
