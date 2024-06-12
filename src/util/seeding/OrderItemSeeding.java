@@ -3,14 +3,12 @@ package util.seeding;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
-import domain.Company;
 import domain.OrderItem;
 import domain.Product;
 import repository.GenericDao;

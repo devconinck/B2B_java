@@ -12,7 +12,6 @@ import repository.AccountDao;
 import repository.AccountDaoJpa;
 import repository.GenericDao;
 import repository.GenericDaoJpa;
-import util.SendMail;
 
 public class Seed {
 	private AccountDao accountRepo;
@@ -20,29 +19,24 @@ public class Seed {
 	private GenericDaoJpa<Order> orderRepo;
 	private GenericDaoJpa<OrderItem> orderItemRepo;
 	private GenericDaoJpa<Product> productRepo;
-	// private GenericDaoJpa<Notification> notificationRepo;
+	private GenericDaoJpa<Notification> notificationRepo;
 	private List<Company> companyList = new ArrayList<>();
 	private List<Product> productList = new ArrayList<>();
 	private List<OrderItem> orderItems = new ArrayList<>();
 
-	private SendMail mail;
-
 	public Seed() {
 		setAccountRepo(new AccountDaoJpa());
-		// setNotificationRepo(new GenericDaoJpa<Notification>(Notification.class));
+		setNotificationRepo(new GenericDaoJpa<Notification>(Notification.class));
 		setCompanyRepo(new GenericDaoJpa<Company>(Company.class));
 		setOrderRepo(new GenericDaoJpa<Order>(Order.class));
 		setOrderItemRepo(new GenericDaoJpa<OrderItem>(OrderItem.class));
 		setProductRepo(new GenericDaoJpa<Product>(Product.class));
-		mail = new SendMail();
 		run();
 	}
 	
-	/*
 	private void setNotificationRepo(GenericDaoJpa<Notification> mock) {
 		this.notificationRepo = mock;
 	}
-	*/
 	
 	private void setOrderRepo(GenericDaoJpa<Order> mock) {
 		this.orderRepo = mock;
@@ -65,7 +59,6 @@ public class Seed {
 	}
 
 	private void run() {
-		// new NotificationSeeding(notificationRepo);
 		new CompanySeeding(companyRepo);
 		this.companyList = companyRepo.findAll();
 		new AccountSeeding(accountRepo, companyList);
@@ -73,5 +66,6 @@ public class Seed {
 		orderItems = new OrderItemSeeding(orderItemRepo, orderItems, productList).getOrderItemsList();
 		new OrderSeeding(orderRepo, companyList, orderItemRepo);
 		new CustomerSeeding(companyRepo);
+		new NotificationSeeding(notificationRepo, companyList);
 	}
 }

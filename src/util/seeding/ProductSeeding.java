@@ -5,10 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
@@ -30,22 +27,6 @@ public class ProductSeeding {
 		this.productRepo = productRepo;
 		this.companyRepo = companyRepo;
 		seeding();
-	}
-	
-	private void seedToCompany() {
-		List<Product> products = productRepo.findAll();
-		int end = products.size();
-		int startIndex = 0;
-		for(Company c : companies) {
-			if(startIndex + 10 >= 388) {
-				startIndex = 1;
-			}
-			c.setProducts(products.subList(startIndex, startIndex+10).stream().collect(Collectors.toSet()));
-			startIndex += 10;
-		}
-		GenericDaoJpa.startTransaction();
-		productRepo.insertBatch(products);
-		GenericDaoJpa.commitTransaction();
 	}
 
 	private void seeding() {
