@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 
 import domain.Notification;
 import domain.Order;
-import domain.Product;
 import domain.SupplierController;
 import dto.OrderDTO;
 import dto.OrderItemDTO;

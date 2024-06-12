@@ -3,7 +3,6 @@ package gui.customer;
 import java.util.Map;
 
 import domain.Company;
-import domain.Controller;
 import domain.SupplierController;
 import dto.CompanyDTO;
 import gui.FilterController;

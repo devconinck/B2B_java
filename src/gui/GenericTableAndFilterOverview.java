@@ -2,7 +2,6 @@ package gui;
 
 import java.util.Map;
 
-import domain.Controller;
 import domain.SupplierController;
 import javafx.collections.ObservableList;
 import javafx.geometry.Rectangle2D;

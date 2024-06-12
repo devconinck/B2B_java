@@ -52,7 +52,8 @@ public class ProfileUpdateScreenController extends VBox {
         buildGui();
     }
 
-    public void buildGui() {
+    @SuppressWarnings("unchecked")
+	public void buildGui() {
         tableView = new TableView<>();
         tableView.setFixedCellSize(24);
         tableView.setMaxHeight(300);

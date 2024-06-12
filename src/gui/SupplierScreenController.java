@@ -12,8 +12,6 @@ import gui.customer.CustomerTableAndFilterOverview;
 import gui.login.LoginScreen;
 import gui.order.OrderDetailsOverview;
 import gui.order.OrderTableAndFilterOverview;
-import gui.payment.ProcessOrderController;
-import gui.profile.ProfileUpdateScreenController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

@@ -3,7 +3,6 @@ package gui.order;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import domain.Order;
 import domain.SupplierController;

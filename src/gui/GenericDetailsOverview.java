@@ -1,17 +1,10 @@
 package gui;
 
 import java.util.ArrayList;
-
 import java.util.List;
-import java.util.Map;
 
-import domain.SupplierController;
-import javafx.collections.ObservableList;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.control.TextInputControl;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Screen;
 
 public abstract class GenericDetailsOverview<O> {
 	

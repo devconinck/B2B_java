@@ -1,18 +1,17 @@
 package testing;
 
-import static org.junit.jupiter.api.Assertions.*;
-import java.math.BigDecimal;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
+
 import org.junit.jupiter.api.Test;
 
-import domain.Address;
 import domain.Company;
 import domain.Order;
 import domain.OrderItem;
-import domain.Product;
-import dto.OrderDTO;
 import util.OrderStatus;
 import util.PaymentStatus;
 

@@ -2,15 +2,9 @@ package main;
 
 import java.io.IOException;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import domain.Company;
 import gui.login.LoginScreen;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import util.PaymentReminder;
-import util.SendMail;
 import util.seeding.Seed;
 
 public class StartUp extends Application {
@@ -23,7 +17,7 @@ public class StartUp extends Application {
 		if (isDevelopmentEnvironment()) {
 			initializeDevelopmentEnvironment(); // Seeden
 		}		
-		// new PaymentReminder();
+		// new PaymentReminder(); // Stuurt 300 mails bij opstart
 		
 		new LoginScreen();
 	}
@@ -44,11 +38,5 @@ public class StartUp extends Application {
 			System.out.println("Something went wrong");
 			System.out.println(e.getMessage());
 		}
-	}
-	
-	private List<Company> createCompanies() {
-		List<Company> companyList = new ArrayList<Company>();
-
-		return companyList;
 	}
 }

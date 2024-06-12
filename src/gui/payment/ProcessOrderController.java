@@ -1,6 +1,4 @@
 package gui.payment;
-import java.util.Map;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +14,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.scene.layout.GridPane;
 import util.PaymentStatus;
 
 public class ProcessOrderController extends GridPane {

@@ -2,7 +2,6 @@ package repository;
 
 import java.util.List;
 
-import domain.Account;
 import domain.Company;
 import domain.Order;
 import jakarta.persistence.EntityNotFoundException;

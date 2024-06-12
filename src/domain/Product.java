@@ -1,12 +1,12 @@
 package domain;
 
 import java.io.Serializable;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 
 @Entity
 public class Product implements Serializable {
@@ -36,9 +36,9 @@ public class Product implements Serializable {
 		setProductCategoryId(productCategoryId);
 		setProductAvailability(productAvailability);
 		setCompany(fromCompany);
-		this.name = name;
-		this.description = description;
-		this.price = price;
+		setName(name);
+		setDescription(description);
+		setPrice(price);
 	}
 	
 	public Product() {};
@@ -89,6 +89,30 @@ public class Product implements Serializable {
 
 	public void setProductAvailability(String productAvailability) {
 		this.productAvailability = productAvailability;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
 	}
 	
 	
