@@ -3,7 +3,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 
-<fx:root minHeight="400" stylesheets="@styles.css" type="TableView" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root minHeight="400" type="TableView" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
   <columns>
     <TableColumn fx:id="nameCol" editable="false" minWidth="75.0" prefWidth="-1.0" text="Name" />
     <TableColumn fx:id="sectorCol" editable="false" minWidth="75.0" prefWidth="-1.0" text="Sector" />
